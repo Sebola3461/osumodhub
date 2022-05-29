@@ -60,11 +60,11 @@ function App() {
     <>
       <AppBar></AppBar>
       <PageBanner src="/src/static/images/homebanner.png"></PageBanner>
-      <SideMenu
+      {/* <SideMenu
         open={true}
         options={[{ label: "My queue", callback: console.log }]}
         title="User"
-      ></SideMenu>
+      ></SideMenu> */}
       <HeaderPanel
         style={{
           display: "flex",
