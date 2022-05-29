@@ -1,0 +1,103 @@
+.requestselector {
+  width: 210px;
+  height: 250px;
+  border-radius: 0.5rem;
+  background-color: var(--background2);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+  margin: 10px;
+}
+
+.requestselector .banner {
+  width: 100%;
+  height: 90px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: flex-start;
+  justify-content: flex-end;
+  align-items: flex-start;
+  position: relative;
+}
+.requestselector .banner * {
+  z-index: 10;
+}
+
+.requestselector .banner::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #00000094;
+}
+
+.requestselector .banner .tag {
+  color: white;
+  background-color: var(--ocean);
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.requestselector .title {
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  width: 90%;
+  margin-top: 5px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.requestselector .artist {
+  color: grey;
+  font-size: 13px;
+  width: 90%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.requestselector .comment {
+  width: calc(90% - 10px);
+  height: 30px;
+  margin-top: auto;
+  margin-bottom: 10px;
+  border-radius: 0.3rem;
+  color: rgb(156, 156, 156);
+  text-align: left;
+  font-size: 14px;
+  padding: 5px;
+  background-color: var(--background5);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.requestselector .comment::-webkit-scrollbar {
+  width: 3px;
+  border-radius: 3px;
+}
+
+.requestselector .comment::-webkit-scrollbar-track {
+  width: 3px;
+  border-radius: 3px;
+  background-color: var(--background4);
+}
+
+.requestselector .comment::-webkit-scrollbar-thumb {
+  width: 3px;
+  border-radius: 3px;
+  background-color: var(--background3);
+}

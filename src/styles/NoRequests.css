@@ -1,0 +1,18 @@
+.norequests {
+  width: 90%;
+  height: 160px;
+  margin: auto;
+  margin-top: calc(25% - 160px);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.norequests .big {
+  color: white;
+  font-size: 2rem;
+  font-weight: 500;
+}

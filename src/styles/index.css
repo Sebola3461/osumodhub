@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  font-family: "Quicksand", sans-serif;
+}
+
+:root {
+  --background1: #1c1c1c;
+  --background2: #161616;
+  --background3: #333333;
+  --background4: #282828;
+  --background5: #121212;
+  --background6: #aaaaaa;
+  --background7: #888888;
+  --green: #25ca6a;
+  --orange: #ff9822;
+  --darkorange: #ff5722;
+  --pink: #c52d61;
+  --red: #c52d2d;
+  --purple: #673ab7;
+  --ocean: #2196f3;
+  --grey: #64676c;
+}
+
+button {
+  cursor: pointer;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+input:focus {
+  outline: none;
+}
+
+body {
+  background-color: var(--background1);
+}
+
+.round1 {
+  border-radius: 0.5rem;
+}
+
+.round2 {
+  border-radius: 1rem;
+}
+
+.background1 {
+  background-color: var(--background1);
+}
+.background2 {
+  background-color: var(--background2);
+}
+.background3 {
+  background-color: var(--background3);
+}
+.background4 {
+  background-color: var(--background4);
+}
+.background5 {
+  background-color: var(--background5);
+}
+
+.anchor1 {
+  text-decoration: none;
+  color: var(--background7);
+}
+
+.anchor1:hover {
+  text-decoration: none;
+  color: var(--background6);
+}
+
+div.row {
+  display: flex;
+}
+
+div.row.center {
+  flex-direction: row;
+  justify-content: center;
+}
+
+.custombuttom {
+  border: none;
+  padding: 3px;
+  color: white;
+  background-color: var(--background3);
+}

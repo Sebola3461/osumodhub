@@ -1,0 +1,25 @@
+#pagebanner {
+  width: 100%;
+  height: 250px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  top: 71px;
+  z-index: -1;
+}
+
+#pagebanner::after {
+  content: "";
+  width: 100%;
+  height: 250px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(
+    0deg,
+    var(--background1) 0%,
+    rgba(0, 0, 0, 0.281) 100%
+  );
+  z-index: 1;
+}

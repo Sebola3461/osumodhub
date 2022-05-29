@@ -1,0 +1,37 @@
+.spreadviewer {
+  width: calc(90% - 5px);
+  height: 25px;
+  margin-top: 10px;
+  border-radius: 0.3rem;
+  background-color: var(--background5);
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.spreadviewer div {
+  margin-right: 3px;
+}
+
+.spreadviewer::-webkit-scrollbar {
+  height: 3px;
+  border-radius: 3px;
+}
+
+.spreadviewer::-webkit-scrollbar-track {
+  height: 3px;
+  border-radius: 3px;
+  background-color: var(--background2);
+}
+
+.spreadviewer::-webkit-scrollbar-thumb {
+  height: 3px;
+  border-radius: 3px;
+  background-color: var(--background3);
+}
