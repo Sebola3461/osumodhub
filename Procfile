@@ -1,1 +1,1 @@
-web: ts-node .
+web: yarn dev
