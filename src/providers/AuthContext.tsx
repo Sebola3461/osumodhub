@@ -6,23 +6,23 @@ const contextDefaultValues: any = {
 };
 
 function getStoredUser() {
-  let user: any = {
+  let user: any = JSON.stringify({
     _id: -1,
     authenticated: false,
     username: "Guest",
     hasQueue: false,
-  };
+  });
 
   try {
     user = JSON.parse(localStorage["user_login"]);
 
     if (!user)
-      user = {
+      user = JSON.stringify({
         _id: -1,
         authenticated: false,
         username: "Guest",
         hasQueue: false,
-      };
+      });
   } catch (e) {
     user = user;
   }
