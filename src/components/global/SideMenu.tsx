@@ -1,37 +1,60 @@
-import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import StartAuthentication from "../../helpers/StartAuthentication";
 import { AuthContext } from "../../providers/AuthContext";
+import { SideMenuContext } from "../../providers/UserSideMenu";
 import "./../../styles/SideMenu.css";
 
 export default ({
   title,
-  open,
+  _open,
   options,
 }: {
   title: string;
-  open: boolean;
+  _open: boolean;
   options: { label: string; callback: Function }[];
 }) => {
-  const [state, setState] = useState({
-    title,
-    open: open.toString(),
-    options,
-  });
+  const { open, setOpen } = useContext(SideMenuContext);
+
+  useEffect(() => {
+    setOpen(_open);
+  }, [open]);
 
   function closePanel() {
-    state.open = "false";
-    setState(state);
+    setOpen(!open);
+
+    return;
   }
 
+  function auxClosePanel(ev: any) {
+    console.log(ev.target);
+    if (ev.target.className != "sidemenu open") return;
+
+    setOpen(!open);
+
+    return;
+  }
+
+  const navigate = useNavigate();
+
+  const goTo = (route: string) => {
+    navigate(route, { replace: false }), [navigate];
+  };
+
   return (
-    <div className={"sidemenu"} onClick={closePanel}>
+    <div
+      className={open ? "sidemenu open" : "sidemenu closed"}
+      style={{ opacity: open ? "1" : "0" }}
+      onClick={(ev) => {
+        auxClosePanel(ev);
+      }}
+    >
       <div className="container">
         <div className="title">
           <p>{title}</p>
         </div>
         <div className="options">
-          {options.map((opt) => {
+          {options.map((opt, i) => {
             return (
               <div
                 className="option"

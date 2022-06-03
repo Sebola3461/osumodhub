@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AppBar from "../components/global/AppBar";
 import BigSearch from "../components/global/BigSearch";
 import HeaderPanel from "../components/global/HeaderPanel";
@@ -10,6 +10,8 @@ import SearchSelect from "../components/global/SearchSelect";
 import QueueSelector from "../components/global/QueueSelector";
 import { useNavigate } from "react-router-dom";
 import SideMenu from "../components/global/SideMenu";
+import { SideMenuContext } from "../providers/UserSideMenu";
+import { AuthContext } from "../providers/AuthContext";
 
 function App() {
   const [queues, setQueues] = useState([]);
@@ -20,14 +22,20 @@ function App() {
     sort: "ab",
     query: "",
   });
+  const [loading, setLoading] = useState(false);
+  const { open, setOpen } = useContext(SideMenuContext);
+  const { user, updateUser } = useContext(AuthContext);
+  const [login, setLogin] = useState(JSON.parse(user));
 
   useEffect(() => {
+    setLoading(true);
     fetch("/api/queues/listing")
       .then((r) => r.json())
       .then((q) => {
         if (q.status != 200) return;
 
         setQueues(q.data);
+        setLoading(false);
       });
   }, []);
 
@@ -45,6 +53,8 @@ function App() {
 
     updateFilters(filters);
 
+    setLoading(true);
+
     fetch(
       `/api/queues/listing?q=${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}`
     )
@@ -53,18 +63,29 @@ function App() {
         if (q.status != 200) return;
 
         setQueues(q.data);
+        setLoading(false);
       });
+  }
+
+  const navigate = useNavigate();
+
+  const goTo = (route: string) => {
+    navigate(route, { replace: false }), [navigate];
+  };
+
+  function goToUserQueue() {
+    goTo(`/queue/${login._id}`);
   }
 
   return (
     <>
       <AppBar></AppBar>
       <PageBanner src="/src/static/images/homebanner.png"></PageBanner>
-      {/* <SideMenu
-        open={true}
-        options={[{ label: "My queue", callback: console.log }]}
+      <SideMenu
+        _open={open}
+        options={[{ label: "My queue", callback: goToUserQueue }]}
         title="User"
-      ></SideMenu> */}
+      ></SideMenu>
       <HeaderPanel
         style={{
           display: "flex",
@@ -144,9 +165,15 @@ function App() {
           ></SearchSelect>
         </div>
       </HeaderPanel>
-      <div className="queuelisting" id="queuelisting">
-        {queues.map((q) => {
-          return <QueueSelector queue={q}></QueueSelector>;
+      <div
+        className="queuelisting"
+        id="queuelisting"
+        style={{
+          filter: `${loading ? "brightness(0.5)" : "brightness(1)"}`,
+        }}
+      >
+        {queues.map((q, i) => {
+          return <QueueSelector queue={q} key={i}></QueueSelector>;
         })}
       </div>
     </>

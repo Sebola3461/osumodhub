@@ -11,6 +11,7 @@
   transition: opacity 120ms linear;
   z-index: 10;
   background-color: #000000e0;
+  margin-right: -300px !important;
 }
 
 .sidemenu .container {
@@ -23,7 +24,7 @@
   justify-content: flex-start;
   align-items: center;
   background-color: var(--background2);
-  transition: margin-left 100ms linear;
+  transition: margin-right 100ms linear;
 }
 
 .sidemenu.closed {
@@ -32,7 +33,11 @@
 }
 
 .sidemenu.closed .container {
-  margin-left: 300px !important;
+  margin-right: -300px !important;
+}
+
+.sidemenu.open .container {
+  margin-right: 0px !important;
 }
 
 .sidemenu .container .title {

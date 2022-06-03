@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
+import osuApi from "./../../helpers/osuApi";
 import { requests } from "../../../database";
+import { consoleError } from "../../helpers/logger";
 
 export default async (req: Request, res: Response) => {
   const queue = req.params["queue"];
@@ -27,6 +29,23 @@ export default async (req: Request, res: Response) => {
 
   if (validQueueStatus.includes(String(status))) {
     r = r.filter((r) => r.status == status);
+  }
+
+  let requestsWithoutBeatmap = r;
+  r = [];
+
+  for (const req of requestsWithoutBeatmap) {
+    try {
+      const b = await osuApi.fetch.beatmapset(req.beatmapset_id);
+
+      if (b.status == 200) {
+        req.beatmap = b.data;
+      }
+
+      r.push(req);
+    } catch (e) {
+      consoleError("GetQueueRequests", e);
+    }
   }
 
   return res.status(200).send({

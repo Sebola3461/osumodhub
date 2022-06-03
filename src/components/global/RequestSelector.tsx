@@ -43,6 +43,12 @@ export default ({ request }: { request: IRequest }) => {
     archived: "Archived",
   };
 
+  if (request.beatmap.beatmaps) {
+    request.beatmap.beatmaps.sort(
+      (a, b) => a.difficulty_rating - b.difficulty_rating
+    );
+  }
+
   return (
     <div className="requestselector">
       <div
@@ -53,9 +59,7 @@ export default ({ request }: { request: IRequest }) => {
       >
         <Tag content={texts[request.status]} type={request.status}></Tag>
       </div>
-      <SpreadViewer
-        beatmaps={[{ difficulty_rating: 5, mode_int: 0 }]}
-      ></SpreadViewer>
+      <SpreadViewer beatmaps={request.beatmap.beatmaps || []}></SpreadViewer>
       <p className="title">{request.beatmap.title}</p>
       <p className="artist">{request.beatmap.artist}</p>
       <div className="comment">{request.comment}</div>

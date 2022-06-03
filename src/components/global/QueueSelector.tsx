@@ -87,13 +87,17 @@ export default ({ queue }: { queue: IQueue }) => {
             }}
           ></div>
           {queue.modes.map((m, i) => {
-            return <div className="modeicon">{icons[m]}</div>;
+            return (
+              <div className="modeicon" key={i}>
+                {icons[m]}
+              </div>
+            );
           })}
         </div>
         <p className="name">{queue.name}</p>
         <div className="tags">
           {queue.genres.map((g, i) => {
-            return <span>{g}</span>;
+            return <span key={i}>{g}</span>;
           })}
         </div>
       </div>
