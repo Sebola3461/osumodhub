@@ -35,7 +35,7 @@ export default () => {
           className="avatar"
           onClick={() => {
             login._id == -1
-              ? StartAuthentication
+              ? StartAuthentication()
               : sideMenuContext.setOpen(!sideMenuContext.open);
           }}
           style={{

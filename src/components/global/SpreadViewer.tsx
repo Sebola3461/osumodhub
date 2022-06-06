@@ -36,7 +36,7 @@ export default ({
 
   return (
     <div className="spreadviewer" style={style || {}}>
-      {beatmaps.map((b) => {
+      {beatmaps.map((b, i) => {
         const Icon = icons[b.mode_int];
 
         return (
@@ -45,6 +45,7 @@ export default ({
               width: "1.2rem",
               height: "1.2rem",
             }}
+            key={i}
           >
             <Icon
               color={difficultyColourSpectrum(b.difficulty_rating)}

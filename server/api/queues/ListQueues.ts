@@ -22,6 +22,7 @@ export default async (req: Request, res: Response) => {
       open: q.open,
       country: q.country,
       icon: q.icon,
+      verified: q.verified,
     });
   });
 

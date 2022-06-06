@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AppBar from "../components/global/AppBar";
 import HeaderPanel from "../components/global/HeaderPanel";
 import PageBanner from "../components/global/PageBanner";
@@ -13,6 +13,14 @@ import RequestSelector, {
   IRequest,
 } from "../components/global/RequestSelector";
 import NoRequests from "../components/global/NoRequests";
+import { AuthContext } from "../providers/AuthContext";
+import RequestPanel from "../components/queue/RequestPanel";
+import { RequestPanelContext } from "../providers/RequestPanelContext";
+import SideMenu from "../components/global/SideMenu";
+import { useNavigate } from "react-router-dom";
+import { SideMenuContext } from "../providers/UserSideMenu";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 export default () => {
   const icons = [
@@ -27,6 +35,11 @@ export default () => {
     status: "any",
   });
 
+  const { user, updateUser } = useContext(AuthContext);
+  const [login, setLogin] = useState(JSON.parse(user));
+  const { open, setOpen } = useContext(RequestPanelContext);
+  const sideMenuContext = useContext(SideMenuContext);
+
   const [queue, setQueue] = useState({
     _id: "",
     name: "Loading...",
@@ -40,6 +53,7 @@ export default () => {
     modes: [],
     open: false,
     type: "Loading...",
+    verified: false,
     country: {
       acronym: "--",
       name: "--",
@@ -103,10 +117,29 @@ export default () => {
       });
   }
 
+  const navigate = useNavigate();
+
+  const goTo = (route: string) => {
+    navigate(route, { replace: false }), [navigate];
+  };
+
+  function goToUserQueue() {
+    goTo(`/queue/${login._id}`);
+  }
+
   return (
     <>
       <AppBar></AppBar>
       <PageBanner src={queue.banner} css={{}}></PageBanner>
+      <RequestPanel queue={queue}></RequestPanel>
+      <SideMenu
+        _open={sideMenuContext.open}
+        options={[
+          { label: "My queue", callback: goToUserQueue },
+          { label: "Queue settings", callback: goToUserQueue },
+        ]}
+        title="User"
+      ></SideMenu>
       <div className="queuelayout">
         <HeaderPanel
           style={{
@@ -131,7 +164,22 @@ export default () => {
                 border: `5px solid var(--${queue.open ? "green" : "red"})`,
               }}
             ></div>
-            <p className="queuename">{queue.name}</p>
+            <p className="queuename">
+              {queue.name}
+              {queue.verified ? (
+                <FontAwesomeIcon
+                  icon={faCircleCheck}
+                  className="verifiedbadge"
+                  color="#25ca6a"
+                  style={{
+                    width: "18px",
+                    marginLeft: "5px",
+                  }}
+                />
+              ) : (
+                <></>
+              )}
+            </p>
             <Tag
               content={queue.type}
               style={{
@@ -148,7 +196,12 @@ export default () => {
             <button
               className="custombuttom"
               style={{
-                backgroundColor: `var(--${queue.open ? "green" : "red"})`,
+                backgroundColor: `var(--${
+                  login._id == -1 ? "red" : queue.open ? "green" : "red"
+                })`,
+              }}
+              onClick={() => {
+                setOpen(queue.open);
               }}
             >
               Request
@@ -204,8 +257,14 @@ export default () => {
             {requests.length < 1 ? (
               <NoRequests></NoRequests>
             ) : (
-              requests.map((r) => {
-                return <RequestSelector request={r}></RequestSelector>;
+              requests.map((r, i) => {
+                return (
+                  <RequestSelector
+                    request={r}
+                    queue={queue}
+                    key={i}
+                  ></RequestSelector>
+                );
               })
             )}
           </div>

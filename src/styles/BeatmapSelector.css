@@ -1,0 +1,45 @@
+.beatmapselector {
+  width: 95%;
+  height: 70px;
+  min-height: 70px;
+  border-radius: 0.3rem;
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 10px;
+  transition: margin 120ms linear, width 120ms linear, height 120ms linear;
+  cursor: pointer;
+}
+
+.beatmapselector.selected {
+  outline: 3px solid var(--ocean);
+}
+
+.beatmapselector:hover {
+  width: 90%;
+  height: 120px;
+}
+
+.beatmapselector:hover > .content {
+  background: linear-gradient(90deg, #000000e8 0%, rgba(0, 0, 0, 0.219) 100%);
+}
+
+.beatmapselector .content {
+  width: 100%;
+  height: calc(100% - 20px);
+  background: linear-gradient(90deg, #000000e8 0%, rgb(0 0 0 / 48%) 100%);
+  padding: 10px;
+  transition: background linear 120ms;
+}
+
+.beatmapselector .content .title {
+  color: white;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.beatmapselector .content .artist {
+  color: #7e7e7e;
+  font-size: 14px;
+}

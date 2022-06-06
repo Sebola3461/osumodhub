@@ -62,6 +62,7 @@ export default ({
                   closePanel();
                   opt.callback();
                 }}
+                key={i}
               >
                 {opt.label}
               </div>

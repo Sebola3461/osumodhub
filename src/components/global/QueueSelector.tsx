@@ -1,3 +1,5 @@
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import CatchIcon from "../icons/CatchIcon";
 import ManiaIcon from "../icons/ManiaIcon";
@@ -17,6 +19,7 @@ interface IQueue {
   modes: QueueModes[];
   description: string;
   type: string;
+  verified: boolean;
   country: {
     acronym: string;
     name: string;
@@ -94,7 +97,22 @@ export default ({ queue }: { queue: IQueue }) => {
             );
           })}
         </div>
-        <p className="name">{queue.name}</p>
+        <p className="name">
+          {queue.name}
+          {queue.verified ? (
+            <FontAwesomeIcon
+              icon={faCircleCheck}
+              className="verifiedbadge"
+              color="#25ca6a"
+              style={{
+                width: "18px",
+                marginLeft: "5px",
+              }}
+            />
+          ) : (
+            <></>
+          )}
+        </p>
         <div className="tags">
           {queue.genres.map((g, i) => {
             return <span key={i}>{g}</span>;

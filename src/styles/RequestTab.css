@@ -1,0 +1,70 @@
+.requesttab {
+  width: 97%;
+  height: 70%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.requesttab .vertical {
+  width: 70%;
+  height: 80%;
+  display: flex;
+  margin-left: auto;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: auto;
+}
+
+.requesttab .vertical .rules {
+  width: calc(100% - (2% * 2));
+  height: 60%;
+  background: var(--background2);
+  border-radius: 0.3rem;
+  padding: 2%;
+  border: 1px solid var(--background3);
+  overflow-y: auto;
+}
+
+.requesttab .vertical .row.inputs {
+  margin-top: 2%;
+  width: 100%;
+}
+
+.requesttab .vertical .row.inputs input {
+  width: 80%;
+  padding: 0px 10px;
+  height: 45px;
+}
+
+.requesttab .vertical .row.inputs button {
+  width: 20%;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--green);
+}
+
+@media screen and (max-width: 820px) {
+  .requestpanel .container {
+    height: 90%;
+    overflow-x: hidden;
+  }
+
+  .requestpanel .requesttab {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .requesttab .vertical {
+    width: 70%;
+    overflow-y: auto;
+  }
+}

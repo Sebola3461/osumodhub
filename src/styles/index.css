@@ -3,6 +3,7 @@
 * {
   margin: 0;
   font-family: "Quicksand", sans-serif;
+  color-scheme: dark;
 }
 
 :root {
@@ -88,4 +89,24 @@ div.row.center {
   padding: 3px;
   color: white;
   background-color: var(--background3);
+}
+
+.react-contextmenu.react-contextmenu--visible {
+  padding: 5px;
+  background: var(--background4);
+  border-radius: 0.5rem;
+  z-index: 1000;
+}
+
+.react-contextmenu-item {
+  padding: 10px 10px;
+  margin: 2px 0px;
+  min-width: 140px;
+  border-bottom: 1px solid #343434;
+  cursor: pointer;
+}
+
+.react-contextmenu.react-contextmenu--visible
+  .react-contextmenu-item:last-child {
+  border-bottom: none;
 }

@@ -1,6 +1,6 @@
 .requestselector {
   width: 210px;
-  height: 250px;
+  min-height: 250px;
   border-radius: 0.5rem;
   background-color: var(--background2);
   display: flex;
@@ -28,7 +28,7 @@
   position: relative;
 }
 .requestselector .banner * {
-  z-index: 10;
+  z-index: 1;
 }
 
 .requestselector .banner::before {
@@ -68,6 +68,17 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
+}
+
+.requestselector .mapper {
+  width: 90%;
+  font-size: 12px;
+  color: gray;
+}
+
+.requestselector .mapper a {
+  margin-left: 3px;
+  font-weight: 500;
 }
 
 .requestselector .comment {

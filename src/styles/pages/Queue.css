@@ -149,3 +149,26 @@
 .archived {
   background-color: #5f5f5f !important;
 }
+
+@media screen and (max-width: 820px) {
+  .queuelayout {
+    flex-wrap: wrap;
+  }
+
+  .ui-panel {
+    margin: auto !important;
+    width: 90% !important;
+    position: static !important;
+    margin-top: 141px !important;
+  }
+
+  .queuecontent {
+    width: 90%;
+    margin: auto;
+  }
+
+  .queuenav {
+    justify-content: center !important;
+    overflow-x: auto;
+  }
+}
