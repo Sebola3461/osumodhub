@@ -14,6 +14,7 @@ export default defineConfig({
   ],
   server: {
     hmr: {
+      host: process.env.PORT || 3000,
       timeout: Number.MAX_SAFE_INTEGER,
     },
   },
