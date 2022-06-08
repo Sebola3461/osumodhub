@@ -340,6 +340,7 @@ export default () => {
                   })`,
                 }}
                 onClick={() => {
+                  if (login._id == -1) return;
                   setOpen(queue.open);
                 }}
               >
@@ -407,7 +408,7 @@ export default () => {
             ></SearchSelect>
           </nav>
           <div className="requestlisting">
-            {requests[0] != "refresh" ? (
+            {requests.length == 0 || requests[0] == "refresh" ? (
               <NoRequests></NoRequests>
             ) : (
               requests.map((r: IRequest, i: React.Key | null | undefined) => {
