@@ -27,7 +27,7 @@ export default async (req: Request, res: Response) => {
       message: "User not found!",
     });
 
-  const follower = await followers.findOne({ _user: user._id });
+  const follower = await followers.findOne({ _user: user._id, _queue: id });
 
   if (follower)
     return res.status(404).send({
