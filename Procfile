@@ -1,1 +1,1 @@
-web: yarn build && preview --host --port $PORT
+web: yarn preview --host --port $PORT
