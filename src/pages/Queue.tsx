@@ -91,7 +91,6 @@ export default () => {
         if (q.status != 200) return;
 
         setQueue(q.data);
-        document.title = `${queue.name} | osu!modhub`;
       });
 
     fetch(`/api/queues/${queue_id}/requests`)
@@ -149,6 +148,10 @@ export default () => {
         setRequests(q.data);
       });
   }
+
+  useEffect(() => {
+    document.title = `${queue.name} | osu!modhub`;
+  }, [queue]);
 
   function refreshRequests() {
     const queue_id = window.location.pathname.split("").pop()
