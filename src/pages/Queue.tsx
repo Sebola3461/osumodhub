@@ -77,6 +77,12 @@ export default () => {
     genres: [],
   });
 
+  const typeColors: { [key: string]:string } = {
+    modder: "#2196f3"
+    BN: "#a347eb",
+    NAT: "#eb8c47",
+  };
+
   const [requests, setRequests] = useState<any>(["refresh"]);
   const [followers, setFollowers] = useState<any>(["loading"]);
 
@@ -320,7 +326,7 @@ export default () => {
             <Tag
               content={queue.type}
               style={{
-                backgroundColor: "var(--ocean)",
+                backgroundColor: typeColors[queue.type],
                 color: "white",
                 marginTop: "5px",
               }}

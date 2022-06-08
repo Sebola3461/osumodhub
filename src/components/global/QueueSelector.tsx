@@ -40,6 +40,12 @@ export default ({ queue }: { queue: IQueue }) => {
     <ManiaIcon color="white"></ManiaIcon>,
   ];
 
+  const typeColors: { [key: string]:string } = {
+    modder: "#2196f3"
+    BN: "#a347eb",
+    NAT: "#eb8c47",
+  };
+
   const navigate = useNavigate();
 
   const goTo = (route: string) => {
@@ -70,7 +76,7 @@ export default ({ queue }: { queue: IQueue }) => {
         <Tag
           content={queue.type}
           style={{
-            backgroundColor: "var(--ocean)",
+            backgroundColor: typeColors[queue.type],
             color: "white",
             fontSize: "13px",
           }}
