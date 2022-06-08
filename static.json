@@ -1,3 +1,7 @@
 {
-  "root": "./dist"
+  "root": "./dist",
+  "routes": {
+    "/api/**": ""
+    "/**": "index.html"
+  }
 }
