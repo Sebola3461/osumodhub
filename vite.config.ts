@@ -12,4 +12,8 @@ export default defineConfig({
       handler: "./server/server.ts",
     }),
   ],
+  server: {
+    hmr: false,
+    https: true,
+  },
 });
