@@ -12,4 +12,9 @@ export default defineConfig({
       handler: "./server/server.ts",
     }),
   ],
+  server: {
+    hmr: {
+      timeout: Number.MAX_SAFE_INTEGER,
+    },
+  },
 });
