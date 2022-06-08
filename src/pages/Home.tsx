@@ -44,6 +44,7 @@ function App() {
       });
 
     SyncQueueData(login);
+    document.title = `Home | osu!modhub`;
   }, []);
 
   function updateSearch(ev: KeyboardEvent) {

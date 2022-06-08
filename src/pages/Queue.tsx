@@ -91,6 +91,7 @@ export default () => {
         if (q.status != 200) return;
 
         setQueue(q.data);
+        document.title = `${queue.name} | osu!modhub`;
       });
 
     fetch(`/api/queues/${queue_id}/requests`)
@@ -406,7 +407,7 @@ export default () => {
             ></SearchSelect>
           </nav>
           <div className="requestlisting">
-            {requests[0] == "refresh" ? (
+            {requests[0] != "refresh" ? (
               <NoRequests></NoRequests>
             ) : (
               requests.map((r: IRequest, i: React.Key | null | undefined) => {

@@ -5,7 +5,9 @@ import mix from "vite-plugin-mix";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      fastRefresh: false,
+    }),
     mix({
       handler: "./server/server.ts",
     }),
