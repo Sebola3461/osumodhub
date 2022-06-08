@@ -8,6 +8,15 @@
   align-content: center;
   justify-content: flex-start;
   align-items: center;
+  transition: opacity 120ms linear;
+  animation-name: fade;
+  animation-duration: 120ms;
+  animation-timing-function: linear;
+}
+
+.requesttab.loading {
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 .requesttab .vertical {
@@ -31,6 +40,12 @@
   padding: 2%;
   border: 1px solid var(--background3);
   overflow-y: auto;
+}
+
+.requesttab .vertical .rules * {
+  max-width: 100%;
+  line-break: loose;
+  word-wrap: break-word;
 }
 
 .requesttab .vertical .row.inputs {

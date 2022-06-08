@@ -3,12 +3,14 @@ import Queue from "./schemas/Queue";
 import User from "./schemas/User";
 import Request from "./schemas/Request";
 import dotenv from "dotenv";
+import Follower from "./schemas/Follower";
 dotenv.config();
 
 console.log("database", "Starting databse connection...");
 
 mongoose.connect(
   `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
+  {},
   (err) => {
     if (err)
       return console.error(
@@ -23,3 +25,4 @@ mongoose.connect(
 export const users = mongoose.model("Users", User);
 export const queues = mongoose.model("Queues", Queue);
 export const requests = mongoose.model("Requests", Request);
+export const followers = mongoose.model("Followers", Follower);

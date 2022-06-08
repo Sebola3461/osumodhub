@@ -20,7 +20,18 @@ import SideMenu from "../components/global/SideMenu";
 import { useNavigate } from "react-router-dom";
 import { SideMenuContext } from "../providers/UserSideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleCheck,
+  faUser,
+  faUserLargeSlash,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import { GenerateComponentKey } from "../helpers/GenerateComponentKey";
+import { useSnackbar } from "notistack";
+import QueuePanel from "../components/queue/QueuePanel";
+import { QueuePanelContext } from "../providers/QueuePanelContext";
+import DestroySession from "../helpers/DestroySession";
+import SyncQueueData from "../helpers/SyncQueueData";
 
 export default () => {
   const icons = [
@@ -39,6 +50,10 @@ export default () => {
   const [login, setLogin] = useState(JSON.parse(user));
   const { open, setOpen } = useContext(RequestPanelContext);
   const sideMenuContext = useContext(SideMenuContext);
+  const queuePanelContext = useContext(QueuePanelContext);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const [followersCount, setFollowersCount] = useState(0);
+  const [followButtonIcon, setFollowButtonIcon] = useState(faUser);
 
   const [queue, setQueue] = useState({
     _id: "",
@@ -62,7 +77,8 @@ export default () => {
     genres: [],
   });
 
-  const [requests, setRequests] = useState([]);
+  const [requests, setRequests] = useState<any>(["refresh"]);
+  const [followers, setFollowers] = useState<any>(["loading"]);
 
   useEffect(() => {
     const queue_id = window.location.pathname.split("").pop()
@@ -89,6 +105,21 @@ export default () => {
 
         setRequests(q.data);
       });
+
+    SyncQueueData(login);
+  }, []);
+
+  useEffect(() => {
+    const queue_id = window.location.pathname.split("").pop()
+      ? window.location.pathname.split("/").pop()?.trim()
+      : "";
+
+    fetch(`/api/queues/${queue_id}/follow`)
+      .then((r) => r.json())
+      .then((res) => {
+        setFollowers(res.data);
+        setFollowersCount(res.data.length);
+      });
   }, []);
 
   function setFilters(ev: React.SyntheticEvent<InputEvent>, filter: string) {
@@ -110,9 +141,32 @@ export default () => {
 
         q.data.sort(
           (a: IRequest, b: IRequest) =>
-            new Date(b.date).valueOf() - new Date(a.date).valueOf()
+            new Date(a.date).valueOf() - new Date(b.date).valueOf()
         );
 
+        setRequests([]);
+        setRequests(q.data);
+      });
+  }
+
+  function refreshRequests() {
+    const queue_id = window.location.pathname.split("").pop()
+      ? window.location.pathname.split("/").pop()?.trim()
+      : "";
+
+    fetch(
+      `/api/queues/${queue_id}/requests?type=${filters.type}&status=${filters.status}`
+    )
+      .then((r) => r.json())
+      .then((q) => {
+        if (q.status != 200) return;
+
+        q.data.sort(
+          (a: IRequest, b: IRequest) =>
+            new Date(a.date).valueOf() - new Date(b.date).valueOf()
+        );
+
+        setRequests([]);
         setRequests(q.data);
       });
   }
@@ -127,16 +181,95 @@ export default () => {
     goTo(`/queue/${login._id}`);
   }
 
+  function updateFollow() {
+    if (followers[0] == "loading") return;
+
+    if (followers.find((u: { _user: any }) => u._user == login._id)) {
+      fetch(`/api/queues/${queue._id}/follow`, {
+        method: "delete",
+        headers: {
+          authorization: login.account_token,
+        },
+      })
+        .then((r) => r.json())
+        .then((res) => {
+          if (res.status == 200) {
+            followers.splice(
+              followers.findIndex((f: { _user: any }) => f._user == login._id),
+              1
+            );
+
+            setFollowers(followers);
+            setFollowersCount(followersCount - 1);
+            updateFollowButtonIcon(false);
+          }
+
+          return enqueueSnackbar(res.message, {
+            variant: res.status == 200 ? "success" : "error",
+            persist: false,
+          });
+        });
+    } else {
+      fetch(`/api/queues/${queue._id}/follow`, {
+        method: "post",
+        headers: {
+          authorization: login.account_token,
+        },
+      })
+        .then((r) => r.json())
+        .then((res) => {
+          if (res.status == 200) {
+            followers.push({ _user: login._id });
+            setFollowers(followers);
+            setFollowersCount(followersCount + 1);
+            updateFollowButtonIcon(false);
+          }
+
+          return enqueueSnackbar(res.message, {
+            variant: res.status == 200 ? "success" : "error",
+            persist: false,
+          });
+        });
+    }
+  }
+
+  function updateFollowButtonIcon(hover: boolean) {
+    if (hover == true)
+      return setFollowButtonIcon(
+        followers.findIndex((f: { _user: any }) => f._user == login._id) == -1
+          ? faUserPlus
+          : faUserLargeSlash
+      );
+
+    return setFollowButtonIcon(faUser);
+  }
+
   return (
     <>
       <AppBar></AppBar>
       <PageBanner src={queue.banner} css={{}}></PageBanner>
-      <RequestPanel queue={queue}></RequestPanel>
+      <RequestPanel
+        queue={queue}
+        setRequests={setRequests}
+        requests={requests}
+      ></RequestPanel>
+      <QueuePanel></QueuePanel>
       <SideMenu
         _open={sideMenuContext.open}
         options={[
           { label: "My queue", callback: goToUserQueue },
-          { label: "Queue settings", callback: goToUserQueue },
+          {
+            label: "Queue settings",
+            callback: () => {
+              queuePanelContext.setOpen(true);
+            },
+          },
+          {
+            label: "Log-out",
+            callback: () => {
+              DestroySession();
+            },
+          },
         ]}
         title="User"
       ></SideMenu>
@@ -189,24 +322,43 @@ export default () => {
               }}
             />
             <div className="row center">
-              {queue.modes.map((m, i) => {
-                return <div className="modeicon">{icons[m]}</div>;
+              {queue.modes.map((m) => {
+                return (
+                  <div className="modeicon" key={GenerateComponentKey(20)}>
+                    {icons[m]}
+                  </div>
+                );
               })}
             </div>
-            <button
-              className="custombuttom"
-              style={{
-                backgroundColor: `var(--${
-                  login._id == -1 ? "red" : queue.open ? "green" : "red"
-                })`,
-              }}
-              onClick={() => {
-                setOpen(queue.open);
-              }}
-            >
-              Request
-            </button>
-            <button className="custombuttom">Follow</button>
+            <div className="row buttonsrow">
+              <button
+                className="custombuttom"
+                style={{
+                  backgroundColor: `var(--${
+                    login._id == -1 ? "red" : queue.open ? "green" : "red"
+                  })`,
+                }}
+                onClick={() => {
+                  setOpen(queue.open);
+                }}
+              >
+                Request
+              </button>
+              <button
+                className="custombuttom"
+                onClick={updateFollow}
+                onMouseOver={() => {
+                  updateFollowButtonIcon(true);
+                }}
+                onMouseLeave={() => {
+                  console.log("eae");
+                  updateFollowButtonIcon(false);
+                }}
+              >
+                {followers.length}
+                <FontAwesomeIcon icon={followButtonIcon} />
+              </button>
+            </div>
           </div>
         </HeaderPanel>
         <div className="queuecontent">
@@ -254,15 +406,16 @@ export default () => {
             ></SearchSelect>
           </nav>
           <div className="requestlisting">
-            {requests.length < 1 ? (
+            {requests[0] == "refresh" ? (
               <NoRequests></NoRequests>
             ) : (
-              requests.map((r, i) => {
+              requests.map((r: IRequest, i: React.Key | null | undefined) => {
                 return (
                   <RequestSelector
                     request={r}
+                    refreshRequests={refreshRequests}
                     queue={queue}
-                    key={i}
+                    key={r._id}
                   ></RequestSelector>
                 );
               })

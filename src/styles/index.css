@@ -102,11 +102,19 @@ div.row.center {
   padding: 10px 10px;
   margin: 2px 0px;
   min-width: 140px;
-  border-bottom: 1px solid #343434;
   cursor: pointer;
+  border-radius: 0.5rem;
 }
 
 .react-contextmenu.react-contextmenu--visible
   .react-contextmenu-item:last-child {
   border-bottom: none;
+}
+
+div.separator {
+  width: 100%;
+  min-height: 1px;
+  height: 1px;
+  background-color: var(--background3);
+  margin: 10px 0px;
 }

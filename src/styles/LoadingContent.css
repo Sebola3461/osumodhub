@@ -1,4 +1,4 @@
-.norequests {
+.loadingcontent {
   width: 90%;
   min-height: 40px;
   height: 160px;
@@ -12,7 +12,7 @@
   align-items: center;
 }
 
-.norequests .big {
+.loadingcontent .big {
   color: white;
   font-size: 2rem;
   font-weight: 500;

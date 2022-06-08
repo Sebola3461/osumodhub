@@ -10,7 +10,15 @@ import "./../../styles/RequestPanel.css";
 import BeatmapsTab from "./RequestPanel/BeatmapsTab";
 import RequestTab from "./RequestPanel/RequestTab";
 
-export default ({ queue }: { queue: any }) => {
+export default ({
+  queue,
+  requests,
+  setRequests,
+}: {
+  queue: any;
+  setRequests: any;
+  requests: any[];
+}) => {
   const [userBeatmaps, setUserBeatmaps] = useState<Beatmapset[]>([]);
   const [tab, setTab] = useState(0);
   const { user, updateUser } = useContext(AuthContext);
@@ -19,6 +27,8 @@ export default ({ queue }: { queue: any }) => {
   const { open, setOpen } = useContext(RequestPanelContext);
 
   useEffect(() => {
+    if (login._id == -1) return;
+
     fetch(`/api/users/${login._id}/beatmaps`, {
       headers: {
         authorization: login.account_token,
@@ -30,6 +40,15 @@ export default ({ queue }: { queue: any }) => {
 
         setUserBeatmaps(d.data);
       });
+
+    document.addEventListener("keydown", (ev) => {
+      if (!ev.target) return;
+      if (ev.key != "Escape") return;
+
+      setOpen(false);
+
+      return;
+    });
   }, []);
 
   useEffect(() => {
@@ -38,11 +57,24 @@ export default ({ queue }: { queue: any }) => {
 
   const tabs = [
     <BeatmapsTab userBeatmaps={userBeatmaps}></BeatmapsTab>,
-    <RequestTab queue={queue}></RequestTab>,
+    <RequestTab
+      queue={queue}
+      requests={requests}
+      setRequests={setRequests}
+    ></RequestTab>,
   ];
 
   function auxClosePanel(ev: any) {
     if (ev.target.className != "requestpanel open") return;
+
+    setOpen(!open);
+
+    return;
+  }
+
+  function escClosePanel(ev: any) {
+    if (ev.target.className != "requestpanel open") return;
+    if (ev.key != "escape") return;
 
     setOpen(!open);
 
@@ -55,6 +87,7 @@ export default ({ queue }: { queue: any }) => {
       onClick={(ev) => {
         auxClosePanel(ev);
       }}
+      onKeyDown={escClosePanel}
     >
       <div className="container">
         <div className="paneltitle">

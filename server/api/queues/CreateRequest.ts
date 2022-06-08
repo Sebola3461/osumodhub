@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
 import osuApi from "../../helpers/osuApi";
 import crypto from "crypto";
+import checkQueueAutoclose from "../helpers/checkQueueAutoclose";
+import checkRequestQueueModes from "../helpers/checkRequestQueueModes";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
@@ -65,6 +67,12 @@ export default async (req: Request, res: Response) => {
       message: `This queue does not allow ${requestedBeatmapset.data.status} beatmaps!`,
     });
 
+  if (!checkRequestQueueModes(queue, requestedBeatmapset.data))
+    return res.status(400).send({
+      status: 400,
+      message: `This queue does not allow beatmaps of this mode!`,
+    });
+
   const pending_request = await requests.findOne({
     _owner: author._id,
     beatmapset_id: requestedBeatmapset.data.id,
@@ -87,6 +95,7 @@ export default async (req: Request, res: Response) => {
     comment: comment,
     status: "pending",
     beatmapset_id: requestedBeatmapset.data.id,
+    date: new Date(),
     beatmap: {
       id: requestedBeatmapset.data.id,
       artist: requestedBeatmapset.data.artist,
@@ -100,8 +109,11 @@ export default async (req: Request, res: Response) => {
   queue.statistics[0] = queue.statistics[0] + 1;
   await queues.findByIdAndUpdate(queue._id, queue);
 
+  await checkQueueAutoclose(queue);
+
   res.status(200).send({
     status: 200,
     message: "Beatmap requested!",
+    data: request,
   });
 };

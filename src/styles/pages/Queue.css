@@ -30,6 +30,22 @@
   margin-top: -60px;
 }
 
+.headerleft .row.buttonsrow {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+}
+
+.headerleft .row.buttonsrow button:first-child {
+  width: 200%;
+  margin-right: 10px;
+}
+
+.headerleft .row.buttonsrow button:last-child svg {
+  height: 13px;
+  margin-left: 5px;
+}
+
 #pagebanner::after {
   content: "";
   width: 100%;
@@ -148,6 +164,96 @@
 
 .archived {
   background-color: #5f5f5f !important;
+}
+
+.pending-hover:hover {
+  background-color: rgb(255 124 0) !important;
+  color: white;
+}
+
+.recheck-hover:hover {
+  background-color: #f44336 !important;
+  color: white;
+}
+
+.accept-hover:hover {
+  background-color: #25ca6a !important;
+  color: black;
+}
+
+.finish-hover:hover {
+  background-color: #259bca !important;
+  color: white;
+}
+
+.nominate-hover:hover {
+  background-color: #259bca !important;
+  color: white;
+}
+
+.reject-hover:hover {
+  background-color: #d4152f !important;
+  color: black;
+}
+
+.recheck-hover:hover {
+  background-color: #cf3274 !important;
+  color: black;
+}
+
+.archive-hover:hover {
+  background-color: #5f5f5f !important;
+  color: white;
+}
+
+.delete-hover:hover {
+  background-color: #d4152f;
+  color: black;
+}
+
+.pending-hover {
+  transition: linear 80ms color, linear 80ms background-color;
+  color: rgb(255 124 0);
+}
+
+.recheck-hover {
+  transition: linear 80ms color, linear 80ms background-color;
+  color: #f44336;
+}
+
+.accept-hover {
+  transition: linear 80ms color, linear 80ms background-color;
+  color: #25ca6a;
+}
+
+.finish-hover {
+  transition: linear 80ms color, linear 80ms background-color;
+  color: #259bca;
+}
+
+.nominate-hover {
+  transition: linear 80ms color, linear 80ms background-color;
+  color: #259bca;
+}
+
+.reject-hover {
+  transition: linear 80ms color, linear 80ms background-color;
+  color: #d4152f;
+}
+
+.recheck-hover {
+  transition: linear 80ms color, linear 80ms background-color;
+  color: #cf3274;
+}
+
+.archive-hover {
+  transition: linear 80ms color, linear 80ms background-color;
+  color: #5f5f5f;
+}
+
+.delete-hover {
+  transition: linear 80ms color, linear 80ms background-color;
+  color: #d4152f;
 }
 
 @media screen and (max-width: 820px) {

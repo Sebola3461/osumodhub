@@ -46,6 +46,10 @@ export default new Schema({
       date: Date,
     },
   },
+  requests: {
+    type: Array,
+    default: [],
+  },
   notifications: {
     type: Array,
     default: [],

@@ -12,6 +12,10 @@ import { useNavigate } from "react-router-dom";
 import SideMenu from "../components/global/SideMenu";
 import { SideMenuContext } from "../providers/UserSideMenu";
 import { AuthContext } from "../providers/AuthContext";
+import QueuePanel from "../components/queue/QueuePanel";
+import { QueuePanelContext } from "../providers/QueuePanelContext";
+import DestroySession from "../helpers/DestroySession";
+import SyncQueueData from "../helpers/SyncQueueData";
 
 function App() {
   const [queues, setQueues] = useState([]);
@@ -23,9 +27,10 @@ function App() {
     query: "",
   });
   const [loading, setLoading] = useState(false);
-  const { open, setOpen } = useContext(SideMenuContext);
+  const sideMenuContext = useContext(SideMenuContext);
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
+  const queuePanelContext = useContext(QueuePanelContext);
 
   useEffect(() => {
     setLoading(true);
@@ -37,6 +42,8 @@ function App() {
         setQueues(q.data);
         setLoading(false);
       });
+
+    SyncQueueData(login);
   }, []);
 
   function updateSearch(ev: KeyboardEvent) {
@@ -81,9 +88,24 @@ function App() {
     <>
       <AppBar></AppBar>
       <PageBanner src="/src/static/images/homebanner.png"></PageBanner>
+      <QueuePanel></QueuePanel>
       <SideMenu
-        _open={open}
-        options={[{ label: "My queue", callback: goToUserQueue }]}
+        _open={sideMenuContext.open}
+        options={[
+          { label: "My queue", callback: goToUserQueue },
+          {
+            label: "Queue settings",
+            callback: () => {
+              queuePanelContext.setOpen(true);
+            },
+          },
+          {
+            label: "Log-out",
+            callback: () => {
+              DestroySession();
+            },
+          },
+        ]}
         title="User"
       ></SideMenu>
       <HeaderPanel

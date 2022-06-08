@@ -26,6 +26,10 @@
   pointer-events: none;
 }
 
+.requestpanel.closed .container {
+  margin-right: -25px;
+}
+
 .requestpanel .container {
   width: 90%;
   max-width: 1000px;
@@ -33,6 +37,7 @@
   background-color: var(--background1);
   border-radius: 0.5rem;
   overflow: hidden;
+  transition: margin-right linear 80ms;
 }
 
 .requestpanel .container .paneltitle {

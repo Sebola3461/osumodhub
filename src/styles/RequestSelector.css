@@ -1,6 +1,6 @@
 .requestselector {
   width: 210px;
-  min-height: 250px;
+  min-height: 255px;
   border-radius: 0.5rem;
   background-color: var(--background2);
   display: flex;
@@ -11,6 +11,21 @@
   align-items: center;
   overflow: hidden;
   margin: 10px;
+  transition: filter 120ms linear;
+  filter: brightness(1);
+}
+
+.requestselector.loading {
+  filter: brightness(0.5);
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .requestselector .banner {

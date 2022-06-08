@@ -41,54 +41,10 @@ export default async (req: Request, res: Response) => {
       message: "Request not found!",
     });
 
-  let { reply, status } = req.body;
-
-  if (!status)
-    return res.status(400).send({
-      status: 400,
-      message: "Invalid status provided",
-    });
-
-  if (!reply) reply = "";
-
-  reply = reply.trim();
-
-  const valid_status = [
-    { name: "accepted", bn: false },
-    { name: "rejected", bn: false },
-    { name: "finished", bn: false },
-    { name: "archived", bn: false },
-    { name: "waiting", bn: true },
-    { name: "rechecking", bn: true },
-    { name: "nominated", bn: true },
-  ];
-
-  const requestedStatus = valid_status.find(
-    (s) => s.name == status.toLowerCase()
-  );
-
-  if (!requestedStatus)
-    return res.status(400).send({
-      status: 400,
-      message: "Invalid status provided",
-    });
-
-  if (requestedStatus.bn && !queue_owner.isBn)
-    return res.status(400).send({
-      status: 400,
-      message: "You can't use this status!",
-    });
-
-  await requests.updateOne(
-    { _id: _request },
-    {
-      reply: reply,
-      status: status.toLowerCase(),
-    }
-  );
+  await requests.deleteOne({ _id: _request });
 
   res.status(200).send({
     status: 200,
-    message: "Request updated!",
+    message: "Request deleted!",
   });
 };

@@ -8,4 +8,7 @@
   justify-content: flex-start;
   align-items: center;
   overflow-y: auto;
+  animation-name: fade;
+  animation-duration: 120ms;
+  animation-timing-function: linear;
 }

@@ -13,8 +13,9 @@ import {
   ContextMenuTrigger,
 } from "./../../libs/react-contextmenu/es6/";
 import { faLitecoinSign } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthContext";
+import { useSnackbar } from "notistack";
 
 export interface IRequest {
   _id: string;
@@ -35,15 +36,28 @@ export default ({
   request,
   queue,
   _static,
+  refreshRequests,
 }: {
   request: IRequest;
   queue: any;
   _static?: boolean;
+  refreshRequests?: any;
 }) => {
   const icons = [OsuIcon, TaikoIcon, CatchIcon, ManiaIcon];
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
-  const [_request, setRequest] = useState(request);
+  const [loading, setLoading] = useState(false);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const [_request, setRequest] = useState<any>({
+    beatmap: {
+      covers: {},
+      beatmaps: [],
+    },
+  });
+
+  useEffect(() => {
+    setRequest(request);
+  }, []);
 
   const navigate = useNavigate();
 
@@ -52,7 +66,7 @@ export default ({
   };
 
   function updateRequest(opt: any) {
-    console.log(opt);
+    setLoading(true);
     fetch(`/api/requests/${opt.request._id}`, {
       method: "put",
       headers: {
@@ -66,10 +80,49 @@ export default ({
     })
       .then((r) => r.json())
       .then((res) => {
-        alert(res.message);
+        setLoading(false);
+        if (res.status == 200) {
+          _request.status = opt.status;
+          enqueueSnackbar("Request status updated!", {
+            variant: "success",
+            persist: false,
+          });
+        } else {
+          enqueueSnackbar(res.message, {
+            variant: "error",
+            persist: false,
+          });
+        }
+      });
+  }
 
-        _request.status = opt.status;
-        setRequest(_request);
+  function deleteRequest(opt: any) {
+    setLoading(true);
+    fetch(`/api/requests/${opt.request._id}`, {
+      method: "delete",
+      headers: {
+        "content-type": "application/json",
+        authorization: login.account_token,
+      },
+    })
+      .then((r) => r.json())
+      .then((res) => {
+        if (res.status == 200) {
+          _request.status = opt.status;
+          enqueueSnackbar("Request deleted!", {
+            variant: "success",
+            persist: false,
+          });
+
+          if (refreshRequests) {
+            refreshRequests();
+          }
+        } else {
+          enqueueSnackbar(res.message, {
+            variant: "error",
+            persist: false,
+          });
+        }
       });
   }
 
@@ -86,7 +139,7 @@ export default ({
 
   if (_request.beatmap.beatmaps) {
     _request.beatmap.beatmaps.sort(
-      (a, b) => a.difficulty_rating - b.difficulty_rating
+      (a: any, b: any) => a.difficulty_rating - b.difficulty_rating
     );
   }
 
@@ -102,7 +155,7 @@ export default ({
           status: "accepted",
         });
       }}
-      className="accepted-hover"
+      className="accept-hover"
     >
       Accept
     </MenuItem>,
@@ -117,7 +170,7 @@ export default ({
           status: "rejected",
         });
       }}
-      className="rejected-hover"
+      className="reject-hover"
     >
       Reject
     </MenuItem>,
@@ -151,6 +204,21 @@ export default ({
     >
       Archive
     </MenuItem>,
+    <MenuItem
+      data={{
+        request: _request,
+        status: "deleted",
+      }}
+      onClick={() => {
+        deleteRequest({
+          request: _request,
+          status: "deleted",
+        });
+      }}
+      className="delete-hover"
+    >
+      Delete
+    </MenuItem>,
   ];
 
   const bn_options = [
@@ -165,7 +233,7 @@ export default ({
           status: "accepted",
         });
       }}
-      className="accepted-hover"
+      className="accept-hover"
     >
       Accept
     </MenuItem>,
@@ -180,7 +248,7 @@ export default ({
           status: "rejected",
         });
       }}
-      className="rejected-hover"
+      className="reject-hover"
     >
       Reject
     </MenuItem>,
@@ -195,7 +263,7 @@ export default ({
           status: "nominated",
         });
       }}
-      className="nominated-hover"
+      className="nominate-hover"
     >
       Finish
     </MenuItem>,
@@ -210,7 +278,7 @@ export default ({
           status: "waiting",
         });
       }}
-      className="waiting-hover"
+      className="wait-hover"
     >
       Waiting another BN
     </MenuItem>,
@@ -225,7 +293,7 @@ export default ({
           status: "rechecking",
         });
       }}
-      className="rechecking-hover"
+      className="recheck-hover"
     >
       Need Recheck
     </MenuItem>,
@@ -249,7 +317,9 @@ export default ({
   return (
     <>
       <ContextMenuTrigger id={`request-${_request._id}`}>
-        <div className="requestselector">
+        <div
+          className={loading ? "requestselector loading" : "requestselector"}
+        >
           <div
             className="banner"
             style={{
