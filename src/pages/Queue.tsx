@@ -77,8 +77,8 @@ export default () => {
     genres: [],
   });
 
-  const typeColors: { [key: string]:string } = {
-    modder: "#2196f3"
+  const typeColors: { [key: string]: string } = {
+    modder: "#2196f3",
     BN: "#a347eb",
     NAT: "#eb8c47",
   };
