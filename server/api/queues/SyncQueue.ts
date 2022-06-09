@@ -43,13 +43,11 @@ export default async (req: Request, res: Response) => {
 
   const type = getHighestUsergroup(user.data);
 
-  console.log(type);
-
   queue.banner = user.data.cover.url;
   queue.name = user.data.username;
   queue.type = type;
 
-  await users.updateOne(
+  await queues.updateOne(
     { _id: author.id },
     {
       name: user.data.username,
