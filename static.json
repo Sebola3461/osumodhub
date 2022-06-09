@@ -3,10 +3,5 @@
     "clean_urls": true,
     "routes": {
         "/": "index.html"
-    },
-    "proxies": {
-        "/api/*": {
-            "origin": "http://localhost/"
-        }
     }
   }
