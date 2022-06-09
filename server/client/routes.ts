@@ -4,7 +4,7 @@ import path from "path";
 const client = Router();
 
 client.get("/", sendHTML);
-client.get("/queues/:queue", sendHTML);
+client.get("/queue/:queue", sendHTML);
 
 function sendHTML(req: Request, res: Response) {
   res

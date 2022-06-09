@@ -64,7 +64,12 @@ export default async (req: Request, res: Response) => {
     let _type = type.toString().toLowerCase().trim();
 
     if (_type != "any") {
-      response = response.filter((r) => r.type == _type);
+      if (type == "nominator") {
+        response = response.filter((r) => ["BN", "NAT"].includes(r.type));
+      }
+      if (type == "modder") {
+        response = response.filter((r) => ["modder"].includes(r.type));
+      }
     }
   }
 

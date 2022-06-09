@@ -43,6 +43,8 @@ export default async (req: Request, res: Response) => {
 
   const type = getHighestUsergroup(user.data);
 
+  console.log(type);
+
   queue.banner = user.data.cover.url;
   queue.name = user.data.username;
   queue.type = type;

@@ -31,11 +31,6 @@ export default function parseUsergroup(mapper: User) {
       index: 5,
       name: "Beatmap Nominator",
       icon: "https://media.discordapp.net/attachments/941102492857557023/948649173199249438/bn2.png",
-      probationary: {
-        name: "Beatmap Nominator (Probationary)",
-        icon: "https://media.discordapp.net/attachments/941102492857557023/948649173983592548/probo.png",
-        colour: "#d6c8fc",
-      },
     },
     ALM: {
       index: 6,
@@ -57,6 +52,8 @@ export default function parseUsergroup(mapper: User) {
 
   const usergroups = mapper.groups;
 
+  console.log(usergroups);
+
   if (!usergroups) return "modder";
 
   let groups = new Array(usergroups?.length);
@@ -71,10 +68,14 @@ export default function parseUsergroup(mapper: User) {
 
   if (!groups) return "mapper";
 
+  console.log(groups);
+
   if (groups.length > 0) {
     groups.sort((a, b) => {
       return a - b;
     });
+
+    console.log(groups);
 
     let group = groups[0];
 

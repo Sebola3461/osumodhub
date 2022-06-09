@@ -45,7 +45,7 @@ function App() {
       });
 
     SyncQueueData(login);
-    document.title = `Home | osu!modhub`;
+    document.title = `Queues | osu!modhub`;
   }, []);
 
   function updateSearch(ev: KeyboardEvent) {
@@ -140,8 +140,7 @@ function App() {
             options={
               <>
                 <option value="any">Any</option>
-                <option value="bn">BN</option>
-                <option value="nat">NAT</option>
+                <option value="nominator">Nominators</option>
                 <option value="modder">Modder</option>
               </>
             }
