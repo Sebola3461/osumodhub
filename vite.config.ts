@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react";
 import mix from "vite-plugin-mix";
 import { networkInterfaces } from "os";
 
+console.log(networkInterfaces());
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
