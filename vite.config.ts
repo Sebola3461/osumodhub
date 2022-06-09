@@ -17,7 +17,9 @@ export default defineConfig({
     host: true,
     hmr: {
       port: Number(process.env.PORT) || 3000,
-      host: networkInterfaces()["Ethernet"].pop().address,
+      host: networkInterfaces()["Ethernet"]
+        ? networkInterfaces()["Ethernet"].pop().address
+        : networkInterfaces()["eth0"][0].address,
       timeout: Number.MAX_SAFE_INTEGER,
     },
   },
