@@ -100,7 +100,6 @@
     "skipLibCheck": true     ,                            /* Skip type checking all .d.ts files. */
     "outDir": "./dist"
   },
-  "exclude": ["src/libs/react-contextmenu/**"],
   "include": ["src", "types"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

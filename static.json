@@ -6,8 +6,8 @@
         "*": "index.html"
     },
     "proxies": {
-        "/api/*": {
-            "origin": "localhost:3040"
+        "/api/**": {
+            "origin": "http://localhost:3040/"
         }
     }
   }
