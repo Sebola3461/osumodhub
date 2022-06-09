@@ -1,6 +1,6 @@
 export default () => {
   const _window = window.open(
-    "https://osu.ppy.sh/oauth/authorize?response_type=code&redirect_uri=https://osumodhub.herokuapp.com/api/validate&client_id=15113&scope=identify"
+    "https://osu.ppy.sh/oauth/authorize?response_type=code&redirect_uri=http://localhost:3000/api/validate&client_id=15092&scope=identify"
   );
 
   if (_window) {

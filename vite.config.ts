@@ -5,14 +5,14 @@ import mix from "vite-plugin-mix";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react({
-      fastRefresh: false,
-    }),
+    react(),
     mix({
       handler: "./server/server.ts",
     }),
   ],
   server: {
+    port: Number(process.env.PORT) || 3000,
+    host: true,
     hmr: {
       timeout: Number.MAX_SAFE_INTEGER,
     },
