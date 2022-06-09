@@ -13,6 +13,11 @@ app.use(
   express.static(path.resolve(__dirname.concat("/../dist/assets/")))
 );
 
+app.use(
+  "/static",
+  express.static(path.resolve(__dirname.concat("/../src/static/")))
+);
+
 app.use(json());
 app.get("*", DiscordEmbed);
 app.use("/api/", ApiRoutes);

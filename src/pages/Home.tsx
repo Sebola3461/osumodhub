@@ -89,7 +89,7 @@ function App() {
   return (
     <>
       <AppBar></AppBar>
-      <PageBanner src="/src/static/images/homebanner.png"></PageBanner>
+      <PageBanner src="/static/images/homebanner.png"></PageBanner>
       <QueuePanel></QueuePanel>
       <SideMenu
         _open={sideMenuContext.open}
