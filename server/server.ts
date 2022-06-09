@@ -10,7 +10,7 @@ app.use(json());
 app.get("*", DiscordEmbed);
 app.use("/api/", ApiRoutes);
 
-app.listen(3040, () => {
+app.listen(process.env.PORT || 3000, () => {
   consoleCheck("Server", "API running!");
 });
 
