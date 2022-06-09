@@ -1,9 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import mix from "vite-plugin-mix";
-import { networkInterfaces } from "os";
-
-console.log(networkInterfaces());
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,9 +14,7 @@ export default defineConfig({
     host: true,
     hmr: {
       port: Number(process.env.PORT) || 3000,
-      host: networkInterfaces()["Ethernet"]
-        ? networkInterfaces()["Ethernet"].pop().address
-        : networkInterfaces()["eth0"][0].address,
+      clientPort: Number(process.env.PORT) || 3000,
       timeout: Number.MAX_SAFE_INTEGER,
     },
   },
