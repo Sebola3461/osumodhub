@@ -4,7 +4,8 @@
   "version": "0.0.2",
   "scripts": {
     "dev": "vite",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "api": "ts-node server/server.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
