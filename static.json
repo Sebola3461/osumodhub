@@ -7,7 +7,7 @@
         "*": "index.html"
     },
     "proxies": {
-        "/api/**": {
+        "/api/": {
             "origin": "http://localhost:${PORT}/"
         }
     }
