@@ -32,6 +32,7 @@ import QueuePanel from "../components/queue/QueuePanel";
 import { QueuePanelContext } from "../providers/QueuePanelContext";
 import DestroySession from "../helpers/DestroySession";
 import SyncQueueData from "../helpers/SyncQueueData";
+import CreateNewQueue from "../helpers/CreateNewQueue";
 
 export default () => {
   const icons = [
@@ -269,9 +270,9 @@ export default () => {
         options={[
           { label: "My queue", callback: goToUserQueue },
           {
-            label: "Queue settings",
+            label: login.hasQueue ? "Queue settings" : "Create a queue",
             callback: () => {
-              queuePanelContext.setOpen(true);
+              login.hasQueue ? queuePanelContext.setOpen(true) : CreateNewQueue(login);
             },
           },
           {

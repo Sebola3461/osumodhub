@@ -95,9 +95,11 @@ function App() {
         options={[
           { label: "My queue", callback: goToUserQueue },
           {
-            label: "Queue settings",
+            label: login.hasQueue ? "Queue settings" : "Create a queue",
             callback: () => {
-              queuePanelContext.setOpen(true);
+              login.hasQueue
+                ? queuePanelContext.setOpen(true)
+                : CreateNewQueue(login);
             },
           },
           {
