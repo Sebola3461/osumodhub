@@ -11,9 +11,9 @@ export default defineConfig({
     }),
   ],
   server: {
-    port: 443,
     host: true,
     hmr: {
+      port: 443,
       timeout: Number.MAX_SAFE_INTEGER,
     },
   },
