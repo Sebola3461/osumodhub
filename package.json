@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "preview": "vite preview",
+    "build": "tsc && vite build",
     "start": "ts-node server/server.ts"
   },
   "dependencies": {
