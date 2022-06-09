@@ -16,6 +16,7 @@ import QueuePanel from "../components/queue/QueuePanel";
 import { QueuePanelContext } from "../providers/QueuePanelContext";
 import DestroySession from "../helpers/DestroySession";
 import SyncQueueData from "../helpers/SyncQueueData";
+import CreateNewQueue from "../helpers/CreateNewQueue";
 
 function App() {
   const [queues, setQueues] = useState([]);

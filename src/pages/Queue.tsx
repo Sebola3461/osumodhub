@@ -272,7 +272,9 @@ export default () => {
           {
             label: login.hasQueue ? "Queue settings" : "Create a queue",
             callback: () => {
-              login.hasQueue ? queuePanelContext.setOpen(true) : CreateNewQueue(login);
+              login.hasQueue
+                ? queuePanelContext.setOpen(true)
+                : CreateNewQueue(login);
             },
           },
           {
