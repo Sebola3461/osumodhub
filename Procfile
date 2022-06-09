@@ -1,1 +1,1 @@
-node: yarn api
+node: yarn start
