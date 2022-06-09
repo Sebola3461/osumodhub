@@ -9,7 +9,7 @@ export default async (req: Request, res: Response) => {
   let _sort = req.query.sort;
   const allQueues = await queues.find();
 
-  let response = [];
+  let response: any[] = [];
 
   allQueues.forEach((q) => {
     response.push({
@@ -80,6 +80,8 @@ export default async (req: Request, res: Response) => {
           if (a.name.toLowerCase() > b.name.toLowerCase()) {
             return 1;
           }
+
+          return -1;
         });
 
         break;
@@ -92,6 +94,8 @@ export default async (req: Request, res: Response) => {
           if (b.name.toLowerCase() > a.name.toLowerCase()) {
             return 1;
           }
+
+          return -1;
         });
 
         break;
@@ -104,6 +108,8 @@ export default async (req: Request, res: Response) => {
           if (a.name.toLowerCase() > b.name.toLowerCase()) {
             return 1;
           }
+
+          return -1;
         });
 
         break;
@@ -117,6 +123,8 @@ export default async (req: Request, res: Response) => {
       if (a.name.toLowerCase() > b.name.toLowerCase()) {
         return 1;
       }
+
+      return -1;
     });
   }
 

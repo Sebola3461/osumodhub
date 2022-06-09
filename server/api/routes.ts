@@ -15,6 +15,8 @@ import AuthenticateUser from "./users/AuthenticateUser";
 import GetUserBeatmaps from "./users/GetUserBeatmaps";
 const api = Router();
 
+api.get("/", (req, res) => res.status(200).send({ status: 200, message: "" }));
+
 // ? put
 api.put("/requests/:request", UpdateRequest);
 
