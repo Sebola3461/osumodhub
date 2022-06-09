@@ -8,7 +8,7 @@
     },
     "proxies": {
         "/api/*": {
-            "origin": "http://localhost:3040/"
+            "origin": "http://localhost:${PORT}/"
         }
     }
   }
