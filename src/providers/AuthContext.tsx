@@ -23,7 +23,7 @@ function getStoredUser() {
         username: "Guest",
         hasQueue: false,
       });
-  } catch (e) {
+  } catch (e: any) {
     user = user;
   }
 

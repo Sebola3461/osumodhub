@@ -1,6 +1,6 @@
 import { User, UserGroup } from "./../../../src/types/user";
 
-export default function parseUsergroup(mapper: User): string {
+export default function parseUsergroup(mapper: User) {
   const userGroupInfo: any = {
     PPY: {
       index: 0,

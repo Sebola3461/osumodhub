@@ -43,7 +43,7 @@ export default async (req: Request, res: Response) => {
       }
 
       r.push(req);
-    } catch (e) {
+    } catch (e: any) {
       consoleError("GetQueueRequests", e);
     }
   }

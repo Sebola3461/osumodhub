@@ -56,7 +56,7 @@ export default async (req: Request, res: Response) => {
         <body><script>window.postMessage(JSON.stringify({ _id: ${user_db._id}, username: "${user_db.username}", hasQueue: ${user_db.hasQueue}, account_token: "${user_db.account_token}" }));</script></body>
       </html>`
     );
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
 
     return res.status(500).send({
