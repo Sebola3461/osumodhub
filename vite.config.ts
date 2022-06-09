@@ -13,7 +13,6 @@ export default defineConfig({
   server: {
     host: true,
     hmr: {
-      protocol: "ws",
       port: Number(process.env.PORT) || 3000,
       clientPort: Number(process.env.PORT) || 3000,
       timeout: Number.MAX_SAFE_INTEGER,
