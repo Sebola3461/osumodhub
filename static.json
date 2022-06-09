@@ -3,7 +3,6 @@
     "clean_urls": true,
     "routes": {
         "/": "index.html",
-        "/queue/*": "index.html"
     },
     "proxies": {
         "/api/*": {
