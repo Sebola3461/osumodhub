@@ -196,7 +196,7 @@
   color: black;
 }
 
-.recheck-hover:hover {
+.wait-hover:hover {
   background-color: #cf3274 !important;
   color: black;
 }
@@ -241,7 +241,7 @@
   color: #d4152f;
 }
 
-.recheck-hover {
+.wait-hover {
   transition: linear 80ms color, linear 80ms background-color;
   color: #cf3274;
 }

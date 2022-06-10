@@ -141,7 +141,7 @@ function App() {
               <>
                 <option value="any">Any</option>
                 <option value="nominator">Nominators</option>
-                <option value="modder">Modder</option>
+                <option value="modder">Modders</option>
               </>
             }
             onSelect={(ev: any) => {

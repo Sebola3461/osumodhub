@@ -265,7 +265,7 @@ export default ({
       }}
       className="nominate-hover"
     >
-      Finish
+      Nominated
     </MenuItem>,
     <MenuItem
       data={{
