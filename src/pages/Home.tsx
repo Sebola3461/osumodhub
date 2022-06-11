@@ -65,7 +65,7 @@ function App() {
     setLoading(true);
 
     fetch(
-      `/api/queues/listing?q=${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}`
+      `/api/queues/listing?q=${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${filters.type}`
     )
       .then((r) => r.json())
       .then((q) => {
