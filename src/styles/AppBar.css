@@ -39,6 +39,14 @@
   margin-right: 15px;
 }
 
+#appbar .links-row .page-anchor {
+  color: var(--background7) !important;
+}
+
+#appbar .links-row .page-anchor:visited {
+  color: var(--background7) !important;
+}
+
 #appbar .right-content {
   margin-left: auto;
   width: fit-content;

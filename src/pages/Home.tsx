@@ -17,6 +17,8 @@ import { QueuePanelContext } from "../providers/QueuePanelContext";
 import DestroySession from "../helpers/DestroySession";
 import SyncQueueData from "../helpers/SyncQueueData";
 import CreateNewQueue from "../helpers/CreateNewQueue";
+import MyRequestsPanel from "../components/global/MyRequestsPanel";
+import { MyRequestPanelContext } from "../providers/MyRequestsPanelContext";
 
 function App() {
   const [queues, setQueues] = useState([]);
@@ -32,6 +34,7 @@ function App() {
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
   const queuePanelContext = useContext(QueuePanelContext);
+  const requestsPanelContext = useContext(MyRequestPanelContext);
 
   useEffect(() => {
     setLoading(true);
@@ -91,6 +94,7 @@ function App() {
       <AppBar></AppBar>
       <PageBanner src="/static/images/homebanner.png"></PageBanner>
       <QueuePanel></QueuePanel>
+      <MyRequestsPanel></MyRequestsPanel>
       <SideMenu
         _open={sideMenuContext.open}
         options={[
@@ -104,13 +108,19 @@ function App() {
             },
           },
           {
+            label: "My Requests",
+            callback: () => {
+              requestsPanelContext.setOpen(true);
+            },
+          },
+          {
             label: "Log-out",
             callback: () => {
               DestroySession();
             },
           },
         ]}
-        title="User"
+        title={`Hello, ${login.username}!`}
       ></SideMenu>
       <HeaderPanel
         style={{

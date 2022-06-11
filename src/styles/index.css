@@ -118,3 +118,11 @@ div.separator {
   background-color: var(--background3);
   margin: 10px 0px;
 }
+
+a {
+  color: var(--ocean);
+}
+
+a:visited {
+  color: var(--ocean);
+}

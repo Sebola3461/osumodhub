@@ -291,7 +291,7 @@ export default () => {
             },
           },
         ]}
-        title="User"
+        title={`Hello, ${login.username}!`}
       ></SideMenu>
       <div className="queuelayout">
         <HeaderPanel
@@ -358,7 +358,7 @@ export default () => {
                     login._id == -1 ? "red" : queue.open ? "green" : "red"
                   })`,
                   color: `${
-                    login._id == -1 ? "white" : queue.open ? "black" : "red"
+                    login._id == -1 ? "white" : queue.open ? "black" : "white"
                   }`,
                 }}
                 onClick={() => {

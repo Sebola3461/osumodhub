@@ -6,6 +6,7 @@ import FollowQueue from "./queues/FollowQueue";
 import GetFollowers from "./queues/GetFollowers";
 import GetQueue from "./queues/GetQueue";
 import GetQueueRequests from "./queues/GetQueueRequests";
+import GetUserRequests from "./queues/GetUserRequests";
 import ListQueues from "./queues/ListQueues";
 import RemoveFollower from "./queues/RemoveFollower";
 import SyncQueue from "./queues/SyncQueue";
@@ -27,6 +28,7 @@ api.get("/queues/:id", GetQueue);
 api.get("/queues/:queue/requests", GetQueueRequests);
 api.get("/users/:user/beatmaps", GetUserBeatmaps);
 api.get("/validate/", AuthenticateUser);
+api.get("/users/:user/requests/", GetUserRequests);
 
 // ? post
 api.post("/queues/new", CreateNewQueue);
