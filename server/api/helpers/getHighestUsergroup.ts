@@ -66,7 +66,7 @@ export default function parseUsergroup(mapper: User) {
     groups[index].icon = userGroupInfo[g.short_name].icon;
   });
 
-  if (!groups) return "mapper";
+  if (!groups) return "modder";
 
   console.log(groups);
 
@@ -82,6 +82,6 @@ export default function parseUsergroup(mapper: User) {
     if (["nat", "bn"].includes(group.short_name.toLowerCase()))
       return group.short_name;
   } else {
-    return "mapper";
+    return "modder";
   }
 }
