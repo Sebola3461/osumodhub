@@ -9,29 +9,27 @@ import DiscordEmbed from "./middlewares/DiscordEmbed";
 const app = express();
 
 if (process.env.NODE_ENV == "development") {
-app.use(
-  "/assets",
-  express.static(path.resolve(__dirname.concat("/../dist/assets/")))
-)
-app.use(
-  "/static",
-  express.static(path.resolve(__dirname.concat("/../src/static/")))
-)
+  app.use(
+    "/assets",
+    express.static(path.resolve(__dirname.concat("/../dist/assets/")))
+  );
+  app.use(
+    "/static",
+    express.static(path.resolve(__dirname.concat("/../src/static/")))
+  );
 
-app.use(json());
-app.get("*", DiscordEmbed);
-app.use("/api/", ApiRoutes);
-app.use("/", ClientRoutes);
+  app.use(json());
+  app.get("*", DiscordEmbed);
+  app.use("/api/", ApiRoutes);
+  app.use("/", ClientRoutes);
 
-app.listen(process.env.PORT || 3000, () => {
-  consoleCheck("Server", "Server running!");
-})
+  app.listen(process.env.PORT || 3000, () => {
+    consoleCheck("Server", "Server running!");
+  });
 } else {
   app.use(json());
   app.get("*", DiscordEmbed);
   app.use("/api/", ApiRoutes);
 }
 
-
 export default app;
-export const handler: Handler = app;
