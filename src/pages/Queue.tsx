@@ -33,6 +33,8 @@ import { QueuePanelContext } from "../providers/QueuePanelContext";
 import DestroySession from "../helpers/DestroySession";
 import SyncQueueData from "../helpers/SyncQueueData";
 import CreateNewQueue from "../helpers/CreateNewQueue";
+import { MyRequestPanelContext } from "../providers/MyRequestsPanelContext";
+import MyRequestsPanel from "../components/global/MyRequestsPanel";
 
 export default () => {
   const icons = [
@@ -55,6 +57,7 @@ export default () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [followersCount, setFollowersCount] = useState(0);
   const [followButtonIcon, setFollowButtonIcon] = useState(faUser);
+  const requestsPanelContext = useContext(MyRequestPanelContext);
 
   const [queue, setQueue] = useState({
     _id: "",
@@ -272,6 +275,7 @@ export default () => {
         requests={requests}
       ></RequestPanel>
       <QueuePanel></QueuePanel>
+      <MyRequestsPanel></MyRequestsPanel>
       <SideMenu
         _open={sideMenuContext.open}
         options={[
@@ -282,6 +286,12 @@ export default () => {
               login.hasQueue
                 ? queuePanelContext.setOpen(true)
                 : CreateNewQueue(login);
+            },
+          },
+          {
+            label: "My Requests",
+            callback: () => {
+              requestsPanelContext.setOpen(true);
             },
           },
           {
