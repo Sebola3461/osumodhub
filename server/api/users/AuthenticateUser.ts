@@ -25,7 +25,7 @@ export default async (req: Request, res: Response) => {
 
     const tokenOwner = await getOsuTokenOwner(osuTokens.data.access_token);
 
-    if (tokenOwner.status != 200)
+    if (tokenOwner.status != 200 || !tokenOwner.data)
       return res.status(tokenOwner.status).send({
         status: tokenOwner.status,
         message: tokenOwner.message,
@@ -53,7 +53,7 @@ export default async (req: Request, res: Response) => {
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <title>Please wait...</title>
         </head>
-        <body><script>window.postMessage(JSON.stringify({ _id: ${user_db._id}, username: "${user_db.username}", hasQueue: ${user_db.hasQueue}, account_token: "${user_db.account_token}" }));</script></body>
+        <body><script>window.postMessage(JSON.stringify({ _id: ${user_db._id}, username: "${user_db.username}", hasQueue: ${user_db.hasQueue}, account_token: "${user_db.account_token}" })); window.close()</script></body>
       </html>`
     );
   } catch (e: any) {

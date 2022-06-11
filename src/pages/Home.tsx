@@ -180,8 +180,8 @@ function App() {
             label="Sort by"
             options={
               <>
-                <option value="ab">Name (A-b)</option>
-                <option value="ba">Name (B-a)</option>
+                <option value="ab">Name (A-Z)</option>
+                <option value="ba">Name (Z-A)</option>
               </>
             }
             onSelect={(ev: any) => {

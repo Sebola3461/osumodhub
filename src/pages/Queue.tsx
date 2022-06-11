@@ -160,6 +160,13 @@ export default () => {
     document.title = `${queue.name} | osu!modhub`;
   }, [queue]);
 
+  function loginWarn() {
+    return enqueueSnackbar("Log-in to do this!", {
+      variant: "error",
+      persist: false,
+    });
+  }
+
   function refreshRequests() {
     const queue_id = window.location.pathname.split("").pop()
       ? window.location.pathname.split("/").pop()?.trim()
@@ -350,22 +357,31 @@ export default () => {
                   backgroundColor: `var(--${
                     login._id == -1 ? "red" : queue.open ? "green" : "red"
                   })`,
+                  color: `${
+                    login._id == -1 ? "white" : queue.open ? "black" : "red"
+                  }`,
                 }}
                 onClick={() => {
-                  if (login._id == -1) return;
+                  if (login._id == -1) return loginWarn();
                   setOpen(queue.open);
                 }}
               >
                 Request
               </button>
               <button
-                className="custombuttom"
-                onClick={updateFollow}
+                className={
+                  followers.find((f: { _user: any }) => f._user == login._id)
+                    ? "custombutton following-button"
+                    : "custombuttom"
+                }
+                onClick={() => {
+                  if (login._id == -1) return loginWarn();
+                  updateFollow();
+                }}
                 onMouseOver={() => {
                   updateFollowButtonIcon(true);
                 }}
                 onMouseLeave={() => {
-                  console.log("eae");
                   updateFollowButtonIcon(false);
                 }}
               >

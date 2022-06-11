@@ -31,7 +31,7 @@ export default () => {
         </Link>
       </div>
       <div className="right-content">
-        <div
+        { login._id == -1 ? <button onClick={StartAuthentication}>Log-in</button> : <div
           className="avatar"
           onClick={() => {
             login._id == -1
@@ -41,7 +41,7 @@ export default () => {
           style={{
             backgroundImage: `url(https://a.ppy.sh/${login._id})`,
           }}
-        ></div>
+        ></div>}
       </div>
     </div>
   );

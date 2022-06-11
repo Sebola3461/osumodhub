@@ -134,6 +134,11 @@
   align-items: flex-start;
 }
 
+.following-button {
+  border: none;
+  background: var(--pink);
+}
+
 .pending {
   background-color: rgb(255 124 0) !important;
 }

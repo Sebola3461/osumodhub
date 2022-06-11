@@ -34,10 +34,10 @@ interface IQueue {
 
 export default ({ queue }: { queue: IQueue }) => {
   const icons = [
-    <OsuIcon color="white"></OsuIcon>,
-    <TaikoIcon color="white"></TaikoIcon>,
-    <CatchIcon color="white"></CatchIcon>,
-    <ManiaIcon color="white"></ManiaIcon>,
+    <OsuIcon color="white" width="1em"></OsuIcon>,
+    <TaikoIcon color="white" width="1em"></TaikoIcon>,
+    <CatchIcon color="white" width="1em"></CatchIcon>,
+    <ManiaIcon color="white" width="1em"></ManiaIcon>,
   ];
 
   const typeColors: { [key: string]: string } = {
