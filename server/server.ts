@@ -21,7 +21,6 @@ if (process.env.NODE_ENV == "development") {
   app.use(json());
   app.get("*", DiscordEmbed);
   app.use("/api/", ApiRoutes);
-  app.use("/", ClientRoutes);
 
   app.listen(process.env.PORT || 3000, () => {
     consoleCheck("Server", "Server running!");
@@ -30,6 +29,8 @@ if (process.env.NODE_ENV == "development") {
   app.use(json());
   app.get("*", DiscordEmbed);
   app.use("/api/", ApiRoutes);
+  app.use("/", ClientRoutes);
 }
 
 export default app;
+export const handler: Handler = app;
