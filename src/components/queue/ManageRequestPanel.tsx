@@ -10,7 +10,7 @@ import RequestSelector from "../global/RequestSelector";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import { useSnackbar } from "notistack";
 
-export default () => {
+export default ({ queue }: { queue: any }) => {
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
   const [loading, setLoading] = useState(false);
@@ -237,7 +237,7 @@ export default () => {
               }}
             ></textarea>
             <div className="options">
-              {login.isBn
+              {["BN", "NAT"].includes(queue.type)
                 ? bn_options.map((o) => o)
                 : modder_options.map((o) => o)}
             </div>

@@ -278,7 +278,7 @@ export default () => {
       ></RequestPanel>
       <QueuePanel></QueuePanel>
       <MyRequestsPanel></MyRequestsPanel>
-      <ManageRequestPanel></ManageRequestPanel>
+      <ManageRequestPanel queue={queue}></ManageRequestPanel>
       <SideMenu
         _open={sideMenuContext.open}
         options={[

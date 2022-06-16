@@ -73,7 +73,7 @@ export default async (req: Request, res: Response) => {
       message: "Invalid status provided",
     });
 
-  if (requestedStatus.bn && !queue_owner.isBn)
+  if (requestedStatus.bn && !["BN", "NAT"].includes(queue.type))
     return res.status(400).send({
       status: 400,
       message: "You can't use this status!",
