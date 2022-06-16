@@ -342,7 +342,7 @@ export default ({
           >
             <div
               aria-label={_request.reply}
-              data-balloon-pos="up"
+              data-balloon-pos={_request.reply != "" ? "up" : "hidden"}
               data-balloon-length="fit"
             >
               <Tag
