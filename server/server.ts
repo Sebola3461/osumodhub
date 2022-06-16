@@ -5,8 +5,9 @@ import { ApiRoutes } from "./api/routes";
 import { ClientRoutes } from "./client/routes";
 import { consoleCheck } from "./helpers/logger";
 import DiscordEmbed from "./middlewares/DiscordEmbed";
-
+import TimeClose from "./workers/TimeClose";
 const app = express();
+TimeClose();
 
 if (process.env.NODE_ENV == "production") {
   app.use(

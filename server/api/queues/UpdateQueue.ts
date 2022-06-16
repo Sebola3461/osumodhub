@@ -45,6 +45,10 @@ export default async (req: Request, res: Response) => {
         typeof req.body.open == "boolean"
       ) {
         queue.open = Boolean(req.body.open);
+
+        if (queue.timeclose.enable) {
+          queue.timeclose.scheduled = new Date();
+        }
       }
 
       // ? Update description
@@ -95,6 +99,14 @@ export default async (req: Request, res: Response) => {
               ? req.body.allow.cross
               : queue.allow.cross,
         };
+      }
+
+      // ? Update timeclose settings
+      if (req.body.timeclose && typeof req.body.allow == "object") {
+        queue.timeclose.enable =
+          typeof Boolean(req.body.timeclose.enable) == "boolean"
+            ? Boolean(req.body.timeclose.enable)
+            : queue.timeclose.enable;
       }
 
       // ? Update modes

@@ -240,6 +240,44 @@ export default () => {
                 />
               </div>
               <div className="separator"></div>
+              <div className="option">
+                <p>It stars after you open the queue</p>
+              </div>
+              <div className="option">
+                <p>Enable time-close:</p>
+                <Switch
+                  defaultChecked={_queue.autoclose.enable}
+                  onInput={(ev: any) => {
+                    updateQueueOption("timeclose", {
+                      enable: ev.target.checked,
+                      scheduled: _queue.timeclose.scheduled,
+                      close: _queue.timeclose.close,
+                    });
+                  }}
+                />
+              </div>
+              <div className="option">
+                <p>Close after (days):</p>
+                <input
+                  type="number"
+                  defaultValue={_queue.timeclose.close}
+                  min={1}
+                  max={31}
+                  style={{
+                    marginLeft: "5px",
+                  }}
+                  onInput={(ev: any) => {
+                    delete _queue.timeclose.size;
+                    _queue.timeclose.close = 1;
+
+                    updateQueueOption("autoclose", {
+                      enable: _queue.timeclose.enable,
+                      close: ev.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="separator"></div>
               <div className="option  wide">
                 <p>Preferences:</p>
                 <TagsInput
