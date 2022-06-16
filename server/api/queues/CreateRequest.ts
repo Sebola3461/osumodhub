@@ -65,6 +65,14 @@ export default async (req: Request, res: Response) => {
 
   comment = comment.trim();
 
+  if (
+    !["pending", "graveyard", "wip"].includes(requestedBeatmapset.data.status)
+  )
+    return res.status(400).send({
+      status: 400,
+      message: `You can't request a beatmap with this status!`,
+    });
+
   // ? Check queue requirements
   if (
     (!queue.allow.graveyard &&

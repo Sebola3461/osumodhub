@@ -6,6 +6,7 @@ import { RequestContext } from "../../../providers/RequestContext";
 import { Beatmapset } from "../../../types/beatmap";
 import BeatmapSelector from "../../global/BeatmapSelector";
 import "./../../../styles/BeatmapsTab.css";
+import { useSnackbar } from "notistack";
 
 export default ({
   setUserBeatmaps,
@@ -22,11 +23,16 @@ export default ({
   const { request, setRequest } = useContext(RequestContext);
   const [selected, setSelected] = useState(request.beatmap.id);
   const [beatmapFetch, setBeatmapFetch] = useState<any>("0");
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   function fetchBeatmap() {
     const url = new URL(beatmapFetch);
 
-    if (url.host != "osu.ppy.sh") return;
+    if (url.host != "osu.ppy.sh")
+      return enqueueSnackbar("This isn't an osu! beatmap url!", {
+        variant: "error",
+      });
+
     const id = GetBeatmapsetID(url.pathname);
 
     setLoading(true);
@@ -38,7 +44,10 @@ export default ({
       .then((r) => r.json())
       .then((d) => {
         setLoading(false);
-        if (d.status != 200) return;
+        if (d.status != 200)
+          return enqueueSnackbar(d.message, {
+            variant: "error",
+          });
 
         userBeatmaps.unshift(d.data);
         setUserBeatmaps(userBeatmaps);
