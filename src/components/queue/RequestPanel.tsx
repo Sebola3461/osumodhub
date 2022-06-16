@@ -64,6 +64,7 @@ export default ({
       userBeatmaps={userBeatmaps}
       setUserBeatmaps={setUserBeatmaps}
       queue={queue}
+      setTab={setTab}
     ></BeatmapsTab>,
     <RequestTab
       queue={queue}

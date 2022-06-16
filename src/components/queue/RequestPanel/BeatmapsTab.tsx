@@ -12,10 +12,12 @@ export default ({
   setUserBeatmaps,
   userBeatmaps,
   queue,
+  setTab,
 }: {
   userBeatmaps: Beatmapset[];
   setUserBeatmaps: any;
   queue: any;
+  setTab: any;
 }) => {
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
@@ -51,6 +53,10 @@ export default ({
 
         userBeatmaps.unshift(d.data);
         setUserBeatmaps(userBeatmaps);
+        setSelected(d.data.id);
+        request.beatmap = d.data;
+        setRequest(request);
+        setTab(1);
       });
   }
 
@@ -69,6 +75,11 @@ export default ({
     </div>
   );
 
+  function selectBeatmap(b: any) {
+    setSelected(b);
+    setTab(1);
+  }
+
   return (
     <div className={loading ? "beatmapstab loading" : "beatmapstab"}>
       {!queue.allow.cross ? login._id != queue._id ? <></> : search : search}
@@ -77,7 +88,7 @@ export default ({
           <BeatmapSelector
             beatmapset={b}
             selected={selected}
-            onClick={setSelected}
+            onClick={selectBeatmap}
           ></BeatmapSelector>
         ))}
       </div>
