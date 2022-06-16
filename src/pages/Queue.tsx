@@ -330,9 +330,12 @@ export default () => {
                 border: `5px solid var(--${queue.open ? "green" : "red"})`,
               }}
             ></div>
-            <p className="queuename" onClick={() => {
-              window.open(`https://osu.ppy.sh/u/${queue._id}`)
-            }}>
+            <p
+              className="queuename"
+              onClick={() => {
+                window.open(`https://osu.ppy.sh/u/${queue._id}`);
+              }}
+            >
               {queue.name}
               {queue.verified ? (
                 <FontAwesomeIcon
@@ -380,7 +383,7 @@ export default () => {
                   if (login._id == -1) return loginWarn();
                   if (!queue.open && login._id != queue._id) return;
 
-                  setOpen(queue.open);
+                  setOpen(true);
                 }}
               >
                 Request
