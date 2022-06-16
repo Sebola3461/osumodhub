@@ -70,6 +70,7 @@
 
 .queuename:hover {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .headerleft .modeicon {
