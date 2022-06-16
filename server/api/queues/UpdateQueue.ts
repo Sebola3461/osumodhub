@@ -82,21 +82,18 @@ export default async (req: Request, res: Response) => {
       // ? Update allow settings
       if (req.body.allow && typeof req.body.allow == "object") {
         queue.allow = {
-          wip: req.body.allow.wip
-            ? typeof Boolean(req.body.allow.wip) == "boolean"
+          wip:
+            typeof Boolean(req.body.allow.wip) == "boolean"
               ? Boolean(req.body.allow.wip)
-              : queue.allow.wip
-            : queue.allow.wip,
-          graveyard: req.body.allow.graveyard
-            ? typeof req.body.allow.graveyard == "boolean"
+              : queue.allow.wip,
+          graveyard:
+            typeof req.body.allow.graveyard == "boolean"
               ? req.body.allow.graveyard
-              : queue.allow.graveyard
-            : queue.allow.graveyard,
-          cross: req.body.allow.cross
-            ? typeof req.body.allow.cross == "boolean"
+              : queue.allow.graveyard,
+          cross:
+            typeof req.body.allow.cross == "boolean"
               ? req.body.allow.cross
-              : queue.allow.cross
-            : queue.allow.cross,
+              : queue.allow.cross,
         };
       }
 

@@ -54,24 +54,24 @@ export default ({
       });
   }
 
+  const search = (
+    <div className="beatmapinput">
+      <input
+        type="text"
+        placeholder="Paste beatmapset url here"
+        onInput={(ev: any) => {
+          setBeatmapFetch(ev.target.value);
+        }}
+      />
+      <button className="search" onClick={fetchBeatmap}>
+        Fetch
+      </button>
+    </div>
+  );
+
   return (
     <div className={loading ? "beatmapstab loading" : "beatmapstab"}>
-      {!queue.allow.cross ? (
-        <></>
-      ) : (
-        <div className="beatmapinput">
-          <input
-            type="text"
-            placeholder="Paste beatmapset url here"
-            onInput={(ev: any) => {
-              setBeatmapFetch(ev.target.value);
-            }}
-          />
-          <button className="search" onClick={fetchBeatmap}>
-            Fetch
-          </button>
-        </div>
-      )}
+      {!queue.allow.cross ? login._id != queue._id ? <></> : search : search}
       <div className="beatmaps">
         {userBeatmaps.map((b) => (
           <BeatmapSelector
