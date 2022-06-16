@@ -11,7 +11,7 @@ export default async (user: User) => {
       username: user.username,
       account_token: accountToken,
       country: {
-        name: user.country.code,
+        name: user.country.code.toLowerCase(),
         code: user.country.name,
       },
     });

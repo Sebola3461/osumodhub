@@ -92,7 +92,7 @@ export default ({ queue }: { queue: IQueue }) => {
           <div
             className="flag"
             style={{
-              backgroundImage: `url(${queue.country.flag})`,
+              backgroundImage: `url(${queue.country.flag.toLowerCase()})`,
             }}
           ></div>
           {queue.modes.map((m, i) => {

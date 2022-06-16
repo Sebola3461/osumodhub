@@ -55,7 +55,7 @@ export default async (req: Request, res: Response) => {
     country: {
       acronym: user.data.country.code,
       name: user.data.country.name,
-      flag: `https://flagcdn.com/${user.data.country.code}.svg`,
+      flag: `https://flagcdn.com/${user.data.country.code.toLowerCase()}.svg`,
     },
   });
 
