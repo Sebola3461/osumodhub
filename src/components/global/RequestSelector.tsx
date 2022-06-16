@@ -340,7 +340,11 @@ export default ({
               backgroundImage: `url(${_request.beatmap.covers["cover@2x"]})`,
             }}
           >
-            <div aria-label={_request.reply} data-balloon-pos="up">
+            <div
+              aria-label={_request.reply}
+              data-balloon-pos="up"
+              data-balloon-length="fit"
+            >
               <Tag
                 content={texts[_request.status]}
                 type={_request.status}
