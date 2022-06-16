@@ -70,24 +70,27 @@ export default ({ queue }: { queue: any }) => {
       });
 
     function deleteRequest() {
-      fetch(`/api/requests/${request._id}`, {
-        method: "delete",
-        headers: {
-          authorization: login.account_token,
-        },
-      })
-        .then((r) => r.json())
-        .then((d) => {
-          setLoading(false);
-          enqueueSnackbar(d.message, {
-            variant: d.status == 200 ? "success" : "error",
-          });
+      if (confirm("Are you sure?")) {
+        setLoading(true);
+        fetch(`/api/requests/${request._id}`, {
+          method: "delete",
+          headers: {
+            authorization: login.account_token,
+          },
+        })
+          .then((r) => r.json())
+          .then((d) => {
+            setLoading(false);
+            enqueueSnackbar(d.message, {
+              variant: d.status == 200 ? "success" : "error",
+            });
 
-          if (d.status == 200) {
-            request.status = status;
-            setRequest(request);
-          }
-        });
+            if (d.status == 200) {
+              request.status = status;
+              setRequest(request);
+            }
+          });
+      }
     }
   }
 

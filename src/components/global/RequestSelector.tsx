@@ -228,10 +228,12 @@ export default ({
         status: "deleted",
       }}
       onClick={() => {
-        deleteRequest({
-          request: _request,
-          status: "deleted",
-        });
+        if (confirm("Are you sure?")) {
+          deleteRequest({
+            request: _request,
+            status: "deleted",
+          });
+        }
       }}
       className="delete-hover"
     >
@@ -329,6 +331,23 @@ export default ({
       className="archive-hover"
     >
       Archive
+    </MenuItem>,
+    <MenuItem
+      data={{
+        request: _request,
+        status: "deleted",
+      }}
+      onClick={() => {
+        if (confirm("Are you sure?")) {
+          deleteRequest({
+            request: _request,
+            status: "deleted",
+          });
+        }
+      }}
+      className="delete-hover"
+    >
+      Delete
     </MenuItem>,
   ];
 
