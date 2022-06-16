@@ -82,13 +82,18 @@ export default async (req: Request, res: Response) => {
 
       if (!requestQueue) {
         const newQueue = await queues.findById(req._queue);
+
+        if (newQueue == null) await requests.deleteOne({ _id: req._id });
+
         newReq.queue = newQueue;
         queueCache.push(newQueue);
       } else {
         newReq.queue = requestQueue;
       }
 
-      requestWithQueue.push(newReq);
+      if (newReq.queue) {
+        requestWithQueue.push(newReq);
+      }
     } catch (e: any) {
       console.error(e);
       consoleError("GetUserRequests", "osh caraio");

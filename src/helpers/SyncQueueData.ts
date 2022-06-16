@@ -1,5 +1,5 @@
 export default (user: any) => {
-  if (user._id == -1) return;
+  if (user._id == -1 || !user.hasQueue) return;
 
   fetch("/api/queues/sync", {
     method: "post",
@@ -10,7 +10,6 @@ export default (user: any) => {
     .then((r) => r.json())
     .then((data) => {
       if (data.status != 200)
-        return window.alert(`We can't sync your queue!
-        ${data.message}`);
+        return window.alert(`We can't sync your queue!\n${data.message}`);
     });
 };
