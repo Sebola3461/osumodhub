@@ -102,11 +102,19 @@ export default async (req: Request, res: Response) => {
       }
 
       // ? Update timeclose settings
-      if (req.body.timeclose && typeof req.body.allow == "object") {
+      if (req.body.timeclose && typeof req.body.timeclose.allow == "object") {
         queue.timeclose.enable =
           typeof Boolean(req.body.timeclose.enable) == "boolean"
             ? Boolean(req.body.timeclose.enable)
             : queue.timeclose.enable;
+
+        if (
+          typeof req.body.timeclose.close == "number" &&
+          req.body.timeclose.close > 0 &&
+          req.body.timeclose.close < 32
+        ) {
+          queue.timeclose.close = req.body.timeclose.close;
+        }
       }
 
       // ? Update modes
