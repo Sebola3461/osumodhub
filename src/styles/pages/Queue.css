@@ -69,7 +69,7 @@
 }
 
 .queuename:hover {
-  text-decoration: overline;
+  text-decoration: underline;
 }
 
 .headerleft .modeicon {
