@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { users } from "../../../database";
+import { queues, users } from "../../../database";
 import createNewUser from "../../../database/helpers/createNewUser";
 import getOsuTokenOwner from "../helpers/getOsuTokenOwner";
 import validateOsuToken from "../helpers/validateOsuToken";
@@ -43,6 +43,17 @@ export default async (req: Request, res: Response) => {
         });
 
       user_db = newUser.data;
+    }
+
+    const userQueue = await queues.findById(user_db._id);
+
+    if (userQueue) {
+      users.updateOne(
+        { _id: user_db._id },
+        {
+          hasQueue: true,
+        }
+      );
     }
 
     return res.status(200).send(

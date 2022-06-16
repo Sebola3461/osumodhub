@@ -64,7 +64,7 @@ export default async (req: Request, res: Response) => {
   const newQueueResponse = await queues.findById(author._id);
 
   await users.updateOne(
-    { _id: author.id },
+    { _id: author._id },
     {
       hasQueue: true,
     }
