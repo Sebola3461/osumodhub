@@ -399,9 +399,9 @@ export default ({
               {_request.cross ? (
                 <div
                   className="crossrequesticon"
-                  aria-label={`This is a cross request.\nRequested by ${_request._owner_name}`}
+                  aria-label={`Requested by ${_request._owner_name}`}
                   data-balloon-pos="up"
-                  data-balloon-length="fit"
+                  data-balloon-length="medium"
                 >
                   <FontAwesomeIcon icon={faRandom} />
                 </div>
