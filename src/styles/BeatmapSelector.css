@@ -18,7 +18,6 @@
 
 .beatmapselector:hover {
   width: 90%;
-  height: 120px;
 }
 
 .beatmapselector:hover > .content {

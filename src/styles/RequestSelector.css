@@ -1,5 +1,6 @@
 .requestselector {
   width: 210px;
+  min-width: 210px;
   min-height: 255px;
   border-radius: 0.5rem;
   background-color: var(--background2);
@@ -9,7 +10,6 @@
   align-content: center;
   justify-content: flex-start;
   align-items: center;
-  overflow: hidden;
   margin: 10px;
   transition: filter 120ms linear;
   filter: brightness(1);
@@ -41,6 +41,7 @@
   justify-content: flex-end;
   align-items: flex-start;
   position: relative;
+  border-radius: 0.5rem 0.5rem 0px 0px;
 }
 .requestselector .banner * {
   z-index: 1;
@@ -54,6 +55,7 @@
   top: 0;
   left: 0;
   background-color: #00000094;
+  border-radius: 0.5rem 0.5rem 0px 0px;
 }
 
 .requestselector .banner .tag {

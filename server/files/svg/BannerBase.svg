@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1280" height="720" viewBox="0 0 1280 720" xml:space="preserve">
+<desc>Created with Fabric.js 4.2.0</desc>
+<defs>
+</defs>
+<g transform="matrix(1 0 0 1 640 360)" id="30aeb646-b34e-4abf-828d-0a54ede31470"  >
+<rect style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x="-640" y="-360" rx="0" ry="0" width="1280" height="720" />
+</g>
+<g transform="matrix(Infinity NaN NaN Infinity 0 0)" id="4a8e39f2-369d-48bc-8bb9-2f978a91da6c"  >
+</g>
+<g transform="matrix(1.17 0 0 0.44 640 360)" id="d72a91fc-8654-4d8e-bc0c-7a5200236daa"  >
+	<image style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  xlink:href="{queue_icon}" x="0" y="0" width="1280" height="720"></image>
+</g>
+<image style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  xlink:href="{queue_banner}" x="-540" y="-360" width="500" height="500"></image>
+<g transform="matrix(1 0 0 1 327.48 556.63)" style="" id="200d77f9-7d0b-46d6-9d55-cb24701c30f8"  >
+		<text xml:space="preserve" font-family="Arial" font-size="80" font-style="normal" font-weight="700" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-199.48" y="25.13" >{queue_name}</tspan></text>
+</g>
+</svg>

@@ -143,10 +143,6 @@
   background-color: rgb(255 124 0) !important;
 }
 
-.recheck {
-  background-color: #f44336 !important;
-}
-
 .accepted {
   background-color: #25ca6a !important;
 }
@@ -171,13 +167,17 @@
   background-color: #5f5f5f !important;
 }
 
+.waiting {
+  background-color: #f44336 !important;
+}
+
 .pending-hover:hover {
   background-color: rgb(255 124 0) !important;
   color: white;
 }
 
 .recheck-hover:hover {
-  background-color: #f44336 !important;
+  background-color: #cf3274 !important;
   color: white;
 }
 
@@ -202,7 +202,7 @@
 }
 
 .wait-hover:hover {
-  background-color: #cf3274 !important;
+  background-color: #f44336 !important;
   color: black;
 }
 
@@ -223,7 +223,7 @@
 
 .recheck-hover {
   transition: linear 80ms color, linear 80ms background-color;
-  color: #f44336;
+  color: #cf3274;
 }
 
 .accept-hover {

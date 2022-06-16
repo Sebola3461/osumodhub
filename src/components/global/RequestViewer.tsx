@@ -33,7 +33,13 @@ export interface IRequest {
   cross: boolean;
 }
 
-export default ({ request }: { request: IRequest }) => {
+export default ({
+  request,
+  type,
+}: {
+  request: IRequest;
+  type?: "manage" | "owner";
+}) => {
   const icons = [OsuIcon, TaikoIcon, CatchIcon, ManiaIcon];
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
@@ -93,10 +99,19 @@ export default ({ request }: { request: IRequest }) => {
         ></SpreadViewer>
         <p className="title">{_request.beatmap.title}</p>
         <p className="artist">{_request.beatmap.artist}</p>
-        <p className="mapper">
-          requested to
-          <a href={`/queue/${_request.queue._id}`}>{_request.queue.name}</a>
-        </p>
+        {type == "owner" || !type ? (
+          <p className="mapper">
+            requested to
+            <a href={`/queue/${_request.queue._id}`}>{_request.queue.name}</a>
+          </p>
+        ) : (
+          <p className="mapper">
+            requested by
+            <a href={`https://osu.ppy.sh/u/${_request._owner}`}>
+              {_request._owner_name}
+            </a>
+          </p>
+        )}
         <div className="comment">{_request.comment}</div>
       </div>
     </>

@@ -52,7 +52,7 @@
 }
 
 .queueselector:hover {
-  background-size: 300%;
+  background-size: 250%;
   filter: brightness(1.2);
 }
 

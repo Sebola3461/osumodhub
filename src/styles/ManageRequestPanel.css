@@ -1,0 +1,118 @@
+.managerequestpanel {
+  width: 100%;
+  height: calc(100% - 71px);
+  top: 71px;
+  position: fixed;
+  left: 0;
+  background-color: #000000e0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  filter: brightness(1);
+  transition: filter 120ms linear, opacity 120ms linear;
+}
+
+.managerequestpanel.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.managerequestpanel.loading {
+  filter: brightness(.6);
+}
+
+.managerequestpanel.closed {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.managerequestpanel.closed .container {
+  margin-right: -25px;
+}
+
+.managerequestpanel .container {
+  width: 90%;
+  max-width: 1000px;
+  height: 440px;
+  background-color: var(--background1);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: margin-right linear 80ms;
+}
+
+.managerequestpanel .container .paneltitle {
+  width: calc(100% - 40px);
+  height: 20px;
+  padding: 20px;
+  color: white;
+  border-bottom: 1px solid var(--background3);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.managerequestpanel .container .paneltitle svg {
+  cursor: pointer;
+}
+
+.managerequestpanel .container .layout {
+  display: flex;
+  width: 95%;
+  height: 86%;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  margin: auto;
+}
+
+.managerequestpanel .container .layout .vertical {
+  width: 100%;
+  height: 67%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+.managerequestpanel .container .layout .vertical textarea {
+  width: 90%;
+  height: 60%;
+  padding: 10px;
+  border-radius: 5px;
+  resize: none;
+}
+
+.managerequestpanel .container .layout .options {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+  margin-top: auto;
+}
+
+.managerequestpanel .container .layout .options .option {
+  padding: 8px;
+  border-radius: 5px;
+  margin-right: 10px;
+  cursor: pointer;
+}

@@ -38,7 +38,8 @@ export default async (req: Request, res: Response) => {
   if (user.status != 200 || !user.data)
     return res.status(400).send({
       status: 400,
-      message: "You don't have a osu! account or you're restricted.",
+      message:
+        "You don't have a osu! account or you're restricted. (Or osu!api sucks)",
     });
 
   const type = getHighestUsergroup(user.data);
@@ -55,6 +56,16 @@ export default async (req: Request, res: Response) => {
       type: type,
     }
   );
+
+  // ? Add bn flag to user
+  if (["BN", "NAT"].includes(type)) {
+    await users.updateOne(
+      { _id: user.data.id },
+      {
+        isBn: true,
+      }
+    );
+  }
 
   res.status(200).send({
     status: 200,

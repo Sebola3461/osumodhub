@@ -35,6 +35,7 @@ import SyncQueueData from "../helpers/SyncQueueData";
 import CreateNewQueue from "../helpers/CreateNewQueue";
 import { MyRequestPanelContext } from "../providers/MyRequestsPanelContext";
 import MyRequestsPanel from "../components/global/MyRequestsPanel";
+import ManageRequestPanel from "../components/queue/ManageRequestPanel";
 
 export default () => {
   const icons = [
@@ -57,6 +58,7 @@ export default () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [followersCount, setFollowersCount] = useState(0);
   const [followButtonIcon, setFollowButtonIcon] = useState(faUser);
+
   const requestsPanelContext = useContext(MyRequestPanelContext);
 
   const [queue, setQueue] = useState({
@@ -276,6 +278,7 @@ export default () => {
       ></RequestPanel>
       <QueuePanel></QueuePanel>
       <MyRequestsPanel></MyRequestsPanel>
+      <ManageRequestPanel></ManageRequestPanel>
       <SideMenu
         _open={sideMenuContext.open}
         options={[

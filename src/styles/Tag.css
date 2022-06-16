@@ -3,3 +3,7 @@
   padding: 2px 8px;
   border-radius: 1000px;
 }
+
+.tag svg {
+  margin-left: 5px;
+}

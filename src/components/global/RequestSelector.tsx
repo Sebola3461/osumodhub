@@ -12,10 +12,13 @@ import {
   MenuItem,
   ContextMenuTrigger,
 } from "./../../libs/react-contextmenu/es6/";
-import { faLitecoinSign } from "@fortawesome/free-solid-svg-icons";
+import { faChevronUp, faLitecoinSign } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthContext";
 import { useSnackbar } from "notistack";
+import { ManageRequestPanelContext } from "../../providers/ManageRequestPanelContext";
+import ReactTip from "@jswork/react-tip";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export interface IRequest {
   _id: string;
@@ -48,6 +51,7 @@ export default ({
   const [login, setLogin] = useState(JSON.parse(user));
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const manageRequestPanelContext = useContext(ManageRequestPanelContext);
   const [_request, setRequest] = useState<any>({
     beatmap: {
       covers: {},
@@ -314,11 +318,19 @@ export default ({
     </MenuItem>,
   ];
 
+  function manageRequest(request: any) {
+    manageRequestPanelContext.setRequest(request);
+    manageRequestPanelContext.setOpen(true);
+  }
+
   return (
     <>
       <ContextMenuTrigger id={`request-${_request._id}`}>
         <div
           className={loading ? "requestselector loading" : "requestselector"}
+          onClick={() => {
+            manageRequest(_request);
+          }}
         >
           <div
             className="banner"
@@ -326,7 +338,19 @@ export default ({
               backgroundImage: `url(${_request.beatmap.covers["cover@2x"]})`,
             }}
           >
-            <Tag content={texts[_request.status]} type={_request.status}></Tag>
+            <div aria-label={_request.reply} data-balloon-pos="up">
+              <Tag
+                content={texts[_request.status]}
+                type={_request.status}
+                icon={
+                  request.reply != "" ? (
+                    <FontAwesomeIcon icon={faChevronUp} />
+                  ) : (
+                    <></>
+                  )
+                }
+              ></Tag>
+            </div>
           </div>
           <SpreadViewer
             beatmaps={_request.beatmap.beatmaps || []}

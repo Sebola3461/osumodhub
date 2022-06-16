@@ -12,6 +12,7 @@ import { RequestPanelProvider } from "./providers/RequestPanelContext";
 import { QueuePanelProvider } from "./providers/QueuePanelContext";
 import { SnackbarProvider } from "notistack";
 import { MyRequestsPanelProvider } from "./providers/MyRequestsPanelContext";
+import { ManageRequestPanelProvider } from "./providers/ManageRequestPanelContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -27,18 +28,20 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <RequestContextProvider>
             <RequestPanelProvider>
               <QueuePanelProvider>
-                <MyRequestsPanelProvider>
-                  <BrowserRouter>
-                    <Routes>
-                      <Route path="/" element={<Home />}>
-                        <Route index element={<Home />} />
-                      </Route>
-                      <Route path="/queue/:user" element={<Queue />}>
-                        <Route index element={<Queue />} />
-                      </Route>
-                    </Routes>
-                  </BrowserRouter>
-                </MyRequestsPanelProvider>
+                <ManageRequestPanelProvider>
+                  <MyRequestsPanelProvider>
+                    <BrowserRouter>
+                      <Routes>
+                        <Route path="/" element={<Home />}>
+                          <Route index element={<Home />} />
+                        </Route>
+                        <Route path="/queue/:user" element={<Queue />}>
+                          <Route index element={<Queue />} />
+                        </Route>
+                      </Routes>
+                    </BrowserRouter>
+                  </MyRequestsPanelProvider>
+                </ManageRequestPanelProvider>
               </QueuePanelProvider>
             </RequestPanelProvider>
           </RequestContextProvider>

@@ -16,7 +16,9 @@ import AuthenticateUser from "./users/AuthenticateUser";
 import GetUserBeatmaps from "./users/GetUserBeatmaps";
 const api = Router();
 
-api.get("/", (req, res) => res.status(200).send({ status: 200, message: "" }));
+api.get("/", (req, res) =>
+  res.status(200).send({ status: 200, message: "osu!modweb api v1" })
+);
 
 // ? put
 api.put("/requests/:request", UpdateRequest);
