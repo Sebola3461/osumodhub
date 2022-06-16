@@ -30,11 +30,14 @@ export default async (req: Request, res: Response) => {
     search = search.toString().toLowerCase().trim();
 
     search.split(" ").forEach((arg) => {
-      response = response.filter(
-        (r) =>
-          r.name.toLowerCase().includes(arg.toLowerCase()) ||
-          r.genres.includes(arg.toLowerCase())
-      );
+      response = response.filter((r) => {
+        return (
+          r.genres.map((g) => g.toLowerCase()).includes(arg.toLowerCase()) ||
+          (r.genres.map((g) => g.toLowerCase()).includes(arg.toLowerCase()) &&
+            r.name.toLowerCase().includes(arg.toLowerCase())) ||
+          r.name.toLowerCase().includes(arg.toLowerCase())
+        );
+      });
     });
   }
 
