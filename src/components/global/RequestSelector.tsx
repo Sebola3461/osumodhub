@@ -319,6 +319,8 @@ export default ({
   ];
 
   function manageRequest(request: any) {
+    if (login._id != request._queue) return;
+
     manageRequestPanelContext.setRequest(request);
     manageRequestPanelContext.setOpen(true);
   }
