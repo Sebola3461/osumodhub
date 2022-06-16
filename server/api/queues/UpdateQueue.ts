@@ -92,6 +92,11 @@ export default async (req: Request, res: Response) => {
               ? req.body.allow.graveyard
               : queue.allow.graveyard
             : queue.allow.graveyard,
+          cross: req.body.allow.cross
+            ? typeof req.body.allow.cross == "boolean"
+              ? req.body.allow.cross
+              : queue.allow.cross
+            : queue.allow.cross,
         };
       }
 

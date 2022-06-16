@@ -52,6 +52,15 @@ export default async (req: Request, res: Response) => {
       message: "Invalid beatmap",
     });
 
+  if (requestedBeatmapset.data.user_id != author._id && !queue.allow.cross) {
+    // ? Bypass queue owner
+    if (author._id != queue._id)
+      return res.status(403).send({
+        status: 403,
+        message: "This queue does not allow cross requests!",
+      });
+  }
+
   if (!comment) comment = "";
 
   comment = comment.trim();
@@ -96,6 +105,7 @@ export default async (req: Request, res: Response) => {
     status: "pending",
     beatmapset_id: requestedBeatmapset.data.id,
     date: new Date(),
+    cross: requestedBeatmapset.data.user_id != author._id,
     beatmap: {
       id: requestedBeatmapset.data.id,
       artist: requestedBeatmapset.data.artist,

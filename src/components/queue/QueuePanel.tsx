@@ -177,6 +177,7 @@ export default () => {
                     updateQueueOption("allow", {
                       graveyard: ev.target.checked,
                       wip: _queue.allow.wip,
+                      cross: _queue.allow.cross,
                     });
                   }}
                 ></Switch>
@@ -189,6 +190,20 @@ export default () => {
                     updateQueueOption("allow", {
                       wip: ev.target.checked,
                       graveyard: _queue.allow.graveyard,
+                      cross: _queue.allow.cross,
+                    });
+                  }}
+                ></Switch>
+              </div>
+              <div className="option">
+                <p>Allow cross request:</p>
+                <Switch
+                  defaultChecked={_queue.allow.cross}
+                  onInput={(ev: any) => {
+                    updateQueueOption("allow", {
+                      wip: _queue.allow.wip,
+                      graveyard: _queue.allow.graveyard,
+                      cross: ev.target.checked,
                     });
                   }}
                 ></Switch>

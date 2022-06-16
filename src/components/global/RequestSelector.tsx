@@ -19,6 +19,7 @@ import {
   faLitecoinSign,
   faPause,
   faPlay,
+  faRandom,
 } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../providers/AuthContext";
@@ -379,26 +380,6 @@ export default ({
     beatmapPreviewContext.setPause(false);
   };
 
-  // (
-  //   <audio
-  //     src={`https://b.ppy.sh/preview/${_request.beatmapset_id}.mp3`}
-  //     onPause={() => {
-  //       beatmapPreviewContext.setPause(true);
-  //     }}
-  //     onPlay={() => {
-  //       beatmapPreviewContext.setTargetRequest(_request._id);
-  //       beatmapPreviewContext.setPause(false);
-  //     }}
-  //     onTimeUpdate={(ev: any) => {
-  //       beatmapPreviewContext.setPosition(
-  //         beatmapPreviewContext.position < 98
-  //           ? (ev.target.currentTime / ev.target.duration) * 100
-  //           : 0
-  //       );
-  //     }}
-  //   ></audio>
-  // );
-
   return (
     <>
       <ContextMenuTrigger id={`request-${_request._id}`}>
@@ -414,22 +395,37 @@ export default ({
               backgroundImage: `url(${_request.beatmap.covers["cover@2x"]})`,
             }}
           >
-            <div
-              aria-label={_request.reply}
-              data-balloon-pos={_request.reply != "" ? "up" : "hidden"}
-              data-balloon-length="fit"
-            >
-              <Tag
-                content={texts[_request.status]}
-                type={_request.status}
-                icon={
-                  request.reply != "" ? (
-                    <FontAwesomeIcon icon={faChevronUp} />
-                  ) : (
-                    <></>
-                  )
-                }
-              ></Tag>
+            <div className="row">
+              {_request.cross ? (
+                <div
+                  className="crossrequesticon"
+                  aria-label={`This is a cross request.\nRequested by ${_request._owner_name}`}
+                  data-balloon-pos="up"
+                  data-balloon-length="fit"
+                >
+                  <FontAwesomeIcon icon={faRandom} />
+                </div>
+              ) : (
+                <></>
+              )}
+
+              <div
+                aria-label={_request.reply}
+                data-balloon-pos={_request.reply != "" ? "up" : "hidden"}
+                data-balloon-length="fit"
+              >
+                <Tag
+                  content={texts[_request.status]}
+                  type={_request.status}
+                  icon={
+                    request.reply != "" ? (
+                      <FontAwesomeIcon icon={faChevronUp} />
+                    ) : (
+                      <></>
+                    )
+                  }
+                ></Tag>
+              </div>
             </div>
             <div className="actions">
               <div

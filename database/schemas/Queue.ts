@@ -75,6 +75,7 @@ export default new Schema({
     default: {
       graveyard: true,
       wip: true,
+      cross: true,
     },
   },
   genres: {

@@ -52,11 +52,19 @@ export default ({
   }, []);
 
   useEffect(() => {
+    setUserBeatmaps(userBeatmaps);
+  }, [userBeatmaps]);
+
+  useEffect(() => {
     if (request.beatmap.id == -1 || !request.beatmap.id) setTab(0);
   }, [tab]);
 
   const tabs = [
-    <BeatmapsTab userBeatmaps={userBeatmaps}></BeatmapsTab>,
+    <BeatmapsTab
+      userBeatmaps={userBeatmaps}
+      setUserBeatmaps={setUserBeatmaps}
+      queue={queue}
+    ></BeatmapsTab>,
     <RequestTab
       queue={queue}
       requests={requests}

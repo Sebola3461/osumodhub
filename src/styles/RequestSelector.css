@@ -69,6 +69,29 @@
   transition: width linear 80ms;
 }
 
+.requestselector .banner .row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  align-content: center;
+}
+
+.requestselector .banner .crossrequesticon {
+  display: flex;
+  height: 18px;
+  flex-direction: row;
+  align-content: center;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: auto;
+}
+
 .requestselector .banner .actions div {
   margin-left: 5px;
   cursor: pointer;
@@ -97,6 +120,7 @@
   background-color: var(--ocean);
   margin-top: 10px;
   margin-right: 10px;
+  margin-left: auto;
 }
 
 .requestselector .title {

@@ -13,6 +13,7 @@ import SyncQueue from "./queues/SyncQueue";
 import UpdateQueue from "./queues/UpdateQueue";
 import UpdateRequest from "./queues/UpdateRequest";
 import AuthenticateUser from "./users/AuthenticateUser";
+import GetBeatmapInfo from "./users/GetBeatmapInfo";
 import GetUserBeatmaps from "./users/GetUserBeatmaps";
 const api = Router();
 
@@ -31,6 +32,7 @@ api.get("/queues/:queue/requests", GetQueueRequests);
 api.get("/users/:user/beatmaps", GetUserBeatmaps);
 api.get("/validate/", AuthenticateUser);
 api.get("/users/:user/requests/", GetUserRequests);
+api.get("/beatmaps/:beatmap", GetBeatmapInfo);
 
 // ? post
 api.post("/queues/new", CreateNewQueue);

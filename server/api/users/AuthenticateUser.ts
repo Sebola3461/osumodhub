@@ -48,12 +48,7 @@ export default async (req: Request, res: Response) => {
     const userQueue = await queues.findById(user_db._id);
 
     if (userQueue) {
-      users.updateOne(
-        { _id: user_db._id },
-        {
-          hasQueue: true,
-        }
-      );
+      users.findByIdAndUpdate(user_db._id, { hasQueue: true });
     }
 
     return res.status(200).send(

@@ -11,4 +11,42 @@
   animation-name: fade;
   animation-duration: 120ms;
   animation-timing-function: linear;
+  transition: linear 120ms opacity;
+}
+
+.beatmapstab.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.beatmapstab .beatmapinput {
+  width: 95%;
+  margin: 10px 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.beatmapstab .beatmapinput input {
+  width: 100%;
+  height: 30px;
+}
+
+.beatmapstab .beatmapinput button {
+  padding: 8px 10px;
+  margin-left: 10px;
+}
+
+.beatmapstab .beatmaps {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
 }
