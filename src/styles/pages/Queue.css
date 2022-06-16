@@ -68,6 +68,10 @@
   margin-top: 15px;
 }
 
+.queuename:hover {
+  text-decoration: overline;
+}
+
 .headerleft .modeicon {
   margin-top: 5px;
 }

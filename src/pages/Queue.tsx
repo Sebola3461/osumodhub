@@ -330,7 +330,9 @@ export default () => {
                 border: `5px solid var(--${queue.open ? "green" : "red"})`,
               }}
             ></div>
-            <p className="queuename">
+            <p className="queuename" onClick={() => {
+              window.open(`https://osu.ppy.sh/u/${queue._id}`)
+            }}>
               {queue.name}
               {queue.verified ? (
                 <FontAwesomeIcon
