@@ -4,6 +4,14 @@
     --balloon-text-color: #fff;
     --balloon-font-size: 12px;
     --balloon-move: 4px; }
+
+    [data-balloon-pos="hidden"]:after {
+        opacity: 0 !important;
+    }
+
+    [data-balloon-pos="hidden"]:before {
+        opacity: 0 !important;
+    }
   
   *[aria-label][data-balloon-pos] {
     overflow: visible; }

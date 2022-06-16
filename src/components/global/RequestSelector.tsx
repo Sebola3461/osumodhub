@@ -12,13 +12,21 @@ import {
   MenuItem,
   ContextMenuTrigger,
 } from "./../../libs/react-contextmenu/es6/";
-import { faChevronUp, faLitecoinSign } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useEffect, useState } from "react";
+import {
+  faChevronUp,
+  faDownload,
+  faExternalLinkSquare,
+  faLitecoinSign,
+  faPause,
+  faPlay,
+} from "@fortawesome/free-solid-svg-icons";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../providers/AuthContext";
 import { useSnackbar } from "notistack";
 import { ManageRequestPanelContext } from "../../providers/ManageRequestPanelContext";
 import ReactTip from "@jswork/react-tip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BeatmapPreviewContext } from "../../providers/BeatmapPreviewContext";
 
 export interface IRequest {
   _id: string;
@@ -52,6 +60,7 @@ export default ({
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const manageRequestPanelContext = useContext(ManageRequestPanelContext);
+  const beatmapPreviewContext = useContext(BeatmapPreviewContext);
   const [_request, setRequest] = useState<any>({
     beatmap: {
       covers: {},
@@ -145,6 +154,10 @@ export default ({
     _request.beatmap.beatmaps.sort(
       (a: any, b: any) => a.difficulty_rating - b.difficulty_rating
     );
+  }
+
+  function openExternal(url: string) {
+    window.open(url);
   }
 
   const modder_options = [
@@ -318,20 +331,82 @@ export default ({
     </MenuItem>,
   ];
 
-  function manageRequest(request: any) {
-    if (login._id != request._queue) return;
+  function manageRequest(request: any, ev: any) {
+    console.log(ev.target);
+    if (login._id != request._queue || ev.target.className) return;
 
     manageRequestPanelContext.setRequest(request);
     manageRequestPanelContext.setOpen(true);
   }
+
+  const [playing, setPlaying] = useState(false);
+  const previewTag = useRef(
+    new Audio(`https://b.ppy.sh/preview/${_request.beatmapset_id}.mp3`)
+  );
+
+  useEffect(() => {
+    previewTag.current.src = `https://b.ppy.sh/preview/${_request.beatmapset_id}.mp3`;
+  }, [_request]);
+
+  useEffect(() => {
+    const handler = () => setPlaying(false);
+    previewTag.current.addEventListener("ended", handler);
+    return () => previewTag.current.removeEventListener("ended", handler);
+  }, [previewTag.current]);
+
+  useEffect(() => {
+    previewTag.current[playing ? "play" : "pause"]();
+  }, [playing]);
+
+  previewTag.current.volume = beatmapPreviewContext.volume;
+  previewTag.current.ontimeupdate = (ev: any) => {
+    beatmapPreviewContext.setPosition(
+      beatmapPreviewContext.position < 98
+        ? (ev.path[0].currentTime / ev.path[0].duration) * 100
+        : 0
+    );
+  };
+  previewTag.current.onended = (ev: any) => {
+    beatmapPreviewContext.setPosition(0);
+    beatmapPreviewContext.setPause(true);
+    beatmapPreviewContext.setTargetRequest("");
+  };
+  previewTag.current.onpause = (ev: any) => {
+    console.log("pause");
+    beatmapPreviewContext.setPause(true);
+  };
+  previewTag.current.onplay = (ev: any) => {
+    beatmapPreviewContext.setTargetRequest(_request._id);
+    beatmapPreviewContext.setPause(false);
+  };
+
+  // (
+  //   <audio
+  //     src={`https://b.ppy.sh/preview/${_request.beatmapset_id}.mp3`}
+  //     onPause={() => {
+  //       beatmapPreviewContext.setPause(true);
+  //     }}
+  //     onPlay={() => {
+  //       beatmapPreviewContext.setTargetRequest(_request._id);
+  //       beatmapPreviewContext.setPause(false);
+  //     }}
+  //     onTimeUpdate={(ev: any) => {
+  //       beatmapPreviewContext.setPosition(
+  //         beatmapPreviewContext.position < 98
+  //           ? (ev.target.currentTime / ev.target.duration) * 100
+  //           : 0
+  //       );
+  //     }}
+  //   ></audio>
+  // );
 
   return (
     <>
       <ContextMenuTrigger id={`request-${_request._id}`}>
         <div
           className={loading ? "requestselector loading" : "requestselector"}
-          onClick={() => {
-            manageRequest(_request);
+          onClick={(ev: any) => {
+            manageRequest(_request, ev);
           }}
         >
           <div
@@ -357,6 +432,55 @@ export default ({
                 }
               ></Tag>
             </div>
+            <div className="actions">
+              <div
+                onClick={() => {
+                  openExternal(
+                    `https://osu.ppy.sh/s/${_request.beatmapset_id}`
+                  );
+                }}
+              >
+                <FontAwesomeIcon icon={faExternalLinkSquare} />
+              </div>
+              <div
+                onClick={() => {
+                  openExternal(`osu://s/${_request.beatmapset_id}`);
+                }}
+              >
+                <FontAwesomeIcon icon={faDownload} />
+              </div>
+              <div
+                onClick={() => {
+                  if (
+                    beatmapPreviewContext.position == 0 ||
+                    beatmapPreviewContext.paused
+                  ) {
+                    return previewTag.current.play();
+                  } else {
+                    return previewTag.current.pause();
+                  }
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={
+                    !beatmapPreviewContext.paused &&
+                    beatmapPreviewContext.targetRequest == _request._id
+                      ? faPause
+                      : faPlay
+                  }
+                />
+              </div>
+            </div>
+            <div
+              className="preview-progress"
+              style={{
+                width: `${
+                  beatmapPreviewContext.targetRequest == _request._id
+                    ? beatmapPreviewContext.position
+                    : 0
+                }%`,
+              }}
+            ></div>
           </div>
           <SpreadViewer
             beatmaps={_request.beatmap.beatmaps || []}

@@ -35,16 +35,43 @@
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
-  align-content: flex-start;
-  justify-content: flex-end;
-  align-items: flex-start;
+  align-content: flex-end;
+  justify-content: flex-start;
+  align-items: flex-end;
   position: relative;
   border-radius: 0.5rem 0.5rem 0px 0px;
 }
 .requestselector .banner * {
   z-index: 1;
+}
+
+.requestselector .banner .actions {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+.requestselector .preview-progress {
+  width: 0%;
+  height: 1px;
+  margin-top: auto;
+  margin-right: auto;
+  margin-left: 0;
+  background-color: var(--orange);
+  z-index: 1;
+  transition: width linear 80ms;
+}
+
+.requestselector .banner .actions div {
+  margin-left: 5px;
+  cursor: pointer;
 }
 
 .requestselector .banner::before {
