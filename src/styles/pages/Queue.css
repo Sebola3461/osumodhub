@@ -248,7 +248,7 @@
 
 .wait-hover {
   transition: linear 80ms color, linear 80ms background-color;
-  color: #cf3274;
+  color: #f44336;
 }
 
 .archive-hover {

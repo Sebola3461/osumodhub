@@ -11,6 +11,10 @@ export default new Schema({
     type: Boolean,
     default: false,
   },
+  isBn: {
+    type: Boolean,
+    default: false,
+  },
   banner: {
     type: String,
     default: "/static/assets/images/genericbg.jpg",

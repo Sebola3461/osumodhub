@@ -376,6 +376,8 @@ export default () => {
                 }}
                 onClick={() => {
                   if (login._id == -1) return loginWarn();
+                  if (!queue.open && login._id != queue._id) return;
+
                   setOpen(queue.open);
                 }}
               >

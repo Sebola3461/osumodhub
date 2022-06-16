@@ -36,7 +36,7 @@ export default async (req: Request, res: Response) => {
       message: "Unauthorized",
     });
 
-  if (!queue.open)
+  if (!queue.open && author._id != queue._id)
     return res.status(403).send({
       status: 403,
       message: "This queue is closed!",
