@@ -74,6 +74,13 @@
   cursor: pointer;
 }
 
+.requestselector .banner .actions svg {
+  pointer-events: none;
+}
+.requestselector .banner .actions path {
+  pointer-events: none;
+}
+
 .requestselector .banner::before {
   content: "";
   position: absolute;

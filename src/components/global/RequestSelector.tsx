@@ -332,8 +332,7 @@ export default ({
   ];
 
   function manageRequest(request: any, ev: any) {
-    console.log(ev.target);
-    if (login._id != request._queue || ev.target.className) return;
+    if (login._id != request._queue || ev.target.className == "action") return;
 
     manageRequestPanelContext.setRequest(request);
     manageRequestPanelContext.setOpen(true);
@@ -439,10 +438,12 @@ export default ({
                     `https://osu.ppy.sh/s/${_request.beatmapset_id}`
                   );
                 }}
+                className="action"
               >
                 <FontAwesomeIcon icon={faExternalLinkSquare} />
               </div>
               <div
+                className="action"
                 onClick={() => {
                   openExternal(`osu://s/${_request.beatmapset_id}`);
                 }}
@@ -450,6 +451,7 @@ export default ({
                 <FontAwesomeIcon icon={faDownload} />
               </div>
               <div
+                className="action"
                 onClick={() => {
                   if (
                     beatmapPreviewContext.position == 0 ||
