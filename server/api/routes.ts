@@ -9,6 +9,7 @@ import GetQueueRequests from "./queues/GetQueueRequests";
 import GetUserRequests from "./queues/GetUserRequests";
 import ListQueues from "./queues/ListQueues";
 import RemoveFollower from "./queues/RemoveFollower";
+import StartTimeClose from "./queues/StartTimeClose";
 import SyncQueue from "./queues/SyncQueue";
 import UpdateQueue from "./queues/UpdateQueue";
 import UpdateRequest from "./queues/UpdateRequest";
@@ -37,6 +38,7 @@ api.get("/beatmaps/:beatmap", GetBeatmapInfo);
 // ? post
 api.post("/queues/new", CreateNewQueue);
 api.post("/queues/sync", SyncQueue);
+api.post("/queues/schedule", StartTimeClose);
 api.post("/queues/:queue/requests", CreateRequest);
 api.post("/queues/:queue/follow", FollowQueue);
 

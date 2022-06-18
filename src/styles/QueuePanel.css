@@ -41,6 +41,16 @@
   padding-bottom: 10px;
 }
 
+.queuepanel .container .row.timerrow {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.queuepanel .container .row.timerrow button {
+  margin-right: 10px;
+}
+
 .queuepanel .container .paneltitle {
   width: calc(100% - 40px);
   height: 20px;

@@ -9,6 +9,7 @@ import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import { useSnackbar } from "notistack";
 import TagsInput from "../global/TagsInput";
 import MDEditor from "@uiw/react-md-editor";
+import moment from "moment";
 import Markdown from "markdown-to-jsx";
 
 export default () => {
@@ -131,6 +132,25 @@ export default () => {
     }
   }
 
+  function scheduleQueue() {
+    fetch(`/api/queues/schedule`, {
+      method: "POST",
+      headers: {
+        authorization: login.account_token,
+      },
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        enqueueSnackbar(d.message, {
+          variant: d.status == 200 ? "success" : "error",
+        });
+
+        if (d.status == 200) {
+          _queue.timeclose.scheduled = new Date();
+        }
+      });
+  }
+
   return (
     <div
       className={open ? "queuepanel open" : "queuepanel closed"}
@@ -241,17 +261,13 @@ export default () => {
               </div>
               <div className="separator"></div>
               <div className="option">
-                <p>It stars after you open the queue</p>
-              </div>
-              <div className="option">
                 <p>Enable time-close:</p>
                 <Switch
                   defaultChecked={_queue.autoclose.enable}
                   onInput={(ev: any) => {
                     updateQueueOption("timeclose", {
                       enable: ev.target.checked,
-                      scheduled: _queue.timeclose.scheduled,
-                      close: _queue.timeclose.close,
+                      size: _queue.timeclose.size,
                     });
                   }}
                 />
@@ -260,22 +276,33 @@ export default () => {
                 <p>Close after (days):</p>
                 <input
                   type="number"
-                  defaultValue={_queue.timeclose.close}
+                  defaultValue={_queue.timeclose.size}
                   min={1}
                   max={31}
                   style={{
                     marginLeft: "5px",
                   }}
                   onInput={(ev: any) => {
-                    delete _queue.timeclose.size;
-                    _queue.timeclose.close = 1;
+                    _queue.timeclose.size = Number(ev.target.value);
 
                     updateQueueOption("autoclose", {
                       enable: _queue.timeclose.enable,
-                      close: ev.target.value,
+                      size: Number(ev.target.value),
                     });
                   }}
                 />
+              </div>
+              <div className="row timerrow">
+                <button className="custombutton" onClick={scheduleQueue}>
+                  Start timer
+                </button>
+                <p key={GenerateComponentKey(10)}>
+                  Your queue will close{" "}
+                  {moment(_queue.timeclose.scheduled)
+                    .add(_queue.timeclose.size, "days")
+                    .calendar()}{" "}
+                  UTC
+                </p>
               </div>
               <div className="separator"></div>
               <div className="option  wide">

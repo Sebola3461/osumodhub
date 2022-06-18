@@ -5,7 +5,7 @@ export default () => {
   setInterval(async () => {
     consoleLog("TimeClose", "Checking queues...");
 
-    const allOpenQueues = await queues.find({ open: false });
+    const allOpenQueues = await queues.find({ open: true });
 
     consoleLog("TimeClose", `${allOpenQueues.length} queues found!`);
 
@@ -17,14 +17,15 @@ export default () => {
         );
 
         const closeDate = new Date(queue.timeclose.scheduled);
-        closeDate.setUTCDate(closeDate.getUTCDate() + queue.timeclose.close);
+        closeDate.setUTCDate(closeDate.getUTCDate() + queue.timeclose.size);
 
         if (
           new Date(closeDate.toUTCString()).valueOf() >=
           new Date(new Date(queue.timeclose.scheduled).toUTCString()).valueOf()
         ) {
-          queue.open = false;
-          queues.findByIdAndUpdate(queue._id, queue);
+          await queues.findByIdAndUpdate(queue._id, {
+            open: false,
+          });
 
           consoleCheck(
             "TimeClose",

@@ -45,10 +45,6 @@ export default async (req: Request, res: Response) => {
         typeof req.body.open == "boolean"
       ) {
         queue.open = Boolean(req.body.open);
-
-        if (queue.timeclose.enable) {
-          queue.timeclose.scheduled = new Date();
-        }
       }
 
       // ? Update description
@@ -102,18 +98,18 @@ export default async (req: Request, res: Response) => {
       }
 
       // ? Update timeclose settings
-      if (req.body.timeclose && typeof req.body.timeclose.allow == "object") {
+      if (req.body.timeclose && typeof req.body.timeclose == "object") {
         queue.timeclose.enable =
           typeof Boolean(req.body.timeclose.enable) == "boolean"
             ? Boolean(req.body.timeclose.enable)
             : queue.timeclose.enable;
 
         if (
-          typeof req.body.timeclose.close == "number" &&
-          req.body.timeclose.close > 0 &&
-          req.body.timeclose.close < 32
+          typeof req.body.timeclose.size == "number" &&
+          req.body.timeclose.size > 0 &&
+          req.body.timeclose.size < 32
         ) {
-          queue.timeclose.close = req.body.timeclose.close;
+          queue.timeclose.size = req.body.timeclose.size;
         }
       }
 
