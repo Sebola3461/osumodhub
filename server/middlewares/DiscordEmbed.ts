@@ -53,7 +53,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         <head>
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <meta property="og:title" content="osu!modhub | Sebola's queue">
+          <meta property="og:title" content="osu!modhub | ${
+            queue.name
+          }'s queue">
           <meta property="og:site_name" content="osu!modhub">
           <meta property="og:url" content="https://osumodhub.com/queue/${
             queue._id
