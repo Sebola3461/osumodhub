@@ -21,10 +21,16 @@ export default () => {
 
         if (
           new Date(closeDate.toUTCString()).valueOf() >=
-          new Date(new Date(queue.timeclose.scheduled).toUTCString()).valueOf()
+            new Date(
+              new Date(queue.timeclose.scheduled).toUTCString()
+            ).valueOf() &&
+          queue.timeclose.validated == false
         ) {
+          queue.timeclose.validated = true;
+
           await queues.findByIdAndUpdate(queue._id, {
             open: false,
+            timeclose: queue.timeclose,
           });
 
           consoleCheck(

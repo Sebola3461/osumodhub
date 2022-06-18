@@ -33,6 +33,7 @@ export default async (req: Request, res: Response) => {
     });
 
   queue.timeclose.scheduled = new Date();
+  queue.timeclose.validated = false;
 
   await queues.updateOne({ _id: queue._id }, queue);
 
