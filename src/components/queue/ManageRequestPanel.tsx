@@ -234,12 +234,20 @@ export default ({ queue }: { queue: any }) => {
           <div className="vertical">
             <textarea
               placeholder="Request reply"
-              defaultValue={request.reply}
+              defaultValue={
+                request.reply == "" ? "No reply provided..." : request.reply
+              }
               onKeyUp={(ev: any) => {
                 updateRequestReply(ev.target.value);
               }}
+              readOnly={login._id != queue._id}
             ></textarea>
-            <div className="options">
+            <div
+              className="options"
+              style={{
+                display: `${login._id == queue._id ? "flex" : "none"}`,
+              }}
+            >
               {["BN", "NAT"].includes(queue.type)
                 ? bn_options.map((o) => o)
                 : modder_options.map((o) => o)}

@@ -352,7 +352,7 @@ export default ({
   ];
 
   function manageRequest(request: any, ev: any) {
-    if (login._id != request._queue || ev.target.className == "action") return;
+    if (ev.target.className == "action") return;
 
     manageRequestPanelContext.setRequest(request);
     manageRequestPanelContext.setOpen(true);

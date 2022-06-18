@@ -13,6 +13,7 @@
   margin: 10px;
   transition: filter 120ms linear;
   filter: brightness(1);
+  cursor: pointer;
 }
 
 .requestselector.loading {
