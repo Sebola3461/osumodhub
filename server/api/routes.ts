@@ -3,6 +3,7 @@ import CreateNewQueue from "./queues/CreateNewQueue";
 import CreateRequest from "./queues/CreateRequest";
 import DeleteRequest from "./queues/DeleteRequest";
 import FollowQueue from "./queues/FollowQueue";
+import generateOgImage from "./queues/generateOgImage";
 import GetFollowers from "./queues/GetFollowers";
 import GetQueue from "./queues/GetQueue";
 import GetQueueRequests from "./queues/GetQueueRequests";
@@ -19,7 +20,7 @@ import GetUserBeatmaps from "./users/GetUserBeatmaps";
 const api = Router();
 
 api.get("/", (req, res) =>
-  res.status(200).send({ status: 200, message: "osu!modweb api v1" })
+  res.status(200).send({ status: 200, message: "osu!modhub api v1" })
 );
 
 // ? put
@@ -29,6 +30,7 @@ api.put("/requests/:request", UpdateRequest);
 api.get("/queues/:queue/follow", GetFollowers);
 api.get("/queues/listing", ListQueues);
 api.get("/queues/:id", GetQueue);
+api.get("/queues/:id/og", generateOgImage);
 api.get("/queues/:queue/requests", GetQueueRequests);
 api.get("/users/:user/beatmaps", GetUserBeatmaps);
 api.get("/validate/", AuthenticateUser);
