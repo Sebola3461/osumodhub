@@ -352,7 +352,7 @@ export default ({
   ];
 
   function manageRequest(request: any, ev: any) {
-    if (ev.target.className == "action") return;
+    if (ev.target.className == "action" || _static) return;
 
     manageRequestPanelContext.setRequest(request);
     manageRequestPanelContext.setOpen(true);
