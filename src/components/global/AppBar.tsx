@@ -1,7 +1,10 @@
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import StartAuthentication from "../../helpers/StartAuthentication";
 import { AuthContext } from "../../providers/AuthContext";
+import { NotificationSideMenuContext } from "../../providers/NotificationSideMenu";
 import { SideMenuContext } from "../../providers/UserSideMenu";
 import "./../../styles/AppBar.css";
 
@@ -9,6 +12,7 @@ export default () => {
   const { user, updateUser } = useContext(AuthContext);
   const sideMenuContext = useContext(SideMenuContext);
   const [login, setLogin] = useState(JSON.parse(user));
+  const notificationSideMenuContext = useContext(NotificationSideMenuContext);
 
   useEffect(() => {
     setLogin(JSON.parse(user));
@@ -46,6 +50,16 @@ export default () => {
             }}
           ></div>
         )}
+        <div
+          className="notification-button"
+          onClick={() => {
+            notificationSideMenuContext.setOpen(
+              !notificationSideMenuContext.open
+            );
+          }}
+        >
+          <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
+        </div>
       </div>
     </div>
   );

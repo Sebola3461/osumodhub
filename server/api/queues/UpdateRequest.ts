@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
+import NotifyRequestUpdate from "../../notifications/NotifyRequestUpdate";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
@@ -86,6 +87,7 @@ export default async (req: Request, res: Response) => {
       status: status.toLowerCase(),
     }
   );
+  NotifyRequestUpdate(queue, request, status.toLowerCase());
 
   res.status(200).send({
     status: 200,

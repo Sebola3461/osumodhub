@@ -36,6 +36,8 @@ import CreateNewQueue from "../helpers/CreateNewQueue";
 import { MyRequestPanelContext } from "../providers/MyRequestsPanelContext";
 import MyRequestsPanel from "../components/global/MyRequestsPanel";
 import ManageRequestPanel from "../components/queue/ManageRequestPanel";
+import NotificationSideMenu from "../components/global/NotificationSideMenu";
+import { NotificationSideMenuContext } from "../providers/NotificationSideMenu";
 
 export default () => {
   const icons = [
@@ -54,6 +56,7 @@ export default () => {
   const [login, setLogin] = useState(JSON.parse(user));
   const { open, setOpen } = useContext(RequestPanelContext);
   const sideMenuContext = useContext(SideMenuContext);
+  const notificationSideMenuContext = useContext(NotificationSideMenuContext);
   const queuePanelContext = useContext(QueuePanelContext);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [followersCount, setFollowersCount] = useState(0);
@@ -279,6 +282,7 @@ export default () => {
       <QueuePanel></QueuePanel>
       <MyRequestsPanel></MyRequestsPanel>
       <ManageRequestPanel queue={queue}></ManageRequestPanel>
+      <NotificationSideMenu></NotificationSideMenu>
       <SideMenu
         _open={sideMenuContext.open}
         options={[

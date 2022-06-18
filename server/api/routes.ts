@@ -17,6 +17,8 @@ import UpdateRequest from "./queues/UpdateRequest";
 import AuthenticateUser from "./users/AuthenticateUser";
 import GetBeatmapInfo from "./users/GetBeatmapInfo";
 import GetUserBeatmaps from "./users/GetUserBeatmaps";
+import GetUserNotifications from "./users/GetUserNotifications";
+import ValidateNotification from "./users/ValidateNotification";
 const api = Router();
 
 api.get("/", (req, res) =>
@@ -32,9 +34,13 @@ api.get("/queues/listing", ListQueues);
 api.get("/queues/:id", GetQueue);
 api.get("/queues/:id/og", GenerateOgImage);
 api.get("/queues/:queue/requests", GetQueueRequests);
-api.get("/users/:user/beatmaps", GetUserBeatmaps);
 api.get("/validate/", AuthenticateUser);
+
+api.get("/users/:user/beatmaps", GetUserBeatmaps);
 api.get("/users/:user/requests/", GetUserRequests);
+
+api.get("/notifications", GetUserNotifications);
+
 api.get("/beatmaps/:beatmap", GetBeatmapInfo);
 
 // ? post
@@ -43,6 +49,7 @@ api.post("/queues/sync", SyncQueue);
 api.post("/queues/schedule", StartTimeClose);
 api.post("/queues/:queue/requests", CreateRequest);
 api.post("/queues/:queue/follow", FollowQueue);
+api.post("/notifications/:notification", ValidateNotification);
 
 api.post("/queues/update", UpdateQueue);
 

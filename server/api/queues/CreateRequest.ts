@@ -4,6 +4,7 @@ import osuApi from "../../helpers/osuApi";
 import crypto from "crypto";
 import checkQueueAutoclose from "../helpers/checkQueueAutoclose";
 import checkRequestQueueModes from "../helpers/checkRequestQueueModes";
+import NotifyNewRequest from "../../notifications/NotifyNewRequest";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
@@ -128,6 +129,7 @@ export default async (req: Request, res: Response) => {
   await queues.findByIdAndUpdate(queue._id, queue);
 
   await checkQueueAutoclose(queue);
+  NotifyNewRequest(queue, author);
 
   res.status(200).send({
     status: 200,

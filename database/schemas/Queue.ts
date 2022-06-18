@@ -98,7 +98,7 @@ export default new Schema({
     default: {
       enable: false,
       scheduled: "",
-      close: 1,
+      size: 1,
     },
   },
   twitter: {

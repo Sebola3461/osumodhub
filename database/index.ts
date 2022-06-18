@@ -4,6 +4,7 @@ import User from "./schemas/User";
 import Request from "./schemas/Request";
 import dotenv from "dotenv";
 import Follower from "./schemas/Follower";
+import Notification from "./schemas/Notification";
 dotenv.config();
 
 console.log("database", "Starting databse connection...");
@@ -26,3 +27,4 @@ export const users = mongoose.model("Users", User);
 export const queues = mongoose.model("Queues", Queue);
 export const requests = mongoose.model("Requests", Request);
 export const followers = mongoose.model("Followers", Follower);
+export const notifications = mongoose.model("Notifications", Notification);

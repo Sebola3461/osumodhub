@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
+import notifyFollowers from "../helpers/notifyFollowers";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
@@ -44,6 +45,10 @@ export default async (req: Request, res: Response) => {
         req.body.open != undefined &&
         typeof req.body.open == "boolean"
       ) {
+        if (queue.open == false && Boolean(req.body.open) == true) {
+          notifyFollowers(queue);
+        }
+
         queue.open = Boolean(req.body.open);
       }
 

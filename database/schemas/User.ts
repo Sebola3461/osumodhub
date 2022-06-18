@@ -42,6 +42,12 @@ export default new Schema({
     type: Object,
     default: {},
   },
+  pushSettings: {
+    type: Object,
+    default: {
+      enable: false,
+    },
+  },
   session: {
     type: Object,
     default: {
@@ -51,10 +57,6 @@ export default new Schema({
     },
   },
   requests: {
-    type: Array,
-    default: [],
-  },
-  notifications: {
     type: Array,
     default: [],
   },

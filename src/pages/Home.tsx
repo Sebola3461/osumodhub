@@ -19,6 +19,7 @@ import SyncQueueData from "../helpers/SyncQueueData";
 import CreateNewQueue from "../helpers/CreateNewQueue";
 import MyRequestsPanel from "../components/global/MyRequestsPanel";
 import { MyRequestPanelContext } from "../providers/MyRequestsPanelContext";
+import NotificationSideMenu from "../components/global/NotificationSideMenu";
 
 function App() {
   const [queues, setQueues] = useState([]);
@@ -122,6 +123,7 @@ function App() {
         ]}
         title={`Hello, ${login.username}!`}
       ></SideMenu>
+      <NotificationSideMenu></NotificationSideMenu>
       <HeaderPanel
         style={{
           display: "flex",

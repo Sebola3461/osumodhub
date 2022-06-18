@@ -68,3 +68,16 @@
   background-size: cover;
   cursor: pointer;
 }
+
+#appbar .right-content .notification-button {
+  padding: 5px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
