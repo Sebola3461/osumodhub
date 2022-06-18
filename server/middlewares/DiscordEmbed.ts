@@ -1,6 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { queues } from "./../../database";
 
+function Nonce(length: number) {
+  var result = "";
+  var characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
 export default async (req: Request, res: Response, next: NextFunction) => {
   if (
     req.headers["user-agent"] !=
@@ -52,9 +63,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
           }" data-react-helmet="true" name="theme-color" />
           <meta content="https://osumodhub.herokuapp.com/api/queues/${
             queue._id
-          }/og?nonce=${crypto.randomUUID()}" property="og:image" />
+          }/og?nonce=${Nonce(40)}" property="og:image" />
           <meta name="twitter:card" content="summary_large_image">
-          <meta property="og:description" content="osu!modhub provides mapping & modding tools for osu!">
+          <meta property="og:description" content="osu!modhub provides mapping & modding tools for osu! game">
           <meta property="og:type" content="profile">
           <title>osu!modhub | ${queue.name}'s queue</title>
         </head>
