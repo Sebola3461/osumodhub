@@ -19,9 +19,11 @@ import "./../../styles/SideMenu.css";
 // import "./../../styles/NotificationSideMenu.css";
 
 export default () => {
-  const { open, setOpen } = useContext(NotificationSideMenuContext);
+  const { open, setOpen, pending, setPending } = useContext(
+    NotificationSideMenuContext
+  );
   const [notifications, setNotifications] = useState([]);
-  const [pending, setPending] = useState(true);
+  const [loadingNotifications, setLoadingNotifications] = useState([]);
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
 
@@ -53,8 +55,8 @@ export default () => {
       })
         .then((r) => r.json())
         .then((d) => {
-          if (!open) setPending(true);
           setNotifications(d.data);
+          console.log(notifications);
         });
     }, 15000);
   }, []);
@@ -68,7 +70,7 @@ export default () => {
     return;
   }
 
-  function validateNotification(notification: any) {
+  function validateNotification(notification: any, ev: any) {
     fetch(`/api/notifications/${notification._id}`, {
       method: "POST",
       headers: {
@@ -103,6 +105,8 @@ export default () => {
   }
 
   function deleteNotification(notification: any) {
+    setLoadingNotifications([loadingNotifications, ...notification._id]);
+
     fetch(`/api/notifications/${notification._id}`, {
       method: "POST",
       headers: {
@@ -113,6 +117,10 @@ export default () => {
     notifications.splice(
       notifications.findIndex((n) => n._id == notification._id),
       1
+    );
+
+    setLoadingNotifications(
+      loadingNotifications.filter((n) => n != notification._id)
     );
 
     setNotifications(notifications);
@@ -148,23 +156,29 @@ export default () => {
           {notifications.map((notification, i) => {
             return (
               <div
-                className="notification"
-                onClick={() => {
-                  validateNotification(notification);
+                className={
+                  loadingNotifications.includes(notification._id)
+                    ? "notification loading"
+                    : "notification"
+                }
+                onClick={(ev) => {
+                  validateNotification(notification, ev);
                 }}
                 key={GenerateComponentKey(20)}
               >
-                <div className="icon">{icon[notification.type]}</div>
-                <div className="content">
-                  {<Markdown>{notification.content}</Markdown>}
+                <div className="horizontal">
+                  <div className="icon">{icon[notification.type]}</div>
+                  <div className="content">
+                    {<Markdown>{notification.content}</Markdown>}
+                  </div>
                 </div>
                 <div
-                  className="delete-overlay"
-                  onClick={() => {
+                  className="delete-overlay delete-option"
+                  onClick={(ev) => {
                     deleteNotification(notification);
                   }}
                 >
-                  <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                  Mark as read
                 </div>
               </div>
             );

@@ -81,27 +81,57 @@
   border-radius: 0.5rem;
   background-color: var(--background4);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
   align-content: center;
   justify-content: flex-start;
   align-items: center;
   cursor: pointer;
-  transition: background-color linear 120ms;
+  opacity: 1;
+  transition: background-color linear 120ms, opacity linear 120ms;
 }
 
 .sidemenu .notifications .notification:hover {
   background-color: var(--background3);
 }
 
+.sidemenu .notifications .notification .horizontal {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+}
+
 .sidemenu .notifications .notification .delete-overlay {
   opacity: 0;
   pointer-events: none;
+  height: 0px;
+  width: 100%;
+  transition: linear 100ms height, linear 120ms opacity, linear 120ms margin-top;
+  border-radius: 10px;
+  margin-top: 0px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .sidemenu .notifications .notification:hover > .delete-overlay {
   opacity: 1;
+  width: 100%;
   pointer-events: all;
+  height: 30px;
+  margin-top: 10px;
+  background-color: var(--ocean);
+}
+
+.sidemenu .notifications .notification.loading {
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 .sidemenu .container .options {

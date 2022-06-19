@@ -100,6 +100,11 @@ export default async (req: Request, res: Response) => {
     }
   }
 
+  // TODO: Add typing
+  requestWithQueue.sort(
+    (a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf()
+  );
+
   return res.status(200).send({
     status: 200,
     data: requestWithQueue,

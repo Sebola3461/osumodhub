@@ -69,6 +69,10 @@
   cursor: pointer;
 }
 
+#appbar .right-content {
+  position: relative;
+}
+
 #appbar .right-content .notification-button {
   padding: 5px;
   width: 20px;
@@ -80,4 +84,21 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  margin-left: 10px;
+}
+
+#appbar .bellpending {
+  width: 10px;
+  height: 10px;
+  min-width: 10px;
+  background-color: var(--ocean);
+  border-radius: 100%;
+  position: relative;
+  top: -10px;
+  right: -20px;
+  opacity: 0;
+}
+
+#appbar .bellpending.visible {
+  opacity: 1;
 }

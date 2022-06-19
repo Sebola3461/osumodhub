@@ -58,7 +58,20 @@ export default () => {
             );
           }}
         >
-          <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
+          {login._id == -1 ? (
+            <></>
+          ) : (
+            <>
+              <div
+                className={
+                  notificationSideMenuContext.pending
+                    ? "bellpending visible"
+                    : "bellpending"
+                }
+              ></div>
+              <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
+            </>
+          )}
         </div>
       </div>
     </div>
