@@ -33,6 +33,8 @@ export default () => {
   };
 
   useEffect(() => {
+    if (login._id == -1) return;
+
     fetch(`/api/notifications`, {
       headers: {
         authorization: login.account_token,
