@@ -11,11 +11,21 @@ export default async (queue: IQueue, request: any) => {
 
   const id = crypto.randomBytes(30).toString("hex");
 
+  function getName() {
+    if (
+      queue.name.toLowerCase().endsWith("s") ||
+      queue.name.toLowerCase().endsWith("s")
+    )
+      return queue.name.concat("'");
+
+    return queue.name.concat("'s");
+  }
+
   const notification = new notifications({
     _id: id,
     _user: request._user,
     _user_name: "$$system",
-    content: `You're following ${queue.name}, and his queue is open!`,
+    content: `${getName()} queue is open!`,
     type: "queue:openfollow",
     created_at: new Date(),
     extra: {
