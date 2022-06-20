@@ -14,7 +14,7 @@ export default async (queue: IQueue, request: any) => {
   function getName() {
     if (
       queue.name.toLowerCase().endsWith("s") ||
-      queue.name.toLowerCase().endsWith("s")
+      queue.name.toLowerCase().endsWith("x")
     )
       return queue.name.concat("'");
 
