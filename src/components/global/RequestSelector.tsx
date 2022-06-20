@@ -63,7 +63,7 @@ export default ({
   _static?: boolean;
   refreshRequests?: any;
   requests?: any[];
-  setRequests: any;
+  setRequests?: any;
 }) => {
   const icons = [OsuIcon, TaikoIcon, CatchIcon, ManiaIcon];
   const { user, updateUser } = useContext(AuthContext);
