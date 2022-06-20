@@ -79,6 +79,12 @@ export default () => {
     })
       .then((r) => r.json())
       .then((d) => {
+        if (
+          ev.target.className &&
+          ev.target.className.includes("delete-option")
+        )
+          return;
+
         switch (notification.type) {
           case "request:update": {
             goTo(`/queue/${notification.extra.queue_id}#${notification._id}`);
