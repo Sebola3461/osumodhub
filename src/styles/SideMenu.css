@@ -107,7 +107,7 @@
 .sidemenu .notifications .notification .horizontal .content {
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
   align-content: center;
   justify-content: center;

@@ -122,6 +122,41 @@ export default () => {
         setRequests(q.data);
       });
 
+    setInterval(() => {
+      const id = window.location.pathname.split("").pop()
+        ? window.location.pathname.split("/").pop()?.trim()
+        : "";
+
+      if (id != queue._id) {
+        queue._id = id;
+        setQueue(queue);
+        setRequests([]);
+
+        fetch(`/api/queues/${id}`)
+          .then((r) => r.json())
+          .then((q) => {
+            if (q.status != 200) return;
+
+            setQueue(q.data);
+          });
+
+        fetch(`/api/queues/${id}/requests`)
+          .then((r) => r.json())
+          .then((q) => {
+            if (q.status != 200) return;
+
+            q.data.sort(
+              (a: IRequest, b: IRequest) =>
+                new Date(b.date).valueOf() - new Date(a.date).valueOf()
+            );
+
+            setRequests(q.data);
+          });
+
+        SyncQueueData(login);
+      }
+    }, 10);
+
     SyncQueueData(login);
   }, []);
 
@@ -328,7 +363,7 @@ export default () => {
               top: "141px",
             }}
           >
-            <div className="headerleft">
+            <div className="headerleft" key={GenerateComponentKey(100)}>
               <div
                 className="icon round1"
                 style={{
