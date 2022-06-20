@@ -14,6 +14,7 @@ import {
 } from "./../../libs/react-contextmenu/es6/";
 import {
   faChevronUp,
+  faCircleCheck,
   faDownload,
   faExternalLinkSquare,
   faLitecoinSign,
@@ -28,6 +29,11 @@ import { ManageRequestPanelContext } from "../../providers/ManageRequestPanelCon
 import ReactTip from "@jswork/react-tip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BeatmapPreviewContext } from "../../providers/BeatmapPreviewContext";
+import {
+  SelectedRequestContext,
+  SelectedRequestContextProvider,
+} from "../../providers/SelectRequestContext";
+import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 
 export interface IRequest {
   _id: string;
@@ -49,11 +55,15 @@ export default ({
   queue,
   _static,
   refreshRequests,
+  requests,
+  setRequests,
 }: {
   request: IRequest;
   queue: any;
   _static?: boolean;
   refreshRequests?: any;
+  requests?: any[];
+  setRequests: any;
 }) => {
   const icons = [OsuIcon, TaikoIcon, CatchIcon, ManiaIcon];
   const { user, updateUser } = useContext(AuthContext);
@@ -62,16 +72,26 @@ export default ({
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const manageRequestPanelContext = useContext(ManageRequestPanelContext);
   const beatmapPreviewContext = useContext(BeatmapPreviewContext);
-  const [_request, setRequest] = useState<any>({
-    beatmap: {
-      covers: {},
-      beatmaps: [],
-    },
-  });
+  const selectedRequest = useContext(SelectedRequestContext);
+  const [queueRequests, setQueueRequests] = useState(requests);
+  const [_request, setRequest] = useState<any>(
+    !request
+      ? {
+          beatmap: {
+            covers: {},
+            beatmaps: [],
+          },
+        }
+      : request
+  );
 
   useEffect(() => {
     setRequest(request);
   }, []);
+
+  useEffect(() => {
+    setQueueRequests(requests);
+  }, [requests]);
 
   const navigate = useNavigate();
 
@@ -79,8 +99,23 @@ export default ({
     navigate(route, { replace: false }), [navigate];
   };
 
+  const texts: { [key: string]: string } = {
+    pending: "Pending",
+    rechecking: "Need Recheck",
+    waiting: "Waiting another BN",
+    finished: "Finished",
+    nominated: "Nominated",
+    rejected: "Rejected",
+    accepted: "Accepted",
+    archived: "Archived",
+  };
+
   function updateRequest(opt: any) {
+    if (selectedRequest.selected.length != 0)
+      return manageAllSelectedRequests(opt.status);
+
     setLoading(true);
+
     fetch(`/api/requests/${opt.request._id}`, {
       method: "put",
       headers: {
@@ -110,7 +145,61 @@ export default ({
       });
   }
 
+  async function manageAllSelectedRequests(_status: string) {
+    if (
+      !confirm(
+        _status == "delete"
+          ? `Are you sure? ${selectedRequest.selected.length} requests will be deleted.`
+          : `Are you sure? ${selectedRequest.selected.length} requests will recive the status ${texts[_status]}`
+      )
+    )
+      return;
+
+    for (const id of selectedRequest.selected) {
+      await fetch(`/api/requests/${id}`, {
+        method: _status == "delete" ? "delete" : "put",
+        headers: {
+          "content-type": "application/json",
+          authorization: login.account_token,
+        },
+        body:
+          _status == "delete"
+            ? null
+            : JSON.stringify({
+                reply: "",
+                status: _status,
+              }),
+      });
+    }
+
+    let _requests = queueRequests;
+    for (const id of selectedRequest.selected) {
+      if (queueRequests) {
+        if (_status == "delete") {
+          _requests = _requests.filter((r) => r._id != id);
+        } else {
+          const _requests = requests.map((r) => r);
+          const i = _requests.findIndex((r) => r._id == id);
+
+          _requests[i]["status"] = _status;
+        }
+      }
+    }
+
+    setRequests(_requests);
+    selectedRequest.setSelected([]);
+
+    enqueueSnackbar("Requests updated!", {
+      variant: "success",
+    });
+  }
+
   function deleteRequest(opt: any) {
+    if (selectedRequest.selected.length != 0)
+      return manageAllSelectedRequests("delete");
+
+    if (!confirm("Are you sure?")) return;
+
     setLoading(true);
     fetch(`/api/requests/${opt.request._id}`, {
       method: "delete",
@@ -139,17 +228,6 @@ export default ({
         }
       });
   }
-
-  const texts: { [key: string]: string } = {
-    pending: "Pending",
-    rechecking: "Need Recheck",
-    waiting: "Waiting another BN",
-    finished: "Finished",
-    nominated: "Nominated",
-    rejected: "Rejected",
-    accepted: "Accepted",
-    archived: "Archived",
-  };
 
   if (_request.beatmap.beatmaps) {
     _request.beatmap.beatmaps.sort(
@@ -228,12 +306,10 @@ export default ({
         status: "deleted",
       }}
       onClick={() => {
-        if (confirm("Are you sure?")) {
-          deleteRequest({
-            request: _request,
-            status: "deleted",
-          });
-        }
+        deleteRequest({
+          request: _request,
+          status: "deleted",
+        });
       }}
       className="delete-hover"
     >
@@ -338,12 +414,10 @@ export default ({
         status: "deleted",
       }}
       onClick={() => {
-        if (confirm("Are you sure?")) {
-          deleteRequest({
-            request: _request,
-            status: "deleted",
-          });
-        }
+        deleteRequest({
+          request: _request,
+          status: "deleted",
+        });
       }}
       className="delete-hover"
     >
@@ -353,6 +427,11 @@ export default ({
 
   function manageRequest(request: any, ev: any) {
     if (ev.target.className == "action" || _static) return;
+
+    if (ev.ctrlKey) return selectedRequest.selectRequest(request._id);
+
+    if (selectedRequest.selected.includes(request._id))
+      return selectedRequest.removeSelectedRequest(request._id);
 
     manageRequestPanelContext.setRequest(request);
     manageRequestPanelContext.setOpen(true);
@@ -401,127 +480,136 @@ export default ({
 
   return (
     <>
-      <ContextMenuTrigger id={`request-${_request._id}`}>
-        <div
-          className={loading ? "requestselector loading" : "requestselector"}
-          onClick={(ev: any) => {
-            manageRequest(_request, ev);
-          }}
-        >
+      <SelectedRequestContextProvider>
+        <ContextMenuTrigger id={`request-${_request._id}`}>
           <div
-            className="banner"
-            style={{
-              backgroundImage: `url(${_request.beatmap.covers["cover@2x"]})`,
+            className={loading ? "requestselector loading" : "requestselector"}
+            onClick={(ev: any) => {
+              manageRequest(_request, ev);
             }}
           >
-            <div className="row">
-              {_request.cross ? (
-                <div
-                  className="crossrequesticon"
-                  aria-label={`Requested by ${_request._owner_name}`}
-                  data-balloon-pos="up"
-                  data-balloon-length="medium"
-                >
-                  <FontAwesomeIcon icon={faRandom} />
-                </div>
-              ) : (
-                <></>
-              )}
-
-              <div
-                aria-label={_request.reply}
-                data-balloon-pos={_request.reply != "" ? "up" : "hidden"}
-                data-balloon-length="fit"
-              >
-                <Tag
-                  content={texts[_request.status]}
-                  type={_request.status}
-                  icon={
-                    request.reply != "" ? (
-                      <FontAwesomeIcon icon={faChevronUp} />
-                    ) : (
-                      <></>
-                    )
-                  }
-                ></Tag>
-              </div>
-            </div>
-            <div className="actions">
-              <div
-                onClick={() => {
-                  openExternal(
-                    `https://osu.ppy.sh/s/${_request.beatmapset_id}`
-                  );
-                }}
-                className="action"
-              >
-                <FontAwesomeIcon icon={faExternalLinkSquare} />
-              </div>
-              <div
-                className="action"
-                onClick={() => {
-                  openExternal(`osu://s/${_request.beatmapset_id}`);
-                }}
-              >
-                <FontAwesomeIcon icon={faDownload} />
-              </div>
-              <div
-                className="action"
-                onClick={() => {
-                  if (
-                    beatmapPreviewContext.position == 0 ||
-                    beatmapPreviewContext.paused
-                  ) {
-                    return previewTag.current.play();
-                  } else {
-                    return previewTag.current.pause();
-                  }
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={
-                    !beatmapPreviewContext.paused &&
-                    beatmapPreviewContext.targetRequest == _request._id
-                      ? faPause
-                      : faPlay
-                  }
-                />
-              </div>
-            </div>
             <div
-              className="preview-progress"
-              style={{
-                width: `${
-                  beatmapPreviewContext.targetRequest == _request._id
-                    ? beatmapPreviewContext.position
-                    : 0
-                }%`,
-              }}
+              className={
+                selectedRequest.selected.includes(_request._id)
+                  ? "selected-overlay visible"
+                  : "selected-overlay"
+              }
             ></div>
+            <div
+              className="banner"
+              style={{
+                backgroundImage: `url(${_request.beatmap.covers["cover@2x"]})`,
+              }}
+            >
+              <div className="row">
+                {_request.cross ? (
+                  <div
+                    className="crossrequesticon"
+                    aria-label={`Requested by ${_request._owner_name}`}
+                    data-balloon-pos="up"
+                    data-balloon-length="medium"
+                  >
+                    <FontAwesomeIcon icon={faRandom} />
+                  </div>
+                ) : (
+                  <></>
+                )}
+
+                <div
+                  aria-label={_request.reply}
+                  data-balloon-pos={_request.reply != "" ? "up" : "hidden"}
+                  data-balloon-length="fit"
+                >
+                  <Tag
+                    content={texts[_request.status]}
+                    type={_request.status}
+                    icon={
+                      request.reply != "" ? (
+                        <FontAwesomeIcon icon={faChevronUp} />
+                      ) : (
+                        <></>
+                      )
+                    }
+                  ></Tag>
+                </div>
+              </div>
+              <div className="actions">
+                <div
+                  onClick={() => {
+                    openExternal(
+                      `https://osu.ppy.sh/s/${_request.beatmapset_id}`
+                    );
+                  }}
+                  className="action"
+                >
+                  <FontAwesomeIcon icon={faExternalLinkSquare} />
+                </div>
+                <div
+                  className="action"
+                  onClick={() => {
+                    openExternal(`osu://s/${_request.beatmapset_id}`);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faDownload} />
+                </div>
+                <div
+                  className="action"
+                  onClick={() => {
+                    if (
+                      beatmapPreviewContext.position == 0 ||
+                      beatmapPreviewContext.paused
+                    ) {
+                      return previewTag.current.play();
+                    } else {
+                      return previewTag.current.pause();
+                    }
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={
+                      !beatmapPreviewContext.paused &&
+                      beatmapPreviewContext.targetRequest == _request._id
+                        ? faPause
+                        : faPlay
+                    }
+                  />
+                </div>
+              </div>
+              <div
+                className="preview-progress"
+                style={{
+                  width: `${
+                    beatmapPreviewContext.targetRequest == _request._id
+                      ? beatmapPreviewContext.position
+                      : 0
+                  }%`,
+                }}
+              ></div>
+            </div>
+            <SpreadViewer
+              beatmaps={_request.beatmap.beatmaps || []}
+            ></SpreadViewer>
+            <p className="title">{_request.beatmap.title}</p>
+            <p className="artist">{_request.beatmap.artist}</p>
+            <p className="mapper">
+              mapped by
+              <a href={`https://osu.ppy.sh/u/${_request.beatmap.user_id}`}>
+                {_request.beatmap.creator}
+              </a>
+            </p>
+            <div className="comment">{_request.comment}</div>
           </div>
-          <SpreadViewer
-            beatmaps={_request.beatmap.beatmaps || []}
-          ></SpreadViewer>
-          <p className="title">{_request.beatmap.title}</p>
-          <p className="artist">{_request.beatmap.artist}</p>
-          <p className="mapper">
-            mapped by
-            <a href={`https://osu.ppy.sh/u/${_request.beatmap.user_id}`}>
-              {_request.beatmap.creator}
-            </a>
-          </p>
-          <div className="comment">{_request.comment}</div>
-        </div>
-      </ContextMenuTrigger>
-      {queue._id == login._id && !_static ? (
-        <ContextMenu id={`request-${_request._id}`}>
-          {queue.type == "modder"
-            ? modder_options.map((o) => o)
-            : bn_options.map((o) => o)}
-        </ContextMenu>
-      ) : (
-        ""
-      )}
+        </ContextMenuTrigger>
+        {queue._id == login._id && !_static ? (
+          <ContextMenu id={`request-${_request._id}`}>
+            {queue.type == "modder"
+              ? modder_options.map((o) => o)
+              : bn_options.map((o) => o)}
+          </ContextMenu>
+        ) : (
+          ""
+        )}
+      </SelectedRequestContextProvider>
     </>
   );
 };

@@ -38,6 +38,7 @@ import MyRequestsPanel from "../components/global/MyRequestsPanel";
 import ManageRequestPanel from "../components/queue/ManageRequestPanel";
 import NotificationSideMenu from "../components/global/NotificationSideMenu";
 import { NotificationSideMenuContext } from "../providers/NotificationSideMenu";
+import { SelectedRequestContextProvider } from "../providers/SelectRequestContext";
 
 export default () => {
   const icons = [
@@ -272,211 +273,204 @@ export default () => {
 
   return (
     <>
-      <AppBar></AppBar>
-      <PageBanner src={queue.banner} css={{}}></PageBanner>
-      <RequestPanel
-        queue={queue}
-        setRequests={setRequests}
-        requests={requests}
-      ></RequestPanel>
-      <QueuePanel></QueuePanel>
-      <MyRequestsPanel></MyRequestsPanel>
-      <ManageRequestPanel queue={queue}></ManageRequestPanel>
-      <NotificationSideMenu></NotificationSideMenu>
-      <SideMenu
-        _open={sideMenuContext.open}
-        options={[
-          { label: "My queue", callback: goToUserQueue },
-          {
-            label: login.hasQueue ? "Queue settings" : "Create a queue",
-            callback: () => {
-              login.hasQueue
-                ? queuePanelContext.setOpen(true)
-                : CreateNewQueue(login);
+      <SelectedRequestContextProvider>
+        <AppBar></AppBar>
+        <PageBanner src={queue.banner} css={{}}></PageBanner>
+        <RequestPanel
+          queue={queue}
+          setRequests={setRequests}
+          requests={requests}
+        ></RequestPanel>
+        <QueuePanel></QueuePanel>
+        <MyRequestsPanel></MyRequestsPanel>
+        <ManageRequestPanel queue={queue}></ManageRequestPanel>
+        <NotificationSideMenu></NotificationSideMenu>
+        <SideMenu
+          _open={sideMenuContext.open}
+          options={[
+            { label: "My queue", callback: goToUserQueue },
+            {
+              label: login.hasQueue ? "Queue settings" : "Create a queue",
+              callback: () => {
+                login.hasQueue
+                  ? queuePanelContext.setOpen(true)
+                  : CreateNewQueue(login);
+              },
             },
-          },
-          {
-            label: "My Requests",
-            callback: () => {
-              requestsPanelContext.setOpen(true);
+            {
+              label: "My Requests",
+              callback: () => {
+                requestsPanelContext.setOpen(true);
+              },
             },
-          },
-          {
-            label: "Log-out",
-            callback: () => {
-              DestroySession();
+            {
+              label: "Log-out",
+              callback: () => {
+                DestroySession();
+              },
             },
-          },
-        ]}
-        title={`Hello, ${login.username}!`}
-      ></SideMenu>
-      <div className="queuelayout">
-        <HeaderPanel
-          style={{
-            width: "250px",
-            height: "70vh",
-            marginLeft: "1rem",
-            display: "inline-flex",
-            alignItems: "center",
-            flexDirection: "column",
-            flexWrap: "nowrap",
-            alignContent: "center",
-            justifyContent: "flex-start",
-            position: "sticky",
-            top: "141px",
-          }}
-        >
-          <div className="headerleft">
-            <div
-              className="icon round1"
-              style={{
-                backgroundImage: `url(https://a.ppy.sh/${queue._id})`,
-                border: `5px solid var(--${queue.open ? "green" : "red"})`,
-              }}
-            ></div>
-            <p
-              className="queuename"
-              onClick={() => {
-                window.open(`https://osu.ppy.sh/u/${queue._id}`);
-              }}
-            >
-              {queue.name}
-              {queue.verified ? (
-                <FontAwesomeIcon
-                  icon={faCircleCheck}
-                  className="verifiedbadge"
-                  color="#25ca6a"
-                  style={{
-                    width: "18px",
-                    marginLeft: "5px",
-                  }}
-                />
-              ) : (
-                <></>
-              )}
-            </p>
-            <Tag
-              content={queue.type}
-              style={{
-                backgroundColor: typeColors[queue.type],
-                color: "white",
-                marginTop: "5px",
-              }}
-            />
-            <div className="row center">
-              {queue.modes.map((m) => {
-                return (
-                  <div className="modeicon" key={GenerateComponentKey(20)}>
-                    {icons[m]}
-                  </div>
-                );
-              })}
-            </div>
-            <div className="row buttonsrow">
-              <button
-                className="custombuttom"
+          ]}
+          title={`Hello, ${login.username}!`}
+        ></SideMenu>
+        <div className="queuelayout">
+          <HeaderPanel
+            style={{
+              width: "250px",
+              height: "70vh",
+              marginLeft: "1rem",
+              display: "inline-flex",
+              alignItems: "center",
+              flexDirection: "column",
+              flexWrap: "nowrap",
+              alignContent: "center",
+              justifyContent: "flex-start",
+              position: "sticky",
+              top: "141px",
+            }}
+          >
+            <div className="headerleft">
+              <div
+                className="icon round1"
                 style={{
-                  backgroundColor: `var(--${
-                    login._id == -1 ? "red" : queue.open ? "green" : "red"
-                  })`,
-                  color: `${
-                    login._id == -1 ? "white" : queue.open ? "black" : "white"
-                  }`,
+                  backgroundImage: `url(https://a.ppy.sh/${queue._id})`,
+                  border: `5px solid var(--${queue.open ? "green" : "red"})`,
                 }}
+              ></div>
+              <p
+                className="queuename"
                 onClick={() => {
-                  if (login._id == -1) return loginWarn();
-                  if (!queue.open && login._id != queue._id) return;
+                  window.open(`https://osu.ppy.sh/u/${queue._id}`);
+                }}
+              >
+                {queue.name}
+                {queue.verified ? (
+                  <FontAwesomeIcon
+                    icon={faCircleCheck}
+                    className="verifiedbadge"
+                    color="#25ca6a"
+                    style={{
+                      width: "18px",
+                      marginLeft: "5px",
+                    }}
+                  />
+                ) : (
+                  <></>
+                )}
+              </p>
+              <Tag
+                content={queue.type}
+                style={{
+                  backgroundColor: typeColors[queue.type],
+                  color: "white",
+                  marginTop: "5px",
+                }}
+              />
+              <div className="row center">
+                {queue.modes.map((m) => {
+                  return (
+                    <div className="modeicon" key={GenerateComponentKey(20)}>
+                      {icons[m]}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="row buttonsrow">
+                <button
+                  className="custombuttom"
+                  style={{
+                    backgroundColor: `var(--${
+                      login._id == -1 ? "red" : queue.open ? "green" : "red"
+                    })`,
+                    color: `${
+                      login._id == -1 ? "white" : queue.open ? "black" : "white"
+                    }`,
+                  }}
+                  onClick={() => {
+                    if (login._id == -1) return loginWarn();
+                    if (!queue.open && login._id != queue._id) return;
 
-                  setOpen(true);
-                }}
-              >
-                Request
-              </button>
-              <button
-                className={
-                  followers.find((f: { _user: any }) => f._user == login._id)
-                    ? "custombutton following-button"
-                    : "custombuttom"
-                }
-                onClick={() => {
-                  if (login._id == -1) return loginWarn();
-                  updateFollow();
-                }}
-                onMouseOver={() => {
-                  updateFollowButtonIcon(true);
-                }}
-                onMouseLeave={() => {
-                  updateFollowButtonIcon(false);
-                }}
-              >
-                {followers.length}
-                <FontAwesomeIcon icon={followButtonIcon} />
-              </button>
+                    setOpen(true);
+                  }}
+                >
+                  Request
+                </button>
+                <button
+                  className={
+                    followers.find((f: { _user: any }) => f._user == login._id)
+                      ? "custombutton following-button"
+                      : "custombuttom"
+                  }
+                  onClick={() => {
+                    if (login._id == -1) return loginWarn();
+                    updateFollow();
+                  }}
+                  onMouseOver={() => {
+                    updateFollowButtonIcon(true);
+                  }}
+                  onMouseLeave={() => {
+                    updateFollowButtonIcon(false);
+                  }}
+                >
+                  {followers.length}
+                  <FontAwesomeIcon icon={followButtonIcon} />
+                </button>
+              </div>
             </div>
-          </div>
-        </HeaderPanel>
-        <div className="queuecontent">
-          <nav className="queuenav">
-            <SearchSelect
-              label="Sort"
-              options={
-                <>
-                  <option>Date</option>
-                  <option>Title</option>
-                  <option>Artist</option>
-                </>
-              }
-              onSelect={console.log}
-            ></SearchSelect>
-            <SearchSelect
-              label="Status"
-              options={
-                <>
-                  <option value="any">Any</option>
-                  <option value="pending">Pending</option>
-                  <option value="accepted">Accepted</option>
-                  <option value="rejected">Rejected</option>
-                  <option value="nominated">Nominated</option>
-                  <option value="finished">Finished</option>
-                  <option value="waiting">Waiting Another BN</option>
-                  <option value="rechecking">Need Recheck</option>
-                </>
-              }
-              onSelect={(ev: React.SyntheticEvent<InputEvent>) => {
-                setFilters(ev, "status");
-              }}
-            ></SearchSelect>
-            <SearchSelect
-              label="Type"
-              options={
-                <>
-                  <option value="progress">In Progress</option>
-                  <option value="archived">Archived</option>
-                </>
-              }
-              onSelect={(ev: React.SyntheticEvent<InputEvent>) => {
-                setFilters(ev, "type");
-              }}
-            ></SearchSelect>
-          </nav>
-          <div className="requestlisting">
-            {requests.length == 0 || requests[0] == "refresh" ? (
-              <NoRequests></NoRequests>
-            ) : (
-              requests.map((r: IRequest, i: React.Key | null | undefined) => {
-                return (
-                  <RequestSelector
-                    request={r}
-                    refreshRequests={refreshRequests}
-                    queue={queue}
-                    key={r._id}
-                  ></RequestSelector>
-                );
-              })
-            )}
+          </HeaderPanel>
+          <div className="queuecontent">
+            <nav className="queuenav">
+              <SearchSelect
+                label="Status"
+                options={
+                  <>
+                    <option value="any">Any</option>
+                    <option value="pending">Pending</option>
+                    <option value="accepted">Accepted</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="nominated">Nominated</option>
+                    <option value="finished">Finished</option>
+                    <option value="waiting">Waiting Another BN</option>
+                    <option value="rechecking">Need Recheck</option>
+                  </>
+                }
+                onSelect={(ev: React.SyntheticEvent<InputEvent>) => {
+                  setFilters(ev, "status");
+                }}
+              ></SearchSelect>
+              <SearchSelect
+                label="Type"
+                options={
+                  <>
+                    <option value="progress">In Progress</option>
+                    <option value="archived">Archived</option>
+                  </>
+                }
+                onSelect={(ev: React.SyntheticEvent<InputEvent>) => {
+                  setFilters(ev, "type");
+                }}
+              ></SearchSelect>
+            </nav>
+            <div className="requestlisting">
+              {requests.length == 0 || requests[0] == "refresh" ? (
+                <NoRequests></NoRequests>
+              ) : (
+                requests.map((r: IRequest, i: number) => {
+                  return (
+                    <RequestSelector
+                      request={r}
+                      refreshRequests={refreshRequests}
+                      requests={requests}
+                      setRequests={setRequests}
+                      queue={queue}
+                      key={GenerateComponentKey(10)}
+                    ></RequestSelector>
+                  );
+                })
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </SelectedRequestContextProvider>
     </>
   );
 };
