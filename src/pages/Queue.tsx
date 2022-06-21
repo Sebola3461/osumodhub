@@ -515,7 +515,7 @@ export default () => {
               ></SearchSelect>
             </nav>
             <div className="requestlisting">
-              {requests[0] == "refresh" ? (
+              {requests[0] == "refresh" || requests.length == 0 ? (
                 <NoRequests></NoRequests>
               ) : requests[0] == "loading" ? (
                 loadingRequests
