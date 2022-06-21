@@ -535,6 +535,9 @@ export default ({
               </div>
               <div className="actions">
                 <div
+                  aria-label={`Requested by ${_request._owner_name}`}
+                  data-balloon-pos="up"
+                  data-balloon-length="medium"
                   onClick={() => {
                     openExternal(
                       `https://osu.ppy.sh/s/${_request.beatmapset_id}`

@@ -147,10 +147,12 @@ export default () => {
 
         if (d.status == 200) {
           _queue.timeclose.scheduled = new Date();
+          setQueue(_queue);
         }
       });
   }
 
+  // TODO: Fix the fucking time update
   return (
     <div
       className={open ? "queuepanel open" : "queuepanel closed"}
@@ -292,17 +294,24 @@ export default () => {
                   }}
                 />
               </div>
-              <div className="row timerrow">
+              <div className="row timerrow" key={_queue.timeclose.scheduled}>
                 <button className="custombutton" onClick={scheduleQueue}>
                   Start timer
                 </button>
-                <p key={GenerateComponentKey(10)}>
-                  Your queue will close{" "}
-                  {moment(_queue.timeclose.scheduled)
-                    .add(_queue.timeclose.size, "days")
-                    .calendar()}{" "}
-                  UTC
-                </p>
+                {moment(_queue.timeclose.scheduled)
+                  .add(_queue.timeclose.size, "days")
+                  .toDate()
+                  .valueOf() >= new Date().valueOf() ? (
+                  <p>
+                    Your queue will close{" "}
+                    {moment(_queue.timeclose.scheduled)
+                      .add(_queue.timeclose.size, "days")
+                      .calendar()}{" "}
+                    UTC
+                  </p>
+                ) : (
+                  <></>
+                )}
               </div>
               <div className="separator"></div>
               <div className="option  wide">

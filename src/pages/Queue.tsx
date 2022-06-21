@@ -93,7 +93,7 @@ export default () => {
     NAT: "#eb8c47",
   };
 
-  const [requests, setRequests] = useState<any>(["refresh"]);
+  const [requests, setRequests] = useState<any>(["loading"]);
   const [followers, setFollowers] = useState<any>(["loading"]);
 
   useEffect(() => {
@@ -130,7 +130,7 @@ export default () => {
       if (id != queue._id) {
         queue._id = id;
         setQueue(queue);
-        setRequests([]);
+        setRequests(["loading"]);
 
         fetch(`/api/queues/${id}`)
           .then((r) => r.json())
@@ -156,6 +156,28 @@ export default () => {
         SyncQueueData(login);
       }
     }, 10);
+
+    // ? Auto-refresh requests
+    setInterval(() => {
+      const id = window.location.pathname.split("").pop()
+        ? window.location.pathname.split("/").pop()?.trim()
+        : "";
+
+      fetch(`/api/queues/${id}/requests`)
+        .then((r) => r.json())
+        .then((q) => {
+          if (q.status != 200) return;
+
+          q.data.sort(
+            (a: IRequest, b: IRequest) =>
+              new Date(b.date).valueOf() - new Date(a.date).valueOf()
+          );
+
+          if (q.data.length > requests.length) {
+            setRequests(q.data);
+          }
+        });
+    }, 60000);
 
     SyncQueueData(login);
   }, []);
@@ -195,7 +217,7 @@ export default () => {
             new Date(a.date).valueOf() - new Date(b.date).valueOf()
         );
 
-        setRequests([]);
+        setRequests(["loading"]);
         setRequests(q.data);
       });
   }
@@ -228,7 +250,7 @@ export default () => {
             new Date(a.date).valueOf() - new Date(b.date).valueOf()
         );
 
-        setRequests([]);
+        setRequests(["loading"]);
         setRequests(q.data);
       });
   }
@@ -305,6 +327,13 @@ export default () => {
 
     return setFollowButtonIcon(faUser);
   }
+
+  const loadingRequests = (
+    <div className="loading">
+      <div className="patchouli"></div>
+      <p>Loading requests...</p>
+    </div>
+  );
 
   return (
     <>
@@ -486,8 +515,10 @@ export default () => {
               ></SearchSelect>
             </nav>
             <div className="requestlisting">
-              {requests.length == 0 || requests[0] == "refresh" ? (
+              {requests[0] == "refresh" ? (
                 <NoRequests></NoRequests>
+              ) : requests[0] == "loading" ? (
+                loadingRequests
               ) : (
                 requests.map((r: IRequest, i: number) => {
                   return (

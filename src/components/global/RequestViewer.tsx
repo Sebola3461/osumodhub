@@ -80,11 +80,18 @@ export default ({
     );
   }
 
+  function openBeatmap() {
+    window.open(`https://osu.ppy.sh/s/${_request.beatmapset_id}`);
+  }
+
   if (_request.beatmap.status == "Not Found") return <></>;
 
   return (
     <>
-      <div className={loading ? "requestselector loading" : "requestselector"}>
+      <div
+        className={loading ? "requestselector loading" : "requestselector"}
+        onClick={openBeatmap}
+      >
         <div
           className="banner"
           style={{

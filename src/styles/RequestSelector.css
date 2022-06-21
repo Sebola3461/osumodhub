@@ -1,7 +1,7 @@
 .requestselector {
-  width: 210px;
-  min-width: 210px;
-  min-height: 255px;
+  width: 240px;
+  min-width: 240px;
+  min-height: 300px;
   border-radius: 0.5rem;
   background-color: var(--background2);
   display: flex;
@@ -202,7 +202,7 @@
 
 .requestselector .comment {
   width: calc(90% - 10px);
-  height: 30px;
+  height: 60px;
   margin-top: auto;
   margin-bottom: 10px;
   border-radius: 0.3rem;
