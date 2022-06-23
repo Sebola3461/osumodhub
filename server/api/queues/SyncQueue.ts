@@ -48,12 +48,12 @@ export default async (req: Request, res: Response) => {
   queue.name = user.data.username;
   queue.type = type;
 
-  await queues.findByIdAndUpdate({ _id: author.id }, queue);
+  await queues.findByIdAndUpdate(author.id, queue);
 
   // ? Add bn flag to user
   if (["BN", "NAT"].includes(type)) {
     author.isBn = true;
-    await users.findByIdAndUpdate({ _id: user.data.id }, user);
+    await users.findByIdAndUpdate(user.data.id, user);
   }
 
   res.status(200).send({
