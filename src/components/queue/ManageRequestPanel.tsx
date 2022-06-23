@@ -196,6 +196,12 @@ export default ({ queue }: { queue: any }) => {
     </div>,
   ];
 
+  function getReply() {
+    if (request.reply == "" && login._id != queue._id) return "";
+
+    return request.reply;
+  }
+
   return (
     <div
       className={
@@ -235,13 +241,7 @@ export default ({ queue }: { queue: any }) => {
             <textarea
               key={GenerateComponentKey(29)}
               placeholder="Request reply"
-              defaultValue={
-                request.reply == ""
-                  ? login._id != queue._id
-                    ? "No reply provided..."
-                    : ""
-                  : request.reply
-              }
+              defaultValue={getReply()}
               onKeyUp={(ev: any) => {
                 updateRequestReply(ev.target.value);
               }}
