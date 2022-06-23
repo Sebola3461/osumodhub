@@ -235,7 +235,11 @@ export default ({ queue }: { queue: any }) => {
             <textarea
               placeholder="Request reply"
               defaultValue={
-                request.reply == "" ? "No reply provided..." : request.reply
+                request.reply == ""
+                  ? login._id != queue._id
+                    ? "No reply provided..."
+                    : ""
+                  : request.reply
               }
               onKeyUp={(ev: any) => {
                 updateRequestReply(ev.target.value);
