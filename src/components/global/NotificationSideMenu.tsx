@@ -11,21 +11,21 @@ import Markdown from "markdown-to-jsx";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
-import StartAuthentication from "../../helpers/StartAuthentication";
 import { AuthContext } from "../../providers/AuthContext";
 import { NotificationSideMenuContext } from "../../providers/NotificationSideMenu";
-import { SideMenuContext } from "../../providers/UserSideMenu";
 import "./../../styles/SideMenu.css";
 // import "./../../styles/NotificationSideMenu.css";
+import { useSnackbar } from "notistack";
 
 export default () => {
-  const { open, setOpen, pending, setPending } = useContext(
+  const { open, setOpen, pending, setPending, size, setSize } = useContext(
     NotificationSideMenuContext
   );
   const [notifications, setNotifications] = useState([]);
   const [loadingNotifications, setLoadingNotifications] = useState([]);
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const icon = {
     "queue:state": <FontAwesomeIcon icon={faUnlock}></FontAwesomeIcon>,
@@ -45,6 +45,7 @@ export default () => {
       .then((r) => r.json())
       .then((d) => {
         setNotifications(d.data);
+        setSize(d.length);
       });
 
     setInterval(() => {
@@ -132,6 +133,21 @@ export default () => {
     setNotifications(notifications);
   }
 
+  function clearNotifications() {
+    fetch(`/api/notifications/`, {
+      method: "DELETE",
+      headers: {
+        authorization: login.account_token,
+      },
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        enqueueSnackbar(d.message, {
+          variant: d.status == 200 ? "success" : "error",
+        });
+      });
+  }
+
   function auxClosePanel(ev: any) {
     if (ev.target.className != "sidemenu open") return;
 
@@ -157,6 +173,10 @@ export default () => {
       <div className="container">
         <div className="title">
           <p>Notifications</p>
+        </div>
+        <div onClick={clearNotifications} className="clearnotifications">
+          <FontAwesomeIcon icon={faTrash} />
+          <p>Clear all notifications</p>
         </div>
         <div className="notifications">
           {notifications.map((notification, i) => {

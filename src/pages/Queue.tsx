@@ -438,6 +438,13 @@ export default () => {
                   );
                 })}
               </div>
+              <div className="queue-preferences">
+                <div className="wrapper">
+                  {queue.genres.map((g, i) => {
+                    return <div className="genre">{g}</div>;
+                  })}
+                </div>
+              </div>
               <div className="row buttonsrow">
                 <button
                   className="custombuttom"

@@ -81,9 +81,37 @@
   filter: brightness(1.2);
 }
 
+.headerleft .queue-preferences {
+  width: 100%;
+  height: 50%;
+  margin-top: 10px;
+}
+
+.headerleft .queue-preferences .wrapper {
+  width: calc(100% - 6%);
+  height: 100%;
+  background-color: var(--background5);
+  border-radius: 5px;
+  padding: 3%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.headerleft .queue-preferences .wrapper div {
+  width: fit-content;
+  padding: 3px;
+  border-radius: 3px;
+  background-color: var(--background3);
+  margin: 2px;
+  color: #c7c7c7;
+}
+
 .headerleft button:first-of-type {
   display: block;
-  margin-top: auto;
   background-color: var(--green);
   color: black;
 }

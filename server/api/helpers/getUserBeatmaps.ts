@@ -6,7 +6,7 @@ export default async (user_id: string, status?: string) => {
     const req = await axios(
       `https://osu.ppy.sh/api/v2/users/${user_id}/beatmapsets/${
         status || "pending"
-      }`,
+      }?limit=100`,
       {
         method: "get",
         headers: {

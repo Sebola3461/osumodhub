@@ -15,6 +15,7 @@ import SyncQueue from "./queues/SyncQueue";
 import UpdateQueue from "./queues/UpdateQueue";
 import UpdateRequest from "./queues/UpdateRequest";
 import AuthenticateUser from "./users/AuthenticateUser";
+import ClearUserNotifications from "./users/ClearUserNotifications";
 import GetBeatmapInfo from "./users/GetBeatmapInfo";
 import GetUserBeatmaps from "./users/GetUserBeatmaps";
 import GetUserNotifications from "./users/GetUserNotifications";
@@ -50,6 +51,7 @@ api.post("/queues/schedule", StartTimeClose);
 api.post("/queues/:queue/requests", CreateRequest);
 api.post("/queues/:queue/follow", FollowQueue);
 api.post("/notifications/:notification", ValidateNotification);
+api.delete("/notifications/", ClearUserNotifications);
 
 api.post("/queues/update", UpdateQueue);
 

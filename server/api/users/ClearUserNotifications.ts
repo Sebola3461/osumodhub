@@ -1,11 +1,8 @@
 import { Request, Response } from "express";
-import { users } from "../../../database";
-import getUserBeatmaps from "../helpers/getUserBeatmaps";
+import { notifications, users } from "../../../database";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
-  const requestedUser = req.params["user"];
-  const includePending = req.query["includePending"];
 
   if (!authorization)
     return res.status(403).send({
@@ -13,7 +10,7 @@ export default async (req: Request, res: Response) => {
       message: "Missing authorization",
     });
 
-  const user = await users.findById(requestedUser);
+  const user = await users.findOne({ account_token: authorization });
 
   if (user == null)
     return res.status(404).send({
@@ -27,17 +24,10 @@ export default async (req: Request, res: Response) => {
       message: "Unauthorized",
     });
 
-  const userBeatmaps = await getUserBeatmaps(user._id);
-
-  if (userBeatmaps.status != 200 || !userBeatmaps.data)
-    return res.status(userBeatmaps.status).send({
-      status: userBeatmaps.status,
-      message: userBeatmaps.message,
-    });
+  await notifications.deleteMany({ _user: user._id });
 
   return res.status(200).send({
     status: 200,
-    message: "Found!",
-    data: userBeatmaps.data,
+    message: "Notifications cleared!",
   });
 };

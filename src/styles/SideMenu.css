@@ -58,6 +58,31 @@
   font-weight: 500;
 }
 
+.sidemenu .clearnotifications {
+  width: calc(100% - 20px);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 10px 10px;
+}
+
+.sidemenu .clearnotifications svg {
+  margin-right: 10px;
+}
+
+.sidemenu .clearnotifications * {
+  color: #707070;
+  cursor: pointer;
+  transition: linear 120ms color;
+}
+
+.sidemenu .clearnotifications:hover * {
+  color: white;
+}
+
 .sidemenu .notifications {
   width: 100%;
   height: calc(100vh - 50px - 71.11px);
