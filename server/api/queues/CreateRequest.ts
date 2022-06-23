@@ -93,6 +93,7 @@ export default async (req: Request, res: Response) => {
 
   const pending_request = await requests.findOne({
     _owner: author._id,
+    _queue: queue._id,
     beatmapset_id: requestedBeatmapset.data.id,
     status: "pending",
   });
