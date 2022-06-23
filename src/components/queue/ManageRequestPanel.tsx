@@ -233,6 +233,7 @@ export default ({ queue }: { queue: any }) => {
           ></RequestViewer>
           <div className="vertical">
             <textarea
+              key={GenerateComponentKey(29)}
               placeholder="Request reply"
               defaultValue={
                 request.reply == ""
