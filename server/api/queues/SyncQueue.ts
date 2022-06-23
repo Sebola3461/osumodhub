@@ -52,7 +52,7 @@ export default async (req: Request, res: Response) => {
 
   // ? Add bn flag to user
   if (["BN", "NAT"].includes(type)) {
-    user.isBn = true;
+    author.isBn = true;
     await users.findByIdAndUpdate({ _id: user.data.id }, user);
   }
 
