@@ -145,6 +145,10 @@ export default () => {
         enqueueSnackbar(d.message, {
           variant: d.status == 200 ? "success" : "error",
         });
+
+        if (d.status == 200) {
+          setNotifications([]);
+        }
       });
   }
 
