@@ -19,6 +19,7 @@ export default () => {
 
     localStorage["user_login"] = JSON.stringify(ev.data);
 
+    _window.close();
     location.reload();
   });
 };
