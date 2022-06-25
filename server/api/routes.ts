@@ -54,7 +54,7 @@ api.post("/queues/:queue/requests", CreateRequest);
 api.post("/queues/:queue/follow", FollowQueue);
 api.post("/queues/update", UpdateQueue);
 
-api.post("/users/update", SyncClient);
+api.post("/users/sync", SyncClient);
 
 api.post("/notifications/:notification", ValidateNotification);
 
