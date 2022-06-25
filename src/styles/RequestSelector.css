@@ -23,7 +23,6 @@
 }
 
 .requestselector:hover {
-  margin-top: 4px;
   box-shadow: 0 0 5px 1px #0000003d;
 }
 
@@ -179,7 +178,7 @@
 }
 
 .requestselector .artist {
-  color: grey;
+  color: #d5d5d5;
   font-size: 13px;
   width: 90%;
   display: -webkit-box;
@@ -198,6 +197,17 @@
 .requestselector .mapper a {
   margin-left: 3px;
   font-weight: 500;
+}
+
+.requestselector .commentlabel {
+  width: 90%;
+  font-size: 12px;
+  margin-bottom: 5px;
+  color: var(--background7);
+}
+
+.requestselector .commentlabel svg {
+  margin-right: 3px;
 }
 
 .requestselector .comment {

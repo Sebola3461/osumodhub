@@ -27,6 +27,12 @@ export default async (req: Request, res: Response) => {
       message: "User not found!",
     });
 
+  if (user._id == queue._id)
+    return res.status(400).send({
+      status: 400,
+      message: "You can't follow yourself.",
+    });
+
   const follower = await followers.findOne({ _user: user._id, _queue: id });
 
   if (follower)

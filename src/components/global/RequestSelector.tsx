@@ -18,6 +18,7 @@ import {
   faDownload,
   faExternalLinkSquare,
   faLitecoinSign,
+  faMessage,
   faPause,
   faPlay,
   faRandom,
@@ -613,9 +614,6 @@ export default ({
               </div>
               <div className="actions">
                 <div
-                  aria-label={`Requested by ${_request._owner_name}`}
-                  data-balloon-pos="up"
-                  data-balloon-length="medium"
                   onClick={() => {
                     openExternal(
                       `https://osu.ppy.sh/s/${_request.beatmapset_id}`
@@ -678,6 +676,10 @@ export default ({
                 {_request.beatmap.creator}
               </a>
             </p>
+            <div className="commentlabel">
+              <FontAwesomeIcon icon={faMessage} />
+              Mapper's comment
+            </div>
             <div className="comment">{_request.comment}</div>
           </div>
         </ContextMenuTrigger>

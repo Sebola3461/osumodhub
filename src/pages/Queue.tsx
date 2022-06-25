@@ -153,6 +153,13 @@ export default () => {
             setRequests(q.data);
           });
 
+        fetch(`/api/queues/${queue_id}/follow`)
+          .then((r) => r.json())
+          .then((res) => {
+            setFollowers(res.data);
+            setFollowersCount(res.data.length);
+          });
+
         SyncQueueData(login);
       }
     }, 10);
@@ -267,6 +274,7 @@ export default () => {
 
   function updateFollow() {
     if (followers[0] == "loading") return;
+    if (queue._id == login._id) return;
 
     if (followers.find((u: { _user: any }) => u._user == login._id)) {
       fetch(`/api/queues/${queue._id}/follow`, {
