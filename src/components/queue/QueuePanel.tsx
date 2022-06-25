@@ -325,44 +325,52 @@ export default () => {
                 ></TagsInput>
               </div>
               <div className="separator"></div>
-              <div className="option  wide">
+              <div className="option wide modes">
                 <p>Modes:</p>
-                <div className="row">
-                  osu!:{" "}
-                  <Checkbox
-                    defaultChecked={getQueueModes(0)}
-                    onInput={(ev) => {
-                      const target: any = ev.target;
-                      setQueueModes(0, target.checked);
-                    }}
-                  ></Checkbox>
-                  osu!taiko:{" "}
-                  <Checkbox
-                    defaultChecked={getQueueModes(1)}
-                    onInput={(ev) => {
-                      const target: any = ev.target;
+                <div className="row modes">
+                  <div>
+                    osu!:{" "}
+                    <Checkbox
+                      defaultChecked={getQueueModes(0)}
+                      onInput={(ev) => {
+                        const target: any = ev.target;
+                        setQueueModes(0, target.checked);
+                      }}
+                    ></Checkbox>
+                  </div>
+                  <div>
+                    osu!taiko:{" "}
+                    <Checkbox
+                      defaultChecked={getQueueModes(1)}
+                      onInput={(ev) => {
+                        const target: any = ev.target;
 
-                      setQueueModes(1, target.checked);
-                    }}
-                  ></Checkbox>
-                  osu!catch:{" "}
-                  <Checkbox
-                    defaultChecked={getQueueModes(2)}
-                    onInput={(ev) => {
-                      const target: any = ev.target;
+                        setQueueModes(1, target.checked);
+                      }}
+                    ></Checkbox>
+                  </div>
+                  <div>
+                    osu!catch:{" "}
+                    <Checkbox
+                      defaultChecked={getQueueModes(2)}
+                      onInput={(ev) => {
+                        const target: any = ev.target;
 
-                      setQueueModes(2, target.checked);
-                    }}
-                  ></Checkbox>
-                  osu!mania:{" "}
-                  <Checkbox
-                    defaultChecked={getQueueModes(3)}
-                    onInput={(ev) => {
-                      const target: any = ev.target;
+                        setQueueModes(2, target.checked);
+                      }}
+                    ></Checkbox>
+                  </div>
+                  <div>
+                    osu!mania:{" "}
+                    <Checkbox
+                      defaultChecked={getQueueModes(3)}
+                      onInput={(ev) => {
+                        const target: any = ev.target;
 
-                      setQueueModes(3, target.checked);
-                    }}
-                  ></Checkbox>
+                        setQueueModes(3, target.checked);
+                      }}
+                    ></Checkbox>
+                  </div>
                 </div>
               </div>
               <div className="separator"></div>

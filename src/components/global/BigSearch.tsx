@@ -6,7 +6,7 @@ export default ({ onInput }: { onInput: Function }) => {
       <input
         type="text"
         placeholder="Peppy with neko ears"
-        onKeyDown={(e) => {
+        onInput={(e) => {
           onInput(e);
         }}
       />

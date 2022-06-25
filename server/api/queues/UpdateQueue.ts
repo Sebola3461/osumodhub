@@ -29,7 +29,7 @@ export default async (req: Request, res: Response) => {
 
   if (authorization != queue_owner.account_token)
     return res.status(400).send({
-      status: 400,
+      status: 401,
       message: "Unauthorized",
     });
 

@@ -2,6 +2,7 @@ import { Router } from "express";
 import CreateNewQueue from "./queues/CreateNewQueue";
 import CreateRequest from "./queues/CreateRequest";
 import DeleteRequest from "./queues/DeleteRequest";
+import EditRequestComment from "./queues/EditRequestComment";
 import FollowQueue from "./queues/FollowQueue";
 import GenerateOgImage from "./queues/GenerateOgImage";
 import GetFollowers from "./queues/GetFollowers";
@@ -50,8 +51,11 @@ api.post("/queues/sync", SyncQueue);
 api.post("/queues/schedule", StartTimeClose);
 api.post("/queues/:queue/requests", CreateRequest);
 api.post("/queues/:queue/follow", FollowQueue);
+
 api.post("/notifications/:notification", ValidateNotification);
 api.delete("/notifications/", ClearUserNotifications);
+
+api.post("/requests/:request/edit", EditRequestComment);
 
 api.post("/queues/update", UpdateQueue);
 

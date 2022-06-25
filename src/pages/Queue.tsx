@@ -329,7 +329,7 @@ export default () => {
   }
 
   const loadingRequests = (
-    <div className="loading">
+    <div className="loadingcontainer">
       <div className="patchouli"></div>
       <p>Loading requests...</p>
     </div>

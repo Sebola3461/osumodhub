@@ -437,6 +437,84 @@ export default ({
     manageRequestPanelContext.setOpen(true);
   }
 
+  function editRequestComment() {
+    const content = prompt("Provide a new comment");
+
+    if (content == null) return;
+    if (content.trim() == "")
+      return enqueueSnackbar("Invalid comment!", {
+        variant: "error",
+      });
+
+    fetch(`/api/requests/${_request._id}/edit?comment=${content.trim()}`, {
+      method: "post",
+      headers: {
+        authorization: login.account_token,
+      },
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        enqueueSnackbar(d.message, {
+          variant: d.status == 200 ? "success" : "error",
+        });
+
+        if (d.status == 200) {
+          _request.comment = content.trim();
+          const _requests = requests.map((r) => r);
+          const i = _requests.findIndex((r) => r._id == _request._id);
+
+          _requests[i]["comment"] = content.trim();
+
+          setRequests(_requests);
+        }
+      });
+  }
+
+  function getContextMenu() {
+    if (_static) return;
+
+    if (login._id == _request._owner) {
+      bn_options.push(
+        <MenuItem className="wait-hover" onClick={editRequestComment}>
+          Edit comment
+        </MenuItem>
+      );
+
+      modder_options.push(
+        <MenuItem className="wait-hover" onClick={editRequestComment}>
+          Edit comment
+        </MenuItem>
+      );
+    }
+
+    if (queue.type == "modder" && login._id == queue._id)
+      return (
+        <ContextMenu id={`request-${_request._id}`}>
+          {modder_options.map((o) => {
+            return o;
+          })}
+        </ContextMenu>
+      );
+
+    if (["BN", "NAT"].includes(queue.type) && login._id == queue._id)
+      return (
+        <ContextMenu id={`request-${_request._id}`}>
+          {modder_options.map((o) => {
+            return o;
+          })}
+        </ContextMenu>
+      );
+
+    if (login._id == _request._owner)
+      return (
+        <ContextMenu id={`request-${_request._id}`}>
+          <MenuItem className="wait-hover" onClick={editRequestComment}>
+            Edit comment
+          </MenuItem>
+        </ContextMenu>
+      );
+  }
+
   const [playing, setPlaying] = useState(false);
   const previewTag = useRef(
     new Audio(`https://b.ppy.sh/preview/${_request.beatmapset_id}.mp3`)
@@ -603,15 +681,7 @@ export default ({
             <div className="comment">{_request.comment}</div>
           </div>
         </ContextMenuTrigger>
-        {queue._id == login._id && !_static ? (
-          <ContextMenu id={`request-${_request._id}`}>
-            {queue.type == "modder"
-              ? modder_options.map((o) => o)
-              : bn_options.map((o) => o)}
-          </ContextMenu>
-        ) : (
-          ""
-        )}
+        {getContextMenu()}
       </SelectedRequestContextProvider>
     </>
   );

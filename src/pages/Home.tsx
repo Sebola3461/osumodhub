@@ -20,9 +20,10 @@ import CreateNewQueue from "../helpers/CreateNewQueue";
 import MyRequestsPanel from "../components/global/MyRequestsPanel";
 import { MyRequestPanelContext } from "../providers/MyRequestsPanelContext";
 import NotificationSideMenu from "../components/global/NotificationSideMenu";
+import NoRequests from "../components/global/NoRequests";
 
 function App() {
-  const [queues, setQueues] = useState([]);
+  const [queues, setQueues] = useState<any>(["loading"]);
   const [filters, updateFilters] = useState<{ [key: string]: string }>({
     type: "any",
     open: "any",
@@ -50,14 +51,38 @@ function App() {
 
     SyncQueueData(login);
     document.title = `Queues | osu!modhub`;
+
+    // ? Automatic search
+    let lastSearch = filters.query;
+    setInterval(() => {
+      if (filters.query.trim() != lastSearch.trim()) {
+        lastSearch = filters.query;
+
+        refreshSearch();
+      }
+    }, 1000);
   }, []);
+
+  function refreshSearch() {
+    setLoading(true);
+
+    fetch(
+      `/api/queues/listing?q=${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${filters.type}`
+    )
+      .then((r) => r.json())
+      .then((q) => {
+        if (q.status != 200) return;
+
+        setQueues(q.data);
+        setLoading(false);
+      });
+  }
 
   function updateSearch(ev: KeyboardEvent) {
     const target: any = ev.target;
+    filters["query"] = target.value;
 
-    if (ev.key == "Enter" || target.value.trim().length < 2) {
-      setFilters(ev, "query");
-    }
+    updateFilters(filters);
   }
 
   function setFilters(ev: any, filter: string) {
@@ -89,6 +114,13 @@ function App() {
   function goToUserQueue() {
     goTo(`/queue/${login._id}`);
   }
+
+  const loadingQueues = (
+    <div className="loadingcontainer">
+      <div className="patchouli"></div>
+      <p>Loading queues...</p>
+    </div>
+  );
 
   return (
     <>
@@ -209,9 +241,15 @@ function App() {
           filter: `${loading ? "brightness(0.5)" : "brightness(1)"}`,
         }}
       >
-        {queues.map((q, i) => {
-          return <QueueSelector queue={q} key={i}></QueueSelector>;
-        })}
+        {queues[0] == "refresh" || queues.length == 0 ? (
+          <NoRequests text="Not found"></NoRequests>
+        ) : queues[0] == "loading" ? (
+          loadingQueues
+        ) : (
+          queues.map((q, i) => {
+            return <QueueSelector queue={q} key={i}></QueueSelector>;
+          })
+        )}
       </div>
     </>
   );

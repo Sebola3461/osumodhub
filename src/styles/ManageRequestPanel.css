@@ -23,7 +23,7 @@
 }
 
 .managerequestpanel.loading {
-  filter: brightness(.6);
+  filter: brightness(0.6);
 }
 
 .managerequestpanel.closed {
@@ -72,12 +72,14 @@
   align-content: center;
   align-items: center;
   justify-content: flex-start;
-  margin: auto;
+  padding-left: 2.5%;
+  padding-right: 2.5%;
+  overflow-y: auto;
 }
 
 .managerequestpanel .container .layout .vertical {
   width: 100%;
-  height: 67%;
+  height: 77%;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -100,19 +102,49 @@ textarea:focus {
 
 .managerequestpanel .container .layout .options {
   width: 100%;
-  height: 40px;
+  height: fit-content;
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
+  align-content: flex-start;
   align-items: center;
   overflow-x: auto;
   margin-top: auto;
+  overflow-y: visible;
 }
 
 .managerequestpanel .container .layout .options .option {
   padding: 8px;
   border-radius: 5px;
   margin-right: 10px;
+  margin-top: 10px;
   cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+  .managerequestpanel .container .layout {
+    display: flex;
+    width: 95%;
+    height: 86%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    margin: auto;
+  }
+
+  .managerequestpanel .container .layout .options {
+    width: 94%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: center;
+    margin-top: auto;
+    height: 160px;
+  }
 }

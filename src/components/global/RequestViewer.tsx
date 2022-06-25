@@ -45,13 +45,17 @@ export default ({
   const [login, setLogin] = useState(JSON.parse(user));
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const [_request, setRequest] = useState<any>({
-    queue: {},
-    beatmap: {
-      covers: {},
-      beatmaps: [],
-    },
-  });
+  const [_request, setRequest] = useState<any>(
+    request
+      ? request
+      : {
+          queue: {},
+          beatmap: {
+            covers: {},
+            beatmaps: [],
+          },
+        }
+  );
 
   useEffect(() => {
     setRequest(request);

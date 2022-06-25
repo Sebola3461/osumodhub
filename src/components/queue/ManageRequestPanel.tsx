@@ -253,7 +253,7 @@ export default ({ queue }: { queue: any }) => {
                 display: `${login._id == queue._id ? "flex" : "none"}`,
               }}
             >
-              {["BN", "NAT"].includes(queue.type)
+              {!["BN", "NAT"].includes(queue.type)
                 ? bn_options.map((o) => o)
                 : modder_options.map((o) => o)}
             </div>

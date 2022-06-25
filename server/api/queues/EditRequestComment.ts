@@ -11,28 +11,6 @@ export default async (req: Request, res: Response) => {
       message: "Missing authorization",
     });
 
-  const queue_owner = await users.findOne({ account_token: authorization });
-
-  if (queue_owner == null)
-    return res.status(404).send({
-      status: 404,
-      message: "User not found!",
-    });
-
-  const queue = await queues.findById(queue_owner._id);
-
-  if (queue == null)
-    return res.status(404).send({
-      status: 404,
-      message: "Queue not found!",
-    });
-
-  if (authorization != queue_owner.account_token)
-    return res.status(400).send({
-      status: 401,
-      message: "Unauthorized",
-    });
-
   const request = await requests.findById(_request);
 
   if (request == null)
@@ -41,10 +19,47 @@ export default async (req: Request, res: Response) => {
       message: "Request not found!",
     });
 
-  await requests.deleteOne({ _id: _request });
+  const queue = await queues.findById(request._queue);
+
+  if (queue == null)
+    return res.status(404).send({
+      status: 404,
+      message: "Queue not found!",
+    });
+
+  const owner = await users.findById(request._owner);
+
+  if (owner == null)
+    return res.status(404).send({
+      status: 404,
+      message: "User not found!",
+    });
+
+  if (authorization != owner.account_token)
+    return res.status(400).send({
+      status: 401,
+      message: "Unauthorized",
+    });
+
+  let comment = req.query.comment;
+
+  if (!comment)
+    return res.status(400).send({
+      status: 400,
+      message: "Invalid comment provided",
+    });
+
+  comment = comment.toString().trim();
+
+  await requests.updateOne(
+    { _id: _request },
+    {
+      comment: comment,
+    }
+  );
 
   res.status(200).send({
     status: 200,
-    message: "Request deleted!",
+    message: "Request updated!",
   });
 };

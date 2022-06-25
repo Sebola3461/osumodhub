@@ -68,7 +68,9 @@ export default () => {
                     ? "bellpending visible"
                     : "bellpending"
                 }
-              ></div>
+              >
+                {}
+              </div>
               <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
             </>
           )}
