@@ -20,6 +20,7 @@ import ClearUserNotifications from "./users/ClearUserNotifications";
 import GetBeatmapInfo from "./users/GetBeatmapInfo";
 import GetUserBeatmaps from "./users/GetUserBeatmaps";
 import GetUserNotifications from "./users/GetUserNotifications";
+import SyncClient from "./users/SyncClient";
 import ValidateNotification from "./users/ValidateNotification";
 const api = Router();
 
@@ -51,16 +52,17 @@ api.post("/queues/sync", SyncQueue);
 api.post("/queues/schedule", StartTimeClose);
 api.post("/queues/:queue/requests", CreateRequest);
 api.post("/queues/:queue/follow", FollowQueue);
+api.post("/queues/update", UpdateQueue);
+
+api.post("/users/update", SyncClient);
 
 api.post("/notifications/:notification", ValidateNotification);
-api.delete("/notifications/", ClearUserNotifications);
 
 api.post("/requests/:request/edit", EditRequestComment);
-
-api.post("/queues/update", UpdateQueue);
 
 // ? Delete
 api.delete("/queues/:queue/follow", RemoveFollower);
 api.delete("/requests/:request", DeleteRequest);
+api.delete("/notifications/", ClearUserNotifications);
 
 export const ApiRoutes = api;
