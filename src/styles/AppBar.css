@@ -74,7 +74,6 @@
 }
 
 #appbar .right-content .notification-button {
-  padding: 5px;
   width: 20px;
   height: 20px;
   display: flex;
@@ -85,20 +84,26 @@
   align-items: center;
   cursor: pointer;
   margin-left: 10px;
-}
-
-#appbar .bellpending {
-  width: 10px;
-  height: 10px;
-  min-width: 10px;
-  background-color: var(--ocean);
-  border-radius: 100%;
-  position: relative;
-  top: -10px;
-  right: -20px;
-  opacity: 0;
+  font-size: 20px;
+  padding: 5px 18px;
+  border-radius: 5px;
+  background-color: var(--background3);
 }
 
 #appbar .bellpending.visible {
   opacity: 1;
+}
+
+#appbar .notification-tag {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#appbar .notification-button p {
+  margin-left: 6px;
+  font-weight: 600;
 }

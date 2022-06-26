@@ -10,7 +10,7 @@ import RequestSelector from "../global/RequestSelector";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import { useSnackbar } from "notistack";
 
-export default ({ queue }: { queue: any }) => {
+export default ({ queue, setRequests, requests }: any) => {
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
   const [loading, setLoading] = useState(false);
@@ -66,6 +66,11 @@ export default ({ queue }: { queue: any }) => {
         if (d.status == 200) {
           request.status = status;
           setRequest(request);
+
+          const index = requests.findIndex((r) => r._id == request._id);
+          requests[index]["status"] = status;
+          requests[index]["reply"] = request.reply;
+          setRequests(requests);
         }
       });
 
@@ -86,8 +91,8 @@ export default ({ queue }: { queue: any }) => {
             });
 
             if (d.status == 200) {
-              request.status = status;
-              setRequest(request);
+              setOpen(false);
+              setRequests(requests.filter((r) => r._id != request._id));
             }
           });
       }

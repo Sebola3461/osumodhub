@@ -665,9 +665,13 @@ export default ({
                 }}
               ></div>
             </div>
-            <SpreadViewer
-              beatmaps={_request.beatmap.beatmaps || []}
-            ></SpreadViewer>
+            {!request.beatmap.beatmaps ? (
+              <></>
+            ) : (
+              <SpreadViewer
+                beatmaps={_request.beatmap.beatmaps || []}
+              ></SpreadViewer>
+            )}
             <p className="title">{_request.beatmap.title}</p>
             <p className="artist">{_request.beatmap.artist}</p>
             <p className="mapper">

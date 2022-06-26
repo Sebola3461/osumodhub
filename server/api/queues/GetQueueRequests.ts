@@ -36,10 +36,12 @@ export default async (req: Request, res: Response) => {
 
   for (const req of requestsWithoutBeatmap) {
     try {
-      const b = await osuApi.fetch.beatmapset(req.beatmapset_id);
+      if (type != "archived") {
+        const b = await osuApi.fetch.beatmapset(req.beatmapset_id);
 
-      if (b.status == 200) {
-        req.beatmap = b.data;
+        if (b.status == 200) {
+          req.beatmap = b.data;
+        }
       }
 
       r.push(req);

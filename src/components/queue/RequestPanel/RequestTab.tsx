@@ -49,7 +49,7 @@ export default ({
           });
 
           request._id = res.data._id;
-          requests.unshift(request);
+          requests.unshift(res.data);
           setRequests(requests);
         } else {
           enqueueSnackbar(res.message, {

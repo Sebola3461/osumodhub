@@ -104,10 +104,13 @@ export default ({
         >
           <Tag content={texts[_request.status]} type={_request.status}></Tag>
         </div>
-        <SpreadViewer
-          beatmaps={_request.beatmap.beatmaps || []}
-          key={GenerateComponentKey(10)}
-        ></SpreadViewer>
+        {!request.beatmap.beatmaps ? (
+          <></>
+        ) : (
+          <SpreadViewer
+            beatmaps={_request.beatmap.beatmaps || []}
+          ></SpreadViewer>
+        )}
         <p className="title">{_request.beatmap.title}</p>
         <p className="artist">{_request.beatmap.artist}</p>
         {type == "owner" || !type ? (

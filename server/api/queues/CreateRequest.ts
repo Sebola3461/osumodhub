@@ -121,6 +121,7 @@ export default async (req: Request, res: Response) => {
       artist: requestedBeatmapset.data.artist,
       title: requestedBeatmapset.data.title,
       covers: requestedBeatmapset.data.covers,
+      creator: requestedBeatmapset.data.creator,
     },
   });
 
@@ -131,6 +132,8 @@ export default async (req: Request, res: Response) => {
 
   await checkQueueAutoclose(queue);
   NotifyNewRequest(queue, author);
+
+  request.beatmap = requestedBeatmapset.data;
 
   res.status(200).send({
     status: 200,

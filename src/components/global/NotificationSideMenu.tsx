@@ -46,7 +46,15 @@ export default () => {
       .then((r) => r.json())
       .then((d) => {
         setNotifications(d.data);
-        setSize(d.length);
+        setSize(d.data.length);
+
+        if (d.data.length > 0) {
+          setPending(true);
+
+          return;
+        } else {
+          setPending(false);
+        }
       });
 
     setInterval(() => {
@@ -58,7 +66,15 @@ export default () => {
         .then((r) => r.json())
         .then((d) => {
           setNotifications(d.data);
-          console.log(notifications);
+
+          setSize(d.data.length);
+          if (d.data.length > 0) {
+            setPending(true);
+
+            return;
+          } else {
+            setPending(false);
+          }
         });
     }, 15000);
   }, []);
@@ -132,6 +148,13 @@ export default () => {
     );
 
     setNotifications(notifications);
+    setSize(notifications.length);
+
+    if (notifications.length > 0) {
+      setPending(true);
+    } else {
+      setPending(false);
+    }
   }
 
   function clearNotifications() {
@@ -149,6 +172,8 @@ export default () => {
 
         if (d.status == 200) {
           setNotifications([]);
+          setSize(0);
+          setPending(false);
         }
       });
   }

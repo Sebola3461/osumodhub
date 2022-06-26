@@ -24,12 +24,6 @@ export const NotificationSideMenuProvider = ({ children }: any) => {
   const [pending, setPending] = useState(false);
   const [size, setSize] = useState(0);
 
-  useEffect(() => {
-    if (open == true) {
-      setPending(false);
-    }
-  }, [open]);
-
   return (
     <NotificationSideMenuContext.Provider
       value={{ open, pending, setPending, setOpen, size, setSize }}

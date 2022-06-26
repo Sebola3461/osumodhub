@@ -2,6 +2,7 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import StartAuthentication from "../../helpers/StartAuthentication";
 import { AuthContext } from "../../providers/AuthContext";
 import { NotificationSideMenuContext } from "../../providers/NotificationSideMenu";
@@ -69,16 +70,8 @@ export default () => {
             <></>
           ) : (
             <>
-              <div
-                className={
-                  notificationSideMenuContext.pending
-                    ? "bellpending visible"
-                    : "bellpending"
-                }
-              >
-                {}
-              </div>
               <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
+              <p>{notificationSideMenuContext.size}</p>
             </>
           )}
         </div>

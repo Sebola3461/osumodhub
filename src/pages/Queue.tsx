@@ -108,7 +108,9 @@ export default () => {
         setQueue(q.data);
       });
 
-    fetch(`/api/queues/${queue_id}/requests`)
+    fetch(
+      `/api/queues/${queue_id}/requests?type=${filters.type}&status=${filters.status}`
+    )
       .then((r) => r.json())
       .then((q) => {
         if (q.status != 200) return;
@@ -139,7 +141,9 @@ export default () => {
             setQueue(q.data);
           });
 
-        fetch(`/api/queues/${id}/requests`)
+        fetch(
+          `/api/queues/${id}/requests?type=${filters.type}&status=${filters.status}`
+        )
           .then((r) => r.json())
           .then((q) => {
             if (q.status != 200) return;
@@ -168,28 +172,6 @@ export default () => {
         SyncQueueData(login);
       }
     }, 10);
-
-    // ? Auto-refresh requests
-    setInterval(() => {
-      const id = window.location.pathname.split("").pop()
-        ? window.location.pathname.split("/").pop()?.trim()
-        : "";
-
-      fetch(`/api/queues/${id}/requests`)
-        .then((r) => r.json())
-        .then((q) => {
-          if (q.status != 200) return;
-
-          q.data.sort(
-            (a: IRequest, b: IRequest) =>
-              new Date(b.date).valueOf() - new Date(a.date).valueOf()
-          );
-
-          if (q.data.length > requests.length) {
-            setRequests(q.data);
-          }
-        });
-    }, 60000);
 
     SyncQueueData(login);
   }, []);
@@ -357,7 +339,11 @@ export default () => {
         ></RequestPanel>
         <QueuePanel></QueuePanel>
         <MyRequestsPanel></MyRequestsPanel>
-        <ManageRequestPanel queue={queue}></ManageRequestPanel>
+        <ManageRequestPanel
+          queue={queue}
+          requests={requests}
+          setRequests={setRequests}
+        ></ManageRequestPanel>
         <NotificationSideMenu></NotificationSideMenu>
         <SideMenu
           _open={sideMenuContext.open}
