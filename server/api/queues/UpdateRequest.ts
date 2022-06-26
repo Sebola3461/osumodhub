@@ -12,7 +12,15 @@ export default async (req: Request, res: Response) => {
       message: "Missing authorization",
     });
 
-  const queue_owner = await users.findOne({ account_token: authorization });
+  const request = await requests.findById(_request);
+
+  if (request == null)
+    return res.status(404).send({
+      status: 404,
+      message: "Request not found!",
+    });
+
+  const queue_owner = await users.findById(request._queue);
 
   if (queue_owner == null)
     return res.status(404).send({
@@ -29,17 +37,9 @@ export default async (req: Request, res: Response) => {
     });
 
   if (authorization != queue_owner.account_token)
-    return res.status(400).send({
+    return res.status(401).send({
       status: 401,
       message: "Unauthorized",
-    });
-
-  const request = await requests.findById(_request);
-
-  if (request == null)
-    return res.status(404).send({
-      status: 404,
-      message: "Request not found!",
     });
 
   let { reply, status } = req.body;

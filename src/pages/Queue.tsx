@@ -60,7 +60,7 @@ export default () => {
   const notificationSideMenuContext = useContext(NotificationSideMenuContext);
   const queuePanelContext = useContext(QueuePanelContext);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const [followersCount, setFollowersCount] = useState(0);
+  const [followers, setFollowers] = useState({ size: 0, mutual: null });
   const [followButtonIcon, setFollowButtonIcon] = useState(faUser);
 
   const requestsPanelContext = useContext(MyRequestPanelContext);
@@ -94,7 +94,6 @@ export default () => {
   };
 
   const [requests, setRequests] = useState<any>(["loading"]);
-  const [followers, setFollowers] = useState<any>(["loading"]);
 
   useEffect(() => {
     const queue_id = window.location.pathname.split("").pop()
@@ -153,11 +152,17 @@ export default () => {
             setRequests(q.data);
           });
 
-        fetch(`/api/queues/${queue_id}/follow`)
+        fetch(`/api/queues/${queue_id}/follow`, {
+          headers:
+            login._id != -1
+              ? {
+                  authorization: login.account_token,
+                }
+              : null,
+        })
           .then((r) => r.json())
           .then((res) => {
             setFollowers(res.data);
-            setFollowersCount(res.data.length);
           });
 
         SyncQueueData(login);
@@ -194,11 +199,17 @@ export default () => {
       ? window.location.pathname.split("/").pop()?.trim()
       : "";
 
-    fetch(`/api/queues/${queue_id}/follow`)
+    fetch(`/api/queues/${queue_id}/follow`, {
+      headers:
+        login._id != -1
+          ? {
+              authorization: login.account_token,
+            }
+          : null,
+    })
       .then((r) => r.json())
       .then((res) => {
         setFollowers(res.data);
-        setFollowersCount(res.data.length);
       });
   }, []);
 
@@ -273,10 +284,9 @@ export default () => {
   }
 
   function updateFollow() {
-    if (followers[0] == "loading") return;
     if (queue._id == login._id) return;
 
-    if (followers.find((u: { _user: any }) => u._user == login._id)) {
+    if (followers.mutual) {
       fetch(`/api/queues/${queue._id}/follow`, {
         method: "delete",
         headers: {
@@ -286,13 +296,8 @@ export default () => {
         .then((r) => r.json())
         .then((res) => {
           if (res.status == 200) {
-            followers.splice(
-              followers.findIndex((f: { _user: any }) => f._user == login._id),
-              1
-            );
-
+            followers.size = followers.size - 1;
             setFollowers(followers);
-            setFollowersCount(followersCount - 1);
             updateFollowButtonIcon(false);
           }
 
@@ -311,9 +316,8 @@ export default () => {
         .then((r) => r.json())
         .then((res) => {
           if (res.status == 200) {
-            followers.push({ _user: login._id });
+            followers.size = followers.size + 1;
             setFollowers(followers);
-            setFollowersCount(followersCount + 1);
             updateFollowButtonIcon(false);
           }
 
@@ -328,9 +332,7 @@ export default () => {
   function updateFollowButtonIcon(hover: boolean) {
     if (hover == true)
       return setFollowButtonIcon(
-        followers.findIndex((f: { _user: any }) => f._user == login._id) == -1
-          ? faUserPlus
-          : faUserLargeSlash
+        !followers.mutual ? faUserPlus : faUserLargeSlash
       );
 
     return setFollowButtonIcon(faUser);
@@ -474,8 +476,9 @@ export default () => {
                   Request
                 </button>
                 <button
+                  key={GenerateComponentKey(20)}
                   className={
-                    followers.find((f: { _user: any }) => f._user == login._id)
+                    followers.mutual
                       ? "custombutton following-button"
                       : "custombuttom"
                   }
@@ -490,7 +493,7 @@ export default () => {
                     updateFollowButtonIcon(false);
                   }}
                 >
-                  {followers.length}
+                  {followers.size}
                   <FontAwesomeIcon icon={followButtonIcon} />
                 </button>
               </div>
@@ -551,6 +554,14 @@ export default () => {
             </div>
           </div>
         </div>
+        <footer
+          style={{
+            marginTop: "50px",
+          }}
+        >
+          Made with <span>❤</span> by{" "}
+          <a href="https://osu.ppy.sh/users/15821708">Sebola</a>
+        </footer>
       </SelectedRequestContextProvider>
     </>
   );
