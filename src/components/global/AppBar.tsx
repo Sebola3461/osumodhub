@@ -20,18 +20,25 @@ export default () => {
 
   useEffect(() => {
     sideMenuContext.setOpen(true);
-    console.log(sideMenuContext.open);
   }, []);
 
   return (
     <div id="appbar" className="background2">
-      <div className="logo"></div>
+      <Link to="/">
+        <div className="logo"></div>
+      </Link>
       <div className="links-row">
         <Link to="/" className="anchor1 page-anchor">
           Home
         </Link>
         <a href="https://discord.gg/fpE4YmtRqz" className="anchor1 page-anchor">
           Discord
+        </a>
+        <a
+          href="https://github.com/Sebola3461/osumodhub"
+          className="anchor1 page-anchor"
+        >
+          GitHub
         </a>
       </div>
       <div className="right-content">

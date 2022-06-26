@@ -16,6 +16,7 @@ import { NotificationSideMenuContext } from "../../providers/NotificationSideMen
 import "./../../styles/SideMenu.css";
 // import "./../../styles/NotificationSideMenu.css";
 import { useSnackbar } from "notistack";
+import NoRequests from "./NoRequests";
 
 export default () => {
   const { open, setOpen, pending, setPending, size, setSize } = useContext(
@@ -166,6 +167,10 @@ export default () => {
     navigate(route, { replace: false }), [navigate];
   };
 
+  const noNotifications = (
+    <div className="nonotifications">Nothing here...</div>
+  );
+
   return (
     <div
       className={open ? "sidemenu open" : "sidemenu closed"}
@@ -183,36 +188,38 @@ export default () => {
           <p>Clear all notifications</p>
         </div>
         <div className="notifications">
-          {notifications.map((notification, i) => {
-            return (
-              <div
-                className={
-                  loadingNotifications.includes(notification._id)
-                    ? "notification loading"
-                    : "notification"
-                }
-                onClick={(ev) => {
-                  validateNotification(notification, ev);
-                }}
-                key={GenerateComponentKey(20)}
-              >
-                <div className="horizontal">
-                  <div className="icon">{icon[notification.type]}</div>
-                  <div className="content">
-                    {<Markdown>{notification.content}</Markdown>}
+          {notifications.length == 0
+            ? noNotifications
+            : notifications.map((notification, i) => {
+                return (
+                  <div
+                    className={
+                      loadingNotifications.includes(notification._id)
+                        ? "notification loading"
+                        : "notification"
+                    }
+                    onClick={(ev) => {
+                      validateNotification(notification, ev);
+                    }}
+                    key={GenerateComponentKey(20)}
+                  >
+                    <div className="horizontal">
+                      <div className="icon">{icon[notification.type]}</div>
+                      <div className="content">
+                        {<Markdown>{notification.content}</Markdown>}
+                      </div>
+                    </div>
+                    <div
+                      className="delete-overlay delete-option"
+                      onClick={(ev) => {
+                        deleteNotification(notification);
+                      }}
+                    >
+                      Mark as read
+                    </div>
                   </div>
-                </div>
-                <div
-                  className="delete-overlay delete-option"
-                  onClick={(ev) => {
-                    deleteNotification(notification);
-                  }}
-                >
-                  Mark as read
-                </div>
-              </div>
-            );
-          })}
+                );
+              })}
         </div>
       </div>
     </div>

@@ -251,6 +251,10 @@ function App() {
           })
         )}
       </div>
+      <footer>
+        Made with <span>❤</span> by{" "}
+        <a href="https://osu.ppy.sh/users/15821708">Sebola</a>
+      </footer>
     </>
   );
 }

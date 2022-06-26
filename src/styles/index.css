@@ -247,3 +247,25 @@ a.queue:visited {
   background-image: url(/src/static/images/patiole.png);
   animation: spin 2000ms linear infinite;
 }
+
+footer {
+  width: 100%;
+  height: 90px;
+  background-color: var(--background2);
+  border-top: 1px solid var(--background3);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+footer span {
+  margin: 0px 5px;
+  color: var(--red);
+}
+
+footer a {
+  margin-left: 5px;
+}
