@@ -38,11 +38,14 @@ export default ({
     const id = GetBeatmapsetID(url.pathname);
 
     setLoading(true);
-    fetch(`/api/beatmaps/${id}`, {
-      headers: {
-        authorization: login.account_token,
-      },
-    })
+    fetch(
+      `/api/beatmaps/${id}?graveyard=${queue.allow.graveyard}&wip=${queue.allow.wip}`,
+      {
+        headers: {
+          authorization: login.account_token,
+        },
+      }
+    )
       .then((r) => r.json())
       .then((d) => {
         setLoading(false);

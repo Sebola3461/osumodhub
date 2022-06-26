@@ -120,26 +120,26 @@ export default async (req: Request, res: Response) => {
 
       // ? Update modes
       if (req.body.modes && typeof req.body.modes == "object") {
-        if (req.body.modes.length < 5 && req.body.modes != 0) {
+        if (req.body.modes.length < 5 && req.body.modes.length != 0) {
+          const validModes = [0, 1, 2, 3];
           const clearModes: number[] = [];
+
+          console.log("eae2");
+
           req.body.modes.forEach((m: any) => {
-            if (
-              !clearModes.includes(m) &&
-              !isNaN(Number(m)) &&
-              Number(m) > -1 &&
-              Number(m) < 5
-            ) {
-              clearModes.push(m);
+            if (validModes.includes(Number(m))) {
+              if (!clearModes.includes(m) && !isNaN(Number(m)))
+                clearModes.push(Number(m));
             }
           });
 
-          queue.modes = clearModes;
+          queue["modes"] = clearModes;
         }
       }
     }
   }
 
-  await queues.updateOne({ _id: queue._id }, queue);
+  await queues.findByIdAndUpdate(queue._id, queue);
 
   res.status(200).send({
     status: 200,

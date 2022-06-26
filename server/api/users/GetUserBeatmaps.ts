@@ -5,7 +5,8 @@ import getUserBeatmaps from "../helpers/getUserBeatmaps";
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
   const requestedUser = req.params["user"];
-  const includePending = req.query["includePending"];
+  const includeGraveyard = req.query["graveyard"];
+  const includeWip = req.query["wip"];
 
   if (!authorization)
     return res.status(403).send({
@@ -35,9 +36,35 @@ export default async (req: Request, res: Response) => {
       message: userBeatmaps.message,
     });
 
+  const result = userBeatmaps.data;
+
+  if (
+    Boolean(includeGraveyard?.toString()) == true ||
+    Boolean(includeWip?.toString()) == true
+  ) {
+    const booleanWip = Boolean(includeWip?.toString());
+    const booleanGraveyard = Boolean(includeGraveyard?.toString());
+
+    const graveyardBeatmaps = await getUserBeatmaps(user._id, "graveyard");
+
+    if (graveyardBeatmaps.status != 200 || !graveyardBeatmaps.data)
+      return res.status(graveyardBeatmaps.status).send({
+        status: graveyardBeatmaps.status,
+        message: graveyardBeatmaps.message,
+      });
+
+    for (const b of graveyardBeatmaps.data) {
+      if (booleanWip && b.status == "wip") result.push(b);
+    }
+
+    for (const b of graveyardBeatmaps.data) {
+      if (booleanGraveyard && b.status == "graveyard") result.push(b);
+    }
+  }
+
   return res.status(200).send({
     status: 200,
     message: "Found!",
-    data: userBeatmaps.data,
+    data: result,
   });
 };

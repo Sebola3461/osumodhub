@@ -29,11 +29,14 @@ export default ({
   useEffect(() => {
     if (login._id == -1) return;
 
-    fetch(`/api/users/${login._id}/beatmaps`, {
-      headers: {
-        authorization: login.account_token,
-      },
-    })
+    fetch(
+      `/api/users/${login._id}/beatmaps?graveyard=${queue.allow.graveyard}&wip=${queue.allow.wip}`,
+      {
+        headers: {
+          authorization: login.account_token,
+        },
+      }
+    )
       .then((r) => r.json())
       .then((d) => {
         if (d.status != 200) return alert(d.message);
