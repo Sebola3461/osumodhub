@@ -61,7 +61,7 @@ export default async (req: Request, res: Response) => {
       if (
         req.body.genres &&
         typeof req.body.genres == "object" &&
-        req.body.genres.length
+        req.body.genres.length != 0
       ) {
         const clearGenres: string[] = [];
         req.body.genres.splice(35, 9999);
@@ -123,8 +123,6 @@ export default async (req: Request, res: Response) => {
         if (req.body.modes.length < 5 && req.body.modes.length != 0) {
           const validModes = [0, 1, 2, 3];
           const clearModes: number[] = [];
-
-          console.log("eae2");
 
           req.body.modes.forEach((m: any) => {
             if (validModes.includes(Number(m))) {

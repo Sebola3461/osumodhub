@@ -15,7 +15,7 @@ export default ({ value, onInput }: { value?: string[]; onInput?: any }) => {
 
   function removeTag(index: number) {
     setTags(tags.filter((el, i) => i !== index));
-    onInput(tags);
+    onInput(tags.filter((el, i) => i !== index));
   }
 
   return (
