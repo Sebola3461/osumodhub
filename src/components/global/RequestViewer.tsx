@@ -24,7 +24,7 @@ import { AuthContext } from "../../providers/AuthContext";
 import { useSnackbar } from "notistack";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import timeString from "../../helpers/timeString";
+import TimeString from "../../helpers/TimeString";
 
 export interface IRequest {
   _id: string;
@@ -120,7 +120,7 @@ export default ({
           <div>
             <FontAwesomeIcon icon={faClock} />
             <p>
-              {timeString(
+              {TimeString(
                 _request.beatmap.beatmaps
                   ? _request.beatmap.beatmaps[0].hit_length
                   : 0
