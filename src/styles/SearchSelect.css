@@ -1,5 +1,5 @@
 .searchselect {
-  min-width: 150px;
+  min-width: fit-content;
   max-width: 210px;
   height: 30px;
   display: flex;

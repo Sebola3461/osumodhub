@@ -12,11 +12,19 @@ import {
   MenuItem,
   ContextMenuTrigger,
 } from "../../libs/react-contextmenu/es6";
-import { faLitecoinSign } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClock,
+  faLitecoinSign,
+  faMessage,
+  faMusic,
+  faPlay,
+} from "@fortawesome/free-solid-svg-icons";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthContext";
 import { useSnackbar } from "notistack";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import timeString from "../../helpers/timeString";
 
 export interface IRequest {
   _id: string;
@@ -104,6 +112,26 @@ export default ({
         >
           <Tag content={texts[_request.status]} type={_request.status}></Tag>
         </div>
+        <div className="attributes">
+          <div>
+            <FontAwesomeIcon icon={faMusic} />
+            <p>{_request.beatmap.bpm}bpm</p>
+          </div>
+          <div>
+            <FontAwesomeIcon icon={faClock} />
+            <p>
+              {timeString(
+                _request.beatmap.beatmaps
+                  ? _request.beatmap.beatmaps[0].hit_length
+                  : 0
+              )}
+            </p>
+          </div>
+          <div>
+            <FontAwesomeIcon icon={faPlay} />
+            <p>{_request.beatmap.play_count}</p>
+          </div>
+        </div>
         {!request.beatmap.beatmaps ? (
           <></>
         ) : (
@@ -126,6 +154,10 @@ export default ({
             </a>
           </p>
         )}
+        <div className="commentlabel">
+          <FontAwesomeIcon icon={faMessage} />
+          Mapper's comment
+        </div>
         <div className="comment">{_request.comment}</div>
       </div>
     </>

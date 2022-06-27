@@ -107,3 +107,10 @@
   margin-left: 6px;
   font-weight: 600;
 }
+
+@media screen and (max-width: 450px) {
+  #appbar .links-row {
+    max-width: 160px;
+    overflow-x: auto;
+  }
+}

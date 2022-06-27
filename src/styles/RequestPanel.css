@@ -33,7 +33,7 @@
 .requestpanel .container {
   width: 90%;
   max-width: 1000px;
-  height: 440px;
+  height: 520px;
   background-color: var(--background1);
   border-radius: 0.5rem;
   overflow: hidden;

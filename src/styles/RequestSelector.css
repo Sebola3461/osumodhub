@@ -1,7 +1,7 @@
 .requestselector {
-  width: 240px;
-  min-width: 240px;
-  min-height: 300px;
+  width: 260px;
+  min-width: 270px;
+  min-height: 340px;
   border-radius: 0.5rem;
   background-color: var(--background2);
   display: flex;
@@ -165,6 +165,33 @@
   margin-left: auto;
 }
 
+.requestselector .attributes {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin-top: 11px;
+  color: var(--background7);
+  font-size: 13px;
+}
+
+.requestselector .attributes div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.requestselector .attributes div svg {
+  margin-right: 5px;
+}
+
 .requestselector .title {
   color: white;
   font-size: 15px;
@@ -204,6 +231,7 @@
   font-size: 12px;
   margin-bottom: 5px;
   color: var(--background7);
+  margin-top: auto;
 }
 
 .requestselector .commentlabel svg {
@@ -213,7 +241,6 @@
 .requestselector .comment {
   width: calc(90% - 10px);
   height: 60px;
-  margin-top: auto;
   margin-bottom: 10px;
   border-radius: 0.3rem;
   color: rgb(156, 156, 156);

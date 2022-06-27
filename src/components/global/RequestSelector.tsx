@@ -11,14 +11,17 @@ import {
   ContextMenu,
   MenuItem,
   ContextMenuTrigger,
+  SubMenu,
 } from "./../../libs/react-contextmenu/es6/";
 import {
   faChevronUp,
   faCircleCheck,
+  faClock,
   faDownload,
   faExternalLinkSquare,
   faLitecoinSign,
   faMessage,
+  faMusic,
   faPause,
   faPlay,
   faRandom,
@@ -35,6 +38,7 @@ import {
   SelectedRequestContextProvider,
 } from "../../providers/SelectRequestContext";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
+import timeString from "../../helpers/timeString";
 
 export interface IRequest {
   _id: string;
@@ -490,6 +494,37 @@ export default ({
   function getContextMenu() {
     if (_static) return;
 
+    const extraMenu = (
+      <SubMenu title="More">
+        <MenuItem
+          className="finish-hover"
+          onClick={() => {
+            openExternal(`https://osu.ppy.sh/s/${_request.beatmapset_id}`);
+          }}
+        >
+          Beatmap page
+        </MenuItem>
+        <MenuItem
+          className="finish-hover"
+          onClick={() => {
+            openExternal(
+              `https://osu.ppy.sh/beatmapsets/${_request.beatmapset_id}/discussion`
+            );
+          }}
+        >
+          Beatmap discussion
+        </MenuItem>
+        <MenuItem
+          className="finish-hover"
+          onClick={() => {
+            openExternal(`osu://s/${_request.beatmapset_id}`);
+          }}
+        >
+          osu!direct
+        </MenuItem>
+      </SubMenu>
+    );
+
     if (login._id == _request._owner) {
       bn_options.push(
         <MenuItem className="wait-hover" onClick={editRequestComment}>
@@ -510,6 +545,7 @@ export default ({
           {modder_options.map((o) => {
             return o;
           })}
+          {extraMenu}
         </ContextMenu>
       );
 
@@ -519,6 +555,7 @@ export default ({
           {modder_options.map((o) => {
             return o;
           })}
+          {extraMenu}
         </ContextMenu>
       );
 
@@ -528,6 +565,7 @@ export default ({
           <MenuItem className="wait-hover" onClick={editRequestComment}>
             Edit comment
           </MenuItem>
+          {extraMenu}
         </ContextMenu>
       );
   }
@@ -686,6 +724,26 @@ export default ({
                   }%`,
                 }}
               ></div>
+            </div>
+            <div className="attributes">
+              <div>
+                <FontAwesomeIcon icon={faMusic} />
+                <p>{_request.beatmap.bpm}bpm</p>
+              </div>
+              <div>
+                <FontAwesomeIcon icon={faClock} />
+                <p>
+                  {timeString(
+                    _request.beatmap.beatmaps
+                      ? _request.beatmap.beatmaps[0].hit_length
+                      : 0
+                  )}
+                </p>
+              </div>
+              <div>
+                <FontAwesomeIcon icon={faPlay} />
+                <p>{_request.beatmap.play_count}</p>
+              </div>
             </div>
             {!request.beatmap.beatmaps ? (
               <></>
