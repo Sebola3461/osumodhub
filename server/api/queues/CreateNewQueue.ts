@@ -5,6 +5,7 @@ import crypto from "crypto";
 import checkQueueAutoclose from "../helpers/checkQueueAutoclose";
 import checkRequestQueueModes from "../helpers/checkRequestQueueModes";
 import getHighestUsergroup from "../helpers/getHighestUsergroup";
+import { GameModeName } from "../../../src/types/game_mode";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
@@ -46,12 +47,15 @@ export default async (req: Request, res: Response) => {
 
   const type = getHighestUsergroup(user.data);
 
+  const modesInt: any[] = ["osu", "taiko", "fruits", "mania"];
+
   const newQueue = new queues({
     _id: author._id,
     banner: user.data.cover.url,
     name: user.data.username,
     icon: `https://a.ppy.sh/${user.data.id}`,
     type: type,
+    modes: [modesInt.findIndex((m) => m == user.data.playmode)],
     country: {
       acronym: user.data.country.code,
       name: user.data.country.name,

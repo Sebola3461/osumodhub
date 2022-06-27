@@ -48,6 +48,12 @@ export default async (req: Request, res: Response) => {
   queue.name = user.data.username;
   queue.type = type;
 
+  if (queue.modes.length < 1) {
+    const modesInt: any[] = ["osu", "taiko", "fruits", "mania"];
+
+    queue.modes = [modesInt.findIndex((m) => m == user.data.playmode)];
+  }
+
   await queues.findByIdAndUpdate(author.id, queue);
 
   // ? Add bn flag to user
