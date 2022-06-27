@@ -43,7 +43,7 @@ function App() {
     setLoading(true);
     fetch(
       `/api/queues/listing?${
-        filters.query != "" ? `query=${filters.query}` : ""
+        filters.query != "" ? `q=${filters.query}` : ""
       }&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${
         filters.type
       }`
