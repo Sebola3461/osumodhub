@@ -35,6 +35,18 @@ export default () => {
     "queue:openfollow": <FontAwesomeIcon icon={faUser}></FontAwesomeIcon>,
   };
 
+  const action = (key) => (
+    <>
+      <button
+        onClick={() => {
+          closeSnackbar(key);
+        }}
+      >
+        X
+      </button>
+    </>
+  );
+
   useEffect(() => {
     if (login._id == -1) return;
 
@@ -168,6 +180,7 @@ export default () => {
       .then((d) => {
         enqueueSnackbar(d.message, {
           variant: d.status == 200 ? "success" : "error",
+          action,
         });
 
         if (d.status == 200) {

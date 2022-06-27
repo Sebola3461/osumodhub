@@ -67,7 +67,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             queue._id
           }/og?nonce=${Nonce(40)}" property="og:image" />
           <meta name="twitter:card" content="summary_large_image">
-          <meta property="og:description" content="osu!modhub provides mapping & modding tools for osu! game">
+          <meta property="og:description" content="osu!modhub provides mapping & modding tools for osu!">
           <meta property="og:type" content="profile">
           <title>osu!modhub | ${queue.name}'s queue</title>
         </head>

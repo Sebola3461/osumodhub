@@ -27,12 +27,25 @@ export default ({
   const [beatmapFetch, setBeatmapFetch] = useState<any>("0");
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
+  const action = (key) => (
+    <>
+      <button
+        onClick={() => {
+          closeSnackbar(key);
+        }}
+      >
+        X
+      </button>
+    </>
+  );
+
   function fetchBeatmap() {
     const url = new URL(beatmapFetch);
 
     if (url.host != "osu.ppy.sh")
       return enqueueSnackbar("This isn't an osu! beatmap url!", {
         variant: "error",
+        action,
       });
 
     const id = GetBeatmapsetID(url.pathname);
@@ -52,6 +65,7 @@ export default ({
         if (d.status != 200)
           return enqueueSnackbar(d.message, {
             variant: "error",
+            action,
           });
 
         userBeatmaps.unshift(d.data);

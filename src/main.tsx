@@ -27,6 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         vertical: "bottom",
         horizontal: "center",
       }}
+      preventDuplicate
     >
       <SideMenuProvider>
         <AuthProvider>

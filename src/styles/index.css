@@ -270,3 +270,11 @@ footer span {
 footer a {
   margin-left: 5px;
 }
+
+.SnackbarItem-action button {
+  padding: 7px;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-weight: 700;
+}

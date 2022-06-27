@@ -86,6 +86,18 @@ export default ({
       : request
   );
 
+  const action = (key) => (
+    <>
+      <button
+        onClick={() => {
+          closeSnackbar(key);
+        }}
+      >
+        X
+      </button>
+    </>
+  );
+
   useEffect(() => {
     setRequest(request);
   }, []);
@@ -136,11 +148,13 @@ export default ({
           enqueueSnackbar("Request status updated!", {
             variant: "success",
             persist: false,
+            action,
           });
         } else {
           enqueueSnackbar(res.message, {
             variant: "error",
             persist: false,
+            action,
           });
         }
       });
@@ -216,6 +230,7 @@ export default ({
           enqueueSnackbar("Request deleted!", {
             variant: "success",
             persist: false,
+            action,
           });
 
           if (refreshRequests) {
@@ -225,6 +240,7 @@ export default ({
           enqueueSnackbar(res.message, {
             variant: "error",
             persist: false,
+            action,
           });
         }
       });
@@ -524,6 +540,12 @@ export default ({
   useEffect(() => {
     previewTag.current.src = `https://b.ppy.sh/preview/${_request.beatmapset_id}.mp3`;
   }, [_request]);
+
+  useEffect(() => {
+    if (beatmapPreviewContext.targetRequest != _request._id) {
+      previewTag.current.pause();
+    }
+  }, [beatmapPreviewContext.paused]);
 
   useEffect(() => {
     const handler = () => setPlaying(false);

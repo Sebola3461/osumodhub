@@ -21,6 +21,18 @@ export default ({
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
+  const action = (key) => (
+    <>
+      <button
+        onClick={() => {
+          closeSnackbar(key);
+        }}
+      >
+        X
+      </button>
+    </>
+  );
+
   function updateRequestComment(ev: any) {
     request.comment = ev.target.value;
     setRequest(request);
@@ -46,6 +58,7 @@ export default ({
           enqueueSnackbar("Beatmap requested!", {
             variant: "success",
             persist: false,
+            action,
           });
 
           request._id = res.data._id;
@@ -55,6 +68,7 @@ export default ({
           enqueueSnackbar(res.message, {
             variant: "error",
             persist: false,
+            action,
           });
         }
       });

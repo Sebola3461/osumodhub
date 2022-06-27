@@ -1,6 +1,6 @@
 .searchselect {
   min-width: 150px;
-  max-width: 160px;
+  max-width: 210px;
   height: 30px;
   display: flex;
   flex-direction: row;
@@ -30,4 +30,11 @@
   border: none;
   border-radius: 0.2rem;
   cursor: pointer;
+}
+
+.searchselect .icon {
+  width: fit-content;
+  height: 17px;
+  margin-right: 6px;
+  margin-left: 6px;
 }

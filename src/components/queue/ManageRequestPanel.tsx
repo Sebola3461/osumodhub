@@ -19,6 +19,18 @@ export default ({ queue, setRequests, requests }: any) => {
   );
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
+  const action = (key) => (
+    <>
+      <button
+        onClick={() => {
+          closeSnackbar(key);
+        }}
+      >
+        X
+      </button>
+    </>
+  );
+
   function auxClosePanel(ev: any) {
     if (ev.target.className != "managerequestpanel open") return;
 
@@ -61,6 +73,7 @@ export default ({ queue, setRequests, requests }: any) => {
         setLoading(false);
         enqueueSnackbar(d.message, {
           variant: d.status == 200 ? "success" : "error",
+          action,
         });
 
         if (d.status == 200) {
@@ -88,6 +101,7 @@ export default ({ queue, setRequests, requests }: any) => {
             setLoading(false);
             enqueueSnackbar(d.message, {
               variant: d.status == 200 ? "success" : "error",
+              action,
             });
 
             if (d.status == 200) {

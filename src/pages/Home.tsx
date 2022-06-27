@@ -4,7 +4,13 @@ import AppBar from "../components/global/AppBar";
 import BigSearch from "../components/global/BigSearch";
 import HeaderPanel from "../components/global/HeaderPanel";
 import PageBanner from "../components/global/PageBanner";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFilter,
+  faGamepad,
+  faListCheck,
+  faSearch,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import "./../styles/pages/Home.css";
 import SearchSelect from "../components/global/SearchSelect";
 import QueueSelector from "../components/global/QueueSelector";
@@ -181,6 +187,7 @@ function App() {
         <div className="row selectrow">
           <SearchSelect
             label="Type"
+            icon={<FontAwesomeIcon icon={faUser} />}
             options={
               <>
                 <option value="any">Any</option>
@@ -194,6 +201,7 @@ function App() {
           ></SearchSelect>
           <SearchSelect
             label="Status"
+            icon={<FontAwesomeIcon icon={faListCheck} />}
             options={
               <>
                 <option value="any">Any</option>
@@ -207,6 +215,7 @@ function App() {
           ></SearchSelect>
           <SearchSelect
             label="Mode"
+            icon={<FontAwesomeIcon icon={faGamepad} />}
             options={
               <>
                 <option value="any">Any</option>
@@ -222,6 +231,7 @@ function App() {
           ></SearchSelect>
           <SearchSelect
             label="Sort by"
+            icon={<FontAwesomeIcon icon={faFilter} />}
             options={
               <>
                 <option value="ab">Name (A-Z)</option>

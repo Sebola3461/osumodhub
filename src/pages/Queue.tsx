@@ -39,6 +39,7 @@ import ManageRequestPanel from "../components/queue/ManageRequestPanel";
 import NotificationSideMenu from "../components/global/NotificationSideMenu";
 import { NotificationSideMenuContext } from "../providers/NotificationSideMenu";
 import { SelectedRequestContextProvider } from "../providers/SelectRequestContext";
+import AudioPlayer from "../components/global/AudioPlayer";
 
 export default () => {
   const icons = [
@@ -548,6 +549,7 @@ export default () => {
           Made with <span>❤</span> by{" "}
           <a href="https://osu.ppy.sh/users/15821708">Sebola</a>
         </footer>
+        <AudioPlayer></AudioPlayer>
       </SelectedRequestContextProvider>
     </>
   );
