@@ -66,6 +66,8 @@
 
 .queueselector .modeicon {
   margin-right: 5px;
+  width: fit-content;
+  height: fit-content;
 }
 
 .queueselector .vertical {
