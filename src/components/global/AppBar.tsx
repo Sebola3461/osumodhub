@@ -58,23 +58,23 @@ export default () => {
             }}
           ></div>
         )}
-        <div
-          className="notification-button"
-          onClick={() => {
-            notificationSideMenuContext.setOpen(
-              !notificationSideMenuContext.open
-            );
-          }}
-        >
-          {login._id == -1 ? (
-            <></>
-          ) : (
+        {login._id == -1 ? (
+          <></>
+        ) : (
+          <div
+            className="notification-button"
+            onClick={() => {
+              notificationSideMenuContext.setOpen(
+                !notificationSideMenuContext.open
+              );
+            }}
+          >
             <>
               <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
               <p>{notificationSideMenuContext.size}</p>
             </>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
