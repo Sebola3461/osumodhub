@@ -214,6 +214,13 @@
   overflow: hidden;
 }
 
+.requestselector .title:hover {
+  text-decoration: underline;
+}
+.requestselector .artist:hover {
+  text-decoration: underline;
+}
+
 .requestselector .mapper {
   width: 90%;
   font-size: 12px;

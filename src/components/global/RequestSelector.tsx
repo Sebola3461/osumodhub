@@ -752,8 +752,22 @@ export default ({
                 beatmaps={_request.beatmap.beatmaps || []}
               ></SpreadViewer>
             )}
-            <p className="title">{_request.beatmap.title}</p>
-            <p className="artist">{_request.beatmap.artist}</p>
+            <p
+              className="title"
+              onClick={() => {
+                openExternal(`https://osu.ppy.sh/s/${_request.beatmapset_id}`);
+              }}
+            >
+              {_request.beatmap.title}
+            </p>
+            <p
+              className="artist"
+              onClick={() => {
+                openExternal(`https://osu.ppy.sh/s/${_request.beatmapset_id}`);
+              }}
+            >
+              {_request.beatmap.artist}
+            </p>
             <p className="mapper">
               mapped by
               <a href={`https://osu.ppy.sh/u/${_request.beatmap.user_id}`}>
