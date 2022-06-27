@@ -42,7 +42,11 @@ function App() {
   useEffect(() => {
     setLoading(true);
     fetch(
-      `/api/queues/listing?${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${filters.type}`
+      `/api/queues/listing?${
+        filters.query != "" ? `query=${filters.query}` : ""
+      }&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${
+        filters.type
+      }`
     )
       .then((r) => r.json())
       .then((q) => {
