@@ -43,7 +43,7 @@ function App() {
     setLoading(true);
     fetch(
       `/api/queues/listing?${
-        filters.query != "" ? `q=${filters.query}` : ""
+        filters.query.trim() != "" ? `q=${filters.query.trim()}` : ""
       }&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${
         filters.type
       }`
@@ -62,7 +62,7 @@ function App() {
     // ? Automatic search
     let lastSearch = filters.query;
     setInterval(() => {
-      if (!filters.query) return;
+      //if (!filters.query) return;
 
       if (filters.query.trim() != lastSearch.trim()) {
         lastSearch = filters.query;
