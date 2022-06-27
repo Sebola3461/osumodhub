@@ -6,11 +6,13 @@ export default ({
   options,
   onSelect,
   icon,
+  _default,
 }: {
   icon?: any;
   label: string;
   options: any;
   onSelect: Function;
+  _default?: any;
 }) => {
   return (
     <div className="searchselect background4 round1">
@@ -20,6 +22,7 @@ export default ({
         onInput={(e) => {
           onSelect(e);
         }}
+        defaultValue={_default}
       >
         {options}
       </select>

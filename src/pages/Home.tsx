@@ -27,16 +27,11 @@ import MyRequestsPanel from "../components/global/MyRequestsPanel";
 import { MyRequestPanelContext } from "../providers/MyRequestsPanelContext";
 import NotificationSideMenu from "../components/global/NotificationSideMenu";
 import NoRequests from "../components/global/NoRequests";
+import { HomeFilterContext } from "../providers/HomeFiltersContext";
 
 function App() {
   const [queues, setQueues] = useState<any>(["loading"]);
-  const [filters, updateFilters] = useState<{ [key: string]: string }>({
-    type: "any",
-    open: "any",
-    mode: "any",
-    sort: "ab",
-    query: "",
-  });
+  const { filters, updateFilters } = useContext<any>(HomeFilterContext);
   const [loading, setLoading] = useState(false);
   const sideMenuContext = useContext(SideMenuContext);
   const { user, updateUser } = useContext(AuthContext);
@@ -46,7 +41,9 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("/api/queues/listing")
+    fetch(
+      `/api/queues/listing?${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${filters.type}`
+    )
       .then((r) => r.json())
       .then((q) => {
         if (q.status != 200) return;
@@ -61,6 +58,8 @@ function App() {
     // ? Automatic search
     let lastSearch = filters.query;
     setInterval(() => {
+      if (!filters.query) return;
+
       if (filters.query.trim() != lastSearch.trim()) {
         lastSearch = filters.query;
 
@@ -95,7 +94,9 @@ function App() {
     const target: any = ev.target;
     filters[filter] = target.value;
 
-    updateFilters(filters);
+    const _filters = Object.assign(filters, { [filter]: target.value });
+
+    updateFilters(_filters);
 
     setLoading(true);
 
@@ -183,11 +184,12 @@ function App() {
           />
           Search
         </p>
-        <BigSearch onInput={updateSearch}></BigSearch>
+        <BigSearch onInput={updateSearch} _default={filters.query}></BigSearch>
         <div className="row selectrow">
           <SearchSelect
             label="Type"
             icon={<FontAwesomeIcon icon={faUser} />}
+            _default={filters.type}
             options={
               <>
                 <option value="any">Any</option>
@@ -202,6 +204,7 @@ function App() {
           <SearchSelect
             label="Status"
             icon={<FontAwesomeIcon icon={faListCheck} />}
+            _default={filters.open}
             options={
               <>
                 <option value="any">Any</option>
@@ -216,6 +219,7 @@ function App() {
           <SearchSelect
             label="Mode"
             icon={<FontAwesomeIcon icon={faGamepad} />}
+            _default={filters.mode}
             options={
               <>
                 <option value="any">Any</option>
@@ -232,6 +236,7 @@ function App() {
           <SearchSelect
             label="Sort by"
             icon={<FontAwesomeIcon icon={faFilter} />}
+            _default={filters.sort}
             options={
               <>
                 <option value="ab">Name (A-Z)</option>

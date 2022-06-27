@@ -18,6 +18,7 @@ import {
   BeatmapPreviewProvider,
 } from "./providers/BeatmapPreviewContext";
 import { NotificationSideMenuProvider } from "./providers/NotificationSideMenu";
+import { HomeFilterContextProvider } from "./providers/HomeFiltersContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -38,16 +39,18 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                   <MyRequestsPanelProvider>
                     <BeatmapPreviewProvider>
                       <NotificationSideMenuProvider>
-                        <BrowserRouter>
-                          <Routes>
-                            <Route path="/" element={<Home />}>
-                              <Route index element={<Home />} />
-                            </Route>
-                            <Route path="/queue/:user" element={<Queue />}>
-                              <Route index element={<Queue />} />
-                            </Route>
-                          </Routes>
-                        </BrowserRouter>
+                        <HomeFilterContextProvider>
+                          <BrowserRouter>
+                            <Routes>
+                              <Route path="/" element={<Home />}>
+                                <Route index element={<Home />} />
+                              </Route>
+                              <Route path="/queue/:user" element={<Queue />}>
+                                <Route index element={<Queue />} />
+                              </Route>
+                            </Routes>
+                          </BrowserRouter>
+                        </HomeFilterContextProvider>
                       </NotificationSideMenuProvider>
                     </BeatmapPreviewProvider>
                   </MyRequestsPanelProvider>
