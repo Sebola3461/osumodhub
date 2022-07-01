@@ -14,7 +14,7 @@ export type BeatmapPreviewContextType = {
 export const BeatmapPreviewContext = createContext<BeatmapPreviewContextType>({
   paused: true,
   targetRequest: "",
-  volume: 0.5,
+  volume: 0.05,
   position: 0,
   setPosition: (_v) => console.warn("Invalid action"),
   setVolume: (_v) => console.warn("Invalid action"),
@@ -24,7 +24,7 @@ export const BeatmapPreviewContext = createContext<BeatmapPreviewContextType>({
 
 export const BeatmapPreviewProvider = ({ children }: any) => {
   const [paused, setPause] = useState(true);
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useState(0.05);
   const [position, setPosition] = useState(0);
   const [targetRequest, setTargetRequest] = useState("");
 

@@ -100,6 +100,10 @@ textarea:focus {
   resize: none;
 }
 
+.managerequestpanel .container .layout .vertical textarea.guest {
+  height: 100%;
+}
+
 .managerequestpanel .container .layout .options {
   width: 100%;
   height: fit-content;

@@ -448,6 +448,7 @@ export default ({
 
   function manageRequest(request: any, ev: any) {
     if (ev.target.className == "action" || _static) return;
+    if (["title", "artist"].includes(ev.target.className)) return;
 
     if (ev.ctrlKey) return selectedRequest.selectRequest(request._id);
 

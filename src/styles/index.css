@@ -277,7 +277,9 @@ footer {
   align-content: center;
   justify-content: center;
   align-items: center;
-  margin-top: auto;
+  position: relative;
+  top: 50%;
+  bottom: 0;
 }
 
 footer span {

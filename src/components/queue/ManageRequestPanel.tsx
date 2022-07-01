@@ -237,7 +237,7 @@ export default ({ queue, setRequests, requests }: any) => {
     >
       <div className="container">
         <div className="paneltitle">
-          Manage Request
+          {login._id == queue._id ? "Manage Request" : "Request Details"}
           <FontAwesomeIcon
             icon={faTimes}
             color="#fff"
@@ -259,8 +259,13 @@ export default ({ queue, setRequests, requests }: any) => {
           <div className="vertical">
             <textarea
               key={GenerateComponentKey(29)}
-              placeholder="Request reply"
+              placeholder={
+                login._id == queue._id
+                  ? "Type a reply for this request"
+                  : "No reply provided..."
+              }
               defaultValue={getReply()}
+              className={login._id == queue._id ? "owner" : "guest"}
               onKeyUp={(ev: any) => {
                 updateRequestReply(ev.target.value);
               }}
