@@ -83,3 +83,40 @@
   background-color: var(--background3);
   color: white;
 }
+
+@media screen and (max-width: 600px) {
+  .requestpanel .container {
+    width: 100% !important;
+    max-width: 100%;
+    height: 100% !important;
+    border-radius: 0 !important;
+  }
+
+  .beatmapstab {
+    width: 100% !important;
+    height: 82% !important;
+  }
+
+  .requesttab {
+    width: 100% !important;
+    height: 82% !important;
+  }
+
+  .requesttab .vertical {
+    width: 95% !important;
+    height: 100% !important;
+    overflow: unset !important;
+    overflow-x: unset !important;
+    overflow-y: unset !important;
+  }
+
+  .requesttab .vertical .rules {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+  }
+
+  .requesttab .vertical .row {
+    margin: 20px 0px;
+  }
+}
