@@ -35,7 +35,7 @@ api.put("/requests/:request", UpdateRequest);
 api.get("/queues/:queue/follow", GetFollowers);
 api.get("/queues/listing", ListQueues);
 api.get("/queues/:id", GetQueue);
-api.get("/queues/:id/og", GenerateOgImage);
+//api.get("/queues/:id/og", GenerateOgImage);
 api.get("/queues/:queue/requests", GetQueueRequests);
 api.get("/validate/", AuthenticateUser);
 
