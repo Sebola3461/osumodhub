@@ -571,52 +571,74 @@ export default ({
       );
   }
 
-  const [playing, setPlaying] = useState(false);
-  const previewTag = useRef(
-    new Audio(`https://b.ppy.sh/preview/${_request.beatmapset_id}.mp3`)
-  );
+  // const [playing, setPlaying] = useState(false);
+  // const previewTag = useRef(
+  //   new Audio(`https://b.ppy.sh/preview/${_request.beatmapset_id}.mp3`)
+  // );
 
-  useEffect(() => {
-    previewTag.current.src = `https://b.ppy.sh/preview/${_request.beatmapset_id}.mp3`;
-  }, [_request]);
+  // useEffect(() => {
+  //   previewTag.current.src = `https://b.ppy.sh/preview/${_request.beatmapset_id}.mp3`;
+  // }, [_request]);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (beatmapPreviewContext.targetRequest != _request._id) {
+  //     previewTag.current.pause();
+  //   }
+  // }, [beatmapPreviewContext.paused]);
+
+  // useEffect(() => {
+  //   const handler = () => setPlaying(false);
+  //   previewTag.current.addEventListener("ended", handler);
+  //   return () => previewTag.current.removeEventListener("ended", handler);
+  // }, [previewTag.current]);
+
+  // useEffect(() => {
+  //   previewTag.current[playing ? "play" : "pause"]();
+  // }, [playing]);
+
+  // previewTag.current.volume = beatmapPreviewContext.volume;
+  // previewTag.current.ontimeupdate = (ev: any) => {
+  //   beatmapPreviewContext.setPosition(
+  //     beatmapPreviewContext.position < 98
+  //       ? (ev.path[0].currentTime / ev.path[0].duration) * 100
+  //       : 0
+  //   );
+  // };
+  // previewTag.current.onended = (ev: any) => {
+  //   beatmapPreviewContext.setPosition(0);
+  //   beatmapPreviewContext.setPause(true);
+  //   beatmapPreviewContext.setTargetRequest("");
+  // };
+  // previewTag.current.onpause = (ev: any) => {
+  //   console.log("pause");
+  //   beatmapPreviewContext.setPause(true);
+  // };
+  // previewTag.current.onplay = (ev: any) => {
+  //   beatmapPreviewContext.setTargetRequest(_request._id);
+  //   beatmapPreviewContext.setPause(false);
+  // };
+
+  function previewBeatmap() {
     if (beatmapPreviewContext.targetRequest != _request._id) {
-      previewTag.current.pause();
+      beatmapPreviewContext.setPosition(0);
+      beatmapPreviewContext.setPause(true);
+      beatmapPreviewContext.setTargetRequest(_request._id);
+      beatmapPreviewContext.setPause(false);
+      return;
     }
-  }, [beatmapPreviewContext.paused]);
 
-  useEffect(() => {
-    const handler = () => setPlaying(false);
-    previewTag.current.addEventListener("ended", handler);
-    return () => previewTag.current.removeEventListener("ended", handler);
-  }, [previewTag.current]);
+    if (beatmapPreviewContext.paused) {
+      beatmapPreviewContext.setTargetRequest(_request._id);
 
-  useEffect(() => {
-    previewTag.current[playing ? "play" : "pause"]();
-  }, [playing]);
+      return beatmapPreviewContext.setPause(false);
+    }
 
-  previewTag.current.volume = beatmapPreviewContext.volume;
-  previewTag.current.ontimeupdate = (ev: any) => {
-    beatmapPreviewContext.setPosition(
-      beatmapPreviewContext.position < 98
-        ? (ev.path[0].currentTime / ev.path[0].duration) * 100
-        : 0
-    );
-  };
-  previewTag.current.onended = (ev: any) => {
-    beatmapPreviewContext.setPosition(0);
-    beatmapPreviewContext.setPause(true);
-    beatmapPreviewContext.setTargetRequest("");
-  };
-  previewTag.current.onpause = (ev: any) => {
-    console.log("pause");
-    beatmapPreviewContext.setPause(true);
-  };
-  previewTag.current.onplay = (ev: any) => {
-    beatmapPreviewContext.setTargetRequest(_request._id);
-    beatmapPreviewContext.setPause(false);
-  };
+    if (!beatmapPreviewContext.paused) {
+      beatmapPreviewContext.setTargetRequest(_request._id);
+
+      return beatmapPreviewContext.setPause(true);
+    }
+  }
 
   return (
     <>
@@ -695,14 +717,7 @@ export default ({
                 <div
                   className="action"
                   onClick={() => {
-                    if (
-                      beatmapPreviewContext.position == 0 ||
-                      beatmapPreviewContext.paused
-                    ) {
-                      return previewTag.current.play();
-                    } else {
-                      return previewTag.current.pause();
-                    }
+                    previewBeatmap();
                   }}
                 >
                   <FontAwesomeIcon

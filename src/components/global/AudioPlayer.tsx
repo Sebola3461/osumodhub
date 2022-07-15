@@ -1,68 +1,83 @@
-import React, { useContext, useRef, useState } from "react";
+import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { BeatmapPreviewContext } from "../../providers/BeatmapPreviewContext";
+import "./../../styles/AudioPlayer.css";
 
-export default () => {
+export default ({ requests }: { requests: any[] }) => {
   const audioPlayer = useRef(new Audio());
-  const [currentTime, setCurrentTime] = useState(0);
-  const [seekValue, setSeekValue] = useState(0);
+  const [beatmapId, setBeatmapId] = useState(-1);
   const context = useContext(BeatmapPreviewContext);
+  const [visible, setVisible] = useState(false);
+  const [mouse, setMouse] = useState(false);
 
   const play = () => {
     audioPlayer.current.play();
   };
 
   const pause = () => {
-    audioPlayer.current.pause();
+    context.setPause(true);
   };
 
-  const stop = () => {
-    audioPlayer.current.pause();
-    audioPlayer.current.currentTime = 0;
+  audioPlayer.current.onplay = () => {
+    setVisible(true);
   };
 
-  const setSpeed = (speed) => {
-    audioPlayer.current.playbackRate = speed;
+  audioPlayer.current.onended = () => {
+    context.setPause(true);
+    context.setPosition(0);
+    setVisible(false);
   };
 
-  const onPlaying = () => {
-    setCurrentTime(audioPlayer.current.currentTime);
-    setSeekValue(
+  audioPlayer.current.ontimeupdate = (s: any) => {
+    context.setPosition(
       (audioPlayer.current.currentTime / audioPlayer.current.duration) * 100
     );
   };
 
+  useEffect(() => {
+    audioPlayer.current.src = `https://b.ppy.sh/preview/${beatmapId}.mp3`;
+
+    if (!context.paused) {
+      audioPlayer.current.play();
+    }
+  }, [beatmapId]);
+
+  useEffect(() => {
+    const r = requests.find((r) => r._id == context.targetRequest);
+    audioPlayer.current.volume = 0.05;
+
+    setBeatmapId(r ? r.beatmapset_id : -1);
+
+    if (context.paused) {
+      audioPlayer.current.pause();
+      return;
+    }
+
+    if (!context.paused) {
+      audioPlayer.current.play();
+      return;
+    }
+  }, [context]);
+
+  const position: any = {
+    "--bg": `linear-gradient(90deg, #e87110 ${
+      isNaN(context.position) ? 0 : context.position
+    }%, var(--background4) ${isNaN(context.position) ? 0 : context.position}%)`,
+  };
+
   return (
     <>
-      <audio
-        src={`https://b.ppy.sh/preview/${context.targetRequest}.mp3`}
-        ref={audioPlayer}
-        onTimeUpdate={onPlaying}
-      >
-        Your browser does not support the
-        <code>audio</code> element.
-      </audio>
-      <br />
-      <p>{currentTime}</p>
-      <input
-        type="range"
-        min="0"
-        max="100"
-        step="1"
-        value={seekValue}
-        onChange={(e: any) => {
-          const seekto = audioPlayer.current.duration * (+e.target.value / 100);
-          audioPlayer.current.currentTime = seekto;
-          setSeekValue(e.target.value);
+      <div
+        className={visible ? "audioplayer visible" : "audioplayer"}
+        onMouseOver={() => {
+          setMouse(true);
         }}
-      />
-      <div>
-        <button onClick={play}>play</button>
-        <button onClick={pause}>pause</button>
-        <button onClick={stop}>stop</button>
-        <button onClick={() => setSpeed(0.5)}>0.5x</button>
-        <button onClick={() => setSpeed(1)}>1x</button>
-        <button onClick={() => setSpeed(1.5)}>1.5x</button>
-        <button onClick={() => setSpeed(2)}>2x</button>
+      >
+        <div className="controls" onClick={context.paused ? play : pause}>
+          <FontAwesomeIcon icon={context.paused ? faPlay : faPause} />
+        </div>
+        <div style={position} className="position"></div>
       </div>
     </>
   );

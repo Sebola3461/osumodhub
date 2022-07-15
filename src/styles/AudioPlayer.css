@@ -1,0 +1,44 @@
+.audioplayer {
+  --bg: transparent;
+  width: 300px;
+  position: fixed;
+  bottom: -300px;
+  right: 0;
+  background-color: var(--background3);
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  border-radius: 5px 0px 0px 0px;
+  transition: linear 120ms;
+}
+
+.audioplayer.visible {
+  bottom: 0px;
+}
+
+.audioplayer .icon {
+  width: 20px;
+}
+
+.audioplayer .track {
+  width: 100%;
+}
+
+.audioplayer .position {
+  width: 90%;
+  height: 3px;
+  border-radius: 1000px;
+  background: var(--bg);
+  margin: auto;
+}
+
+@media screen and (max-width: 500px) {
+  .audioplayer {
+    width: calc(100% - 40px);
+    border-radius: 0;
+  }
+}
