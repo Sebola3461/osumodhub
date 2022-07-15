@@ -12,7 +12,7 @@ export default ({ requests }: { requests: any[] }) => {
   const [mouse, setMouse] = useState(false);
 
   const play = () => {
-    audioPlayer.current.play();
+    context.setPause(false);
   };
 
   const pause = () => {

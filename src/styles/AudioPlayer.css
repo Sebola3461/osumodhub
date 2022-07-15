@@ -22,6 +22,7 @@
 
 .audioplayer .icon {
   width: 20px;
+  cursor: pointer;
 }
 
 .audioplayer .track {
