@@ -20,12 +20,7 @@ import {
 import { NotificationSideMenuProvider } from "./providers/NotificationSideMenu";
 import { HomeFilterContextProvider } from "./providers/HomeFiltersContext";
 import GDFeed from "./pages/GDFeed";
-
-const redirect = (
-  <>
-    <script>window.location.pathname = "/modding"</script>
-  </>
-);
+import RedirectHome from "./components/global/RedirectHome";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -49,8 +44,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                         <HomeFilterContextProvider>
                           <BrowserRouter>
                             <Routes>
-                              <Route path="/" element={redirect}>
-                                <Route index element={redirect} />
+                              <Route path="/" element={<RedirectHome />}>
+                                <Route index element={<RedirectHome />} />
                               </Route>
                               <Route path="/modding" element={<Home />}>
                                 <Route index element={<Home />} />
