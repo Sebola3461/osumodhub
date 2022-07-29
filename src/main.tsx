@@ -19,6 +19,7 @@ import {
 } from "./providers/BeatmapPreviewContext";
 import { NotificationSideMenuProvider } from "./providers/NotificationSideMenu";
 import { HomeFilterContextProvider } from "./providers/HomeFiltersContext";
+import GDFeed from "./pages/GDFeed";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -42,8 +43,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                         <HomeFilterContextProvider>
                           <BrowserRouter>
                             <Routes>
-                              <Route path="/" element={<Home />}>
+                              <Route path="/modding" element={<Home />}>
                                 <Route index element={<Home />} />
+                              </Route>
+                              <Route path="/gd" element={<GDFeed />}>
+                                <Route index element={<GDFeed />} />
                               </Route>
                               <Route path="/queue/:user" element={<Queue />}>
                                 <Route index element={<Queue />} />
