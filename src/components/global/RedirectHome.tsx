@@ -1,7 +1,5 @@
 export default () => {
-  document.onload = () => {
-    window.location.pathname = "/modding";
-  };
+  window.location.pathname = "/modding";
 
   return <></>;
 };
