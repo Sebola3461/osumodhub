@@ -3,7 +3,7 @@ import path from "path";
 
 const client = Router();
 
-client.get("/", (req, res) => res.redirect("/modding"));
+client.get("/", sendHTML);
 client.get("/modding", sendHTML);
 client.get("/gd", sendHTML);
 client.get("/queue/:queue", sendHTML);
