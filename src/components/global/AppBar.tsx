@@ -25,12 +25,12 @@ export default () => {
 
   return (
     <div id="appbar" className="background2">
-      <Link to="/">
+      <Link to="/modding">
         <div className="logo"></div>
       </Link>
       <div className="links-row">
         <Link to="/" className="anchor1 page-anchor">
-          Home
+          Queues
         </Link>
         <a href="https://discord.gg/fpE4YmtRqz" className="anchor1 page-anchor">
           Discord
