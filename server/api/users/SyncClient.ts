@@ -17,6 +17,13 @@ export default async (req: Request, res: Response) => {
     });
 
   const author = await users.findOne({ account_token: authorization });
+
+  if (author == null)
+    return res.status(404).send({
+      status: 404,
+      message: "User not found!",
+    });
+
   const queue = await queues.findById(author._id);
 
   if (author == null)
