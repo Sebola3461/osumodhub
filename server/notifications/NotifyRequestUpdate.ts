@@ -17,6 +17,7 @@ export default async (queue: IQueue, request: any, status: string) => {
     accepted: "has accepted",
     rejected: "has rejected",
     finished: "has finished",
+    ranked: "has ranked",
     archived: "has archived",
     waiting: "is waiting another nominator for",
     rechecking: "need to recheck",

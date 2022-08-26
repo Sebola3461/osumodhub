@@ -182,6 +182,14 @@ export default ({ queue, setRequests, requests }: any) => {
       nominated
     </div>,
     <div
+      className="option ranked"
+      onClick={() => {
+        updateRequestStatus("ranked");
+      }}
+    >
+      ranked
+    </div>,
+    <div
       className="option waiting"
       onClick={() => {
         updateRequestStatus("waiting");
