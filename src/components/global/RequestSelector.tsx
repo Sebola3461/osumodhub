@@ -122,6 +122,7 @@ export default ({
     waiting: "Waiting another BN",
     finished: "Finished",
     nominated: "Nominated",
+    ranked: "Ranked",
     rejected: "Rejected",
     accepted: "Accepted",
     archived: "Archived",
@@ -383,6 +384,21 @@ export default ({
       className="nominate-hover"
     >
       Nominated
+    </MenuItem>,
+    <MenuItem
+      data={{
+        request: _request,
+        status: "ranked",
+      }}
+      onClick={() => {
+        updateRequest({
+          request: _request,
+          status: "ranked",
+        });
+      }}
+      className="nominate-hover"
+    >
+      Ranked
     </MenuItem>,
     <MenuItem
       data={{

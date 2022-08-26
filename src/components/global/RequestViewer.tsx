@@ -81,6 +81,7 @@ export default ({
     waiting: "Waiting another BN",
     finished: "Finished",
     nominated: "Nominated",
+    ranked: "Ranked",
     rejected: "Rejected",
     accepted: "Accepted",
     archived: "Archived",

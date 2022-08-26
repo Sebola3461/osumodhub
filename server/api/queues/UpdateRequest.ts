@@ -62,6 +62,7 @@ export default async (req: Request, res: Response) => {
     { name: "waiting", bn: true },
     { name: "rechecking", bn: true },
     { name: "nominated", bn: true },
+    { name: "ranked", bn: true },
   ];
 
   const requestedStatus = valid_status.find(

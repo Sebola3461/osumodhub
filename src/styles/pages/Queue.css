@@ -188,6 +188,10 @@
   background-color: #259bca !important;
 }
 
+.ranked {
+  background-color: #259bca !important;
+}
+
 .rejected {
   background-color: #d4152f !important;
 }
@@ -225,6 +229,11 @@
 }
 
 .nominate-hover:hover {
+  background-color: #259bca !important;
+  color: white;
+}
+
+.ranked-hover:hover {
   background-color: #259bca !important;
   color: white;
 }
@@ -270,6 +279,11 @@
 }
 
 .nominate-hover {
+  transition: linear 80ms color, linear 80ms background-color;
+  color: #259bca;
+}
+
+.ranked-hover {
   transition: linear 80ms color, linear 80ms background-color;
   color: #259bca;
 }
