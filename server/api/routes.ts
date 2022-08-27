@@ -1,4 +1,9 @@
 import { Router } from "express";
+import ClaimGDRequest from "./gd/ClaimGDRequest";
+import CreateGDRequest from "./gd/CreateGDRequest";
+import GetGDRequest from "./gd/GetGDRequest";
+import GetGDRequestClaims from "./gd/GetGDRequestClaims";
+import ListGDRequests from "./gd/ListGDRequests";
 import CreateNewQueue from "./queues/CreateNewQueue";
 import CreateRequest from "./queues/CreateRequest";
 import DeleteRequest from "./queues/DeleteRequest";
@@ -8,6 +13,7 @@ import GenerateOgImage from "./queues/GenerateOgImage";
 import GetFollowers from "./queues/GetFollowers";
 import GetQueue from "./queues/GetQueue";
 import GetQueueRequests from "./queues/GetQueueRequests";
+import GetRequest from "./queues/GetRequest";
 import GetUserRequests from "./queues/GetUserRequests";
 import ListQueues from "./queues/ListQueues";
 import RemoveFollower from "./queues/RemoveFollower";
@@ -19,6 +25,7 @@ import AuthenticateUser from "./users/AuthenticateUser";
 import ClearUserNotifications from "./users/ClearUserNotifications";
 import GetBeatmapInfo from "./users/GetBeatmapInfo";
 import GetUserBeatmaps from "./users/GetUserBeatmaps";
+import GetUserGDPosts from "./users/GetUserGDPosts";
 import GetUserNotifications from "./users/GetUserNotifications";
 import SyncClient from "./users/SyncClient";
 import ValidateNotification from "./users/ValidateNotification";
@@ -31,7 +38,14 @@ api.get("/", (req, res) =>
 // ? put
 api.put("/requests/:request", UpdateRequest);
 
+// ? patch
+api.patch("/gd/:id", GetGDRequest);
+
 // ? Get
+
+api.get("/listing/queues", ListQueues);
+api.get("/listing/gd/:category", ListGDRequests);
+
 api.get("/queues/:queue/follow", GetFollowers);
 api.get("/queues/listing", ListQueues);
 api.get("/queues/:id", GetQueue);
@@ -39,8 +53,14 @@ api.get("/queues/:id", GetQueue);
 api.get("/queues/:queue/requests", GetQueueRequests);
 api.get("/validate/", AuthenticateUser);
 
+api.get("/requests/:request", GetRequest);
+
 api.get("/users/:user/beatmaps", GetUserBeatmaps);
 api.get("/users/:user/requests/", GetUserRequests);
+api.get("/users/:user/posts/", GetUserGDPosts);
+
+api.get("/gd/:id", GetGDRequest);
+api.get("/gd/:id/claim", GetGDRequestClaims);
 
 api.get("/notifications", GetUserNotifications);
 
@@ -53,6 +73,9 @@ api.post("/queues/schedule", StartTimeClose);
 api.post("/queues/:queue/requests", CreateRequest);
 api.post("/queues/:queue/follow", FollowQueue);
 api.post("/queues/update", UpdateQueue);
+
+api.post("/gd/new", CreateGDRequest);
+api.post("/gd/:id/claim", ClaimGDRequest);
 
 api.post("/users/sync", SyncClient);
 
