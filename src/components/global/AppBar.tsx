@@ -29,7 +29,7 @@ export default () => {
         <div className="logo"></div>
       </Link>
       <div className="links-row">
-        <Link to="/" className="anchor1 page-anchor">
+        <Link to="/modding" className="anchor1 page-anchor">
           Queues
         </Link>
         <a href="https://discord.gg/fpE4YmtRqz" className="anchor1 page-anchor">
