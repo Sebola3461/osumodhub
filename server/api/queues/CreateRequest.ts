@@ -105,7 +105,7 @@ export default async (req: Request, res: Response) => {
     });
 
   // ? Create request
-  const request_id = crypto.randomBytes(30).toString("hex");
+  const request_id = (await requests.count()) + 1;
   const request = new requests({
     _id: request_id,
     _queue: queue._id,

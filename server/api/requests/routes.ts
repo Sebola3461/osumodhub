@@ -1,5 +1,5 @@
 import { Router } from "express";
-import DeleteRequest from "../queues/DeleteRequest";
+import DeleteRequest from "./DeleteRequest";
 import EditRequestComment from "./EditRequestComment";
 import GetRequest from "./GetRequest";
 import UpdateRequest from "./UpdateRequest";
