@@ -38,7 +38,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta property="og:title" content="osu!modhub | Queue not found!">
       <meta property="og:site_name" content="osu!modhub">
-      <meta property="og:url" content="https://osumodhub.com/">
+      <meta property="og:url" content="https://osumodhub.xyz/">
       <meta property="og:description" content="osu!modhub provides mapping & modding tools for osu!">
       <meta property="og:type" content="profile">
       <meta content="${
@@ -57,13 +57,13 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             queue.name
           }'s queue">
           <meta property="og:site_name" content="osu!modhub">
-          <meta property="og:url" content="https://osumodhub.com/queue/${
+          <meta property="og:url" content="https://osumodhub.xyz/queue/${
             queue._id
           }">
           <meta content="${
             typeColors[queue.type]
           }" data-react-helmet="true" name="theme-color" />
-          <meta content="https://osumodhub.herokuapp.com/api/queues/${
+          <meta content="https://osumodhub.xyz/api/queues/${
             queue._id
           }/og?nonce=${Nonce(40)}" property="og:image" />
           <meta name="twitter:card" content="summary_large_image">
