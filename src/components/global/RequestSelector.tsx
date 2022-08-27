@@ -516,6 +516,22 @@ export default ({
         <MenuItem
           className="finish-hover"
           onClick={() => {
+            navigator.clipboard
+              .writeText(
+                `https://osumodhub.xyz/queue/${request._queue}?r=${request._id}`
+              )
+              .then(() => {
+                enqueueSnackbar("Copied to clipboard!", {
+                  action,
+                });
+              });
+          }}
+        >
+          Copy URL
+        </MenuItem>
+        <MenuItem
+          className="finish-hover"
+          onClick={() => {
             openExternal(`https://osu.ppy.sh/s/${_request.beatmapset_id}`);
           }}
         >
@@ -585,6 +601,27 @@ export default ({
           {extraMenu}
         </ContextMenu>
       );
+
+    return (
+      <ContextMenu id={`request-${_request._id}`}>
+        <MenuItem
+          className="finish-hover"
+          onClick={() => {
+            navigator.clipboard
+              .writeText(
+                `https://osumodhub.xyz/queue/${request._queue}?r=${request._id}`
+              )
+              .then(() => {
+                enqueueSnackbar("Copied to clipboard!", {
+                  action,
+                });
+              });
+          }}
+        >
+          Copy URL
+        </MenuItem>
+      </ContextMenu>
+    );
   }
 
   // const [playing, setPlaying] = useState(false);

@@ -40,6 +40,7 @@ import NotificationSideMenu from "../components/global/NotificationSideMenu";
 import { NotificationSideMenuContext } from "../providers/NotificationSideMenu";
 import { SelectedRequestContextProvider } from "../providers/SelectRequestContext";
 import AudioPlayer from "../components/global/AudioPlayer";
+import { ManageRequestPanelContext } from "../providers/ManageRequestPanelContext";
 
 export default () => {
   const icons = [
@@ -62,7 +63,9 @@ export default () => {
   const queuePanelContext = useContext(QueuePanelContext);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [followers, setFollowers] = useState({ size: 0, mutual: null });
+  const [requestToFocus, setRequestToFocus] = useState("");
   const [followButtonIcon, setFollowButtonIcon] = useState(faUser);
+  const manageRequestPanel = useContext(ManageRequestPanelContext);
 
   const requestsPanelContext = useContext(MyRequestPanelContext);
 
@@ -100,6 +103,11 @@ export default () => {
     const queue_id = window.location.pathname.split("").pop()
       ? window.location.pathname.split("/").pop()?.trim()
       : "";
+    const _targetRequest = new URLSearchParams(location.search).get("r");
+
+    if (_targetRequest) {
+      setRequestToFocus(_targetRequest);
+    }
 
     fetch(`/api/queues/${queue_id}`)
       .then((r) => r.json())
@@ -176,6 +184,25 @@ export default () => {
 
     SyncQueueData(login);
   }, []);
+
+  useEffect(() => {
+    if (requestToFocus) {
+      fetch(`/api/requests/${requestToFocus}?includeBeatmap=true`)
+        .then((r) => r.json())
+        .then((d) => {
+          if (d.status != 200) {
+            location.search = "";
+            return enqueueSnackbar(d.message, {
+              variant: "error",
+              persist: false,
+            });
+          }
+
+          manageRequestPanel.setRequest(d.data);
+          manageRequestPanel.setOpen(true);
+        });
+    }
+  }, [requestToFocus]);
 
   useEffect(() => {
     const queue_id = window.location.pathname.split("").pop()

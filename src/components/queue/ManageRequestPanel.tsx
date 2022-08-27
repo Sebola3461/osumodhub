@@ -34,7 +34,7 @@ export default ({ queue, setRequests, requests }: any) => {
   function auxClosePanel(ev: any) {
     if (ev.target.className != "managerequestpanel open") return;
 
-    setOpen(!open);
+    close();
 
     return;
   }
@@ -43,7 +43,7 @@ export default ({ queue, setRequests, requests }: any) => {
     if (ev.target.className != "managerequestpanel open") return;
     if (ev.key != "escape") return;
 
-    setOpen(!open);
+    close();
 
     return;
   }
@@ -229,6 +229,16 @@ export default ({ queue, setRequests, requests }: any) => {
     return request.reply;
   }
 
+  function close() {
+    const _targetRequest = new URLSearchParams(location.search).get("r");
+
+    if (_targetRequest) {
+      history.pushState(null, "", window.location.pathname);
+    }
+
+    setOpen(false);
+  }
+
   return (
     <div
       className={
@@ -250,7 +260,7 @@ export default ({ queue, setRequests, requests }: any) => {
             icon={faTimes}
             color="#fff"
             onClick={() => {
-              setOpen(false);
+              close();
             }}
             style={{
               display: "block",
