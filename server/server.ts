@@ -7,7 +7,7 @@ import { consoleCheck } from "./helpers/logger";
 import DiscordEmbed from "./middlewares/DiscordEmbed";
 import TimeClose from "./workers/TimeClose";
 const app = express();
-//TimeClose();
+TimeClose();
 
 if (process.env.NODE_ENV == "production") {
   app.use(
