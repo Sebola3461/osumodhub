@@ -54,11 +54,11 @@
   align-items: center;
 }
 
-.requestpanel .container .paneltitle svg {
+.container .paneltitle svg {
   cursor: pointer;
 }
 
-.requestpanel .container .tab {
+.container .tab {
   width: 95%;
   margin: 1% 2.5%;
   display: flex;
@@ -69,7 +69,7 @@
   align-items: center;
 }
 
-.requestpanel .container .tab .option {
+.container .tab .option {
   padding: 10px;
   margin-right: 5px;
   border-radius: 0.3rem;
@@ -79,7 +79,7 @@
   cursor: pointer;
 }
 
-.requestpanel .container .tab .option.selected {
+.container .tab .option.selected {
   background-color: var(--background3);
   color: white;
 }

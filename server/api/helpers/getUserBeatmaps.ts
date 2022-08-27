@@ -1,12 +1,16 @@
 import axios from "axios";
 import { Beatmapset } from "../../../src/types/beatmap";
 
-export default async (user_id: string, status?: string) => {
+export default async (
+  user_id: string,
+  status?: string,
+  offset?: string | number
+) => {
   try {
     const req = await axios(
       `https://osu.ppy.sh/api/v2/users/${user_id}/beatmapsets/${
         status || "pending"
-      }?limit=100`,
+      }?limit=100&offset=${offset}`,
       {
         method: "get",
         headers: {

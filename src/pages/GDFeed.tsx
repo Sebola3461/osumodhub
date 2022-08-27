@@ -12,6 +12,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import "./../styles/pages/Home.css";
+import "./../styles/pages/GDFeed.css";
 import SearchSelect from "../components/global/SearchSelect";
 import QueueSelector from "../components/global/QueueSelector";
 import { useNavigate } from "react-router-dom";
@@ -28,9 +29,30 @@ import { MyRequestPanelContext } from "../providers/MyRequestsPanelContext";
 import NotificationSideMenu from "../components/global/NotificationSideMenu";
 import NoRequests from "../components/global/NoRequests";
 import { HomeFilterContext } from "../providers/HomeFiltersContext";
+import GDSelector from "../components/gd/GDSelector";
+import {
+  PostGDPanelContext,
+  PostGDPanelProvider,
+} from "../providers/PostGDPanelContext";
+import PostGDPanel from "../components/gd/PostGDPanel";
+import GDPanel from "../components/gd/GDPanel";
+import { GDPanelContext } from "../providers/GDPanelContext";
+import ManageGDPanel from "../components/gd/ManageGDPanel";
+import { ManageGDPanelContext } from "../providers/ManageGDPanelContext";
 
 function GDFeed() {
-  const [queues, setQueues] = useState<any>(["loading"]);
+  const [gds, setGds] = useState<any>({
+    new: ["loading"],
+    pop: ["loading"],
+    anime: ["loading"],
+    electronic: ["loading"],
+    rock: ["loading"],
+    "video game": ["loading"],
+    novelty: ["loading"],
+    jazz: ["loading"],
+    "Hip hop": ["loading"],
+    classical: ["loading"],
+  });
   const { filters, updateFilters } = useContext<any>(HomeFilterContext);
   const [loading, setLoading] = useState(false);
   const sideMenuContext = useContext(SideMenuContext);
@@ -38,26 +60,29 @@ function GDFeed() {
   const [login, setLogin] = useState(JSON.parse(user));
   const queuePanelContext = useContext(QueuePanelContext);
   const requestsPanelContext = useContext(MyRequestPanelContext);
+  const postPanel = useContext(PostGDPanelContext);
+  const gdPanel = useContext(GDPanelContext);
+  const manageGdPanel = useContext(ManageGDPanelContext);
 
   useEffect(() => {
     setLoading(true);
-    fetch(
-      `/api/queues/listing?${
-        filters.query.trim() != "" ? `q=${filters.query.trim()}` : ""
-      }&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${
-        filters.type
-      }`
-    )
-      .then((r) => r.json())
-      .then((q) => {
-        if (q.status != 200) return;
 
-        setQueues(q.data);
-        setLoading(false);
-      });
+    const categories = Object.keys(gds);
+
+    for (const category of categories) {
+      fetch(`/api/listing/gd/${category}`)
+        .then((r) => r.json())
+        .then((q) => {
+          if (q.status != 200) return;
+
+          gds[category] = q.data;
+          setGds(JSON.parse(JSON.stringify(gds)));
+          setLoading(false);
+        });
+    }
 
     SyncQueueData(login);
-    document.title = `Queues | osu!modhub`;
+    document.title = `Guest Difficulties | osu!modhub`;
 
     // ? Automatic search
     let lastSearch = filters.query;
@@ -76,13 +101,13 @@ function GDFeed() {
     setLoading(true);
 
     fetch(
-      `/api/queues/listing?q=${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${filters.type}`
+      `/api/queues/?q=${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${filters.type}`
     )
       .then((r) => r.json())
       .then((q) => {
         if (q.status != 200) return;
 
-        setQueues(q.data);
+        setGds(q.data);
         setLoading(false);
       });
   }
@@ -105,13 +130,13 @@ function GDFeed() {
     setLoading(true);
 
     fetch(
-      `/api/queues/listing?q=${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${filters.type}`
+      `/api/queues/?q=${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${filters.type}`
     )
       .then((r) => r.json())
       .then((q) => {
         if (q.status != 200) return;
 
-        setQueues(q.data);
+        setGds(q.data);
         setLoading(false);
       });
   }
@@ -132,6 +157,75 @@ function GDFeed() {
       <p>Loading queues...</p>
     </div>
   );
+
+  function togglePostPanel() {
+    postPanel.setOpen(!postPanel.open);
+  }
+
+  function toggleManageGDPanel() {
+    manageGdPanel.setOpen(!manageGdPanel.open);
+  }
+
+  if (new URLSearchParams(window.location.search).has("b")) {
+    gdPanel.setOpen(true);
+  }
+
+  function getListing() {
+    const listing = [
+      <div className="category">
+        <p className="categoryname">New Posts</p>
+        <div className="listing">
+          {gds.new[0] != "loading" ? (
+            gds.new.map((r) => {
+              return (
+                <GDSelector
+                  request={r}
+                  onClick={() => {
+                    gdPanel.setGD(r);
+                    gdPanel.setOpen(true);
+                  }}
+                />
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </div>
+      </div>,
+    ];
+
+    Object.keys(gds)
+      .filter((k) => k != "new")
+      .forEach((category) => {
+        function getContent() {
+          if (gds[category][0] == "loading") return <></>;
+          if (gds[category].length == 0) return <NoRequests></NoRequests>;
+
+          return gds[category].map((r) => {
+            return (
+              <GDSelector
+                request={r}
+                onClick={() => {
+                  gdPanel.setGD(r);
+                  gdPanel.setOpen(true);
+                }}
+              />
+            );
+          });
+        }
+
+        listing.push(
+          <div className="category grid">
+            <p className="categoryname">
+              {category[0].toUpperCase().concat(category.slice(1))}
+            </p>
+            <div className="listing">{getContent()}</div>
+          </div>
+        );
+      });
+
+    return listing;
+  }
 
   return (
     <>
@@ -253,6 +347,19 @@ function GDFeed() {
           ></SearchSelect>
         </div>
       </HeaderPanel>
+      <div className="actionsrow">
+        <button onClick={togglePostPanel} className="requestbutton">
+          Request
+        </button>
+        <button onClick={toggleManageGDPanel} className="requestbutton">
+          My Posts
+        </button>
+      </div>
+      <GDPanel></GDPanel>
+      <PostGDPanel></PostGDPanel>
+      <ManageGDPanel></ManageGDPanel>
+      {getListing()}
+      <div className="queuelisting"></div>
       <footer>
         Made with <span>❤</span> by{" "}
         <a href="https://osu.ppy.sh/users/15821708">Sebola</a>

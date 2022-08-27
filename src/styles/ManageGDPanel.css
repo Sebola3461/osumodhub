@@ -1,0 +1,295 @@
+.managegdpanel {
+  width: 100%;
+  height: calc(100% - 71px);
+  position: fixed;
+  z-index: 9;
+  background-color: #00000094;
+  top: 71px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(0px);
+}
+
+.managegdpanel .container {
+  width: 90%;
+  height: 90%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 1rem;
+  background-color: var(--background1);
+  overflow: hidden;
+  animation-name: fade;
+  animation-duration: 120ms;
+  animation-timing-function: linear;
+  transition: linear 120ms opacity;
+  opacity: 1;
+}
+
+.managegdpanel .container.waiting {
+  opacity: 0;
+}
+
+.managegdpanel .container .paneltitle {
+  width: calc(100% - 40px);
+  height: 20px;
+  padding: 20px;
+  color: white;
+  border-bottom: 1px solid var(--background3);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.managegdpanel {
+  opacity: 0;
+  pointer-events: none;
+  transition: linear 120ms opacity, linear 120ms backdrop-filter;
+}
+
+.managegdpanel .loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.managegdpanel.open {
+  opacity: 1;
+  pointer-events: all;
+  backdrop-filter: blur(10px);
+}
+
+.managegdpanel .selectposttab {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+  animation-name: fade;
+  animation-duration: 120ms;
+  animation-timing-function: linear;
+  transition: linear 120ms opacity;
+}
+.managegdpanel .selectposttab .listcategory {
+  width: 95%;
+  height: fit-content;
+  padding: 0px 2.5%;
+}
+
+.category_title {
+  margin: 10px 0px;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--background7);
+}
+
+.selectposttab .listcategory .listing {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.selectposttab .listcategory .listing .gdpostselector:last-of-type {
+  margin-bottom: 20px;
+}
+
+.requestsposttab {
+  width: 95%;
+  padding: 0px px 2.5%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: flex-start;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.requestsposttab .listcategory {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  animation-name: fade;
+  animation-duration: 120ms;
+  animation-timing-function: linear;
+  transition: linear 120ms opacity;
+}
+
+.requestsposttab .listcategory .listing {
+  width: 100%;
+  height: 86%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.requestsposttab .listcategory .listing .norequests {
+  padding: 20px;
+}
+
+.requestsposttab .listcategory .listing .norequests p {
+  font-size: 17px;
+}
+
+.requestsposttab .listcategory .category_title {
+  margin-top: 0;
+}
+
+.claimrequesttab {
+  width: 95%;
+  padding: 0px px 2.5%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: flex-start;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.claimrequesttab .listcategory {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  animation-name: fade;
+  animation-duration: 120ms;
+  animation-timing-function: linear;
+  transition: linear 120ms opacity;
+}
+
+.claimrequesttab .listcategory .listing {
+  width: 100%;
+  height: 86%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.claimrequesttab .listcategory .listing .norequests {
+  padding: 20px;
+}
+
+.claimrequesttab .listcategory .listing .norequests p {
+  font-size: 17px;
+}
+
+.claimrequesttab .listcategory .category_title {
+  margin-top: 0;
+}
+
+.claimrequest {
+  width: calc(100% - 30px);
+  height: 50px;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: var(--background4);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  animation-name: fade;
+  animation-duration: 120ms;
+  animation-timing-function: linear;
+  transition: linear 120ms opacity;
+}
+
+.claimrequest .status {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 12px;
+  padding: 3px 15px;
+  border-radius: 1000px;
+  background-color: var(--darkorange);
+}
+
+.claimrequest.selected {
+  outline: 2px solid var(--ocean);
+}
+
+.claimrequest .avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  background-color: var(--background3);
+  margin-right: 10px;
+  background-position: center;
+  background-size: cover;
+}
+
+.requestsposttab .vertical {
+  width: calc(100% - 20px);
+  height: 100%;
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.requestsposttab textarea {
+  width: calc(100% - 20px);
+  height: 200px;
+  cursor: default;
+  resize: none;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.requestsposttab .row {
+  margin-top: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-start;
+}
+.requestsposttab .row button {
+  margin-left: 20px;
+  padding: 10px 50px;
+}

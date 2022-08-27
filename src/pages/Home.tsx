@@ -42,7 +42,7 @@ function App() {
   useEffect(() => {
     setLoading(true);
     fetch(
-      `/api/queues/listing?${
+      `/api/listing/queues?${
         filters.query.trim() != "" ? `q=${filters.query.trim()}` : ""
       }&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${
         filters.type
@@ -76,7 +76,7 @@ function App() {
     setLoading(true);
 
     fetch(
-      `/api/queues/listing?q=${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${filters.type}`
+      `/api/listing/queues?q=${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${filters.type}`
     )
       .then((r) => r.json())
       .then((q) => {
@@ -105,7 +105,7 @@ function App() {
     setLoading(true);
 
     fetch(
-      `/api/queues/listing?q=${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${filters.type}`
+      `/api/listing/queues?q=${filters.query}&open=${filters.open}&sort=${filters.sort}&mode=${filters.mode}&type=${filters.type}`
     )
       .then((r) => r.json())
       .then((q) => {

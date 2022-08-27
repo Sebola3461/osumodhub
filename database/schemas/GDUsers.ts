@@ -24,38 +24,18 @@ export default new Schema({
   },
   status: {
     type: String,
-    default: "pending",
+    default: "waiting",
   },
-  difficulties: {
-    type: Array,
-    default: [],
+  difficulty: {
+    type: String,
   },
-  genres: {
-    type: Array,
-    default: [],
+  difficulty_data: {
+    type: Object,
   },
-  tags: {
-    type: Array,
-    default: [],
-  },
-  modes: {
-    type: Array,
-    default: [],
-  },
-  queue: {
-    type: Array,
-    default: [],
+  request_id: {
+    type: String,
   },
   date: {
     type: Date,
-  },
-  mfm: {
-    type: Boolean,
-  },
-  cross: {
-    type: Boolean,
-  },
-  pending: {
-    type: Boolean,
   },
 });

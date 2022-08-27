@@ -1,0 +1,61 @@
+.gdpostselector {
+  width: 95%;
+  height: 75px;
+  min-height: 75px;
+  margin-top: 10px;
+  border-radius: 5px;
+  background-color: var(--background3);
+  background-image: url(https://assets.ppy.sh/beatmaps/1258661/covers/cover@2x.jpg?1605238220);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  cursor: pointer;
+  transition: linear 120ms;
+  position: relative;
+}
+
+.gdpostselector.selected {
+  outline: 2px solid var(--ocean);
+}
+
+.gdpostselector:hover > .metadata {
+  background: linear-gradient(90deg, #000000e8 0%, rgba(0, 0, 0, 0.219) 100%);
+}
+
+.gdpostselector .pending.visible {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  height: 20px;
+  border-radius: 1000px;
+  font-weight: 500;
+  background-color: var(--ocean) !important;
+  padding: 5px 10px;
+}
+
+.gdpostselector .metadata {
+  width: calc(100% - 40px);
+  height: calc(100% - 20px);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px 20px;
+  background: linear-gradient(90deg, #000000e8 0%, rgb(0 0 0 / 48%) 100%);
+}
+
+.gdpostselector .metadata p {
+  width: 100%;
+}
+
+.gdpostselector .metadata .title {
+  width: 100%;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.gdpostselector .metadata .artist {
+  color: var(--background7);
+}

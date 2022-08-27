@@ -1,0 +1,192 @@
+.postbeatmaptab {
+  width: 95%;
+  height: 77.5%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  animation-name: fade;
+  animation-duration: 120ms;
+  animation-timing-function: linear;
+  transition: linear 120ms opacity;
+}
+
+.postbeatmaptab .left {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+  overflow-x: clip;
+  filter: blur(0px);
+  transition: linear 240ms filter, linear 240ms opacity;
+  opacity: 1;
+}
+
+.postbeatmaptab .left.disabled {
+  pointer-events: none;
+  overflow: hidden;
+  position: relative;
+  opacity: 0.1;
+  filter: blur(1px);
+}
+
+.postbeatmaptab .left .option {
+  display: flex;
+  width: calc(95% - 20px);
+  background-color: var(--background2);
+  padding: 10px;
+  border-radius: 5px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.postbeatmaptab .left .option .label {
+  font-weight: 500;
+  color: #8b8b8b;
+}
+
+.postbeatmaptab .left .difficultyselector {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.postbeatmaptab .right .difficultyselector:last-of-type {
+  margin-bottom: 20px;
+}
+
+.postbeatmaptab ::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+
+.postbeatmaptab ::-webkit-scrollbar-track {
+  width: 10px;
+  border-radius: 5px;
+  background-color: var(--background2);
+}
+
+.postbeatmaptab ::-webkit-scrollbar-thumb {
+  width: 10px;
+  border-radius: 5px;
+  background-color: var(--background3);
+}
+
+.postbeatmaptab .left .option .tags-input-container {
+  padding: 0;
+  margin-left: 10px;
+}
+
+.postbeatmaptab .left .option .input {
+  margin-left: 10px;
+}
+.savediff {
+  background-color: var(--green);
+  color: black;
+  border: none;
+  padding: 10px 40px;
+  border-radius: 5px;
+  font-weight: 500;
+  margin: auto;
+  width: 95%;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.right {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+  overflow-x: clip;
+}
+
+.difficultyselector.selected {
+  background-color: #4c4c4c;
+  outline: 2px solid var(--ocean);
+}
+
+.difficultyselector:hover {
+  background-color: var(--background3);
+}
+
+.difficultyselector {
+  width: calc(95% - 20px);
+  padding: 5px 10px;
+  height: 50px;
+  min-height: 50px;
+  background-color: var(--background4);
+  margin-top: 5px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: linear 120ms background-color;
+}
+
+.difficultyselector .metadata {
+  width: calc(90% - 10px);
+  margin-left: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.difficultyselector .metadata .deletebutton {
+  opacity: 0;
+  pointer-events: none;
+  transition: linear 80ms opacity;
+}
+
+.difficultyselector:hover > .metadata .deletebutton {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.difficultyselector .metadata .name {
+  font-weight: 500;
+}
+
+.difficultyselector .metadata .mapper {
+  font-size: 15px;
+  color: grey;
+}
+
+.addbutton {
+  margin-left: auto;
+  margin-right: 2.5%;
+  padding: 10px 22px;
+  width: 100px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--ocean);
+  border: none;
+  border-radius: 5px;
+}

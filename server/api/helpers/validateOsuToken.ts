@@ -10,7 +10,7 @@ export default async (token: string) => {
         client_secret: process.env.OSU_CLIENT_SECRET,
         code: token,
         grant_type: "authorization_code",
-        redirect_uri: encodeURI(process.env.OSU_REDIRECT_URI),
+        redirect_uri: encodeURI(process.env.OSU_REDIRECT_URI || ""),
       }),
     });
 

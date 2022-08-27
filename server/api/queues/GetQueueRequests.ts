@@ -9,6 +9,7 @@ export default async (req: Request, res: Response) => {
 
   const type = req.query.type || "progress";
   const status = req.query.status || "any";
+  const includeBeatmap = req.query.includeBeatmap || "false";
 
   if (type == "archived") {
     r = r.filter((r) => r.status == "archived");

@@ -7,6 +7,7 @@ export default async (req: Request, res: Response) => {
   const requestedUser = req.params["user"];
   const includeGraveyard = req.query["graveyard"];
   const includeWip = req.query["wip"];
+  const offset = req.query["offset"];
 
   if (!authorization)
     return res.status(403).send({
@@ -45,7 +46,11 @@ export default async (req: Request, res: Response) => {
     const booleanWip = Boolean(includeWip?.toString());
     const booleanGraveyard = Boolean(includeGraveyard?.toString());
 
-    const graveyardBeatmaps = await getUserBeatmaps(user._id, "graveyard");
+    const graveyardBeatmaps = await getUserBeatmaps(
+      user._id,
+      "graveyard",
+      offset ? offset.toString() : 0
+    );
 
     if (graveyardBeatmaps.status != 200 || !graveyardBeatmaps.data)
       return res.status(graveyardBeatmaps.status).send({

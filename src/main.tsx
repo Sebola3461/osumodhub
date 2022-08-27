@@ -21,6 +21,9 @@ import { NotificationSideMenuProvider } from "./providers/NotificationSideMenu";
 import { HomeFilterContextProvider } from "./providers/HomeFiltersContext";
 import GDFeed from "./pages/GDFeed";
 import RedirectHome from "./components/global/RedirectHome";
+import { PostGDPanelProvider } from "./providers/PostGDPanelContext";
+import { GDPanelProvider } from "./providers/GDPanelContext";
+import { ManageGDPanelProvider } from "./providers/ManageGDPanelContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -42,23 +45,32 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                     <BeatmapPreviewProvider>
                       <NotificationSideMenuProvider>
                         <HomeFilterContextProvider>
-                          <BrowserRouter>
-                            <Routes>
-                              <Route path="/" element={<RedirectHome />}>
-                                <Route index element={<RedirectHome />} />
-                              </Route>
-                              <Route path="/modding" element={<Home />}>
-                                <Route index element={<Home />} />
-                              </Route>
-                              <Route path="/gd" element={<GDFeed />}>
-                                <Route index element={<GDFeed />} />
-                                cmd
-                              </Route>
-                              <Route path="/queue/:user" element={<Queue />}>
-                                <Route index element={<Queue />} />
-                              </Route>
-                            </Routes>
-                          </BrowserRouter>
+                          <PostGDPanelProvider>
+                            <GDPanelProvider>
+                              <ManageGDPanelProvider>
+                                <BrowserRouter>
+                                  <Routes>
+                                    <Route path="/" element={<RedirectHome />}>
+                                      <Route index element={<RedirectHome />} />
+                                    </Route>
+                                    <Route path="/modding" element={<Home />}>
+                                      <Route index element={<Home />} />
+                                    </Route>
+                                    <Route path="/gd" element={<GDFeed />}>
+                                      <Route index element={<GDFeed />} />
+                                      cmd
+                                    </Route>
+                                    <Route
+                                      path="/queue/:user"
+                                      element={<Queue />}
+                                    >
+                                      <Route index element={<Queue />} />
+                                    </Route>
+                                  </Routes>
+                                </BrowserRouter>
+                              </ManageGDPanelProvider>
+                            </GDPanelProvider>
+                          </PostGDPanelProvider>
                         </HomeFilterContextProvider>
                       </NotificationSideMenuProvider>
                     </BeatmapPreviewProvider>

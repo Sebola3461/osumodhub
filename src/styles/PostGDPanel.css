@@ -1,0 +1,174 @@
+.postgdpanel {
+  width: 100%;
+  height: calc(100% - 71px);
+  position: fixed;
+  z-index: 9;
+  background-color: #00000094;
+  top: 71px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(0px);
+}
+
+.postgdpanel .container {
+  width: 90%;
+  height: 90%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 1rem;
+  background-color: var(--background1);
+  overflow: hidden;
+}
+
+.postgdpanel .container .paneltitle {
+  width: calc(100% - 40px);
+  height: 20px;
+  padding: 20px;
+  color: white;
+  border-bottom: 1px solid var(--background3);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.postgdpanel {
+  opacity: 0;
+  pointer-events: none;
+  transition: linear 120ms opacity, linear 120ms backdrop-filter;
+}
+
+.postgdpanel .loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.postgdpanel.open {
+  opacity: 1;
+  pointer-events: all;
+  backdrop-filter: blur(10px);
+}
+
+.postgdpanel select {
+  border: none;
+  padding: 3px;
+  border-radius: 3px;
+}
+
+.postgdpanel .norequests {
+  width: 80%;
+}
+
+.postgdpanel .tab .option.green {
+  background-color: var(--green);
+  color: black;
+  font-weight: 500;
+  padding: 10px 30px;
+}
+
+.postgdpanel .subcategory {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.postgdpanel .beatmapstab {
+  height: 77.5%;
+}
+
+.postgdpanel .checkouttab {
+  width: 95%;
+  padding: 0px 2.5%;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: flex-start;
+  justify-content: flex-start;
+  align-items: flex-start;
+  animation-name: fade;
+  animation-duration: 120ms;
+  animation-timing-function: linear;
+  transition: linear 120ms opacity;
+  overflow-y: auto;
+}
+
+.checkouttab .actions {
+  width: 100%;
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.checkouttab .gdselector {
+  margin-left: 0%;
+  margin-right: 0;
+  position: sticky;
+  top: 10px;
+  height: 380px;
+}
+
+.checkouttab .actions textarea {
+  width: calc(100% - 60px);
+  margin-left: auto;
+  max-height: 100px;
+  resize: vertical;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.checkouttab .actions .submit {
+  margin-top: auto;
+  display: block;
+  margin-left: auto;
+  padding: 10px 60px;
+  background-color: var(--green);
+  border: none;
+  border-radius: 0.4rem;
+  color: black;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.checkouttab .actions .__container {
+  width: calc(100% - 58px);
+  padding: 10px;
+  margin-left: auto;
+  background-color: var(--background2);
+  margin-top: 10px;
+  border-radius: 0.5rem;
+  height: fit-content;
+  margin-bottom: 10px;
+}
+
+.postgdpanel ::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+
+.postgdpanel ::-webkit-scrollbar-track {
+  width: 10px;
+  border-radius: 5px;
+  background-color: var(--background2);
+}
+
+.postgdpanel ::-webkit-scrollbar-thumb {
+  width: 10px;
+  border-radius: 5px;
+  background-color: var(--background3);
+}

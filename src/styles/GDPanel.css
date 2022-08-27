@@ -1,0 +1,175 @@
+.gdpanel {
+  width: 100%;
+  height: calc(100% - 71px);
+  position: fixed;
+  z-index: 9;
+  background-color: #00000094;
+  top: 71px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(0px);
+}
+
+.gdpanel .container {
+  width: 90%;
+  height: 90%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 1rem;
+  background-color: var(--background1);
+  overflow: hidden;
+  animation-name: fade;
+  animation-duration: 120ms;
+  animation-timing-function: linear;
+  transition: linear 120ms opacity;
+  opacity: 1;
+}
+
+.gdpanel .container.waiting {
+  opacity: 0;
+}
+
+.gdpanel .container .paneltitle {
+  width: calc(100% - 40px);
+  height: 20px;
+  padding: 20px;
+  color: white;
+  border-bottom: 1px solid var(--background3);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gdpanel {
+  opacity: 0;
+  pointer-events: none;
+  transition: linear 120ms opacity, linear 120ms backdrop-filter;
+}
+
+.gdpanel .loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.gdpanel.open {
+  opacity: 1;
+  pointer-events: all;
+  backdrop-filter: blur(10px);
+}
+
+.difficultytab {
+  width: 95%;
+  margin-top: auto;
+  height: 80%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+  padding: 0px 2.5%;
+}
+
+.difficultytab .difficulty {
+  width: calc(90% - 20px);
+  padding: 5px 10px;
+  height: 50px;
+  min-height: 50px;
+  background-color: var(--background4);
+  margin-top: 5px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+}
+
+.difficultytab .difficulty:last-of-type {
+  margin-bottom: 20px;
+}
+
+.difficultytab .difficulty .metadata {
+  width: calc(90% - 10px);
+  margin-left: 10px;
+}
+
+.difficultytab .difficulty .metadata .name {
+  font-weight: 500;
+}
+
+.difficultytab .difficulty .metadata .mapper {
+  font-size: 15px;
+  color: grey;
+}
+
+.difficultytab .difficulty .metadata .mapper span {
+  color: var(--ocean);
+  font-weight: 600;
+}
+
+.difficultytab .rightactions {
+  width: 100%;
+  height: calc(100% - 10px);
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.rightactions textarea {
+  width: calc(95% - 20px);
+  min-height: 120px;
+  padding: 10px;
+  resize: vertical;
+  max-height: 135px;
+}
+
+.rightactions .avaliabledifficulties {
+  width: 95%;
+  height: 35%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.rightactions p.subcategory {
+  width: 95%;
+  margin-top: 20px;
+}
+
+.rightactions .savebutton {
+  padding: 10px 40px;
+  margin-left: auto;
+  margin-right: 2.5%;
+  background-color: var(--ocean);
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.difficultytab .left {
+  height: 100%;
+}

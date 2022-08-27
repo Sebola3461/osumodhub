@@ -5,6 +5,9 @@ import Request from "./schemas/Request";
 import dotenv from "dotenv";
 import Follower from "./schemas/Follower";
 import Notification from "./schemas/Notification";
+import GDRequests from "./schemas/GDRequests";
+import GDUsers from "./schemas/GDUsers";
+import { beatmapset } from "../server/helpers/fetcher/beatmap";
 dotenv.config();
 
 console.log("database", "Starting databse connection...");
@@ -26,5 +29,7 @@ mongoose.connect(
 export const users = mongoose.model("Users", User);
 export const queues = mongoose.model("Queues", Queue);
 export const requests = mongoose.model("Requests", Request);
+export const gds = mongoose.model("GDRequests", GDRequests);
+export const gdusers = mongoose.model("GDUsers", GDUsers);
 export const followers = mongoose.model("Followers", Follower);
 export const notifications = mongoose.model("Notifications", Notification);

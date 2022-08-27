@@ -282,6 +282,18 @@ footer {
   bottom: 0;
 }
 
+input[type="text"] {
+  border: none;
+  padding: 3px;
+  border-radius: 3px;
+}
+
+input[type="number"] {
+  border: none;
+  padding: 3px;
+  border-radius: 3px;
+}
+
 footer span {
   margin: 0px 5px;
   color: var(--red);
@@ -297,4 +309,21 @@ footer a {
   border: none;
   color: white;
   font-weight: 700;
+}
+
+.customscroll::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+
+.customscroll::-webkit-scrollbar-track {
+  width: 10px;
+  border-radius: 5px;
+  background-color: var(--background2);
+}
+
+.customscroll::-webkit-scrollbar-thumb {
+  width: 10px;
+  border-radius: 5px;
+  background-color: var(--background3);
 }
