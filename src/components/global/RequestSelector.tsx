@@ -396,7 +396,7 @@ export default ({
           status: "ranked",
         });
       }}
-      className="nominate-hover"
+      className="ranked-hover"
     >
       Ranked
     </MenuItem>,
