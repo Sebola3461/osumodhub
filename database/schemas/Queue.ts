@@ -113,6 +113,13 @@ export default new Schema({
     type: String,
     default: "",
   },
+  webhook: {
+    type: Object,
+    default: {
+      url: "",
+      notify: ["request:update", "request:new", "queue:state"],
+    },
+  },
   cooldown: {
     type: Object,
     default: {

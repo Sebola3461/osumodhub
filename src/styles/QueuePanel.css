@@ -117,10 +117,6 @@
   color: white;
 }
 
-.queuepanel .container .options .option input {
-  margin-top: 10px;
-}
-
 .queuepanel .container .options .option .row {
   width: 100%;
   display: flex;

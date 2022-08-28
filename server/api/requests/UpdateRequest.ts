@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
 import NotifyRequestUpdate from "../../notifications/NotifyRequestUpdate";
+import SendRequestUpdateWebhook from "../webhooks/SendRequestUpdateWebhook";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
@@ -88,7 +89,16 @@ export default async (req: Request, res: Response) => {
       status: status.toLowerCase(),
     }
   );
+
+  request.status = status.toLowerCase();
+
   NotifyRequestUpdate(queue, request, status.toLowerCase());
+
+  if (queue.webhook) {
+    if (queue.webhook.notify.includes("request:update"))
+      if (status.toLowerCase() != "archived")
+        SendRequestUpdateWebhook(queue, request);
+  }
 
   res.status(200).send({
     status: 200,

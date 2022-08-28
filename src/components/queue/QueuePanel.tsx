@@ -11,6 +11,7 @@ import TagsInput from "../global/TagsInput";
 import MDEditor from "@uiw/react-md-editor";
 import moment from "moment";
 import Markdown from "markdown-to-jsx";
+import { queue } from "sharp";
 
 export default () => {
   const { user, updateUser } = useContext(AuthContext);
@@ -94,6 +95,70 @@ export default () => {
 
   function getQueueModes(mode: number) {
     return _queue.modes.find((m: number) => m == mode) != undefined;
+  }
+
+  function setQueueWebhookTag(tag: string, add: boolean) {
+    if (add) {
+      if (!_queue.webhook || !_queue.webhook.notify.includes(tag))
+        _queue.webhook.notify.push(tag);
+
+      console.log(_queue);
+    } else {
+      if (!_queue.webhook)
+        _queue.webhook = {
+          notify: [""],
+          url: "",
+        };
+
+      if (_queue.webhook.notify.includes(tag))
+        _queue.webhook.notify.filter((t) => t != tag);
+    }
+
+    setQueue(JSON.parse(JSON.stringify(_queue)));
+
+    fetch(`/api/queues/update`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: login.account_token,
+      },
+      body: JSON.stringify(_queue),
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        enqueueSnackbar(d.message, {
+          variant: d.status == 200 ? "success" : "error",
+          action: action,
+        });
+      });
+  }
+
+  function updateWebhookURL(url: string) {
+    if (!_queue.webhook)
+      _queue.webhook = {
+        notify: [""],
+        url: url,
+      };
+
+    _queue.webhook.url = url;
+
+    setQueue(JSON.parse(JSON.stringify(_queue)));
+
+    fetch(`/api/queues/update`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: login.account_token,
+      },
+      body: JSON.stringify(_queue),
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        enqueueSnackbar(d.message, {
+          variant: d.status == 200 ? "success" : "error",
+          action: action,
+        });
+      });
   }
 
   function setQueueModes(mode: number, add: boolean) {
@@ -182,6 +247,49 @@ export default () => {
           action: action,
         });
       });
+  }
+
+  function testWebhook() {
+    fetch(`/api/queues/webhook`, {
+      method: "POST",
+      headers: {
+        authorization: login.account_token,
+      },
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        enqueueSnackbar(d.message, {
+          variant: d.status == 200 ? "success" : "error",
+          action: action,
+        });
+      });
+  }
+
+  function removeWebhook() {
+    if (confirm("Are you sure?")) {
+      fetch(`/api/queues/webhook`, {
+        method: "DELETE",
+        headers: {
+          authorization: login.account_token,
+        },
+      })
+        .then((r) => r.json())
+        .then((d) => {
+          enqueueSnackbar(d.message, {
+            variant: d.status == 200 ? "success" : "error",
+            action: action,
+          });
+
+          if (d.status == 200) {
+            _queue.webhook = {
+              url: "",
+              notify: [""],
+            };
+
+            setQueue(JSON.parse(JSON.stringify(_queue)));
+          }
+        });
+    }
   }
 
   // TODO: Fix the fucking time update
@@ -316,6 +424,7 @@ export default () => {
                   style={{
                     marginLeft: "5px",
                   }}
+                  key={GenerateComponentKey(10)}
                   onInput={(ev: any) => {
                     _queue.timeclose.size = Number(ev.target.value);
 
@@ -400,6 +509,75 @@ export default () => {
                         const target: any = ev.target;
 
                         setQueueModes(3, target.checked);
+                      }}
+                    ></Checkbox>
+                  </div>
+                </div>
+              </div>
+              <div className="separator"></div>
+              <div className="option">
+                <p>Webhook URL:</p>
+                <input
+                  type="text"
+                  defaultValue={_queue.webhook ? _queue.webhook.url : ""}
+                  style={{
+                    marginLeft: "5px",
+                  }}
+                  onInput={(ev: any) => {
+                    updateWebhookURL(ev.target.value);
+                  }}
+                />
+                <button onClick={testWebhook} className="import">
+                  Test
+                </button>
+                <button onClick={removeWebhook} className="import">
+                  remove
+                </button>
+              </div>
+              <div className="option wide modes">
+                <p>Scopes:</p>
+                <div className="row modes">
+                  <div>
+                    Request updates:{" "}
+                    <Checkbox
+                      defaultChecked={
+                        _queue.webhook
+                          ? _queue.webhook.notify.includes("request:update")
+                          : false
+                      }
+                      onInput={(ev) => {
+                        const target: any = ev.target;
+                        setQueueWebhookTag("request:update", target.checked);
+                      }}
+                    ></Checkbox>
+                  </div>
+                  <div>
+                    New requests:{" "}
+                    <Checkbox
+                      defaultChecked={
+                        _queue.webhook
+                          ? _queue.webhook.notify.includes("request:new")
+                          : false
+                      }
+                      onInput={(ev) => {
+                        const target: any = ev.target;
+
+                        setQueueWebhookTag("request:new", target.checked);
+                      }}
+                    ></Checkbox>
+                  </div>
+                  <div>
+                    Queue status:{" "}
+                    <Checkbox
+                      defaultChecked={
+                        _queue.webhook
+                          ? _queue.webhook.notify.includes("queue:state")
+                          : false
+                      }
+                      onInput={(ev) => {
+                        const target: any = ev.target;
+
+                        setQueueWebhookTag("queue:state", target.checked);
                       }}
                     ></Checkbox>
                   </div>

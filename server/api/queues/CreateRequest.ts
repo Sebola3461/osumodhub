@@ -5,6 +5,7 @@ import crypto from "crypto";
 import checkQueueAutoclose from "../helpers/checkQueueAutoclose";
 import checkRequestQueueModes from "../helpers/checkRequestQueueModes";
 import NotifyNewRequest from "../../notifications/NotifyNewRequest";
+import SendNewRequestWebhook from "../webhooks/SendNewRequestWebhook";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
@@ -134,6 +135,11 @@ export default async (req: Request, res: Response) => {
   NotifyNewRequest(queue, author);
 
   request.beatmap = requestedBeatmapset.data;
+
+  if (queue.webhook) {
+    if (queue.webhook.notify.includes("request:new"))
+      SendNewRequestWebhook(queue, request);
+  }
 
   res.status(200).send({
     status: 200,

@@ -13,6 +13,8 @@ import UpdateQueue from "./UpdateQueue";
 import OsumodImport from "./OsumodImport";
 
 import AuthenticateQueue from "../../middlewares/AuthenticateQueue";
+import TestWebhook from "./TestWebhook";
+import RemoveWebhook from "./RemoveWebhook";
 
 const router = Router();
 
@@ -20,6 +22,7 @@ const router = Router();
 router.post("/new", CreateNewQueue);
 router.post("/sync", SyncQueue);
 router.post("/schedule", StartTimeClose);
+router.post("/webhook", TestWebhook);
 router.post("/:queue/requests", CreateRequest);
 router.post("/:queue/follow", FollowQueue);
 router.post("/update", UpdateQueue);
@@ -33,5 +36,6 @@ router.get("/:queue/requests", GetQueueRequests);
 
 // ? =============== DELETE REQUESTS
 router.delete("/:queue/follow", RemoveFollower);
+router.delete("/webhook", RemoveWebhook);
 
 export const QueuesRouter = router;

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
 import notifyFollowers from "../helpers/notifyFollowers";
+import SendQueueUpdateWebhook from "../webhooks/SendQueueUpdateWebhook";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
@@ -46,6 +47,7 @@ export default async (req: Request, res: Response) => {
         typeof req.body.open == "boolean"
       ) {
         if (queue.open == false && Boolean(req.body.open) == true) {
+          SendQueueUpdateWebhook(queue);
           notifyFollowers(queue);
         }
 
@@ -55,6 +57,18 @@ export default async (req: Request, res: Response) => {
       // ? Update description
       if (req.body.description && typeof req.body.description == "string") {
         queue.description = req.body.description;
+      }
+
+      // ? Update description
+      if (req.body.webhook && typeof req.body.webhook == "object") {
+        const isValidWebhook = validateWebhook(req.body.webhook);
+
+        if (isValidWebhook.valid) {
+          queue.webhook = {
+            url: isValidWebhook.url,
+            notify: isValidWebhook.tags,
+          };
+        }
       }
 
       // ? Update genres
@@ -134,6 +148,89 @@ export default async (req: Request, res: Response) => {
           queue["modes"] = clearModes;
         }
       }
+    }
+  }
+
+  function validateWebhook(webhook: any) {
+    try {
+      let validTags = ["request:update", "request:new", "queue:state"];
+
+      if (!webhook.url && webhook.url == "")
+        return {
+          valid: false,
+          tags: [""],
+          url: "",
+        };
+      if (!webhook.notify.length)
+        return {
+          valid: false,
+          tags: [""],
+          url: "",
+        };
+      let hasValidTags = false;
+      let sanitizedTags: string[] = [];
+
+      webhook.notify.forEach((t) => {
+        t = t.toString().trim().toLowerCase();
+
+        // ? Sanitize tags
+        if (validTags.includes(t)) {
+          sanitizedTags.push(t);
+          hasValidTags = true;
+        }
+      });
+
+      if (!hasValidTags)
+        return {
+          valid: false,
+          tags: [""],
+          url: "",
+        };
+
+      const webhookURL = new URL(webhook.url);
+
+      if (webhookURL.host != "discord.com")
+        return {
+          valid: false,
+          tags: [""],
+          url: "",
+        };
+
+      if (webhookURL.pathname.split("/").length != 5)
+        return {
+          valid: false,
+          tags: [""],
+          url: "",
+        };
+
+      if (webhook.url == "")
+        return {
+          valid: true,
+          tags: sanitizedTags,
+          url: "",
+        };
+      if (
+        webhookURL.pathname.split("/")[1] != "api" ||
+        webhookURL.pathname.split("/")[2] != "webhooks" ||
+        isNaN(Number(webhookURL.pathname.split("/")[3]))
+      )
+        return {
+          valid: false,
+          tags: [""],
+          url: "",
+        };
+
+      return {
+        valid: true,
+        tags: sanitizedTags,
+        url: webhookURL.href,
+      };
+    } catch (e) {
+      return {
+        valid: false,
+        tags: [""],
+        url: "",
+      };
     }
   }
 
