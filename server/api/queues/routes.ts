@@ -10,6 +10,9 @@ import RemoveFollower from "./RemoveFollower";
 import StartTimeClose from "./StartTimeClose";
 import SyncQueue from "./SyncQueue";
 import UpdateQueue from "./UpdateQueue";
+import OsumodImport from "./OsumodImport";
+
+import AuthenticateQueue from "../../middlewares/AuthenticateQueue";
 
 const router = Router();
 
@@ -20,6 +23,7 @@ router.post("/schedule", StartTimeClose);
 router.post("/:queue/requests", CreateRequest);
 router.post("/:queue/follow", FollowQueue);
 router.post("/update", UpdateQueue);
+router.post("/import/osumod", AuthenticateQueue, OsumodImport);
 
 // ? =============== GET REQUESTS
 router.get("/:queue/follow", GetFollowers);

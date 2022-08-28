@@ -109,6 +109,10 @@
   width: 100%;
 }
 
+.queuepanel .container .options .option button {
+  margin-left: 5px;
+}
+
 .queuepanel .container .options .option:hover > p {
   color: white;
 }

@@ -168,6 +168,22 @@ export default () => {
       });
   }
 
+  async function importFromOsumod() {
+    fetch(`/api/queues/import/osumod`, {
+      method: "POST",
+      headers: {
+        authorization: login.account_token,
+      },
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        enqueueSnackbar(d.message, {
+          variant: d.status == 200 ? "success" : "error",
+          action: action,
+        });
+      });
+  }
+
   // TODO: Fix the fucking time update
   return (
     <div
@@ -388,6 +404,13 @@ export default () => {
                     ></Checkbox>
                   </div>
                 </div>
+              </div>
+              <div className="separator"></div>
+              <div className="option">
+                <p>Import from another website:</p>
+                <button onClick={importFromOsumod} className="import">
+                  Import from osumod
+                </button>
               </div>
               <div className="separator"></div>
               <div className="option wide">
