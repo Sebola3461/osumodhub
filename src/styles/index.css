@@ -27,6 +27,10 @@
 
 button {
   cursor: pointer;
+  border-radius: 3px;
+  border: none;
+  padding: 5px 14px;
+  background-color: var(--background3);
 }
 
 #root {
