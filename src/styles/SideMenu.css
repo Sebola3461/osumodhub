@@ -8,10 +8,11 @@
   align-content: flex-start;
   justify-content: flex-end;
   align-items: flex-start;
-  transition: opacity 120ms linear;
+  transition: opacity 120ms linear, backdrop-filter 120ms linear;
   z-index: 10;
-  background-color: #000000e0;
+  background-color: #00000083;
   margin-right: -300px !important;
+  backdrop-filter: blur(30px);
 }
 
 .sidemenu .container {
@@ -30,6 +31,7 @@
 .sidemenu.closed {
   pointer-events: none;
   opacity: 0 !important;
+  backdrop-filter: blur(0px);
 }
 
 .sidemenu.closed .container {

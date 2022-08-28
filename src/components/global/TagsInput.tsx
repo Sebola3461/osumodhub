@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import "./../../styles/TagsInput.css";
 
 export default ({ value, onInput }: { value?: string[]; onInput?: any }) => {
@@ -21,7 +22,7 @@ export default ({ value, onInput }: { value?: string[]; onInput?: any }) => {
   return (
     <div className="tags-input-container">
       {tags.map((tag, index) => (
-        <div className="tag-item">
+        <div className="tag-item" key={GenerateComponentKey(10)}>
           <span className="text">{tag}</span>
           <span className="close" onClick={() => removeTag(index)}>
             &times;

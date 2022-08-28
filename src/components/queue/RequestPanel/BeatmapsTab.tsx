@@ -106,6 +106,7 @@ export default ({
             beatmapset={b}
             selected={selected}
             onClick={selectBeatmap}
+            key={GenerateComponentKey(10)}
           ></BeatmapSelector>
         ))}
       </div>

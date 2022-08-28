@@ -115,6 +115,7 @@ export default ({ queue, setRequests, requests }: any) => {
 
   const modder_options = [
     <div
+      key={GenerateComponentKey(10)}
       className="option accepted"
       onClick={() => {
         updateRequestStatus("accepted");
@@ -123,6 +124,7 @@ export default ({ queue, setRequests, requests }: any) => {
       accepted
     </div>,
     <div
+      key={GenerateComponentKey(10)}
       className="option rejected"
       onClick={() => {
         updateRequestStatus("rejected");
@@ -131,6 +133,7 @@ export default ({ queue, setRequests, requests }: any) => {
       rejected
     </div>,
     <div
+      key={GenerateComponentKey(10)}
       className="option finished"
       onClick={() => {
         updateRequestStatus("finished");
@@ -139,6 +142,7 @@ export default ({ queue, setRequests, requests }: any) => {
       finished
     </div>,
     <div
+      key={GenerateComponentKey(10)}
       className="option archived"
       onClick={() => {
         updateRequestStatus("archived");
@@ -147,6 +151,7 @@ export default ({ queue, setRequests, requests }: any) => {
       archived
     </div>,
     <div
+      key={GenerateComponentKey(10)}
       className="option rejected"
       onClick={() => {
         updateRequestStatus("delete");
@@ -158,6 +163,7 @@ export default ({ queue, setRequests, requests }: any) => {
 
   const bn_options = [
     <div
+      key={GenerateComponentKey(10)}
       className="option accepted"
       onClick={() => {
         updateRequestStatus("accepted");
@@ -166,6 +172,7 @@ export default ({ queue, setRequests, requests }: any) => {
       accepted
     </div>,
     <div
+      key={GenerateComponentKey(10)}
       className="option rejected"
       onClick={() => {
         updateRequestStatus("rejected");
@@ -174,6 +181,7 @@ export default ({ queue, setRequests, requests }: any) => {
       rejected
     </div>,
     <div
+      key={GenerateComponentKey(10)}
       className="option finished"
       onClick={() => {
         updateRequestStatus("nominated");
@@ -182,6 +190,7 @@ export default ({ queue, setRequests, requests }: any) => {
       nominated
     </div>,
     <div
+      key={GenerateComponentKey(10)}
       className="option ranked"
       onClick={() => {
         updateRequestStatus("ranked");
@@ -190,6 +199,7 @@ export default ({ queue, setRequests, requests }: any) => {
       ranked
     </div>,
     <div
+      key={GenerateComponentKey(10)}
       className="option waiting"
       onClick={() => {
         updateRequestStatus("waiting");

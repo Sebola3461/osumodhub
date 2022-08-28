@@ -43,15 +43,6 @@ export default ({
 
         setUserBeatmaps(d.data);
       });
-
-    document.addEventListener("keydown", (ev) => {
-      if (!ev.target) return;
-      if (ev.key != "Escape") return;
-
-      setOpen(false);
-
-      return;
-    });
   }, []);
 
   useEffect(() => {
@@ -88,7 +79,7 @@ export default ({
     if (ev.target.className != "requestpanel open") return;
     if (ev.key != "escape") return;
 
-    setOpen(!open);
+    setOpen(false);
 
     return;
   }

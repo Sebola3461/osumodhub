@@ -12,13 +12,16 @@
   align-content: center;
   justify-content: center;
   align-items: center;
-  transition: opacity 120ms;
+  transition: filter 120ms linear, backdrop-filter 120ms linear,
+    opacity 120ms linear;
+  backdrop-filter: blur(0px);
   pointer-events: none;
 }
 
 .requestpanel.open {
   opacity: 1;
   pointer-events: all;
+  backdrop-filter: blur(30px);
 }
 
 .requestpanel.closed {

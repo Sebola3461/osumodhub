@@ -12,13 +12,15 @@
   align-content: center;
   justify-content: center;
   align-items: center;
-  transition: opacity 120ms;
+  transition: opacity 120ms linear, backdrop-filter 120ms linear;
   pointer-events: none;
+  backdrop-filter: blur(0px);
 }
 
 .queuepanel.open {
   opacity: 1;
   pointer-events: all;
+  backdrop-filter: blur(30px);
 }
 
 .queuepanel.closed {
