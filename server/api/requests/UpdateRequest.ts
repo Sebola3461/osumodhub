@@ -97,7 +97,7 @@ export default async (req: Request, res: Response) => {
   if (queue.webhook) {
     if (queue.webhook.notify.includes("request:update"))
       if (status.toLowerCase() != "archived")
-        SendRequestUpdateWebhook(queue, request);
+        SendRequestUpdateWebhook(queue, request, reply);
   }
 
   res.status(200).send({

@@ -47,8 +47,12 @@ export default async (req: Request, res: Response) => {
         typeof req.body.open == "boolean"
       ) {
         if (queue.open == false && Boolean(req.body.open) == true) {
-          SendQueueUpdateWebhook(queue);
           notifyFollowers(queue);
+        }
+
+        if (queue.open != Boolean(req.body.open)) {
+          queue.open = Boolean(req.body.open);
+          SendQueueUpdateWebhook(queue);
         }
 
         queue.open = Boolean(req.body.open);
