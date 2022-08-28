@@ -4,6 +4,7 @@ import { requests, users } from "../../../database";
 import { beatmapset } from "../../helpers/fetcher/beatmap";
 import { consoleCheck, consoleLog } from "../../helpers/logger";
 import crypto from "crypto";
+import NotifyImportCompletion from "../../notifications/NotifyImportCompletion";
 
 export default async (req: Request, res: Response) => {
   try {
@@ -17,26 +18,29 @@ export default async (req: Request, res: Response) => {
         message: "Queue not found!",
       });
 
+    const queueRequests = await requests.find({ _queue: queueOwner._id });
+
     const osumodData: any[] = (
       await axios(
         encodeURI(
           `https://osumod.com/api/requests?archived=false&target=${queueOwner.username}`
         )
       )
-    ).data;
+    ).data.map((r) => {
+      if (!queueRequests.find((rq) => rq.beatmapset_id == r.mapsetId)) return r;
+    });
 
-    const queueRequests = await requests.find({ _queue: queueOwner._id });
+    let toImportSize = osumodData.length;
 
     for (const request of osumodData) {
-      if (!queueRequests.find((r) => r.beatmapset_id == request.mapsetId)) {
-        try {
-          importRequest(request);
-        } catch (e) {
-          console.error(e);
-        }
+      try {
+        importRequest(request);
+      } catch (e) {
+        console.error(e);
       }
     }
 
+    let importedSize = 0;
     async function importRequest(request: any) {
       consoleLog("OsumodImport", `Importing request ${request._id}`);
       const b_data = await beatmapset(request.mapsetId);
@@ -68,6 +72,10 @@ export default async (req: Request, res: Response) => {
       });
 
       await r.save();
+      importedSize++;
+
+      if (importedSize >= toImportSize)
+        NotifyImportCompletion(queueOwner, importedSize);
 
       consoleCheck("OsumodImport", `Request ${request._id} imported!`);
     }
