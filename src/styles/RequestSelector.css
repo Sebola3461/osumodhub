@@ -196,7 +196,10 @@
   color: white;
   font-size: 15px;
   font-weight: 500;
-  width: 90%;
+  width: fit-content;
+  max-width: 90%;
+  margin-right: auto;
+  margin-left: 5%;
   margin-top: 5px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -207,7 +210,10 @@
 .requestselector .artist {
   color: #d5d5d5;
   font-size: 13px;
-  width: 90%;
+  width: fit-content;
+  max-width: 90%;
+  margin-right: auto;
+  margin-left: 5%;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;

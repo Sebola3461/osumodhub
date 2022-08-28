@@ -9,6 +9,7 @@ import RequestViewer, { IRequest } from "../global/RequestViewer";
 import RequestSelector from "../global/RequestSelector";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import { useSnackbar } from "notistack";
+import { ConfirmDialogContext } from "../../providers/ConfirmDialogContext";
 
 export default ({ queue, setRequests, requests }: any) => {
   const { user, updateUser } = useContext(AuthContext);
@@ -17,6 +18,7 @@ export default ({ queue, setRequests, requests }: any) => {
   const { open, request, setOpen, setRequest } = useContext(
     ManageRequestPanelContext
   );
+  const dialog = useContext(ConfirmDialogContext);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const action = (key) => (
@@ -54,8 +56,8 @@ export default ({ queue, setRequests, requests }: any) => {
   }
 
   function updateRequestStatus(status: string) {
-    setLoading(true);
     if (status == "delete") return deleteRequest();
+    setLoading(true);
 
     fetch(`/api/requests/${request._id}`, {
       method: "PUT",
@@ -88,7 +90,16 @@ export default ({ queue, setRequests, requests }: any) => {
       });
 
     function deleteRequest() {
-      if (confirm("Are you sure?")) {
+      dialog.setAction(() => {
+        _action();
+      });
+      dialog.setData({
+        title: "Are you sure?",
+        text: "This action is **IRREVERSIBLE**!",
+      });
+      dialog.setOpen(true);
+
+      function _action() {
         setLoading(true);
         fetch(`/api/requests/${request._id}`, {
           method: "delete",

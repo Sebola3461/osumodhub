@@ -39,6 +39,7 @@ import {
 } from "../../providers/SelectRequestContext";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import TimeString from "../../helpers/TimeString";
+import { ConfirmDialogContext } from "../../providers/ConfirmDialogContext";
 
 export interface IRequest {
   _id: string;
@@ -79,6 +80,7 @@ export default ({
   const beatmapPreviewContext = useContext(BeatmapPreviewContext);
   const selectedRequest = useContext(SelectedRequestContext);
   const [queueRequests, setQueueRequests] = useState(requests);
+  const dialog = useContext(ConfirmDialogContext);
   const [_request, setRequest] = useState<any>(
     !request
       ? {
@@ -166,89 +168,103 @@ export default ({
   }
 
   async function manageAllSelectedRequests(_status: string) {
-    if (
-      !confirm(
+    dialog.setAction(() => {
+      _action();
+    });
+    dialog.setData({
+      title: "Are you sure?",
+      text:
         _status == "delete"
-          ? `Are you sure? ${selectedRequest.selected.length} requests will be deleted.`
-          : `Are you sure? ${selectedRequest.selected.length} requests will recive the status ${texts[_status]}`
-      )
-    )
-      return;
+          ? `Are you sure? ${selectedRequest.selected.length} requests will be **DELETED**!`
+          : `Are you sure? ${selectedRequest.selected.length} requests will recive the status **"${_status}"**!`,
+    });
+    dialog.setOpen(true);
 
-    for (const id of selectedRequest.selected) {
-      await fetch(`/api/requests/${id}`, {
-        method: _status == "delete" ? "delete" : "put",
-        headers: {
-          "content-type": "application/json",
-          authorization: login.account_token,
-        },
-        body:
-          _status == "delete"
-            ? null
-            : JSON.stringify({
-                reply: "",
-                status: _status,
-              }),
-      });
-    }
+    async function _action() {
+      for (const id of selectedRequest.selected) {
+        await fetch(`/api/requests/${id}`, {
+          method: _status == "delete" ? "delete" : "put",
+          headers: {
+            "content-type": "application/json",
+            authorization: login.account_token,
+          },
+          body:
+            _status == "delete"
+              ? null
+              : JSON.stringify({
+                  reply: "",
+                  status: _status,
+                }),
+        });
+      }
 
-    let _requests = queueRequests;
-    for (const id of selectedRequest.selected) {
-      if (queueRequests) {
-        if (_status == "delete") {
-          _requests = _requests.filter((r) => r._id != id);
-        } else {
-          const _requests = requests.map((r) => r);
-          const i = _requests.findIndex((r) => r._id == id);
+      let _requests = queueRequests;
+      for (const id of selectedRequest.selected) {
+        if (queueRequests) {
+          if (_status == "delete") {
+            _requests = _requests.filter((r) => r._id != id);
+          } else {
+            const _requests = requests.map((r) => r);
+            const i = _requests.findIndex((r) => r._id == id);
 
-          _requests[i]["status"] = _status;
+            _requests[i]["status"] = _status;
+          }
         }
       }
+
+      setRequests(_requests);
+      selectedRequest.setSelected([]);
+
+      enqueueSnackbar("Requests updated!", {
+        variant: "success",
+      });
     }
-
-    setRequests(_requests);
-    selectedRequest.setSelected([]);
-
-    enqueueSnackbar("Requests updated!", {
-      variant: "success",
-    });
   }
 
   function deleteRequest(opt: any) {
     if (selectedRequest.selected.length != 0)
       return manageAllSelectedRequests("delete");
 
-    if (!confirm("Are you sure?")) return;
+    dialog.setAction(() => {
+      _action();
+    });
+    dialog.setData({
+      title: "Are you sure?",
+      text: "This action is **IRREVERSIBLE**!",
+    });
+    dialog.setOpen(true);
 
-    setLoading(true);
-    fetch(`/api/requests/${opt.request._id}`, {
-      method: "delete",
-      headers: {
-        "content-type": "application/json",
-        authorization: login.account_token,
-      },
-    })
-      .then((r) => r.json())
-      .then((res) => {
-        if (res.status == 200) {
-          _request.status = opt.status;
-          enqueueSnackbar("Request deleted!", {
-            variant: "success",
-            persist: false,
-            action,
-          });
+    async function _action() {
+      setLoading(true);
+      fetch(`/api/requests/${opt.request._id}`, {
+        method: "delete",
+        headers: {
+          "content-type": "application/json",
+          authorization: login.account_token,
+        },
+      })
+        .then((r) => r.json())
+        .then((res) => {
+          if (res.status == 200) {
+            _request.status = opt.status;
+            enqueueSnackbar("Request deleted!", {
+              variant: "success",
+              persist: false,
+              action,
+            });
 
-          if (refreshRequests) {
-            refreshRequests();
+            if (refreshRequests) {
+              refreshRequests();
+            }
+          } else {
+            enqueueSnackbar(res.message, {
+              variant: "error",
+              persist: false,
+              action,
+            });
           }
-        } else {
-          enqueueSnackbar(res.message, {
-            variant: "error",
-            persist: false,
-            action,
-          });
-        }
-      });
+        });
+    }
   }
 
   if (_request.beatmap.beatmaps) {

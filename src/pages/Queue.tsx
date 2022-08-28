@@ -41,6 +41,7 @@ import { NotificationSideMenuContext } from "../providers/NotificationSideMenu";
 import { SelectedRequestContextProvider } from "../providers/SelectRequestContext";
 import AudioPlayer from "../components/global/AudioPlayer";
 import { ManageRequestPanelContext } from "../providers/ManageRequestPanelContext";
+import ConfirmDialog from "../components/global/ConfirmDialog";
 
 export default () => {
   const icons = [
@@ -360,6 +361,7 @@ export default () => {
       <SelectedRequestContextProvider>
         <AppBar></AppBar>
         <PageBanner src={queue.banner} css={{}}></PageBanner>
+        <ConfirmDialog></ConfirmDialog>
         <RequestPanel
           queue={queue}
           setRequests={setRequests}

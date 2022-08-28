@@ -28,6 +28,7 @@ import { MyRequestPanelContext } from "../providers/MyRequestsPanelContext";
 import NotificationSideMenu from "../components/global/NotificationSideMenu";
 import NoRequests from "../components/global/NoRequests";
 import { HomeFilterContext } from "../providers/HomeFiltersContext";
+import ConfirmDialog from "../components/global/ConfirmDialog";
 
 function App() {
   const [queues, setQueues] = useState<any>(["loading"]);
@@ -137,6 +138,7 @@ function App() {
     <>
       <AppBar></AppBar>
       <PageBanner src="/static/images/homebanner.png"></PageBanner>
+      <ConfirmDialog></ConfirmDialog>
       <QueuePanel></QueuePanel>
       <MyRequestsPanel></MyRequestsPanel>
       <SideMenu

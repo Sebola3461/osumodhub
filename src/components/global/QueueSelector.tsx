@@ -107,6 +107,15 @@ export default ({ queue }: { queue: IQueue }) => {
                   </div>
                 );
               })}
+              <Tag
+                content={queue.open ? "open" : "closed"}
+                style={{
+                  backgroundColor: queue.open ? "var(--green)" : "var(--red)",
+                  color: "white",
+                  fontSize: "11px",
+                  fontWeight: "500",
+                }}
+              ></Tag>
             </div>
             <p className="name">
               {queue.name}
