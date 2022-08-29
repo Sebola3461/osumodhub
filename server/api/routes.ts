@@ -14,6 +14,9 @@ import { NotificationsRouter } from "./notifications/routes";
 import { ListingRouter } from "./listing/routes";
 const api = Router();
 
+import ws from "ws";
+const wsSrv = new ws.Server({ noServer: true });
+
 api.get("/", (req, res) =>
   res.status(200).send({ status: 200, message: "osu!modhub api v1" })
 );
@@ -28,3 +31,4 @@ api.use("/listing", ListingRouter);
 api.get("/validate/", AuthenticateUser);
 
 export const ApiRoutes = api;
+export const websocketServer = wsSrv;

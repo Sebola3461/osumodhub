@@ -6,6 +6,7 @@ import express, {
   Response,
 } from "express";
 import path from "path";
+import ws from "ws";
 import "../database";
 import { queues } from "../database";
 import { ApiRoutes } from "./api/routes";
