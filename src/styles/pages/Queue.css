@@ -138,6 +138,45 @@
   margin-top: 10px;
 }
 
+.mobile-meta {
+  width: 95%;
+  padding: 0px 2.5%;
+  height: 100%;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  display: none;
+}
+
+.mobile-meta .icon {
+  height: 110px;
+  width: 110px;
+  border-radius: 2rem;
+  background-position: center;
+  background-size: cover;
+}
+
+.mobile-meta .meta {
+  margin-left: 15px;
+}
+
+.mobile-meta .meta .tag {
+  margin-top: 0px !important;
+  margin-right: 5px;
+}
+
+.mobile-meta .meta .row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .headerleft .queue-preferences .wrapper {
   width: calc(100% - 6%);
   height: 100%;
@@ -386,5 +425,29 @@
   .queuenav {
     justify-content: center !important;
     overflow-x: auto;
+  }
+}
+
+@media screen and (max-width: 670px) {
+  .mobile-meta {
+    display: flex;
+    backdrop-filter: brightness(0.5);
+  }
+
+  .headerleft .meta {
+    display: none;
+  }
+
+  .headerleft .info .queuename {
+    display: none;
+  }
+
+  .headerleft .info .buttonsrow {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .queue #pagebanner {
+    filter: none;
   }
 }

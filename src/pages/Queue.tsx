@@ -362,7 +362,57 @@ export default () => {
       <SelectedRequestContextProvider>
         <AppBar></AppBar>
         <div className="queue">
-          <PageBanner src={queue.banner} css={{}}></PageBanner>
+          <PageBanner src={queue.banner} css={{}}>
+            <div className="mobile-meta">
+              <div
+                className="icon round1"
+                style={{
+                  backgroundImage: `url(https://a.ppy.sh/${queue._id})`,
+                  border: `5px solid var(--${queue.open ? "green" : "red"})`,
+                }}
+              ></div>
+              <div className="meta">
+                <p
+                  className="queuename"
+                  onClick={() => {
+                    window.open(`https://osu.ppy.sh/u/${queue._id}`);
+                  }}
+                >
+                  {queue.name}
+                  {queue.verified ? (
+                    <FontAwesomeIcon
+                      icon={faCircleCheck}
+                      className="verifiedbadge"
+                      color="#25ca6a"
+                      style={{
+                        width: "18px",
+                        marginLeft: "5px",
+                      }}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </p>
+                <div className="row center">
+                  <Tag
+                    content={queue.type}
+                    style={{
+                      backgroundColor: typeColors[queue.type],
+                      color: "white",
+                      marginTop: "5px",
+                    }}
+                  />
+                  {queue.modes.map((m) => {
+                    return (
+                      <div className="modeicon" key={GenerateComponentKey(20)}>
+                        {icons[m]}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </PageBanner>
         </div>
         <ConfirmDialog></ConfirmDialog>
         <RequestPanel

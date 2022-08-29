@@ -1,6 +1,14 @@
 import "./../../styles/PageBanner.css";
 
-export default ({ src, css }: { src: string; css?: React.CSSProperties }) => {
+export default ({
+  src,
+  css,
+  children,
+}: {
+  src: string;
+  css?: React.CSSProperties;
+  children: any;
+}) => {
   return (
     <div
       id="pagebanner"
@@ -11,6 +19,8 @@ export default ({ src, css }: { src: string; css?: React.CSSProperties }) => {
         },
         css
       )}
-    ></div>
+    >
+      {children}
+    </div>
   );
 };
