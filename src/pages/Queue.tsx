@@ -42,6 +42,7 @@ import { SelectedRequestContextProvider } from "../providers/SelectRequestContex
 import AudioPlayer from "../components/global/AudioPlayer";
 import { ManageRequestPanelContext } from "../providers/ManageRequestPanelContext";
 import ConfirmDialog from "../components/global/ConfirmDialog";
+import Markdown from "markdown-to-jsx";
 
 export default () => {
   const icons = [
@@ -516,6 +517,15 @@ export default () => {
             </div>
           </HeaderPanel>
           <div className="queuecontent">
+            {/* <div className="queuerules-big">
+              <Markdown
+                options={{
+                  disableParsingRawHTML: true,
+                }}
+              >
+                {queue.description}
+              </Markdown>
+            </div> */}
             <nav className="queuenav">
               <SearchSelect
                 label="Status"
