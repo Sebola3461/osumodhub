@@ -2,23 +2,39 @@
   width: 100%;
   height: fit-content;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
-  align-content: flex-start;
+  align-content: center;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .headerleft {
-  height: 95%;
-  width: 90%;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  flex-flow: column nowrap;
+  place-content: center flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  background-color: var(--background5);
+  padding: 2.5%;
+}
+
+.headerleft .meta {
+  width: fit-content;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   align-content: center;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 10px;
+  margin-right: 2.5%;
 }
 
 .headerleft .icon {
@@ -27,19 +43,54 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  margin-top: -60px;
+  border-radius: 2rem;
+  margin-bottom: 10px;
+}
+
+.headerleft .info {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.headerleft .info .row.requestandname {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .headerleft .row.buttonsrow {
-  padding-top: 30px;
-  margin-top: auto;
-  width: 100%;
+  width: fit-content;
   display: flex;
 }
 
 .headerleft .row.buttonsrow button:first-child {
   width: 200%;
   margin-right: 10px;
+  padding: 10px 40px;
+}
+
+.headerleft .row.buttonsrow button:last-child {
+  padding: 10px 20px;
+  display: flex;
+}
+
+.queuerules-big {
+  width: 95%;
+  height: 95%;
+  padding: 2.5%;
+  margin-top: 20px;
+  border-radius: 0.5rem;
+  background-color: var(--background2);
 }
 
 .headerleft .row.buttonsrow button:last-child svg {
@@ -47,26 +98,25 @@
   margin-left: 5px;
 }
 
-#pagebanner::after {
-  content: "";
-  width: 100%;
-  height: 250px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: linear-gradient(
-    0deg,
-    var(--background1) 0%,
-    rgba(0, 0, 0, 0.747) 100%
-  );
-  z-index: 1;
+.queue #pagebanner {
+  position: unset;
+  filter: brightness(0.5);
+}
+
+.queue #pagebanner::after {
+  display: none;
 }
 
 .queuename {
   color: white;
-  font-size: 23px;
+  font-size: 35px;
   font-weight: 400;
-  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .queuename:hover {
@@ -125,6 +175,12 @@
   border-radius: 3px;
   font-weight: 500;
   transition: filter ease-in-out 80ms;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .queuecontent {
@@ -140,21 +196,22 @@
   justify-content: flex-start;
   align-items: center;
   position: relative;
-  top: 70px;
 }
 
-.queuecontent .queuenav {
-  width: 100%;
-  padding: 0px 10px;
+.queuenav {
+  width: 95%;
+  padding: 2.5% 5%;
+  padding-top: 0px;
   height: 60px;
-  border-radius: 1rem;
   background-color: var(--background5);
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   flex-wrap: nowrap;
   align-content: center;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--background4);
 }
 
 .requestlisting {

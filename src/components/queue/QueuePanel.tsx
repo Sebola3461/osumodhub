@@ -332,28 +332,6 @@ export default () => {
                 ></Switch>
               </div>
               <div className="option">
-                <p>Queue name:</p>
-                <input
-                  type="text"
-                  defaultValue={_queue.name}
-                  style={{
-                    marginLeft: "5px",
-                  }}
-                  onBlur={(ev: any) => {
-                    updateQueueOption("name", ev.target.value);
-                  }}
-                />
-              </div>
-              <div className="option  wide">
-                <p>Others managers:</p>
-                <TagsInput
-                  value={_queue.genres}
-                  onInput={(tags: string[]) => {
-                    updateQueueOption("managers", tags);
-                  }}
-                ></TagsInput>
-              </div>
-              <div className="option">
                 <p>Allow graveyard beatmaps:</p>
                 <Switch
                   defaultChecked={_queue.allow.graveyard}

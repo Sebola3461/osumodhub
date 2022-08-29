@@ -361,7 +361,9 @@ export default () => {
     <>
       <SelectedRequestContextProvider>
         <AppBar></AppBar>
-        <PageBanner src={queue.banner} css={{}}></PageBanner>
+        <div className="queue">
+          <PageBanner src={queue.banner} css={{}}></PageBanner>
+        </div>
         <ConfirmDialog></ConfirmDialog>
         <RequestPanel
           queue={queue}
@@ -404,22 +406,8 @@ export default () => {
           title={`Hello, ${login.username}!`}
         ></SideMenu>
         <div className="queuelayout">
-          <HeaderPanel
-            style={{
-              width: "250px",
-              height: "70vh",
-              marginLeft: "1rem",
-              display: "inline-flex",
-              alignItems: "center",
-              flexDirection: "column",
-              flexWrap: "nowrap",
-              alignContent: "center",
-              justifyContent: "flex-start",
-              position: "sticky",
-              top: "141px",
-            }}
-          >
-            <div className="headerleft" key={GenerateComponentKey(100)}>
+          <div className="headerleft" key={GenerateComponentKey(100)}>
+            <div className="meta">
               <div
                 className="icon round1"
                 style={{
@@ -427,27 +415,6 @@ export default () => {
                   border: `5px solid var(--${queue.open ? "green" : "red"})`,
                 }}
               ></div>
-              <p
-                className="queuename"
-                onClick={() => {
-                  window.open(`https://osu.ppy.sh/u/${queue._id}`);
-                }}
-              >
-                {queue.name}
-                {queue.verified ? (
-                  <FontAwesomeIcon
-                    icon={faCircleCheck}
-                    className="verifiedbadge"
-                    color="#25ca6a"
-                    style={{
-                      width: "18px",
-                      marginLeft: "5px",
-                    }}
-                  />
-                ) : (
-                  <></>
-                )}
-              </p>
               <Tag
                 content={queue.type}
                 style={{
@@ -465,99 +432,128 @@ export default () => {
                   );
                 })}
               </div>
-              <div className="queue-preferences">
+            </div>
+            <div className="info">
+              <div className="row requestandname">
+                <p
+                  className="queuename"
+                  onClick={() => {
+                    window.open(`https://osu.ppy.sh/u/${queue._id}`);
+                  }}
+                >
+                  {queue.name}
+                  {queue.verified ? (
+                    <FontAwesomeIcon
+                      icon={faCircleCheck}
+                      className="verifiedbadge"
+                      color="#25ca6a"
+                      style={{
+                        width: "18px",
+                        marginLeft: "5px",
+                      }}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </p>
+                <div className="row buttonsrow">
+                  <button
+                    className="custombuttom"
+                    style={{
+                      backgroundColor: `var(--${
+                        login._id == -1 ? "red" : queue.open ? "green" : "red"
+                      })`,
+                      color: `${
+                        login._id == -1
+                          ? "white"
+                          : queue.open
+                          ? "black"
+                          : "white"
+                      }`,
+                    }}
+                    onClick={() => {
+                      if (login._id == -1) return loginWarn();
+                      if (!queue.open && login._id != queue._id) return;
+
+                      setOpen(true);
+                    }}
+                  >
+                    Request
+                  </button>
+                  <button
+                    key={GenerateComponentKey(20)}
+                    className={
+                      followers.mutual
+                        ? "custombutton following-button"
+                        : "custombuttom"
+                    }
+                    onClick={() => {
+                      if (login._id == -1) return loginWarn();
+                      updateFollow();
+                    }}
+                    onMouseOver={() => {
+                      updateFollowButtonIcon(true);
+                    }}
+                    onMouseLeave={() => {
+                      updateFollowButtonIcon(false);
+                    }}
+                  >
+                    {followers.size}
+                    <FontAwesomeIcon icon={followButtonIcon} />
+                  </button>
+                </div>
+              </div>
+              <div className="queuerules-big">
+                <Markdown
+                  options={{
+                    disableParsingRawHTML: true,
+                  }}
+                >
+                  {queue.description}
+                </Markdown>
+              </div>
+              {/* <div className="queue-preferences">
                 <div className="wrapper">
                   {queue.genres.map((g, i) => {
                     return <div className="genre">{g}</div>;
                   })}
                 </div>
-              </div>
-              <div className="row buttonsrow">
-                <button
-                  className="custombuttom"
-                  style={{
-                    backgroundColor: `var(--${
-                      login._id == -1 ? "red" : queue.open ? "green" : "red"
-                    })`,
-                    color: `${
-                      login._id == -1 ? "white" : queue.open ? "black" : "white"
-                    }`,
-                  }}
-                  onClick={() => {
-                    if (login._id == -1) return loginWarn();
-                    if (!queue.open && login._id != queue._id) return;
-
-                    setOpen(true);
-                  }}
-                >
-                  Request
-                </button>
-                <button
-                  key={GenerateComponentKey(20)}
-                  className={
-                    followers.mutual
-                      ? "custombutton following-button"
-                      : "custombuttom"
-                  }
-                  onClick={() => {
-                    if (login._id == -1) return loginWarn();
-                    updateFollow();
-                  }}
-                  onMouseOver={() => {
-                    updateFollowButtonIcon(true);
-                  }}
-                  onMouseLeave={() => {
-                    updateFollowButtonIcon(false);
-                  }}
-                >
-                  {followers.size}
-                  <FontAwesomeIcon icon={followButtonIcon} />
-                </button>
-              </div>
+              </div> */}
             </div>
-          </HeaderPanel>
+          </div>
+          <nav className="queuenav">
+            <SearchSelect
+              label="Status"
+              options={
+                <>
+                  <option value="any">Any</option>
+                  <option value="pending">Pending</option>
+                  <option value="accepted">Accepted</option>
+                  <option value="rejected">Rejected</option>
+                  <option value="nominated">Nominated</option>
+                  <option value="finished">Finished</option>
+                  <option value="waiting">Waiting Another BN</option>
+                  <option value="rechecking">Need Recheck</option>
+                </>
+              }
+              onSelect={(ev: React.SyntheticEvent<InputEvent>) => {
+                setFilters(ev, "status");
+              }}
+            ></SearchSelect>
+            <SearchSelect
+              label="Type"
+              options={
+                <>
+                  <option value="progress">In Progress</option>
+                  <option value="archived">Archived</option>
+                </>
+              }
+              onSelect={(ev: React.SyntheticEvent<InputEvent>) => {
+                setFilters(ev, "type");
+              }}
+            ></SearchSelect>
+          </nav>
           <div className="queuecontent">
-            {/* <div className="queuerules-big">
-              <Markdown
-                options={{
-                  disableParsingRawHTML: true,
-                }}
-              >
-                {queue.description}
-              </Markdown>
-            </div> */}
-            <nav className="queuenav">
-              <SearchSelect
-                label="Status"
-                options={
-                  <>
-                    <option value="any">Any</option>
-                    <option value="pending">Pending</option>
-                    <option value="accepted">Accepted</option>
-                    <option value="rejected">Rejected</option>
-                    <option value="nominated">Nominated</option>
-                    <option value="finished">Finished</option>
-                    <option value="waiting">Waiting Another BN</option>
-                    <option value="rechecking">Need Recheck</option>
-                  </>
-                }
-                onSelect={(ev: React.SyntheticEvent<InputEvent>) => {
-                  setFilters(ev, "status");
-                }}
-              ></SearchSelect>
-              <SearchSelect
-                label="Type"
-                options={
-                  <>
-                    <option value="progress">In Progress</option>
-                    <option value="archived">Archived</option>
-                  </>
-                }
-                onSelect={(ev: React.SyntheticEvent<InputEvent>) => {
-                  setFilters(ev, "type");
-                }}
-              ></SearchSelect>
-            </nav>
             <div className="requestlisting">
               {requests[0] == "refresh" || requests.length == 0 ? (
                 <NoRequests></NoRequests>

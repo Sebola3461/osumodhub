@@ -13,6 +13,7 @@
   background-color: #00000083;
   margin-right: -300px !important;
   backdrop-filter: blur(30px);
+  top: 71px;
 }
 
 .sidemenu .container {
