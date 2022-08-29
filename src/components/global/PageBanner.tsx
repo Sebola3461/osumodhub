@@ -7,7 +7,7 @@ export default ({
 }: {
   src: string;
   css?: React.CSSProperties;
-  children: any;
+  children?: any;
 }) => {
   return (
     <div
