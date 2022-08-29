@@ -23,7 +23,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
   async function sendQueueEmbed() {
     const queue_id = req.path.split("/").pop();
-    const queue = await queues.findById(queue_id);
+    const queue = isNaN(Number(queue_id))
+      ? await queues.findById({ name: queue_id })
+      : await queues.findById(queue_id);
 
     const typeColors: { [key: string]: string } = {
       modder: "#2196f3",

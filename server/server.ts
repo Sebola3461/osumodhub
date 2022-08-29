@@ -27,7 +27,7 @@ if (process.env.NODE_ENV == "production") {
   );
 
   app.use(json());
-  app.get("*", rewriteUsernameToId, DiscordEmbed);
+  app.get("*", DiscordEmbed);
   app.use("/api/", ApiRoutes);
   app.use("*", ClientRoutes);
 
@@ -38,32 +38,6 @@ if (process.env.NODE_ENV == "production") {
   app.use(json());
   app.get("*", DiscordEmbed);
   app.use("/api/", ApiRoutes);
-}
-
-async function rewriteUsernameToId(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const target = req.params.queue;
-
-  if (isNaN(Number(target))) return rewrite();
-
-  async function rewrite() {
-    const targetQueue = await queues.findOne({ name: target });
-
-    if (!targetQueue)
-      return res.status(404).send({
-        status: 404,
-        message: "Queue not found!",
-      });
-
-    req.params.queue = targetQueue._id;
-
-    return next();
-  }
-
-  return next();
 }
 
 export default app;
