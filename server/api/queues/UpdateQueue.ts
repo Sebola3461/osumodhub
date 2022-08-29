@@ -34,7 +34,7 @@ export default async (req: Request, res: Response) => {
       message: "Unauthorized",
     });
 
-  const editable = ["description", "open", "modes", "allow"];
+  const editable = ["description", "open", "modes", "allow", "webhook"];
   const _queue = Object.keys(req.body);
 
   // ? Update queue settings
@@ -63,7 +63,7 @@ export default async (req: Request, res: Response) => {
         queue.description = req.body.description;
       }
 
-      // ? Update description
+      // ? Update webhook
       if (req.body.webhook && typeof req.body.webhook == "object") {
         const isValidWebhook = validateWebhook(req.body.webhook);
 
