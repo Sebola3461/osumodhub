@@ -38,8 +38,8 @@
 }
 
 .headerleft .icon {
-  width: 120px;
-  height: 120px;
+  width: 8rem;
+  height: 8rem;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -109,7 +109,7 @@
 
 .queuename {
   color: white;
-  font-size: 35px;
+  font-size: 2.5rem;
   font-weight: 400;
   display: flex;
   flex-direction: row;
