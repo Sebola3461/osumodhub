@@ -50,7 +50,11 @@ export default async (req: Request, res: Response) => {
 
     const requestedBeatmapset = await osuApi.fetch.beatmapset(beatmapset_id);
 
-    if (requestedBeatmapset.status != 200 || !requestedBeatmapset.data)
+    if (
+      requestedBeatmapset.status != 200 ||
+      !requestedBeatmapset.data ||
+      !requestedBeatmapset.data.beatmaps
+    )
       return res.status(requestedBeatmapset.status).send({
         status: requestedBeatmapset.status,
         message: "Invalid beatmap",
@@ -125,6 +129,16 @@ export default async (req: Request, res: Response) => {
         title: requestedBeatmapset.data.title,
         covers: requestedBeatmapset.data.covers,
         creator: requestedBeatmapset.data.creator,
+        bpm: requestedBeatmapset.data.beatmaps[0].bpm,
+        duration: requestedBeatmapset.data.beatmaps[0].total_length,
+        beatmaps: requestedBeatmapset.data.beatmaps.map((d) => {
+          return {
+            version: d.version,
+            difficulty_rating: d.difficulty_rating,
+            user_id: d.user_id,
+            mode: d.mode,
+          };
+        }),
       },
     });
 

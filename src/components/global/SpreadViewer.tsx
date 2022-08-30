@@ -13,6 +13,12 @@ export default ({
   beatmaps: any[];
   style?: React.CSSProperties;
 }) => {
+  const modes = {
+    osu: 0,
+    taiko: 1,
+    fruits: 2,
+    mania: 3,
+  };
   const icons = [OsuIcon, TaikoIcon, CatchIcon, ManiaIcon];
 
   const difficultyColourSpectrum = d3
@@ -37,7 +43,7 @@ export default ({
   return (
     <div className="spreadviewer" style={style || {}}>
       {beatmaps.map((b, i) => {
-        const Icon = icons[b.mode_int];
+        const Icon = icons[modes[b.mode]];
 
         return (
           <div

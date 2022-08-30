@@ -32,25 +32,6 @@ export default async (req: Request, res: Response) => {
     r = r.filter((r) => r.status == status);
   }
 
-  let requestsWithoutBeatmap = r;
-  r = [];
-
-  for (const req of requestsWithoutBeatmap) {
-    try {
-      if (type != "archived") {
-        const b = await osuApi.fetch.beatmapset(req.beatmapset_id);
-
-        if (b.status == 200) {
-          req.beatmap = b.data;
-        }
-      }
-
-      r.push(req);
-    } catch (e: any) {
-      consoleError("GetQueueRequests", e);
-    }
-  }
-
   return res.status(200).send({
     status: 200,
     data: r,

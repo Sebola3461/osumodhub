@@ -852,15 +852,9 @@ export default ({
                 <FontAwesomeIcon icon={faClock} />
                 <p>
                   {TimeString(
-                    _request.beatmap.beatmaps
-                      ? _request.beatmap.beatmaps[0].hit_length
-                      : 0
+                    _request.beatmap.beatmaps ? _request.beatmap.duration : 0
                   )}
                 </p>
-              </div>
-              <div>
-                <FontAwesomeIcon icon={faPlay} />
-                <p>{_request.beatmap.play_count}</p>
               </div>
             </div>
             {!request.beatmap.beatmaps ? (
