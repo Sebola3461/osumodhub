@@ -28,3 +28,9 @@
   transition: filter 120ms linear;
   min-height: 30vh;
 }
+
+#pagebanner {
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+}
