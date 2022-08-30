@@ -553,7 +553,7 @@ export default () => {
                   </button>
                 </div>
               </div>
-              <div className="queuerules-big">
+              <div className="queuerules-big customscroll">
                 <Markdown
                   options={{
                     disableParsingRawHTML: true,

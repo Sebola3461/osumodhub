@@ -91,6 +91,7 @@
   margin-top: 20px;
   border-radius: 0.5rem;
   background-color: var(--background2);
+  overflow-y: auto;
 }
 
 .headerleft .row.buttonsrow button:last-child svg {
