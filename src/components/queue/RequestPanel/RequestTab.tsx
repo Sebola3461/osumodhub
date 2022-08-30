@@ -91,9 +91,6 @@ export default ({
             onInput={(ev) => {
               updateRequestComment(ev);
             }}
-            defaultValue={
-              request.comment == "No comment provided..." ? "" : request.comment
-            }
           ></input>
           <button
             className="green"
