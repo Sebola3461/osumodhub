@@ -171,6 +171,7 @@ export default ({
     dialog.setAction(() => {
       _action();
     });
+    dialog.setConfirm();
     dialog.setData({
       title: "Are you sure?",
       text:
@@ -228,6 +229,7 @@ export default ({
     dialog.setAction(() => {
       _action();
     });
+    dialog.setConfirm();
     dialog.setData({
       title: "Are you sure?",
       text: "This action is **IRREVERSIBLE**!",
@@ -492,36 +494,44 @@ export default ({
   }
 
   function editRequestComment() {
-    const content = prompt("Provide a new comment");
+    dialog.setText();
+    dialog.setAction(_action);
+    dialog.setData({
+      title: "Update comment",
+      text: "",
+      defaultValue: request.comment,
+    });
+    dialog.setOpen(true);
 
-    if (content == null) return;
-    if (content.trim() == "")
-      return enqueueSnackbar("Invalid comment!", {
-        variant: "error",
-      });
-
-    fetch(`/api/requests/${_request._id}/edit?comment=${content.trim()}`, {
-      method: "post",
-      headers: {
-        authorization: login.account_token,
-      },
-    })
-      .then((r) => r.json())
-      .then((d) => {
-        enqueueSnackbar(d.message, {
-          variant: d.status == 200 ? "success" : "error",
+    function _action(content: string) {
+      if (content.trim() == "")
+        return enqueueSnackbar("Invalid comment!", {
+          variant: "error",
         });
 
-        if (d.status == 200) {
-          _request.comment = content.trim();
-          const _requests = requests.map((r) => r);
-          const i = _requests.findIndex((r) => r._id == _request._id);
+      fetch(`/api/requests/${_request._id}/edit?comment=${content.trim()}`, {
+        method: "post",
+        headers: {
+          authorization: login.account_token,
+        },
+      })
+        .then((r) => r.json())
+        .then((d) => {
+          enqueueSnackbar(d.message, {
+            variant: d.status == 200 ? "success" : "error",
+          });
 
-          _requests[i]["comment"] = content.trim();
+          if (d.status == 200) {
+            _request.comment = content.trim();
+            const _requests = requests.map((r) => r);
+            const i = _requests.findIndex((r) => r._id == _request._id);
 
-          setRequests(_requests);
-        }
-      });
+            _requests[i]["comment"] = content.trim();
+
+            setRequests(_requests);
+          }
+        });
+    }
   }
 
   function getContextMenu() {

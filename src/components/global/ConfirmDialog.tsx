@@ -1,10 +1,11 @@
 import Markdown from "markdown-to-jsx";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ConfirmDialogContext } from "../../providers/ConfirmDialogContext";
 import "./../../styles/ConfirmDialog.css";
 
 export default () => {
   const context = useContext(ConfirmDialogContext);
+  const [textValue, setTextValue] = useState(context.data.defaultValue || "");
 
   function closeDialog() {
     context.setOpen(false);
@@ -38,10 +39,20 @@ export default () => {
         <div className="text">
           <Markdown>{context.data.text}</Markdown>
         </div>
+        {context.type == 0 ? (
+          <></>
+        ) : (
+          <textarea
+            defaultValue={context.data.defaultValue}
+            onInput={(v: any) => {
+              setTextValue(v.target.value);
+            }}
+          ></textarea>
+        )}
         <div className="actions">
           <button
             onClick={() => {
-              context.action();
+              context.action(textValue);
               context.setOpen(false);
             }}
           >

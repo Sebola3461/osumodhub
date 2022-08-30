@@ -80,6 +80,22 @@
   background-color: var(--ocean);
 }
 
+.confirmdialog textarea {
+  width: calc(100% - 11px);
+  padding: 5px;
+  min-height: 100px;
+  margin-bottom: 10px;
+  resize: vertical;
+  border: 1px solid transparent;
+  background-color: var(--background4);
+  border-radius: 5px;
+  max-height: 50vh;
+}
+
+.confirmdialog textarea:focus {
+  border: 1px solid var(--ocean);
+}
+
 @media screen and (max-width: 650px) {
   .confirmdialog .container .actions {
     margin-left: 0;
