@@ -134,37 +134,60 @@ export default ({
     if (selectedRequest.selected.length != 0)
       return manageAllSelectedRequests(opt.status);
 
-    setLoading(true);
-
-    fetch(`/api/requests/${opt.request._id}`, {
-      method: "put",
-      headers: {
-        "content-type": "application/json",
-        authorization: login.account_token,
-      },
-      body: JSON.stringify({
-        reply: "",
-        status: opt.status,
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
-        setLoading(false);
-        if (res.status == 200) {
-          _request.status = opt.status;
-          enqueueSnackbar("Request status updated!", {
-            variant: "success",
-            persist: false,
-            action,
-          });
-        } else {
-          enqueueSnackbar(res.message, {
-            variant: "error",
-            persist: false,
-            action,
-          });
-        }
+    if (opt.status != "archived") {
+      dialog.setText();
+      dialog.setAction(_action);
+      dialog.setData({
+        title: "Request feedback",
+        text: "",
+        defaultValue: opt.request.reply || "",
+        placeholder: "Optional",
       });
+      dialog.setOpen(true);
+    } else {
+      _action(opt.request.reply);
+    }
+
+    function _action(feedback: string) {
+      setLoading(true);
+
+      fetch(`/api/requests/${opt.request._id}`, {
+        method: "put",
+        headers: {
+          "content-type": "application/json",
+          authorization: login.account_token,
+        },
+        body: JSON.stringify({
+          reply: feedback,
+          status: opt.status,
+        }),
+      })
+        .then((r) => r.json())
+        .then((res) => {
+          setLoading(false);
+          if (res.status == 200) {
+            enqueueSnackbar("Request status updated!", {
+              variant: "success",
+              persist: false,
+              action,
+            });
+
+            const _requests = requests.map((r) => r);
+            const i = _requests.findIndex((r) => r._id == _request._id);
+
+            _requests[i]["status"] = opt.status;
+            _requests[i]["reply"] = feedback || opt.request.reply;
+
+            setRequests(JSON.parse(JSON.stringify(_requests)));
+          } else {
+            enqueueSnackbar(res.message, {
+              variant: "error",
+              persist: false,
+              action,
+            });
+          }
+        });
+    }
   }
 
   async function manageAllSelectedRequests(_status: string) {

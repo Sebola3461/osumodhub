@@ -7,6 +7,7 @@ export type ConfirmDialogContextType = {
     text: string;
     displayCancel: boolean;
     defaultValue: string;
+    placeholder: string;
   };
   type: number;
   setOpen: (_v: any) => any;
@@ -35,6 +36,7 @@ export const ConfirmDialogContext = createContext<ConfirmDialogContextType>({
     text: "This action is irreversible!",
     displayCancel: true,
     defaultValue: "",
+    placeholder: "",
   },
 });
 
@@ -45,6 +47,7 @@ export const ConfirmDialogProvider = ({ children }: any) => {
   const [data, setData] = useState({
     title: "Are you sure?",
     text: "This action is irreversible!",
+    placeholder: "",
     defaultValue: "",
     displayCancel: true,
   });

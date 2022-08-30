@@ -44,6 +44,13 @@ export default () => {
         ) : (
           <textarea
             defaultValue={context.data.defaultValue}
+            placeholder={context.data.placeholder}
+            onKeyDown={(k) => {
+              if (k.key == "Enter" && k.ctrlKey) {
+                context.action(textValue);
+                context.setOpen(false);
+              }
+            }}
             onInput={(v: any) => {
               setTextValue(v.target.value);
             }}
