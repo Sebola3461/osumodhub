@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
 import osuApi from "../../helpers/osuApi";
-import NotifyRequestUpdate from "../../notifications/NotifyRequestUpdate";
-import SendRequestUpdateWebhook from "../webhooks/SendRequestUpdateWebhook";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
@@ -44,47 +42,6 @@ export default async (req: Request, res: Response) => {
       message: "Unauthorized",
     });
 
-  let { reply, status } = req.body;
-
-  if (!status)
-    return res.status(400).send({
-      status: 400,
-      message: "Invalid status provided",
-    });
-
-  if (!reply) reply = "";
-
-  reply = reply.trim();
-
-  const valid_status = [
-    { name: "accepted", bn: false },
-    { name: "rejected", bn: false },
-    { name: "finished", bn: false },
-    { name: "archived", bn: false },
-    { name: "waiting", bn: true },
-    { name: "rechecking", bn: true },
-    { name: "nominated", bn: true },
-    { name: "ranked", bn: true },
-  ];
-
-  const requestedStatus = valid_status.find(
-    (s) => s.name == status.toLowerCase()
-  );
-
-  if (!requestedStatus)
-    return res.status(400).send({
-      status: 400,
-      message: "Invalid status provided",
-    });
-
-  if (requestedStatus.bn && !["BN", "NAT"].includes(queue.type))
-    return res.status(400).send({
-      status: 400,
-      message: "You can't use this status!",
-    });
-
-  request.status = status.toLowerCase();
-
   const requestBeatmap = await osuApi.fetch.beatmapset(request.beatmapset_id);
 
   if (
@@ -110,24 +67,11 @@ export default async (req: Request, res: Response) => {
     };
   });
 
-  NotifyRequestUpdate(queue, request, status.toLowerCase());
-
-  if (queue.webhook) {
-    if (queue.webhook.notify.includes("request:update"))
-      if (status.toLowerCase() != "archived")
-        SendRequestUpdateWebhook(queue, request, reply);
-  }
-
-  await requests.updateOne(
-    { _id: _request },
-    {
-      reply: reply,
-      status: status.toLowerCase(),
-    }
-  );
+  await requests.findByIdAndUpdate(request._id, request);
 
   res.status(200).send({
     status: 200,
-    message: "Request updated!",
+    message: "Job done!",
+    data: request,
   });
 };

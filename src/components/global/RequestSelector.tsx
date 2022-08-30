@@ -190,6 +190,45 @@ export default ({
     }
   }
 
+  function syncRequest(id: string) {
+    // if (selectedRequest.selected.length != 0)
+    //   return manageAllSelectedRequests(opt.status);
+
+    setLoading(true);
+
+    fetch(`/api/requests/${id}/sync`, {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+        authorization: login.account_token,
+      },
+    })
+      .then((r) => r.json())
+      .then((res) => {
+        setLoading(false);
+        if (res.status == 200) {
+          enqueueSnackbar(res.message, {
+            variant: "success",
+            persist: false,
+            action,
+          });
+
+          const _requests = requests.map((r) => r);
+          const i = _requests.findIndex((r) => r._id == _request._id);
+
+          _requests[i] = res.data;
+
+          setRequests(JSON.parse(JSON.stringify(_requests)));
+        } else {
+          enqueueSnackbar(res.message, {
+            variant: "error",
+            persist: false,
+            action,
+          });
+        }
+      });
+  }
+
   async function manageAllSelectedRequests(_status: string) {
     dialog.setAction(() => {
       _action();
@@ -378,6 +417,18 @@ export default ({
     >
       Delete
     </MenuItem>,
+    <MenuItem
+      data={{
+        request: _request,
+        status: "deleted",
+      }}
+      onClick={() => {
+        syncRequest(_request._id);
+      }}
+      className="wait-hover"
+    >
+      Sync
+    </MenuItem>,
   ];
 
   const bn_options = [
@@ -500,6 +551,18 @@ export default ({
       className="delete-hover"
     >
       Delete
+    </MenuItem>,
+    <MenuItem
+      data={{
+        request: _request,
+        status: "deleted",
+      }}
+      onClick={() => {
+        syncRequest(_request._id);
+      }}
+      className="wait-hover"
+    >
+      Sync
     </MenuItem>,
   ];
 
