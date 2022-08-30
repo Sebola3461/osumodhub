@@ -30,7 +30,10 @@
 }
 
 #pagebanner {
-  height: 100%;
   position: absolute;
   z-index: -1;
+}
+
+#pagebanner::after {
+  height: 100%;
 }
