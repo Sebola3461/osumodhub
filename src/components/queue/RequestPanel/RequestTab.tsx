@@ -9,6 +9,8 @@ import SpreadViewer from "../../global/SpreadViewer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMessage } from "@fortawesome/free-solid-svg-icons";
 import { RequestPanelContext } from "../../../providers/RequestPanelContext";
+import { lastManagedRequestContext } from "../../../providers/LastManagedRequestContext";
+import { addToUpdateQueue } from "../../../helpers/RequestUpdateQueue";
 
 export default ({
   queue,
@@ -25,6 +27,9 @@ export default ({
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { open, setOpen } = useContext(RequestPanelContext);
+  const { lastManagedRequest, setLastManagedRequest } = useContext(
+    lastManagedRequestContext
+  );
 
   const action = (key) => (
     <>
@@ -60,6 +65,8 @@ export default ({
             persist: false,
             action,
           });
+
+          addToUpdateQueue(res.data._id);
 
           request._id = res.data._id;
           requests.unshift(res.data);

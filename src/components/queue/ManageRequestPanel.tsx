@@ -11,6 +11,7 @@ import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import { useSnackbar } from "notistack";
 import { ConfirmDialogContext } from "../../providers/ConfirmDialogContext";
 import { lastManagedRequestContext } from "../../providers/LastManagedRequestContext";
+import { addToUpdateQueue } from "../../helpers/RequestUpdateQueue";
 
 export default ({ queue, setRequests, requests }: any) => {
   const { user, updateUser } = useContext(AuthContext);
@@ -21,9 +22,6 @@ export default ({ queue, setRequests, requests }: any) => {
   );
   const dialog = useContext(ConfirmDialogContext);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const { lastManagedRequest, setLastManagedRequest } = useContext(
-    lastManagedRequestContext
-  );
 
   const action = (key) => (
     <>
@@ -91,7 +89,7 @@ export default ({ queue, setRequests, requests }: any) => {
           requests[index]["reply"] = request.reply;
           setRequests(requests);
 
-          setLastManagedRequest(request._id);
+          addToUpdateQueue(request._id);
         }
       });
 
@@ -124,7 +122,7 @@ export default ({ queue, setRequests, requests }: any) => {
             if (d.status == 200) {
               setOpen(false);
               setRequests(requests.filter((r) => r._id != request._id));
-              setLastManagedRequest(request._id);
+              addToUpdateQueue(request._id);
             }
           });
       }

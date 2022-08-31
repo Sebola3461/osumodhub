@@ -150,6 +150,12 @@ export default async (req: Request, res: Response) => {
     await checkQueueAutoclose(queue);
     NotifyNewRequest(queue, author);
 
+    res.status(200).send({
+      status: 200,
+      message: "Beatmap requested!",
+      data: request,
+    });
+
     EmitNewRequest(request);
     request.beatmap = requestedBeatmapset.data;
 
@@ -157,12 +163,6 @@ export default async (req: Request, res: Response) => {
       if (queue.webhook.notify.includes("request:new"))
         SendNewRequestWebhook(queue, request);
     }
-
-    res.status(200).send({
-      status: 200,
-      message: "Beatmap requested!",
-      data: request,
-    });
   } catch (e) {
     console.error(e);
 

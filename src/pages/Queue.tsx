@@ -77,9 +77,6 @@ export default () => {
     )
   );
 
-  const { lastManagedRequest, setLastManagedRequest } = useContext(
-    lastManagedRequestContext
-  );
   const requestsPanelContext = useContext(MyRequestPanelContext);
 
   const [queue, setQueue] = useState({
@@ -113,19 +110,21 @@ export default () => {
   const [requests, setRequests] = useState<any>(["loading"]);
 
   const wsActions = (message: any) => {
-    const data = JSON.parse(message.data);
+    setTimeout(() => {
+      const data = JSON.parse(message.data);
 
-    console.log(lastManagedRequest);
+      console.log(globalThis.updateQueue);
 
-    if (
-      lastManagedRequest.includes(data.data._id) ||
-      data.data._queue != queue._id
-    )
-      return;
+      if (
+        globalThis.updateQueue.includes(data.data._id) ||
+        data.data._queue != queue._id
+      )
+        return;
 
-    if (data.type == "request:update") refreshRequestStatus(data.data);
+      if (data.type == "request:update") refreshRequestStatus(data.data);
 
-    if (data.type == "request:new") addNewRequest(data.data);
+      if (data.type == "request:new") addNewRequest(data.data);
+    }, 10000);
   };
 
   ws.onmessage = wsActions;

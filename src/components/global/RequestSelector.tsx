@@ -41,6 +41,7 @@ import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import TimeString from "../../helpers/TimeString";
 import { ConfirmDialogContext } from "../../providers/ConfirmDialogContext";
 import { lastManagedRequestContext } from "../../providers/LastManagedRequestContext";
+import { addToUpdateQueue } from "../../helpers/RequestUpdateQueue";
 
 export interface IRequest {
   _id: string;
@@ -83,9 +84,6 @@ export default ({
   const selectedRequest = useContext(SelectedRequestContext);
   const [queueRequests, setQueueRequests] = useState(requests);
   const dialog = useContext(ConfirmDialogContext);
-  const { lastManagedRequest, setLastManagedRequest } = useContext(
-    lastManagedRequestContext
-  );
   const [_request, setRequest] = useState<any>(
     !request
       ? {
@@ -156,7 +154,7 @@ export default ({
     function _action(feedback: string) {
       setLoading(true);
 
-      setLastManagedRequest(opt.request._id);
+      addToUpdateQueue(opt.request._id);
       fetch(`/api/requests/${opt.request._id}`, {
         method: "put",
         headers: {
@@ -183,8 +181,6 @@ export default ({
 
             _requests[i]["status"] = opt.status;
             _requests[i]["reply"] = feedback || opt.request.reply;
-
-            console.log(lastManagedRequest);
 
             setRequests(_requests);
           } else {
@@ -280,7 +276,7 @@ export default ({
 
             _requests[i]["status"] = _status;
 
-            setLastManagedRequest(id);
+            addToUpdateQueue(id);
           }
         }
       }
