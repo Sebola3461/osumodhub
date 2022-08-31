@@ -112,6 +112,24 @@ export default () => {
 
   const [requests, setRequests] = useState<any>(["loading"]);
 
+  const wsActions = (message: any) => {
+    const data = JSON.parse(message.data);
+
+    console.log(lastManagedRequest);
+
+    if (
+      lastManagedRequest.includes(data.data._id) ||
+      data.data._queue != queue._id
+    )
+      return;
+
+    if (data.type == "request:update") refreshRequestStatus(data.data);
+
+    if (data.type == "request:new") addNewRequest(data.data);
+  };
+
+  ws.onmessage = wsActions;
+
   useEffect(() => {
     const queue_id = window.location.pathname.split("").pop()
       ? window.location.pathname.split("/").pop()?.trim()
@@ -145,6 +163,7 @@ export default () => {
         );
 
         setRequests(q.data);
+        ws.onmessage = wsActions;
       });
 
     setInterval(() => {
@@ -179,6 +198,7 @@ export default () => {
             );
 
             setRequests(q.data);
+            ws.onmessage = wsActions;
           });
 
         fetch(`/api/queues/${queue_id}/follow`, {
@@ -263,6 +283,7 @@ export default () => {
 
         setRequests(["loading"]);
         setRequests(q.data);
+        ws.onmessage = wsActions;
       });
   }
 
@@ -296,6 +317,7 @@ export default () => {
 
         setRequests(["loading"]);
         setRequests(q.data);
+        ws.onmessage = wsActions;
       });
   }
 
@@ -383,28 +405,6 @@ export default () => {
 
     return setFollowButtonIcon(faUser);
   }
-
-  useEffect(() => {
-    ws.onopen = () => {
-      console.log("[Queues] -> Connected!");
-    };
-
-    ws.onmessage = (message) => {
-      const data = JSON.parse(message.data);
-
-      console.log(lastManagedRequest);
-
-      if (
-        lastManagedRequest.includes(data.data._id) ||
-        data.data._queue != queue._id
-      )
-        return;
-
-      if (data.type == "request:update") refreshRequestStatus(data.data);
-
-      if (data.type == "request:new") addNewRequest(data.data);
-    };
-  }, [requests]);
 
   const loadingRequests = (
     <div className="loadingcontainer">
