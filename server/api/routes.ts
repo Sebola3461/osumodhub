@@ -13,9 +13,13 @@ import { RequestsRouter } from "./requests/routes";
 import { NotificationsRouter } from "./notifications/routes";
 import { ListingRouter } from "./listing/routes";
 const api = Router();
+import { WebSocketServer } from "ws";
+import { GDRouter } from "./gd/routes";
+const wsSrv = new WebSocketServer({
+  port: 3001,
+});
 
-import ws from "ws";
-const wsSrv = new ws.Server({ noServer: true });
+wsSrv.on("error", console.error);
 
 api.get("/", (req, res) =>
   res.status(200).send({ status: 200, message: "osu!modhub api v1" })
@@ -26,9 +30,10 @@ api.use("/queues/", QueuesRouter);
 api.use("/requests/", RequestsRouter);
 api.use("/notifications/", NotificationsRouter);
 api.use("/listing", ListingRouter);
+api.use("/gd", GDRouter);
 
 // TODO: Create a category for this
 api.get("/validate/", AuthenticateUser);
 
 export const ApiRoutes = api;
-export const websocketServer = wsSrv;
+export const websocketServer = wsSrv.clients;

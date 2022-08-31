@@ -7,14 +7,14 @@ import GetGDRequestClaims from "./GetGDRequestClaims";
 const router = Router();
 
 // ? =============== GET REQUESTS
-router.get("/gd/:id", GetGDRequest);
-router.get("/gd/:id/claim", GetGDRequestClaims);
+router.get("/:id", GetGDRequest);
+router.get("/:id/claim", GetGDRequestClaims);
 
 // ? =============== POST REQUESTS
-router.post("/gd/new", CreateGDRequest);
-router.post("/gd/:id/claim", ClaimGDRequest);
+router.post("/new", CreateGDRequest);
+router.post("/:id/claim", ClaimGDRequest);
 
 // ? =============== PATCH REQUESTS
-router.patch("/gd/:id", GetGDRequest);
+router.patch("/:id", GetGDRequest);
 
 export const GDRouter = router;

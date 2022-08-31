@@ -4,7 +4,7 @@ export default (request: any) => {
   websocketServer.forEach((client) => {
     client.send(
       JSON.stringify({
-        type: "request:new",
+        type: "request:update",
         data: request,
       })
     );

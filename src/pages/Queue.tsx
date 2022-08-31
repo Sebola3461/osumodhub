@@ -43,6 +43,7 @@ import AudioPlayer from "../components/global/AudioPlayer";
 import { ManageRequestPanelContext } from "../providers/ManageRequestPanelContext";
 import ConfirmDialog from "../components/global/ConfirmDialog";
 import Markdown from "markdown-to-jsx";
+import { lastManagedRequestContext } from "../providers/LastManagedRequestContext";
 
 export default () => {
   const icons = [
@@ -68,7 +69,17 @@ export default () => {
   const [requestToFocus, setRequestToFocus] = useState("");
   const [followButtonIcon, setFollowButtonIcon] = useState(faUser);
   const manageRequestPanel = useContext(ManageRequestPanelContext);
+  const [ws, setWs] = useState(
+    new WebSocket(
+      window.location.hostname == "localhost"
+        ? "ws://localhost:3001/"
+        : "wss://osumodhub.xyz/"
+    )
+  );
 
+  const { lastManagedRequest, setLastManagedRequest } = useContext(
+    lastManagedRequestContext
+  );
   const requestsPanelContext = useContext(MyRequestPanelContext);
 
   const [queue, setQueue] = useState({
@@ -288,6 +299,26 @@ export default () => {
       });
   }
 
+  const refreshRequestStatus = (request: IRequest) => {
+    const i = requests.findIndex((r) => r._id == request._id);
+
+    request.isWs = true;
+    requests[i] = request;
+
+    console.log(requests);
+
+    setRequests(JSON.parse(JSON.stringify(requests)));
+  };
+
+  const addNewRequest = (request: IRequest) => {
+    request.isWs = true;
+    requests.unshift(request);
+
+    console.log(requests);
+
+    setRequests(JSON.parse(JSON.stringify(requests)));
+  };
+
   const navigate = useNavigate();
 
   const goTo = (route: string) => {
@@ -352,6 +383,28 @@ export default () => {
 
     return setFollowButtonIcon(faUser);
   }
+
+  useEffect(() => {
+    ws.onopen = () => {
+      console.log("[Queues] -> Connected!");
+    };
+
+    ws.onmessage = (message) => {
+      const data = JSON.parse(message.data);
+
+      console.log(lastManagedRequest);
+
+      if (
+        lastManagedRequest.includes(data.data._id) ||
+        data.data._queue != queue._id
+      )
+        return;
+
+      if (data.type == "request:update") refreshRequestStatus(data.data);
+
+      if (data.type == "request:new") addNewRequest(data.data);
+    };
+  }, [requests]);
 
   const loadingRequests = (
     <div className="loadingcontainer">

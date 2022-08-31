@@ -18,6 +18,13 @@
   transition: linear 140ms;
 }
 
+.requestselector.new {
+  transition: opacity 120ms linear;
+  animation-name: fade-out;
+  animation-duration: 30s;
+  animation-timing-function: linear;
+}
+
 .requestselector.loading {
   filter: brightness(0.5);
 }
@@ -280,4 +287,21 @@
   width: 3px;
   border-radius: 3px;
   background-color: var(--background3);
+}
+
+@keyframes fade-out {
+  0% {
+    box-shadow: 0 0 8px #1e76bc61;
+    border: 1px solid var(--ocean);
+  }
+
+  90% {
+    box-shadow: 0 0 8px #1e76bc61;
+    border: 1px solid var(--ocean);
+  }
+
+  100% {
+    box-shadow: 0 0 8px transparent;
+    border: 1px solid transparent;
+  }
 }

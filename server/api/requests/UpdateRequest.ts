@@ -3,6 +3,7 @@ import { queues, requests, users } from "../../../database";
 import osuApi from "../../helpers/osuApi";
 import NotifyRequestUpdate from "../../notifications/NotifyRequestUpdate";
 import SendRequestUpdateWebhook from "../webhooks/SendRequestUpdateWebhook";
+import EmitNewRequestUpdate from "../websocket/EmitNewRequestUpdate";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
@@ -125,6 +126,11 @@ export default async (req: Request, res: Response) => {
       status: status.toLowerCase(),
     }
   );
+
+  request.reply = reply;
+  request.status = status.toLowerCase();
+
+  EmitNewRequestUpdate(request);
 
   res.status(200).send({
     status: 200,

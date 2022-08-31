@@ -150,14 +150,13 @@ export default async (req: Request, res: Response) => {
     await checkQueueAutoclose(queue);
     NotifyNewRequest(queue, author);
 
+    EmitNewRequest(request);
     request.beatmap = requestedBeatmapset.data;
 
     if (queue.webhook) {
       if (queue.webhook.notify.includes("request:new"))
         SendNewRequestWebhook(queue, request);
     }
-
-    EmitNewRequest(request);
 
     res.status(200).send({
       status: 200,
