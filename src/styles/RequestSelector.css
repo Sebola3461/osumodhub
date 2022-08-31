@@ -25,6 +25,13 @@
   animation-timing-function: linear;
 }
 
+.requestselector.newadd {
+  transition: opacity 120ms linear;
+  animation-name: grow;
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
 .requestselector.loading {
   filter: brightness(0.5);
 }
@@ -303,5 +310,17 @@
   100% {
     box-shadow: 0 0 8px transparent;
     border: 1px solid transparent;
+  }
+}
+
+@keyframes grow {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }

@@ -110,21 +110,19 @@ export default () => {
   const [requests, setRequests] = useState<any>(["loading"]);
 
   const wsActions = (message: any) => {
-    setTimeout(() => {
-      const data = JSON.parse(message.data);
+    const data = JSON.parse(message.data);
 
-      console.log(globalThis.updateQueue);
+    console.log(globalThis.updateQueue);
 
-      if (
-        globalThis.updateQueue.includes(data.data._id) ||
-        data.data._queue != queue._id
-      )
-        return;
+    if (
+      globalThis.updateQueue.includes(data.data._id) ||
+      data.data._queue != queue._id
+    )
+      return;
 
-      if (data.type == "request:update") refreshRequestStatus(data.data);
+    if (data.type == "request:update") refreshRequestStatus(data.data);
 
-      if (data.type == "request:new") addNewRequest(data.data);
-    }, 10000);
+    if (data.type == "request:new") addNewRequest(data.data);
   };
 
   ws.onmessage = wsActions;
@@ -332,12 +330,16 @@ export default () => {
   };
 
   const addNewRequest = (request: IRequest) => {
-    request.isWs = true;
-    requests.unshift(request);
+    if (globalThis.updateQueue.includes(request._id)) return;
+    request.isWsNew = true;
+    const _requests = requests.map((r) => {
+      r.isWsNew = false;
 
-    console.log(requests);
+      return r;
+    });
+    _requests.unshift(request);
 
-    setRequests(JSON.parse(JSON.stringify(requests)));
+    setRequests(JSON.parse(JSON.stringify(_requests)));
   };
 
   const navigate = useNavigate();

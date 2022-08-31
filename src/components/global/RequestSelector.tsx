@@ -57,6 +57,7 @@ export interface IRequest {
   mfm: boolean;
   cross: boolean;
   isWs?: boolean; // ? true if the request is handled by websocket
+  isWsNew?: boolean; // ? true if the request is handled by websocket (but only new requests)
 }
 
 export default ({
@@ -818,8 +819,12 @@ export default ({
           <div
             className={
               loading
-                ? `requestselector loading ${_request.isWs ? "new" : ""}`
-                : `requestselector ${_request.isWs ? "new" : ""}`
+                ? `requestselector loading ${_request.isWs ? "new" : ""} ${
+                    _request.isWsNew ? "newadd" : ""
+                  }`
+                : `requestselector  ${_request.isWs ? "new" : ""} ${
+                    _request.isWsNew ? "newadd" : ""
+                  }`
             }
             onClick={(ev: any) => {
               manageRequest(_request, ev);

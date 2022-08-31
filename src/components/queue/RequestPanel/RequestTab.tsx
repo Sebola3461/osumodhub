@@ -67,10 +67,6 @@ export default ({
           });
 
           addToUpdateQueue(res.data._id);
-
-          request._id = res.data._id;
-          requests.unshift(res.data);
-          setRequests(requests);
         } else {
           enqueueSnackbar(res.message, {
             variant: "error",
