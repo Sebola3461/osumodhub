@@ -1,5 +1,6 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthContext";
 import { RequestContext } from "../../providers/RequestContext";
@@ -9,6 +10,7 @@ import BeatmapSelector from "../global/BeatmapSelector";
 import "./../../styles/RequestPanel.css";
 import BeatmapsTab from "./RequestPanel/BeatmapsTab";
 import RequestTab from "./RequestPanel/RequestTab";
+import RulesTab from "./RequestPanel/RulesTab";
 
 export default ({
   queue,
@@ -24,7 +26,9 @@ export default ({
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
   const { request, setRequest } = useContext(RequestContext);
-  const { open, setOpen } = useContext(RequestPanelContext);
+  const { open, setOpen, rulesRead, setRulesRead } =
+    useContext(RequestPanelContext);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (login._id == -1) return;
@@ -49,10 +53,6 @@ export default ({
     setUserBeatmaps(userBeatmaps);
   }, [userBeatmaps]);
 
-  useEffect(() => {
-    if (request.beatmap.id == -1 || !request.beatmap.id) setTab(0);
-  }, [tab]);
-
   const tabs = [
     <BeatmapsTab
       userBeatmaps={userBeatmaps}
@@ -60,6 +60,7 @@ export default ({
       queue={queue}
       setTab={setTab}
     ></BeatmapsTab>,
+    <RulesTab queue={queue} setTab={setTab} request={request}></RulesTab>,
     <RequestTab
       queue={queue}
       requests={requests}
@@ -122,10 +123,27 @@ export default ({
               setTab(1);
             }}
           >
+            Rules
+          </div>
+          <div
+            className={tab == 2 ? "option selected" : "option"}
+            onClick={() => {
+              if (!rulesRead)
+                return enqueueSnackbar(
+                  "You must read the rules before request!",
+                  {
+                    variant: "error",
+                  }
+                );
+
+              if (request.beatmap.id == -1 || !request.beatmap.id) return;
+              setTab(2);
+            }}
+          >
             Request
           </div>
         </div>
-        {tabs[request.beatmap.id == -1 || !request.beatmap.id ? 0 : tab]}
+        {tabs[tab]}
       </div>
     </div>
   );

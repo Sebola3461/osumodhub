@@ -88,6 +88,30 @@
   color: white;
 }
 
+.rulestab {
+  width: 95%;
+  padding: 2.5%;
+  background-color: var(--background2);
+  height: 66.2%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  transition: opacity 120ms linear;
+  animation-name: fade;
+  animation-duration: 120ms;
+  animation-timing-function: linear;
+}
+
+.rulestab button {
+  padding: 10px 20px;
+  margin-top: auto;
+  margin-left: auto;
+  background-color: var(--ocean);
+}
+
 @media screen and (max-width: 600px) {
   .requestpanel .container {
     width: 100% !important;

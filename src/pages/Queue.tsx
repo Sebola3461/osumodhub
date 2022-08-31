@@ -59,7 +59,7 @@ export default () => {
 
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
-  const { open, setOpen } = useContext(RequestPanelContext);
+  const { open, setOpen, setRulesRead } = useContext(RequestPanelContext);
   const sideMenuContext = useContext(SideMenuContext);
   const notificationSideMenuContext = useContext(NotificationSideMenuContext);
   const queuePanelContext = useContext(QueuePanelContext);
@@ -107,6 +107,8 @@ export default () => {
       : "";
     const _targetRequest = new URLSearchParams(location.search).get("r");
 
+    setRulesRead(false);
+
     if (_targetRequest) {
       setRequestToFocus(_targetRequest);
     }
@@ -144,6 +146,7 @@ export default () => {
         setQueue(queue);
         setRequests(["loading"]);
 
+        setRulesRead(false);
         fetch(`/api/queues/${id}`)
           .then((r) => r.json())
           .then((q) => {
