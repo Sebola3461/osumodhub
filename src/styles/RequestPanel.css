@@ -63,13 +63,14 @@
 
 .container .tab {
   width: 95%;
-  margin: 1% 2.5%;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   align-content: center;
   justify-content: flex-start;
   align-items: center;
+  background-color: var(--background4);
+  padding: 12px 2.5%;
 }
 
 .container .tab .option {

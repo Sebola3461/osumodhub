@@ -5,6 +5,10 @@ import Markdown from "markdown-to-jsx";
 import RequestSelector from "../../global/RequestSelector";
 import "./../../../styles/RequestTab.css";
 import { useSnackbar } from "notistack";
+import SpreadViewer from "../../global/SpreadViewer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMessage } from "@fortawesome/free-solid-svg-icons";
+import { RequestPanelContext } from "../../../providers/RequestPanelContext";
 
 export default ({
   queue,
@@ -20,6 +24,7 @@ export default ({
   const [login, setLogin] = useState(JSON.parse(user));
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { open, setOpen } = useContext(RequestPanelContext);
 
   const action = (key) => (
     <>
@@ -32,11 +37,6 @@ export default ({
       </button>
     </>
   );
-
-  function updateRequestComment(ev: any) {
-    request.comment = ev.target.value;
-    setRequest(request);
-  }
 
   function requestBeatmap() {
     setLoading(true);
@@ -74,9 +74,45 @@ export default ({
       });
   }
 
+  function setRequestComment(ev: any) {
+    request.comment = ev.target.value.trim();
+
+    setRequest(JSON.parse(JSON.stringify(request)));
+  }
+
   return (
     <div className={loading ? "requesttab loading" : "requesttab"}>
-      <RequestSelector
+      <div
+        className="banner"
+        style={{
+          backgroundImage: `url(${request.beatmap.covers["cover@2x"]})`,
+        }}
+      >
+        <div className="overlay">
+          <div className="metadata">
+            <p className="title">{request.beatmap.title}</p>
+            <p className="artist">{request.beatmap.artist}</p>
+          </div>
+          <SpreadViewer beatmaps={request.beatmap.beatmaps}></SpreadViewer>
+        </div>
+      </div>
+      <p className="commenttitle">
+        <FontAwesomeIcon icon={faMessage} /> Comment
+      </p>
+      <textarea
+        className="comment"
+        defaultValue={request.comment}
+        onInput={setRequestComment}
+      ></textarea>
+      <button
+        className="green"
+        onClick={() => {
+          requestBeatmap();
+        }}
+      >
+        Request
+      </button>
+      {/* <RequestSelector
         request={request}
         queue={queue}
         _static={true}
@@ -101,7 +137,7 @@ export default ({
             Send
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

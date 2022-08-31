@@ -953,7 +953,9 @@ export default ({
               <FontAwesomeIcon icon={faMessage} />
               Mapper's comment
             </div>
-            <div className="comment">{_request.comment}</div>
+            <div className="comment">
+              {_request.comment || "No comment provided..."}
+            </div>
           </div>
         </ContextMenuTrigger>
         {getContextMenu()}

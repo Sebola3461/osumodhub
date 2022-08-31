@@ -7,7 +7,7 @@ export type RequestContextType = {
 
 export const RequestContext = createContext<RequestContextType>({
   request: {
-    comment: "No comment provided...",
+    comment: "",
     status: "pending",
     beatmap: {},
   },
@@ -16,7 +16,7 @@ export const RequestContext = createContext<RequestContextType>({
 
 export const RequestContextProvider = ({ children }: any) => {
   const [request, setRequest] = useState({
-    comment: "No comment provided...",
+    comment: "",
     status: "pending",
     beatmap: {},
   });
