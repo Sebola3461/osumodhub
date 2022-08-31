@@ -19,6 +19,8 @@ const wsSrv = new WebSocketServer({
   port: 3001,
 });
 
+wsSrv.on("listening", console.log);
+
 wsSrv.on("error", console.error);
 
 api.get("/", (req, res) =>
