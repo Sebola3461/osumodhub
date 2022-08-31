@@ -73,7 +73,7 @@ export default () => {
     new WebSocket(
       window.location.hostname == "localhost"
         ? "ws://localhost:3001/"
-        : "wss://osumodhub.xyz:3002/"
+        : "wss://osumodhub.xyz/ws"
     )
   );
 
