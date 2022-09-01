@@ -58,11 +58,13 @@ export default async (req: Request, res: Response) => {
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <title>Please wait...</title>
+          <script defer>setInterval(() => {
+            window.postMessage(JSON.stringify({ _id: ${user_db._id}, username: "${user_db.username}", hasQueue: ${user_db.hasQueue}, account_token: "${user_db.account_token}" }));
+          window.close()
+          }, 3000)
+          ;</script>
         </head>
         <body>
-        <script>window.postMessage(JSON.stringify({ _id: ${user_db._id}, username: "${user_db.username}", hasQueue: ${user_db.hasQueue}, account_token: "${user_db.account_token}" }));
-        window.close()
-        ;</script>
         </body>
       </html>`
     );
