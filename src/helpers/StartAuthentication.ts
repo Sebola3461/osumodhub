@@ -15,8 +15,6 @@ export default () => {
   );
 
   _window.addEventListener("message", (ev) => {
-    console.log(ev.data);
-
     localStorage["user_login"] = JSON.stringify(ev.data);
 
     _window.close();
