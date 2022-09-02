@@ -75,8 +75,6 @@ export default function parseUsergroup(mapper: User) {
       return a - b;
     });
 
-    console.log(groups);
-
     let group = groups[0];
 
     if (["nat", "bn"].includes(group.short_name.toLowerCase()))
