@@ -10,7 +10,8 @@ export default async (req: Request, res: Response) => {
   try {
     consoleLog(
       "AuthenticateUser",
-      "New authentication requested! Waiting for token validation..."
+      "New authentication requested! Waiting for token validation...",
+      req
     );
 
     const code = req.query.code;
@@ -59,7 +60,8 @@ export default async (req: Request, res: Response) => {
 
     consoleCheck(
       "AuthenticateUser",
-      `New user authenticated! ${user_db.username} (${user_db._id})`
+      `New user authenticated! ${user_db.username} (${user_db._id})`,
+      req
     );
 
     return res.status(200).send(
