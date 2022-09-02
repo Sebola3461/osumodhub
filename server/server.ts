@@ -17,6 +17,8 @@ import TimeClose from "./workers/TimeClose";
 const app = express();
 TimeClose();
 
+app.set("trust proxy", true);
+
 if (process.env.NODE_ENV == "production") {
   app.use(
     "/assets",
