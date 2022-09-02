@@ -7,8 +7,9 @@ export function consoleLog(
   req?: Request
 ) {
   console.log(
-    `${new Date().toLocaleString()} => <${req?.headers["X-Real-IP"]}> ||` +
-      `[${module_name}]`.bgYellow.black.concat(message.bgBlue.black)
+    `[${new Date().toLocaleString()}] ${
+      req ? `<${req?.headers["X-Real-IP"]}>` : ""
+    } ||` + `[${module_name}]`.bgYellow.black.concat(message.bgBlue.black)
   );
 }
 
@@ -18,8 +19,9 @@ export function consoleError(
   req?: Request
 ) {
   console.log(
-    `${new Date().toLocaleString()} => <${req?.headers["X-Real-IP"]}> ||` +
-      `[${module_name}]`.bgYellow.black.concat(message.bgRed.black)
+    `[${new Date().toLocaleString()}] ${
+      req ? `<${req?.headers["X-Real-IP"]}>` : ""
+    } ||` + `[${module_name}]`.bgYellow.black.concat(message.bgRed.black)
   );
 }
 
@@ -29,7 +31,8 @@ export function consoleCheck(
   req?: Request
 ) {
   console.log(
-    `${new Date().toLocaleString()} => <${req?.headers["X-Real-IP"]}> ||` +
-      `[${module_name}]`.bgYellow.black.concat(message.bgGreen.black)
+    `[${new Date().toLocaleString()}] ${
+      req ? `<${req?.headers["X-Real-IP"]}>` : ""
+    } ||` + `[${module_name}]`.bgYellow.black.concat(message.bgGreen.black)
   );
 }
