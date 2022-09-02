@@ -1,8 +1,11 @@
 import axios from "axios";
+import { consoleCheck, consoleError, consoleLog } from "../../helpers/logger";
 import { User } from "./../../../src/types/user";
 
 export default async (token: string) => {
   try {
+    consoleLog("GetOsuTokenOwner", "Fetching token owner...");
+
     const req = await axios("https://osu.ppy.sh/api/v2/me", {
       method: "get",
       headers: {
@@ -12,12 +15,18 @@ export default async (token: string) => {
 
     let res: User = req.data;
 
+    consoleCheck("GetOsuTokenOwner", "Token owner found!");
+
     return {
       status: 200,
       data: res,
     };
   } catch (e: any) {
-    console.error(e);
+    consoleError(
+      "GetOsuTokenOwner",
+      `Impossible to fetch token owner! Request failed with code ${e.status}. Check logs below:`
+    );
+    console.error(e.message);
 
     return {
       status: 500,

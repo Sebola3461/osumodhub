@@ -4,9 +4,15 @@ import createNewUser from "../../../database/helpers/createNewUser";
 import getOsuTokenOwner from "../helpers/getOsuTokenOwner";
 import validateOsuToken from "../helpers/validateOsuToken";
 import path from "path";
+import { consoleCheck, consoleLog } from "../../helpers/logger";
 
 export default async (req: Request, res: Response) => {
   try {
+    consoleLog(
+      "AuthenticateUser",
+      "New authentication requested! Waiting for token validation..."
+    );
+
     const code = req.query.code;
 
     if (!code)
@@ -50,6 +56,11 @@ export default async (req: Request, res: Response) => {
     if (userQueue) {
       users.findByIdAndUpdate(user_db._id, { hasQueue: true });
     }
+
+    consoleCheck(
+      "AuthenticateUser",
+      `New user authenticated! ${user_db.username} (${user_db._id})`
+    );
 
     return res.status(200).send(
       `<html lang="en">
