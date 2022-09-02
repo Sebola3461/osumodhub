@@ -8,7 +8,9 @@ export function consoleLog(
 ) {
   console.log(
     `[${new Date().toLocaleString()}] ${
-      req ? `<${req?.headers["X-Real-IP"]}>` : ""
+      req
+        ? `<${req.headers["x-forwarded-for"] || req.connection.remoteAddress}>`
+        : ""
     } || ` + `[${module_name}]`.bgYellow.black.concat(message.bgBlue.black)
   );
 }
@@ -20,7 +22,9 @@ export function consoleError(
 ) {
   console.log(
     `[${new Date().toLocaleString()}] ${
-      req ? `<${req?.headers["X-Real-IP"]}>` : ""
+      req
+        ? `<${req.headers["x-forwarded-for"] || req.connection.remoteAddress}>`
+        : ""
     } || ` + `[${module_name}]`.bgYellow.black.concat(message.bgRed.black)
   );
 }
@@ -32,7 +36,9 @@ export function consoleCheck(
 ) {
   console.log(
     `[${new Date().toLocaleString()}] ${
-      req ? `<${req?.headers["X-Real-IP"]}>` : ""
+      req
+        ? `<${req.headers["x-forwarded-for"] || req.connection.remoteAddress}>`
+        : ""
     } || ` + `[${module_name}]`.bgYellow.black.concat(message.bgGreen.black)
   );
 }
