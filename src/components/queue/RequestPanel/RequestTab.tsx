@@ -96,7 +96,11 @@ export default ({
             <p className="title">{request.beatmap.title}</p>
             <p className="artist">{request.beatmap.artist}</p>
           </div>
-          <SpreadViewer beatmaps={request.beatmap.beatmaps}></SpreadViewer>
+          <SpreadViewer
+            beatmaps={request.beatmap.beatmaps.sort(
+              (a, b) => a.difficulty_rating - b.difficulty_rating
+            )}
+          ></SpreadViewer>
         </div>
       </div>
       <p className="commenttitle">

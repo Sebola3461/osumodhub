@@ -35,3 +35,7 @@
   border-radius: 3px;
   background-color: var(--background3);
 }
+
+.spreadviewer div:last-child {
+  margin-right: 0px !important;
+}

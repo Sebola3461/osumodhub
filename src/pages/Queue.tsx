@@ -108,6 +108,9 @@ export default () => {
   };
 
   const [requests, setRequests] = useState<any>(["loading"]);
+  const [processedAnimatedRequests, setProcessedAnimatedRequests] = useState(
+    []
+  );
 
   const wsActions = (message: any) => {
     const data = JSON.parse(message.data);
@@ -668,7 +671,11 @@ export default () => {
                 loadingRequests
               ) : (
                 requests.map((r: IRequest, i: number) => {
-                  return (
+                  processedAnimatedRequests.includes(r._id)
+                    ? (r.isWsNew = false)
+                    : void {};
+
+                  const element = (
                     <RequestSelector
                       request={r}
                       refreshRequests={refreshRequests}
@@ -678,6 +685,13 @@ export default () => {
                       key={GenerateComponentKey(10)}
                     ></RequestSelector>
                   );
+
+                  if (!processedAnimatedRequests.includes(r._id) && r.isWsNew) {
+                    processedAnimatedRequests.push(requests[i]._id);
+                    setProcessedAnimatedRequests(processedAnimatedRequests);
+                  }
+
+                  return element;
                 })
               )}
             </div>

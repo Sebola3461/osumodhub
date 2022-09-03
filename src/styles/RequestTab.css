@@ -21,7 +21,7 @@
 
 .requesttab .banner {
   width: 100%;
-  height: 9rem;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -33,9 +33,9 @@
 }
 
 .requesttab .banner .overlay {
-  width: 96%;
+  width: calc(100% - 3rem);
   height: 100%;
-  padding: 2%;
+  padding: 1.5rem;
   backdrop-filter: brightness(0.3);
   display: flex;
   flex-direction: column;

@@ -3,7 +3,6 @@ import { queues, users } from "../../../database";
 import createNewUser from "../../../database/helpers/createNewUser";
 import getOsuTokenOwner from "../helpers/getOsuTokenOwner";
 import validateOsuToken from "../helpers/validateOsuToken";
-import path from "path";
 import { consoleCheck, consoleLog } from "../../helpers/logger";
 
 export default async (req: Request, res: Response) => {
