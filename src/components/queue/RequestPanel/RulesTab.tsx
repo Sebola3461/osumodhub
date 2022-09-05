@@ -1,18 +1,13 @@
 import Markdown from "markdown-to-jsx";
 import { useContext } from "react";
+import { QueueContext } from "../../../providers/QueueContext";
 import { RequestPanelContext } from "../../../providers/RequestPanelContext";
 
-export default ({
-  queue,
-  setTab,
-  request,
-}: {
-  queue: any;
-  setTab: any;
-  request: any;
-}) => {
+export default ({ setTab, request }: { setTab: any; request: any }) => {
   const { open, setOpen, rulesRead, setRulesRead } =
     useContext(RequestPanelContext);
+
+  const queueContext = useContext(QueueContext);
 
   return (
     <div className={"rulestab"}>
@@ -21,7 +16,7 @@ export default ({
           disableParsingRawHTML: true,
         }}
       >
-        {queue.description}
+        {queueContext.data.description}
       </Markdown>
       <button
         onClick={() => {

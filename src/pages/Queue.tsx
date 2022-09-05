@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import AppBar from "../components/global/AppBar";
-import HeaderPanel from "../components/global/HeaderPanel";
 import PageBanner from "../components/global/PageBanner";
 import "./../styles/pages/Queue.css";
 import Tag from "../components/global/Tag";
@@ -9,9 +8,6 @@ import ManiaIcon from "../components/icons/ManiaIcon";
 import OsuIcon from "../components/icons/OsuIcon";
 import TaikoIcon from "../components/icons/TaikoIcon";
 import SearchSelect from "../components/global/SearchSelect";
-import RequestSelector, {
-  IRequest,
-} from "../components/global/RequestSelector";
 import NoRequests from "../components/global/NoRequests";
 import { AuthContext } from "../providers/AuthContext";
 import RequestPanel from "../components/queue/RequestPanel";
@@ -43,7 +39,18 @@ import AudioPlayer from "../components/global/AudioPlayer";
 import { ManageRequestPanelContext } from "../providers/ManageRequestPanelContext";
 import ConfirmDialog from "../components/global/ConfirmDialog";
 import Markdown from "markdown-to-jsx";
-import { lastManagedRequestContext } from "../providers/LastManagedRequestContext";
+import { IQueue, IQueueRequest } from "../types/queue";
+import LoadingPage from "./LoadingPage";
+import QueueColors from "../constants/QueueColors";
+import LoadingComponent from "../components/global/LoadingComponent";
+import RequestSelector from "../components/global/RequestSelector";
+import { QueueContext } from "../providers/QueueContext";
+import UserPanel from "../components/global/UserPanel";
+
+interface IQueueFilters {
+  type: "progress" | "archived";
+  status: string;
+}
 
 export default () => {
   const icons = [
@@ -53,22 +60,16 @@ export default () => {
     <ManiaIcon color="white" width="1.2rem" height="1.2rem"></ManiaIcon>,
   ];
 
-  const [filters, updateFilters] = useState<{ [key: string]: any }>({
+  const [filters, updateFilters] = useState<IQueueFilters>({
     type: "progress",
     status: "any",
   });
 
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
-  const { open, setOpen, setRulesRead } = useContext(RequestPanelContext);
-  const sideMenuContext = useContext(SideMenuContext);
-  const notificationSideMenuContext = useContext(NotificationSideMenuContext);
-  const queuePanelContext = useContext(QueuePanelContext);
+  const { user } = useContext(AuthContext);
+  const [login] = useState(JSON.parse(user));
+  const { setOpen } = useContext(RequestPanelContext);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const [followers, setFollowers] = useState({ size: 0, mutual: null });
-  const [requestToFocus, setRequestToFocus] = useState("");
   const [followButtonIcon, setFollowButtonIcon] = useState(faUser);
-  const manageRequestPanel = useContext(ManageRequestPanelContext);
   const [ws, setWs] = useState(
     new WebSocket(
       window.location.hostname == "localhost"
@@ -77,369 +78,112 @@ export default () => {
     )
   );
 
-  const requestsPanelContext = useContext(MyRequestPanelContext);
+  const queue = useContext(QueueContext);
 
-  const [queue, setQueue] = useState({
-    _id: "",
-    name: "Loading...",
-    allow: {
-      graveyard: true,
-      wip: true,
-    },
-    banner: "/src/static/homebanner.png",
-    description: "Loading..",
-    icon: "",
-    modes: [],
-    open: false,
-    type: "Loading...",
-    verified: false,
-    country: {
-      acronym: "--",
-      name: "--",
-      flag: "",
-    },
-    genres: [],
-  });
-
-  const typeColors: { [key: string]: string } = {
-    modder: "#2196f3",
-    BN: "#a347eb",
-    NAT: "#eb8c47",
-  };
-
-  const [requests, setRequests] = useState<any>(["loading"]);
-  const [processedAnimatedRequests, setProcessedAnimatedRequests] = useState(
-    []
-  );
-
-  const wsActions = (message: any) => {
-    const data = JSON.parse(message.data);
-
-    console.log(globalThis.updateQueue);
-
-    if (
-      globalThis.updateQueue.includes(data.data._id) ||
-      data.data._queue != queue._id
-    )
-      return;
-
-    if (data.type == "request:update") refreshRequestStatus(data.data);
-
-    if (data.type == "request:new") addNewRequest(data.data);
-  };
-
-  ws.onmessage = wsActions;
+  const QueueID = location.pathname.split("/").pop().trim();
 
   useEffect(() => {
-    const queue_id = window.location.pathname.split("").pop()
-      ? window.location.pathname.split("/").pop()?.trim()
-      : "";
-    const _targetRequest = new URLSearchParams(location.search).get("r");
+    console.log("Refreshing queue data");
 
-    setRulesRead(false);
-
-    if (_targetRequest) {
-      setRequestToFocus(_targetRequest);
-    }
-
-    fetch(`/api/queues/${queue_id}`)
+    fetch(`/api/queues/${QueueID}`)
       .then((r) => r.json())
-      .then((q) => {
-        if (q.status != 200) return;
-
-        setQueue(q.data);
+      .then((data) => {
+        queue.setData(data.data);
+        document.title = `${data.data.name} | osu!modhub`;
       });
 
-    fetch(
-      `/api/queues/${queue_id}/requests?type=${filters.type}&status=${filters.status}`
-    )
-      .then((r) => r.json())
-      .then((q) => {
-        if (q.status != 200) return;
-
-        q.data.sort(
-          (a: IRequest, b: IRequest) =>
-            new Date(b.date).valueOf() - new Date(a.date).valueOf()
-        );
-
-        setRequests(q.data);
-        ws.onmessage = wsActions;
-      });
-
-    setInterval(() => {
-      const id = window.location.pathname.split("").pop()
-        ? window.location.pathname.split("/").pop()?.trim()
-        : "";
-
-      if (id != queue._id) {
-        queue._id = id;
-        setQueue(queue);
-        setRequests(["loading"]);
-
-        setRulesRead(false);
-        fetch(`/api/queues/${id}`)
-          .then((r) => r.json())
-          .then((q) => {
-            if (q.status != 200) return;
-
-            setQueue(q.data);
-          });
-
-        fetch(
-          `/api/queues/${id}/requests?type=${filters.type}&status=${filters.status}`
-        )
-          .then((r) => r.json())
-          .then((q) => {
-            if (q.status != 200) return;
-
-            q.data.sort(
-              (a: IRequest, b: IRequest) =>
-                new Date(b.date).valueOf() - new Date(a.date).valueOf()
-            );
-
-            setRequests(q.data);
-            ws.onmessage = wsActions;
-          });
-
-        fetch(`/api/queues/${queue_id}/follow`, {
-          headers:
-            login._id != -1
-              ? {
-                  authorization: login.account_token,
-                }
-              : null,
-        })
-          .then((r) => r.json())
-          .then((res) => {
-            setFollowers(res.data);
-          });
-
-        SyncQueueData(login);
-      }
-    }, 10);
-
-    SyncQueueData(login);
+    refreshRequests();
+    refreshFollowers();
   }, []);
-
-  useEffect(() => {
-    if (requestToFocus) {
-      fetch(`/api/requests/${requestToFocus}?includeBeatmap=true`)
-        .then((r) => r.json())
-        .then((d) => {
-          if (d.status != 200) {
-            location.search = "";
-            return enqueueSnackbar(d.message, {
-              variant: "error",
-              persist: false,
-            });
-          }
-
-          manageRequestPanel.setRequest(d.data);
-          manageRequestPanel.setOpen(true);
-        });
-    }
-  }, [requestToFocus]);
-
-  useEffect(() => {
-    const queue_id = window.location.pathname.split("").pop()
-      ? window.location.pathname.split("/").pop()?.trim()
-      : "";
-
-    fetch(`/api/queues/${queue_id}/follow`, {
-      headers:
-        login._id != -1
-          ? {
-              authorization: login.account_token,
-            }
-          : null,
-    })
-      .then((r) => r.json())
-      .then((res) => {
-        setFollowers(res.data);
-      });
-  }, []);
-
-  function setFilters(ev: React.SyntheticEvent<InputEvent>, filter: string) {
-    const queue_id = window.location.pathname.split("").pop()
-      ? window.location.pathname.split("/").pop()?.trim()
-      : "";
-
-    const target: any = ev.target;
-    filters[filter] = target.value;
-
-    updateFilters(filters);
-
-    fetch(
-      `/api/queues/${queue_id}/requests?type=${filters.type}&status=${filters.status}`
-    )
-      .then((r) => r.json())
-      .then((q) => {
-        if (q.status != 200) return;
-
-        q.data.sort(
-          (a: IRequest, b: IRequest) =>
-            new Date(a.date).valueOf() - new Date(b.date).valueOf()
-        );
-
-        setRequests(["loading"]);
-        setRequests(q.data);
-        ws.onmessage = wsActions;
-      });
-  }
-
-  useEffect(() => {
-    document.title = `${queue.name} | osu!modhub`;
-  }, [queue]);
-
-  function loginWarn() {
-    return enqueueSnackbar("Log-in to do this!", {
-      variant: "error",
-      persist: false,
-    });
-  }
 
   function refreshRequests() {
-    const queue_id = window.location.pathname.split("").pop()
-      ? window.location.pathname.split("/").pop()?.trim()
-      : "";
+    console.log("Refreshing queue requests");
 
     fetch(
-      `/api/queues/${queue_id}/requests?type=${filters.type}&status=${filters.status}`
+      `/api/queues/${QueueID}/requests?type=${filters.type}&status=${filters.status}`
     )
       .then((r) => r.json())
-      .then((q) => {
-        if (q.status != 200) return;
-
-        q.data.sort(
-          (a: IRequest, b: IRequest) =>
-            new Date(a.date).valueOf() - new Date(b.date).valueOf()
-        );
-
-        setRequests(["loading"]);
-        setRequests(q.data);
-        ws.onmessage = wsActions;
+      .then((data) => {
+        queue.setRequests(data.data);
       });
   }
 
-  const refreshRequestStatus = (request: IRequest) => {
-    const i = requests.findIndex((r) => r._id == request._id);
+  function refreshFollowers() {
+    console.log("Updating followers data");
 
-    request.isWs = true;
-    requests[i] = request;
-
-    console.log(requests);
-
-    setRequests(JSON.parse(JSON.stringify(requests)));
-  };
-
-  const addNewRequest = (request: IRequest) => {
-    if (globalThis.updateQueue.includes(request._id)) return;
-    request.isWsNew = true;
-    const _requests = requests.map((r) => {
-      r.isWsNew = false;
-
-      return r;
-    });
-    _requests.unshift(request);
-
-    setRequests(JSON.parse(JSON.stringify(_requests)));
-  };
-
-  const navigate = useNavigate();
-
-  const goTo = (route: string) => {
-    navigate(route, { replace: false }), [navigate];
-  };
-
-  function goToUserQueue() {
-    goTo(`/queue/${login._id}`);
+    // ? We need to provide account token to check if the user is following the queue
+    fetch(`/api/queues/${QueueID}/follow`, {
+      headers: {
+        authorization: login.account_token,
+      },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        queue.setFollowers(data.data.size);
+        queue.setFollowing(data.data.mutual);
+      });
   }
 
-  function updateFollow() {
-    if (queue._id == login._id) return;
+  function setFilters(event: React.SyntheticEvent<InputEvent>, filter: any) {
+    const target: any = event.target;
+    const value = target.value;
 
-    if (followers.mutual) {
-      fetch(`/api/queues/${queue._id}/follow`, {
-        method: "delete",
-        headers: {
-          authorization: login.account_token,
-        },
-      })
-        .then((r) => r.json())
-        .then((res) => {
-          if (res.status == 200) {
-            followers.size = followers.size - 1;
-            setFollowers(followers);
-            updateFollowButtonIcon(false);
-          }
+    filters[filter] = value;
 
-          return enqueueSnackbar(res.message, {
-            variant: res.status == 200 ? "success" : "error",
-            persist: false,
-          });
-        });
-    } else {
-      fetch(`/api/queues/${queue._id}/follow`, {
-        method: "post",
-        headers: {
-          authorization: login.account_token,
-        },
-      })
-        .then((r) => r.json())
-        .then((res) => {
-          if (res.status == 200) {
-            followers.size = followers.size + 1;
-            setFollowers(followers);
-            updateFollowButtonIcon(false);
-          }
-
-          return enqueueSnackbar(res.message, {
-            variant: res.status == 200 ? "success" : "error",
-            persist: false,
-          });
-        });
-    }
+    updateFilters(filters);
+    refreshRequests();
   }
 
-  function updateFollowButtonIcon(hover: boolean) {
-    if (hover == true)
-      return setFollowButtonIcon(
-        !followers.mutual ? faUserPlus : faUserLargeSlash
+  function getRequestsListing() {
+    if (!queue.requests) return <LoadingComponent text="Loading requests..." />;
+
+    if (queue.requests.length < 1) return <NoRequests />;
+
+    // ? Sort requests by date
+    queue.requests.sort(
+      (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
+    );
+
+    return queue.requests.map((request, index) => {
+      return (
+        <RequestSelector
+          queue={queue.data}
+          request={request}
+          refreshRequests={refreshRequests}
+          setRequests={queue.setData}
+          key={GenerateComponentKey(10)}
+        />
       );
-
-    return setFollowButtonIcon(faUser);
+    });
   }
 
-  const loadingRequests = (
-    <div className="loadingcontainer">
-      <div className="patchouli"></div>
-      <p>Loading requests...</p>
-    </div>
-  );
+  if (!queue.data) return <LoadingPage text="Loading queue..." />;
 
   return (
     <>
       <SelectedRequestContextProvider>
         <AppBar></AppBar>
         <div className="queue">
-          <PageBanner src={queue.banner} css={{}}>
+          <PageBanner src={queue.data.banner} css={{}}>
             <div className="mobile-meta">
               <div
                 className="icon round1"
                 style={{
-                  backgroundImage: `url(https://a.ppy.sh/${queue._id})`,
-                  border: `5px solid var(--${queue.open ? "green" : "red"})`,
+                  backgroundImage: `url(https://a.ppy.sh/${queue.data._id})`,
+                  border: `5px solid var(--${
+                    queue.data.open ? "green" : "red"
+                  })`,
                 }}
               ></div>
               <div className="meta">
                 <p
                   className="queuename"
                   onClick={() => {
-                    window.open(`https://osu.ppy.sh/u/${queue._id}`);
+                    window.open(`https://osu.ppy.sh/u/${queue.data._id}`);
                   }}
                 >
-                  {queue.name}
-                  {queue.verified ? (
+                  {queue.data.name}
+                  {queue.data.verified ? (
                     <FontAwesomeIcon
                       icon={faCircleCheck}
                       className="verifiedbadge"
@@ -455,14 +199,14 @@ export default () => {
                 </p>
                 <div className="row center">
                   <Tag
-                    content={queue.type}
+                    content={queue.data.type}
                     style={{
-                      backgroundColor: typeColors[queue.type],
+                      // backgroundColor: typeColors[queue.data.type],
                       color: "white",
                       marginTop: "5px",
                     }}
                   />
-                  {queue.modes.map((m) => {
+                  {queue.data.modes.map((m) => {
                     return (
                       <div className="modeicon" key={GenerateComponentKey(20)}>
                         {icons[m]}
@@ -475,66 +219,34 @@ export default () => {
           </PageBanner>
         </div>
         <ConfirmDialog></ConfirmDialog>
-        <RequestPanel
-          queue={queue}
-          setRequests={setRequests}
-          requests={requests}
-        ></RequestPanel>
-        <QueuePanel></QueuePanel>
-        <MyRequestsPanel></MyRequestsPanel>
-        <ManageRequestPanel
-          queue={queue}
-          requests={requests}
-          setRequests={setRequests}
-        ></ManageRequestPanel>
-        <NotificationSideMenu></NotificationSideMenu>
-        <SideMenu
-          _open={sideMenuContext.open}
-          options={[
-            { label: "My queue", callback: goToUserQueue },
-            {
-              label: login.hasQueue ? "Queue settings" : "Create a queue",
-              callback: () => {
-                login.hasQueue
-                  ? queuePanelContext.setOpen(true)
-                  : CreateNewQueue(login);
-              },
-            },
-            {
-              label: "My Requests",
-              callback: () => {
-                requestsPanelContext.setOpen(true);
-              },
-            },
-            {
-              label: "Log-out",
-              callback: () => {
-                DestroySession();
-              },
-            },
-          ]}
-          title={`Hello, ${login.username}!`}
-        ></SideMenu>
+        <RequestPanel />
+        <QueuePanel />
+        <MyRequestsPanel />
+        <ManageRequestPanel />
+        <NotificationSideMenu />
+        <UserPanel />
         <div className="queuelayout">
           <div className="headerleft" key={GenerateComponentKey(100)}>
             <div className="meta">
               <div
                 className="icon round1"
                 style={{
-                  backgroundImage: `url(https://a.ppy.sh/${queue._id})`,
-                  border: `5px solid var(--${queue.open ? "green" : "red"})`,
+                  backgroundImage: `url(https://a.ppy.sh/${queue.data._id})`,
+                  border: `5px solid var(--${
+                    queue.data.open ? "green" : "red"
+                  })`,
                 }}
               ></div>
               <Tag
-                content={queue.type}
+                content={queue.data.type}
                 style={{
-                  backgroundColor: typeColors[queue.type],
+                  backgroundColor: QueueColors[queue.data.type],
                   color: "white",
                   marginTop: "5px",
                 }}
               />
               <div className="row center">
-                {queue.modes.map((m) => {
+                {queue.data.modes.map((m) => {
                   return (
                     <div className="modeicon" key={GenerateComponentKey(20)}>
                       {icons[m]}
@@ -548,11 +260,11 @@ export default () => {
                 <p
                   className="queuename"
                   onClick={() => {
-                    window.open(`https://osu.ppy.sh/u/${queue._id}`);
+                    window.open(`https://osu.ppy.sh/u/${queue.data._id}`);
                   }}
                 >
-                  {queue.name}
-                  {queue.verified ? (
+                  {queue.data.name}
+                  {queue.data.verified ? (
                     <FontAwesomeIcon
                       icon={faCircleCheck}
                       className="verifiedbadge"
@@ -571,19 +283,24 @@ export default () => {
                     className="custombuttom"
                     style={{
                       backgroundColor: `var(--${
-                        login._id == -1 ? "red" : queue.open ? "green" : "red"
+                        login._id == -1
+                          ? "red"
+                          : queue.data.open
+                          ? "green"
+                          : "red"
                       })`,
                       color: `${
                         login._id == -1
                           ? "white"
-                          : queue.open
+                          : queue.data.open
                           ? "black"
                           : "white"
                       }`,
                     }}
                     onClick={() => {
-                      if (login._id == -1) return loginWarn();
-                      if (!queue.open && login._id != queue._id) return;
+                      if (login._id == -1) return;
+                      if (!queue.data.open && login._id != queue.data._id)
+                        return;
 
                       setOpen(true);
                     }}
@@ -593,22 +310,16 @@ export default () => {
                   <button
                     key={GenerateComponentKey(20)}
                     className={
-                      followers.mutual
+                      queue.following
                         ? "custombutton following-button"
                         : "custombuttom"
                     }
                     onClick={() => {
-                      if (login._id == -1) return loginWarn();
-                      updateFollow();
-                    }}
-                    onMouseOver={() => {
-                      updateFollowButtonIcon(true);
-                    }}
-                    onMouseLeave={() => {
-                      updateFollowButtonIcon(false);
+                      if (login._id == -1) return;
+                      refreshFollowers();
                     }}
                   >
-                    {followers.size}
+                    {queue.followers}
                     <FontAwesomeIcon icon={followButtonIcon} />
                   </button>
                 </div>
@@ -619,12 +330,12 @@ export default () => {
                     disableParsingRawHTML: true,
                   }}
                 >
-                  {queue.description}
+                  {queue.data.description}
                 </Markdown>
               </div>
               {/* <div className="queue-preferences">
                 <div className="wrapper">
-                  {queue.genres.map((g, i) => {
+                  {queueData.genres.map((g, i) => {
                     return <div className="genre">{g}</div>;
                   })}
                 </div>
@@ -664,37 +375,7 @@ export default () => {
             ></SearchSelect>
           </nav>
           <div className="queuecontent">
-            <div className="requestlisting">
-              {requests[0] == "refresh" || requests.length == 0 ? (
-                <NoRequests></NoRequests>
-              ) : requests[0] == "loading" ? (
-                loadingRequests
-              ) : (
-                requests.map((r: IRequest, i: number) => {
-                  processedAnimatedRequests.includes(r._id)
-                    ? (r.isWsNew = false)
-                    : void {};
-
-                  const element = (
-                    <RequestSelector
-                      request={r}
-                      refreshRequests={refreshRequests}
-                      requests={requests}
-                      setRequests={setRequests}
-                      queue={queue}
-                      key={GenerateComponentKey(10)}
-                    ></RequestSelector>
-                  );
-
-                  if (!processedAnimatedRequests.includes(r._id) && r.isWsNew) {
-                    processedAnimatedRequests.push(requests[i]._id);
-                    setProcessedAnimatedRequests(processedAnimatedRequests);
-                  }
-
-                  return element;
-                })
-              )}
-            </div>
+            <div className="requestlisting">{getRequestsListing()}</div>
           </div>
         </div>
         <footer
@@ -705,7 +386,7 @@ export default () => {
           Made with <span>❤</span> by{" "}
           <a href="https://osu.ppy.sh/users/15821708">Sebola</a>
         </footer>
-        <AudioPlayer requests={requests}></AudioPlayer>
+        <AudioPlayer></AudioPlayer>
       </SelectedRequestContextProvider>
     </>
   );

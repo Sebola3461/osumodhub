@@ -12,8 +12,9 @@ import { useSnackbar } from "notistack";
 import { ConfirmDialogContext } from "../../providers/ConfirmDialogContext";
 import { lastManagedRequestContext } from "../../providers/LastManagedRequestContext";
 import { addToUpdateQueue } from "../../helpers/RequestUpdateQueue";
+import { QueueContext } from "../../providers/QueueContext";
 
-export default ({ queue, setRequests, requests }: any) => {
+export default () => {
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
   const [loading, setLoading] = useState(false);
@@ -22,6 +23,25 @@ export default ({ queue, setRequests, requests }: any) => {
   );
   const dialog = useContext(ConfirmDialogContext);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const queueContext = useContext(QueueContext);
+
+  // ? This will display permalink content
+  useEffect(() => {
+    const _targetRequest = new URLSearchParams(location.search).get("r");
+    if (_targetRequest) displayLinkedRequest();
+
+    function displayLinkedRequest() {
+      fetch(`/api/requests/${_targetRequest}`)
+        .then((r) => r.json())
+        .then((data) => {
+          setRequest(data.data);
+          setOpen(true);
+        });
+    }
+  }, []);
+  // ? ========================================
+
+  if (!queueContext.data || !queueContext.requests) return <></>;
 
   const action = (key) => (
     <>
@@ -84,10 +104,12 @@ export default ({ queue, setRequests, requests }: any) => {
           request.status = status;
           setRequest(request);
 
-          const index = requests.findIndex((r) => r._id == request._id);
-          requests[index]["status"] = status;
-          requests[index]["reply"] = request.reply;
-          setRequests(requests);
+          const index = queueContext.requests.findIndex(
+            (r) => r._id == request._id
+          );
+          queueContext.requests[index]["status"] = status;
+          queueContext.requests[index]["reply"] = request.reply;
+          queueContext.setRequests(queueContext.requests);
 
           addToUpdateQueue(request._id);
         }
@@ -121,7 +143,9 @@ export default ({ queue, setRequests, requests }: any) => {
 
             if (d.status == 200) {
               setOpen(false);
-              setRequests(requests.filter((r) => r._id != request._id));
+              queueContext.setRequests(
+                queueContext.requests.filter((r) => r._id != request._id)
+              );
               addToUpdateQueue(request._id);
             }
           });
@@ -250,7 +274,7 @@ export default ({ queue, setRequests, requests }: any) => {
   ];
 
   function getReply() {
-    if (request.reply == "" && login._id != queue._id) return "";
+    if (request.reply == "" && login._id != queueContext.data._id) return "";
 
     return request.reply;
   }
@@ -281,7 +305,9 @@ export default ({ queue, setRequests, requests }: any) => {
     >
       <div className="container">
         <div className="paneltitle">
-          {login._id == queue._id ? "Manage Request" : "Request Details"}
+          {login._id == queueContext.data._id
+            ? "Manage Request"
+            : "Request Details"}
           <FontAwesomeIcon
             icon={faTimes}
             color="#fff"
@@ -304,24 +330,26 @@ export default ({ queue, setRequests, requests }: any) => {
             <textarea
               key={GenerateComponentKey(29)}
               placeholder={
-                login._id == queue._id
+                login._id == queueContext.data._id
                   ? "Type a reply for this request"
                   : "No reply provided..."
               }
               defaultValue={getReply()}
-              className={login._id == queue._id ? "owner" : "guest"}
+              className={login._id == queueContext.data._id ? "owner" : "guest"}
               onKeyUp={(ev: any) => {
                 updateRequestReply(ev.target.value);
               }}
-              readOnly={login._id != queue._id}
+              readOnly={login._id != queueContext.data._id}
             ></textarea>
             <div
               className="options"
               style={{
-                display: `${login._id == queue._id ? "flex" : "none"}`,
+                display: `${
+                  login._id == queueContext.data._id ? "flex" : "none"
+                }`,
               }}
             >
-              {["BN", "NAT"].includes(queue.type)
+              {["BN", "NAT"].includes(queueContext.data.type)
                 ? bn_options.map((o) => o)
                 : modder_options.map((o) => o)}
             </div>

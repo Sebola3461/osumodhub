@@ -11,16 +11,9 @@ import { faMessage } from "@fortawesome/free-solid-svg-icons";
 import { RequestPanelContext } from "../../../providers/RequestPanelContext";
 import { lastManagedRequestContext } from "../../../providers/LastManagedRequestContext";
 import { addToUpdateQueue } from "../../../helpers/RequestUpdateQueue";
+import { QueueContext } from "../../../providers/QueueContext";
 
-export default ({
-  queue,
-  requests,
-  setRequests,
-}: {
-  queue: any;
-  setRequests: any;
-  requests: any[];
-}) => {
+export default () => {
   const { user, updateUser } = useContext(AuthContext);
   const { request, setRequest } = useContext(RequestContext);
   const [login, setLogin] = useState(JSON.parse(user));
@@ -30,6 +23,8 @@ export default ({
   const { lastManagedRequest, setLastManagedRequest } = useContext(
     lastManagedRequestContext
   );
+
+  const queueContext = useContext(QueueContext);
 
   const action = (key) => (
     <>
@@ -45,7 +40,7 @@ export default ({
 
   function requestBeatmap() {
     setLoading(true);
-    fetch(`/api/queues/${queue._id}/requests`, {
+    fetch(`/api/queues/${queueContext.data._id}/requests`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

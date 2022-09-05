@@ -7,16 +7,15 @@ import { Beatmapset } from "../../../types/beatmap";
 import BeatmapSelector from "../../global/BeatmapSelector";
 import "./../../../styles/BeatmapsTab.css";
 import { useSnackbar } from "notistack";
+import { QueueContext } from "../../../providers/QueueContext";
 
 export default ({
   setUserBeatmaps,
   userBeatmaps,
-  queue,
   setTab,
 }: {
   userBeatmaps: Beatmapset[];
   setUserBeatmaps: any;
-  queue: any;
   setTab: any;
 }) => {
   const { user, updateUser } = useContext(AuthContext);
@@ -26,6 +25,7 @@ export default ({
   const [selected, setSelected] = useState(request.beatmap.id);
   const [beatmapFetch, setBeatmapFetch] = useState<any>("0");
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const queueContext = useContext(QueueContext);
 
   const action = (key) => (
     <>
@@ -52,7 +52,7 @@ export default ({
 
     setLoading(true);
     fetch(
-      `/api/beatmaps/${id}?graveyard=${queue.allow.graveyard}&wip=${queue.allow.wip}`,
+      `/api/beatmaps/${id}?graveyard=${queueContext.data.allow.graveyard}&wip=${queueContext.data.allow.wip}`,
       {
         headers: {
           authorization: login.account_token,
@@ -99,7 +99,15 @@ export default ({
 
   return (
     <div className={loading ? "beatmapstab loading" : "beatmapstab"}>
-      {!queue.allow.cross ? login._id != queue._id ? <></> : search : search}
+      {!queueContext.data.allow.cross ? (
+        login._id != queueContext.data._id ? (
+          <></>
+        ) : (
+          search
+        )
+      ) : (
+        search
+      )}
       <div className="beatmaps">
         {userBeatmaps.map((b) => (
           <BeatmapSelector

@@ -29,6 +29,7 @@ import NotificationSideMenu from "../components/global/NotificationSideMenu";
 import NoRequests from "../components/global/NoRequests";
 import { HomeFilterContext } from "../providers/HomeFiltersContext";
 import ConfirmDialog from "../components/global/ConfirmDialog";
+import UserPanel from "../components/global/UserPanel";
 
 function App() {
   const [queues, setQueues] = useState<any>(["loading"]);
@@ -141,33 +142,7 @@ function App() {
       <ConfirmDialog></ConfirmDialog>
       <QueuePanel></QueuePanel>
       <MyRequestsPanel></MyRequestsPanel>
-      <SideMenu
-        _open={sideMenuContext.open}
-        options={[
-          { label: "My queue", callback: goToUserQueue },
-          {
-            label: login.hasQueue ? "Queue settings" : "Create a queue",
-            callback: () => {
-              login.hasQueue
-                ? queuePanelContext.setOpen(true)
-                : CreateNewQueue(login);
-            },
-          },
-          {
-            label: "My Requests",
-            callback: () => {
-              requestsPanelContext.setOpen(true);
-            },
-          },
-          {
-            label: "Log-out",
-            callback: () => {
-              DestroySession();
-            },
-          },
-        ]}
-        title={`Hello, ${login.username}!`}
-      ></SideMenu>
+      <UserPanel />
       <NotificationSideMenu></NotificationSideMenu>
       <HeaderPanel
         style={{

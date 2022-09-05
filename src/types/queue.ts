@@ -61,3 +61,47 @@ export interface IQueue {
     size: number;
   };
 }
+
+export interface IQueueRequest {
+  _id: string;
+  _queue: string;
+  _owner: string;
+  _owner_name: string;
+  comment: string | null;
+  reply: string;
+  beatmapset_id: number;
+  beatmap: IStaticBeatmapset;
+  status: string;
+  date: Date;
+  cross: boolean;
+  isWs?: boolean; // ? true if the request is handled by websocket
+  isWsNew?: boolean; // ? true if the request is handled by websocket (but only new requests)
+  __v: 0;
+}
+
+export interface IStaticBeatmapset {
+  id: number;
+  artist: string;
+  title: string;
+  covers: {
+    cover: string;
+    "cover@2x": string;
+    card: string;
+    "card@2x": string;
+    list: string;
+    "list@2x": string;
+    slimcover: string;
+    "slimcover@2x": string;
+  };
+  bpm: number;
+  duration: number;
+  creator: string;
+  beatmaps: IStaticBeatmapDifficulty[];
+}
+
+export interface IStaticBeatmapDifficulty {
+  version: string;
+  difficulty_rating: number;
+  user_id: number;
+  mode: "osu" | "taiko" | "fruits" | "mania";
+}

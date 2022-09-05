@@ -19,10 +19,6 @@ export default () => {
     setLogin(JSON.parse(user));
   }, [user]);
 
-  useEffect(() => {
-    sideMenuContext.setOpen(true);
-  }, []);
-
   return (
     <div id="appbar" className="background2">
       <Link to="/modding">

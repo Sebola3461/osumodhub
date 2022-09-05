@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthContext";
+import { QueueContext } from "../../providers/QueueContext";
 import { RequestContext } from "../../providers/RequestContext";
 import { RequestPanelContext } from "../../providers/RequestPanelContext";
 import { Beatmapset } from "../../types/beatmap";
@@ -12,15 +13,7 @@ import BeatmapsTab from "./RequestPanel/BeatmapsTab";
 import RequestTab from "./RequestPanel/RequestTab";
 import RulesTab from "./RequestPanel/RulesTab";
 
-export default ({
-  queue,
-  requests,
-  setRequests,
-}: {
-  queue: any;
-  setRequests: any;
-  requests: any[];
-}) => {
+export default () => {
   const [userBeatmaps, setUserBeatmaps] = useState<Beatmapset[]>([]);
   const [tab, setTab] = useState(0);
   const { user, updateUser } = useContext(AuthContext);
@@ -30,11 +23,17 @@ export default ({
     useContext(RequestPanelContext);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
+  const queueContext = useContext(QueueContext);
+
+  setRulesRead(false);
+
   useEffect(() => {
     if (login._id == -1) return;
 
+    if (!queueContext.data || !queueContext.requests) return;
+
     fetch(
-      `/api/users/${login._id}/beatmaps?graveyard=${queue.allow.graveyard}&wip=${queue.allow.wip}`,
+      `/api/users/${login._id}/beatmaps?graveyard=${queueContext.data.allow.graveyard}&wip=${queueContext.data.allow.wip}`,
       {
         headers: {
           authorization: login.account_token,
@@ -53,19 +52,16 @@ export default ({
     setUserBeatmaps(userBeatmaps);
   }, [userBeatmaps]);
 
+  if (!queueContext.data || !queueContext.requests) return <></>;
+
   const tabs = [
     <BeatmapsTab
       userBeatmaps={userBeatmaps}
       setUserBeatmaps={setUserBeatmaps}
-      queue={queue}
       setTab={setTab}
     ></BeatmapsTab>,
-    <RulesTab queue={queue} setTab={setTab} request={request}></RulesTab>,
-    <RequestTab
-      queue={queue}
-      requests={requests}
-      setRequests={setRequests}
-    ></RequestTab>,
+    <RulesTab setTab={setTab} request={request}></RulesTab>,
+    <RequestTab />,
   ];
 
   function auxClosePanel(ev: any) {

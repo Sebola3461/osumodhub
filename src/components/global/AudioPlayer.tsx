@@ -2,12 +2,15 @@ import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { BeatmapPreviewContext } from "../../providers/BeatmapPreviewContext";
+import { QueueContext } from "../../providers/QueueContext";
+import { IQueueRequest } from "../../types/queue";
 import "./../../styles/AudioPlayer.css";
 
-export default ({ requests }: { requests: any[] }) => {
+export default () => {
   const audioPlayer = useRef(new Audio());
   const [beatmapId, setBeatmapId] = useState(-1);
   const context = useContext(BeatmapPreviewContext);
+  const { requests } = useContext(QueueContext);
   const [visible, setVisible] = useState(false);
   const [mouse, setMouse] = useState(false);
 
@@ -44,6 +47,8 @@ export default ({ requests }: { requests: any[] }) => {
   }, [beatmapId]);
 
   useEffect(() => {
+    if (!requests) return;
+
     const r = requests.find((r) => r._id == context.targetRequest);
     audioPlayer.current.volume = 0.05;
 
@@ -65,6 +70,8 @@ export default ({ requests }: { requests: any[] }) => {
       isNaN(context.position) ? 0 : context.position
     }%, var(--background4) ${isNaN(context.position) ? 0 : context.position}%)`,
   };
+
+  if (!requests) return <></>;
 
   return (
     <>

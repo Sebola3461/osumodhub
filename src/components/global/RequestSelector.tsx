@@ -42,33 +42,15 @@ import TimeString from "../../helpers/TimeString";
 import { ConfirmDialogContext } from "../../providers/ConfirmDialogContext";
 import { lastManagedRequestContext } from "../../providers/LastManagedRequestContext";
 import { addToUpdateQueue } from "../../helpers/RequestUpdateQueue";
-
-export interface IRequest {
-  _id: string;
-  _queue: string;
-  _owner: string;
-  _owner_name: string;
-  comment: string;
-  reply: string;
-  beatmapset_id: number;
-  beatmap: Beatmapset;
-  status: string;
-  date: Date;
-  mfm: boolean;
-  cross: boolean;
-  isWs?: boolean; // ? true if the request is handled by websocket
-  isWsNew?: boolean; // ? true if the request is handled by websocket (but only new requests)
-}
+import { IQueueRequest } from "../../types/queue";
+import { QueueContext } from "../../providers/QueueContext";
 
 export default ({
   request,
-  queue,
   _static,
   refreshRequests,
-  requests,
-  setRequests,
 }: {
-  request: IRequest;
+  request: IQueueRequest;
   queue: any;
   _static?: boolean;
   refreshRequests?: any;
@@ -83,7 +65,6 @@ export default ({
   const manageRequestPanelContext = useContext(ManageRequestPanelContext);
   const beatmapPreviewContext = useContext(BeatmapPreviewContext);
   const selectedRequest = useContext(SelectedRequestContext);
-  const [queueRequests, setQueueRequests] = useState(requests);
   const dialog = useContext(ConfirmDialogContext);
   const [_request, setRequest] = useState<any>(
     !request
@@ -95,6 +76,8 @@ export default ({
         }
       : request
   );
+
+  const queueContext = useContext(QueueContext);
 
   const action = (key) => (
     <>
@@ -111,10 +94,6 @@ export default ({
   useEffect(() => {
     setRequest(request);
   }, []);
-
-  useEffect(() => {
-    setQueueRequests(requests);
-  }, [requests]);
 
   const navigate = useNavigate();
 
@@ -177,13 +156,13 @@ export default ({
               action,
             });
 
-            const _requests = requests.map((r) => r);
+            const _requests = queueContext.requests.map((r) => r);
             const i = _requests.findIndex((r) => r._id == _request._id);
 
             _requests[i]["status"] = opt.status;
             _requests[i]["reply"] = feedback || opt.request.reply;
 
-            setRequests(_requests);
+            queueContext.setRequests(_requests);
           } else {
             enqueueSnackbar(res.message, {
               variant: "error",
@@ -218,12 +197,12 @@ export default ({
             action,
           });
 
-          const _requests = requests.map((r) => r);
+          const _requests = queueContext.requests.map((r) => r);
           const i = _requests.findIndex((r) => r._id == _request._id);
 
           _requests[i] = res.data;
 
-          setRequests(JSON.parse(JSON.stringify(_requests)));
+          queueContext.setRequests(JSON.parse(JSON.stringify(_requests)));
         } else {
           enqueueSnackbar(res.message, {
             variant: "error",
@@ -266,13 +245,13 @@ export default ({
         });
       }
 
-      let _requests = queueRequests;
+      let _requests = queueContext.requests;
       for (const id of selectedRequest.selected) {
-        if (queueRequests) {
+        if (queueContext.requests) {
           if (_status == "delete") {
             _requests = _requests.filter((r) => r._id != id);
           } else {
-            const _requests = requests.map((r) => r);
+            const _requests = queueContext.requests.map((r) => r);
             const i = _requests.findIndex((r) => r._id == id);
 
             _requests[i]["status"] = _status;
@@ -282,7 +261,7 @@ export default ({
         }
       }
 
-      setRequests(_requests);
+      queueContext.setRequests(_requests);
       selectedRequest.setSelected([]);
 
       enqueueSnackbar("Requests updated!", {
@@ -616,12 +595,12 @@ export default ({
 
           if (d.status == 200) {
             _request.comment = content.trim();
-            const _requests = requests.map((r) => r);
+            const _requests = queueContext.requests.map((r) => r);
             const i = _requests.findIndex((r) => r._id == _request._id);
 
             _requests[i]["comment"] = content.trim();
 
-            setRequests(_requests);
+            queueContext.setRequests(_requests);
           }
         });
     }
@@ -691,7 +670,10 @@ export default ({
       );
     }
 
-    if (queue.type == "modder" && login._id == queue._id)
+    if (
+      queueContext.data.type == "modder" &&
+      login._id == queueContext.data._id
+    )
       return (
         <ContextMenu id={`request-${_request._id}`}>
           {modder_options.map((o) => {
@@ -701,7 +683,10 @@ export default ({
         </ContextMenu>
       );
 
-    if (["BN", "NAT"].includes(queue.type) && login._id == queue._id)
+    if (
+      ["BN", "NAT"].includes(queueContext.data.type) &&
+      login._id == queueContext.data._id
+    )
       return (
         <ContextMenu id={`request-${_request._id}`}>
           {modder_options.map((o) => {
