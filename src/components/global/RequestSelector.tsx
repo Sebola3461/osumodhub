@@ -104,7 +104,7 @@ export default ({
     pending: "Pending",
     rechecking: "Need Recheck",
     waiting: "Waiting another BN",
-    finished: "Finished",
+    finished: "Modded",
     nominated: "Nominated",
     ranked: "Ranked",
     rejected: "Rejected",
