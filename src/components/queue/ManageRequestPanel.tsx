@@ -155,8 +155,8 @@ export default () => {
   const modder_options = [
     { label: "Accept", value: "accepted", decoration: "accept" },
     { label: "Reject", value: "rejected", decoration: "reject" },
-    { label: "Modded", value: "finish", decoration: "accepted" },
-    { label: "Archive", value: "archive", decoration: "accepted" },
+    { label: "Modded", value: "finished", decoration: "finish" },
+    { label: "Archive", value: "archived", decoration: "archive" },
     { label: "Delete", value: "delete", decoration: "accepted" },
   ];
 
