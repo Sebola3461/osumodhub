@@ -106,13 +106,14 @@
   justify-content: flex-start;
   align-items: center;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sidemenu .notifications .notification .icon {
   padding: 20px;
 }
 
-.sidemenu .notifications .notification {
+.sidemenu .notifications div.notification {
   width: 90%;
   margin-top: 10px;
   padding: 10px;
@@ -127,6 +128,24 @@
   cursor: pointer;
   opacity: 1;
   transition: background-color linear 120ms, opacity linear 120ms;
+  /* animation: FadeInFromRight 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  animation-fill-mode: both; */
+}
+
+@keyframes FadeInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(120px);
+  }
+
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
 }
 
 .sidemenu .notifications .notification:hover {

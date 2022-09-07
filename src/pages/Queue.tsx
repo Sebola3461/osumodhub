@@ -46,6 +46,7 @@ import LoadingComponent from "../components/global/LoadingComponent";
 import RequestSelector from "../components/global/RequestSelector";
 import { QueueContext } from "../providers/QueueContext";
 import UserPanel from "../components/global/UserPanel";
+import { RequestWsContext } from "../providers/RequestWsQueueContext";
 
 interface IQueueFilters {
   type: "progress" | "archived";
@@ -70,6 +71,7 @@ export default () => {
   const { setOpen } = useContext(RequestPanelContext);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [followButtonIcon, setFollowButtonIcon] = useState(faUser);
+  const requestWsContext = useContext(RequestWsContext);
   const [ws, setWs] = useState(
     new WebSocket(
       window.location.hostname == "localhost"
@@ -77,6 +79,10 @@ export default () => {
         : "wss://osumodhub.xyz/ws"
     )
   );
+
+  ws.onmessage = (ev) => {
+    requestWsContext.processData(JSON.parse(ev.data));
+  };
 
   const queue = useContext(QueueContext);
 

@@ -1,18 +1,18 @@
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faMessage, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthContext";
 import { ManageRequestPanelContext } from "../../providers/ManageRequestPanelContext";
-import { Beatmapset } from "../../types/beatmap";
 import "./../../styles/ManageRequestPanel.css";
-import RequestViewer, { IRequest } from "../global/RequestViewer";
-import RequestSelector from "../global/RequestSelector";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import { useSnackbar } from "notistack";
 import { ConfirmDialogContext } from "../../providers/ConfirmDialogContext";
-import { lastManagedRequestContext } from "../../providers/LastManagedRequestContext";
-import { addToUpdateQueue } from "../../helpers/RequestUpdateQueue";
 import { QueueContext } from "../../providers/QueueContext";
+import SpreadViewer from "../global/SpreadViewer";
+import BeatmapsetBanner from "../panels/BeatmapsetBanner";
+import Tag from "../global/Tag";
+import QueueColors from "../../constants/QueueColors";
+import Select from "react-select";
 
 export default () => {
   const { user, updateUser } = useContext(AuthContext);
@@ -24,6 +24,7 @@ export default () => {
   const dialog = useContext(ConfirmDialogContext);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const queueContext = useContext(QueueContext);
+  const [tab, setTab] = useState(0);
 
   // ? This will display permalink content
   useEffect(() => {
@@ -110,8 +111,6 @@ export default () => {
           queueContext.requests[index]["status"] = status;
           queueContext.requests[index]["reply"] = request.reply;
           queueContext.setRequests(queueContext.requests);
-
-          addToUpdateQueue(request._id);
         }
       });
 
@@ -119,6 +118,7 @@ export default () => {
       dialog.setAction(() => {
         _action();
       });
+      dialog.setConfirm();
       dialog.setData({
         title: "Are you sure?",
         text: "This action is **IRREVERSIBLE**!",
@@ -146,7 +146,6 @@ export default () => {
               queueContext.setRequests(
                 queueContext.requests.filter((r) => r._id != request._id)
               );
-              addToUpdateQueue(request._id);
             }
           });
       }
@@ -154,130 +153,23 @@ export default () => {
   }
 
   const modder_options = [
-    <div
-      key={GenerateComponentKey(10)}
-      className="option accepted"
-      onClick={() => {
-        updateRequestStatus("accepted");
-      }}
-    >
-      accepted
-    </div>,
-    <div
-      key={GenerateComponentKey(10)}
-      className="option rejected"
-      onClick={() => {
-        updateRequestStatus("rejected");
-      }}
-    >
-      rejected
-    </div>,
-    <div
-      key={GenerateComponentKey(10)}
-      className="option finished"
-      onClick={() => {
-        updateRequestStatus("finished");
-      }}
-    >
-      finished
-    </div>,
-    <div
-      key={GenerateComponentKey(10)}
-      className="option archived"
-      onClick={() => {
-        updateRequestStatus("archived");
-      }}
-    >
-      archived
-    </div>,
-    <div
-      key={GenerateComponentKey(10)}
-      className="option rejected"
-      onClick={() => {
-        updateRequestStatus("delete");
-      }}
-    >
-      delete
-    </div>,
+    { label: "Accept", value: "accepted", decoration: "accept" },
+    { label: "Reject", value: "rejected", decoration: "reject" },
+    { label: "Modded", value: "finish", decoration: "accepted" },
+    { label: "Archive", value: "archive", decoration: "accepted" },
+    { label: "Delete", value: "delete", decoration: "accepted" },
   ];
 
   const bn_options = [
-    <div
-      key={GenerateComponentKey(10)}
-      className="option accepted"
-      onClick={() => {
-        updateRequestStatus("accepted");
-      }}
-    >
-      accepted
-    </div>,
-    <div
-      key={GenerateComponentKey(10)}
-      className="option rejected"
-      onClick={() => {
-        updateRequestStatus("rejected");
-      }}
-    >
-      rejected
-    </div>,
-    <div
-      key={GenerateComponentKey(10)}
-      className="option finished"
-      onClick={() => {
-        updateRequestStatus("nominated");
-      }}
-    >
-      nominated
-    </div>,
-    <div
-      key={GenerateComponentKey(10)}
-      className="option ranked"
-      onClick={() => {
-        updateRequestStatus("ranked");
-      }}
-    >
-      ranked
-    </div>,
-    <div
-      key={GenerateComponentKey(10)}
-      className="option waiting"
-      onClick={() => {
-        updateRequestStatus("waiting");
-      }}
-    >
-      waiting
-    </div>,
-    <div
-      className="option rechecking"
-      onClick={() => {
-        updateRequestStatus("rechecking");
-      }}
-    >
-      recheck
-    </div>,
-    <div
-      className="option archived"
-      onClick={() => {
-        updateRequestStatus("archived");
-      }}
-    >
-      archived
-    </div>,
-    <div
-      className="option rejected"
-      onClick={() => {
-        updateRequestStatus("delete");
-      }}
-    >
-      delete
-    </div>,
+    { label: "Accept", value: "accepted", decoration: "accept" },
+    { label: "Reject", value: "rejected", decoration: "reject" },
+    { label: "Nominated", value: "nominateed", decoration: "nominate" },
+    { label: "Ranked", value: "ranked", decoration: "rank" },
+    { label: "Waiting another BN", value: "waiting", decoration: "wait" },
+    { label: "Need recheck", value: "rechecking", decoration: "recheck" },
+    { label: "Archive", value: "archived", decoration: "archive" },
+    { label: "Delete", value: "delete", decoration: "delete" },
   ];
-
-  function getReply() {
-    if (request.reply == "" && login._id != queueContext.data._id) return "";
-
-    return request.reply;
-  }
 
   function close() {
     const _targetRequest = new URLSearchParams(location.search).get("r");
@@ -288,6 +180,91 @@ export default () => {
 
     setOpen(false);
   }
+
+  if (!request) return <></>;
+
+  const tabs = [
+    <div className="contentlayout customscroll">
+      <div className="discussion_layout customscroll">
+        <div className="mappercomment comment">
+          <div className="metadata">
+            <div
+              className="userpfp"
+              style={{
+                backgroundImage: `url(https://a.ppy.sh/${request._owner})`,
+              }}
+            ></div>
+            <p className="username">
+              {request._owner_name}
+              <Tag content="Requester" />
+            </p>
+          </div>
+          <div className="content">
+            {request.comment || "No comment provided..."}
+          </div>
+        </div>
+        <div className="modderreply comment">
+          <div className="metadata">
+            <div
+              className="userpfp"
+              style={{
+                backgroundImage: `url(https://a.ppy.sh/${request._queue})`,
+              }}
+            ></div>
+            <p className="username">
+              {queueContext.data.name}
+              <Tag
+                content={queueContext.data.type}
+                type={queueContext.data.type}
+              />
+            </p>
+          </div>
+          <div className="content">
+            {request.reply || "No feedback provided..."}
+          </div>
+        </div>
+      </div>
+    </div>,
+    <div className="actionslayout customscroll">
+      <div className="replycontainer">
+        <p>
+          <FontAwesomeIcon icon={faMessage} />
+          Feedback
+        </p>
+        <textarea
+          className="request-reply"
+          defaultValue={request.reply}
+          placeholder="optional..."
+          onInput={(ev: any) => {
+            updateRequestReply(ev.target.value);
+          }}
+        ></textarea>
+      </div>
+      <div className="buttons">
+        {["BN", "NAT"].includes(queueContext.data.type)
+          ? bn_options.map((o) => (
+              <div
+                className={`option ${o.decoration}-hover`}
+                onClick={() => {
+                  updateRequestStatus(o.value);
+                }}
+              >
+                {o.label}
+              </div>
+            ))
+          : modder_options.map((o) => (
+              <div
+                className={`option ${o.decoration}-hover`}
+                onClick={() => {
+                  updateRequestStatus(o.value);
+                }}
+              >
+                {o.label}
+              </div>
+            ))}
+      </div>
+    </div>,
+  ];
 
   return (
     <div
@@ -320,41 +297,26 @@ export default () => {
             }}
           />
         </div>
-        <div className="layout">
-          <RequestViewer
-            key={GenerateComponentKey(20)}
-            request={request}
-            type="manage"
-          ></RequestViewer>
-          <div className="vertical">
-            <textarea
-              key={GenerateComponentKey(29)}
-              placeholder={
-                login._id == queueContext.data._id
-                  ? "Type a reply for this request"
-                  : "No reply provided..."
-              }
-              defaultValue={getReply()}
-              className={login._id == queueContext.data._id ? "owner" : "guest"}
-              onKeyUp={(ev: any) => {
-                updateRequestReply(ev.target.value);
-              }}
-              readOnly={login._id != queueContext.data._id}
-            ></textarea>
-            <div
-              className="options"
-              style={{
-                display: `${
-                  login._id == queueContext.data._id ? "flex" : "none"
-                }`,
-              }}
-            >
-              {["BN", "NAT"].includes(queueContext.data.type)
-                ? bn_options.map((o) => o)
-                : modder_options.map((o) => o)}
-            </div>
+        <BeatmapsetBanner request={request} status={request.status} />
+        <div className={request._queue != login._id ? "tab invisible" : "tab"}>
+          <div
+            className={tab == 0 ? "option selected" : "option"}
+            onClick={() => {
+              setTab(0);
+            }}
+          >
+            Discussion
+          </div>
+          <div
+            className={tab == 1 ? "option selected" : "option"}
+            onClick={() => {
+              setTab(1);
+            }}
+          >
+            Manage
           </div>
         </div>
+        {tabs[tab]}
       </div>
     </div>
   );

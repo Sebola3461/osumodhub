@@ -336,6 +336,11 @@
   color: white;
 }
 
+.rank-hover:hover {
+  background-color: #259bca !important;
+  color: white;
+}
+
 .reject-hover:hover {
   background-color: #d4152f !important;
   color: black;
@@ -352,8 +357,8 @@
 }
 
 .delete-hover:hover {
-  background-color: #d4152f;
-  color: black;
+  background-color: #d4152f !important;
+  color: black !important;
 }
 
 .pending-hover {
@@ -382,6 +387,11 @@
 }
 
 .ranked-hover {
+  transition: linear 80ms color, linear 80ms background-color;
+  color: #259bca;
+}
+
+.rank-hover {
   transition: linear 80ms color, linear 80ms background-color;
   color: #259bca;
 }

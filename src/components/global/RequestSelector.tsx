@@ -40,7 +40,6 @@ import {
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import TimeString from "../../helpers/TimeString";
 import { ConfirmDialogContext } from "../../providers/ConfirmDialogContext";
-import { lastManagedRequestContext } from "../../providers/LastManagedRequestContext";
 import { addToUpdateQueue } from "../../helpers/RequestUpdateQueue";
 import { IQueueRequest } from "../../types/queue";
 import { QueueContext } from "../../providers/QueueContext";

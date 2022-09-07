@@ -41,11 +41,17 @@
 .managerequestpanel .container {
   width: 90%;
   max-width: 1000px;
-  height: 440px;
+  height: 90%;
   background-color: var(--background1);
   border-radius: 0.5rem;
   overflow: hidden;
   transition: margin-right linear 80ms;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .managerequestpanel .container .paneltitle {
@@ -66,23 +72,23 @@
   cursor: pointer;
 }
 
-.managerequestpanel .container .layout {
-  display: flex;
+.managerequestpanel .container .contentlayout {
   width: 95%;
-  height: 86%;
+  height: 100%;
+  padding: 2.5%;
+  display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  align-content: center;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 2.5%;
-  padding-right: 2.5%;
+  align-content: flex-start;
+  justify-content: space-between;
+  align-items: flex-start;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.managerequestpanel .container .layout .vertical {
-  width: 100%;
-  height: 77%;
+.managerequestpanel .container .contentlayout .discussion_layout {
+  width: 60%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -91,69 +97,200 @@
   align-items: center;
 }
 
-textarea:focus {
-  outline: none;
-}
-
-.managerequestpanel .container .layout .vertical textarea {
-  width: 90%;
-  height: 60%;
-  padding: 10px;
-  border-radius: 5px;
-  resize: none;
-}
-
-.managerequestpanel .container .layout .vertical textarea.guest {
-  height: 100%;
-}
-
-.managerequestpanel .container .layout .options {
-  width: 100%;
-  height: fit-content;
+.managerequestpanel .container .actionslayout {
+  width: 95%;
+  height: 95%;
+  padding: 2.5%;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap;
   align-content: flex-start;
-  align-items: center;
-  overflow-x: auto;
-  margin-top: auto;
-  overflow-y: visible;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
 }
 
-.managerequestpanel .container .layout .options .option {
-  padding: 8px;
-  border-radius: 5px;
+.managerequestpanel .container .actionslayout .replycontainer {
+  width: 80%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: flex-start;
+  justify-content: flex-start;
+  align-items: flex-start;
+  top: 0px;
+  position: sticky;
+}
+
+.managerequestpanel .container .actionslayout .replycontainer p {
+  font-weight: 500;
+  font-size: 17px;
+  margin-bottom: 10px;
+  color: var(--background6);
+}
+
+.managerequestpanel .container .actionslayout .replycontainer svg {
   margin-right: 10px;
-  margin-top: 10px;
-  cursor: pointer;
 }
 
-@media screen and (max-width: 700px) {
-  .managerequestpanel .container .layout {
-    display: flex;
-    width: 95%;
-    height: 86%;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-content: center;
-    align-items: center;
-    justify-content: flex-start;
-    margin: auto;
-  }
+.managerequestpanel .container .actionslayout .buttons {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 1.5%;
+  margin-left: auto;
+}
 
-  .managerequestpanel .container .layout .options {
-    width: 94%;
-    height: fit-content;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start;
-    align-items: center;
-    margin-top: auto;
-    height: 160px;
-  }
+.managerequestpanel .container .actionslayout .option {
+  width: 100%;
+  padding: 10px 20px;
+  border-radius: 0.2rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+  cursor: pointer;
+  text-align: center;
+  background-color: var(--background4);
+}
+
+.managerequestpanel .container .actionslayout textarea {
+  width: 90%;
+  max-width: 90%;
+  min-height: 150px;
+  padding: 10px;
+  border-radius: 5px;
+  outline: 1px solid transparent;
+  background-color: var(--background2);
+  border: none;
+  margin-right: auto;
+  resize: vertical;
+}
+
+.managerequestpanel .container .actionslayout textarea:focus {
+  outline: 1px solid var(--ocean);
+}
+
+.managerequestpanel .container .contentlayout .discussion_layout {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.managerequestpanel .tab.invisible {
+  display: none !important;
+}
+
+.managerequestpanel .container .contentlayout .discussion_layout div.comment {
+  width: calc(100% - 30px);
+  padding: 15px;
+  border-radius: 0.5rem;
+  margin-bottom: 10px;
+  height: fit-content;
+}
+
+.managerequestpanel
+  .container
+  .contentlayout
+  .discussion_layout
+  .mappercomment {
+  background-color: var(--background2);
+}
+
+.managerequestpanel .container .contentlayout .discussion_layout .modderreply {
+  background-color: var(--background5);
+}
+
+.managerequestpanel
+  .container
+  .contentlayout
+  .discussion_layout
+  .comment
+  .metadata {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--background3);
+}
+
+.managerequestpanel
+  .container
+  .contentlayout
+  .discussion_layout
+  .comment
+  .metadata
+  .userpfp {
+  width: 45px;
+  height: 45px;
+  border-radius: 0.5rem;
+  background-color: var(--background4);
+  background-position: center;
+  background-size: cover;
+}
+
+.managerequestpanel
+  .container
+  .contentlayout
+  .discussion_layout
+  .comment
+  .metadata
+  .username {
+  margin-left: 10px;
+  font-weight: 500;
+}
+
+.managerequestpanel
+  .container
+  .contentlayout
+  .discussion_layout
+  .comment
+  .metadata
+  .username
+  .tag {
+  font-size: 12px;
+  padding: 1px 8px;
+}
+
+.managerequestpanel
+  .container
+  .contentlayout
+  .discussion_layout
+  .mappercomment
+  .metadata
+  .username
+  .tag {
+  background-color: var(--pink);
+}
+
+.tag.modder {
+  background-color: #2196f3;
+}
+
+.tag.BN {
+  background-color: #a347eb;
+}
+
+.tag.NAT {
+  background-color: #eb8c47;
+}
+
+.managerequestpanel .customselect {
+  width: 90%;
 }
 
 @media screen and (max-width: 600px) {
@@ -162,5 +299,43 @@ textarea:focus {
     max-width: 100%;
     height: 100% !important;
     border-radius: 0px;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .managerequestpanel .container .actionslayout {
+    width: 95%;
+    height: 95%;
+    padding: 2.5%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;
+  }
+
+  .managerequestpanel .container .actionslayout .buttons {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .managerequestpanel .container .actionslayout .replycontainer textarea {
+    width: calc(100% - 10px);
+    max-width: calc(100% - 10px);
+  }
+
+  .managerequestpanel .container .actionslayout .replycontainer {
+    width: 90%;
+    position: relative;
+    margin-bottom: 20px;
   }
 }

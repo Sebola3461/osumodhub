@@ -7,10 +7,12 @@ export default ({
   beatmapset,
   selected,
   onClick,
+  style,
 }: {
   beatmapset: Beatmapset;
   selected: number;
   onClick: any;
+  style?: React.CSSProperties;
 }) => {
   const { request, setRequest } = useContext(RequestContext);
   const [_selected, setSelected] = useState(false);
@@ -23,9 +25,12 @@ export default ({
   return (
     <div
       className={_selected ? "beatmapselector selected" : "beatmapselector"}
-      style={{
-        backgroundImage: `url(${beatmapset.covers["card@2x"]})`,
-      }}
+      style={Object.assign(
+        {
+          backgroundImage: `url(${beatmapset.covers["card@2x"]})`,
+        },
+        style || {}
+      )}
       onClick={() => {
         onClick(beatmapset.id);
 

@@ -19,53 +19,6 @@
   pointer-events: none;
 }
 
-.requesttab .banner {
-  width: 100%;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-content: center;
-  justify-content: space-between;
-  align-items: center;
-  background-position: center;
-  background-size: cover;
-}
-
-.requesttab .banner .overlay {
-  width: calc(100% - 3rem);
-  height: 100%;
-  padding: 1.5rem;
-  backdrop-filter: brightness(0.3);
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-content: center;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.requesttab .banner .overlay .metadata {
-  width: 100%;
-}
-
-.requesttab .banner .overlay .metadata .title {
-  font-size: 30px;
-  font-weight: 500;
-}
-
-.requesttab .banner .overlay .metadata .artist {
-  font-size: 17px;
-  color: #ddd;
-  font-weight: 400;
-}
-
-.requesttab .spreadviewer {
-  width: fit-content;
-  margin-right: auto;
-  max-width: 100%;
-}
-
 .requestpanel .commenttitle {
   width: 90%;
   margin-top: 2.5%;

@@ -27,6 +27,7 @@ export default () => {
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const [isListening, setListening] = useState(false);
 
   const icon = {
     "queue:state": <FontAwesomeIcon icon={faUnlock}></FontAwesomeIcon>,
@@ -49,56 +50,36 @@ export default () => {
 
   useEffect(() => {
     if (login._id == -1) return;
-
-    fetch(`/api/notifications`, {
-      headers: {
-        authorization: login.account_token,
-      },
-    })
-      .then((r) => r.json())
-      .then((d) => {
-        setNotifications(d.data);
-        setSize(d.data.length);
-
-        if (d.data.length > 0) {
-          setPending(true);
-
-          return;
-        } else {
-          setPending(false);
-        }
-      });
-
-    setInterval(() => {
-      fetch(`/api/notifications`, {
-        headers: {
-          authorization: login.account_token,
-        },
-      })
-        .then((r) => r.json())
-        .then((d) => {
-          setNotifications(d.data);
-
-          setSize(d.data.length);
-          if (d.data.length > 0) {
-            setPending(true);
-
-            return;
-          } else {
-            setPending(false);
-          }
-        });
-    }, 15000);
   }, []);
 
-  function closePanel(ev) {
-    if (!ev.target.className || !ev.target.className.includes("sidemenu"))
-      return;
+  let startListening = () => {};
 
-    setOpen(!open);
+  useEffect(() => {
+    startListening = () => {
+      console.log("Listenting to notifications...");
 
-    return;
-  }
+      if (isListening)
+        return console.log("Notifications Panel prevented duplicated listener");
+
+      setInterval(() => {
+        fetch(`/api/notifications`, {
+          headers: {
+            authorization: login.account_token,
+          },
+        })
+          .then((r) => r.json())
+          .then((d) => {
+            console.log(d.data.length, notifications.length);
+            if (d.data.length != notifications.length) {
+              setNotifications(d.data);
+              setSize(d.data.length);
+            }
+          });
+      }, 5000);
+    };
+
+    startListening();
+  }, []);
 
   function validateNotification(notification: any, ev: any) {
     fetch(`/api/notifications/${notification._id}`, {
@@ -231,6 +212,9 @@ export default () => {
             : notifications.map((notification, i) => {
                 return (
                   <div
+                    style={{
+                      animationDelay: `${100 * (i + 1)}ms`,
+                    }}
                     className={
                       loadingNotifications.includes(notification._id)
                         ? "notification loading"

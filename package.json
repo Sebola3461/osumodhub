@@ -52,6 +52,7 @@
     "react-dom": "^18.0.0",
     "react-player": "^2.10.1",
     "react-router-dom": "^6.3.0",
+    "react-select": "^5.4.0",
     "react-simple-snackbar": "^1.1.11",
     "react-tagsinput": "^3.19.0",
     "sharp": "^0.30.6",

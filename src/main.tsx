@@ -25,7 +25,7 @@ import { PostGDPanelProvider } from "./providers/PostGDPanelContext";
 import { GDPanelProvider } from "./providers/GDPanelContext";
 import { ManageGDPanelProvider } from "./providers/ManageGDPanelContext";
 import { ConfirmDialogProvider } from "./providers/ConfirmDialogContext";
-import { LastManagedRequestProvider } from "./providers/LastManagedRequestContext";
+import { RequestWsProvider } from "./providers/RequestWsQueueContext";
 import { QueueProvider } from "./providers/QueueContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -42,7 +42,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <QueueProvider>
           <SideMenuProvider>
             <ConfirmDialogProvider>
-              <LastManagedRequestProvider>
+              <RequestWsProvider>
                 <RequestContextProvider>
                   <RequestPanelProvider>
                     <QueuePanelProvider>
@@ -97,7 +97,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                     </QueuePanelProvider>
                   </RequestPanelProvider>
                 </RequestContextProvider>
-              </LastManagedRequestProvider>
+              </RequestWsProvider>
             </ConfirmDialogProvider>
           </SideMenuProvider>
         </QueueProvider>

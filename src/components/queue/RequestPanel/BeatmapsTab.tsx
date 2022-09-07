@@ -109,12 +109,15 @@ export default ({
         search
       )}
       <div className="beatmaps">
-        {userBeatmaps.map((b) => (
+        {userBeatmaps.map((b, i) => (
           <BeatmapSelector
             beatmapset={b}
             selected={selected}
             onClick={selectBeatmap}
             key={GenerateComponentKey(10)}
+            style={{
+              animationDelay: `${100 * (i + 1)}ms`,
+            }}
           ></BeatmapSelector>
         ))}
       </div>

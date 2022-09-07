@@ -21,7 +21,7 @@
 .requestselector.new {
   transition: opacity 120ms linear;
   animation-name: fade-out;
-  animation-duration: 30s;
+  animation-duration: 5s;
   animation-timing-function: linear;
 }
 

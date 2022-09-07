@@ -1,0 +1,62 @@
+.beatmapsetbanner {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  background-position: center;
+  background-size: cover;
+}
+
+.beatmapsetbanner .overlay {
+  width: calc(100% - 3rem);
+  height: 100%;
+  padding: 1.5rem;
+  backdrop-filter: brightness(0.3);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.beatmapsetbanner .overlay .row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.beatmapsetbanner .overlay .tag {
+  margin-left: auto;
+  font-size: 1.3rem;
+}
+
+.beatmapsetbanner .overlay .metadata {
+  width: 100%;
+}
+
+.beatmapsetbanner .overlay .metadata .title {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.beatmapsetbanner .overlay .metadata .artist {
+  font-size: 17px;
+  color: #ddd;
+  font-weight: 400;
+}
+
+.beatmapsetbanner .spreadviewer {
+  width: fit-content;
+  margin-right: auto;
+  max-width: 100%;
+}

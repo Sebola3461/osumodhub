@@ -25,12 +25,10 @@ export default () => {
 
   const queueContext = useContext(QueueContext);
 
-  setRulesRead(false);
-
   useEffect(() => {
     if (login._id == -1) return;
 
-    if (!queueContext.data || !queueContext.requests) return;
+    if (!queueContext.data) return;
 
     fetch(
       `/api/users/${login._id}/beatmaps?graveyard=${queueContext.data.allow.graveyard}&wip=${queueContext.data.allow.wip}`,
@@ -46,13 +44,13 @@ export default () => {
 
         setUserBeatmaps(d.data);
       });
-  }, []);
+
+    setRulesRead(false);
+  }, [queueContext.data]);
 
   useEffect(() => {
     setUserBeatmaps(userBeatmaps);
   }, [userBeatmaps]);
-
-  if (!queueContext.data || !queueContext.requests) return <></>;
 
   const tabs = [
     <BeatmapsTab
@@ -63,6 +61,8 @@ export default () => {
     <RulesTab setTab={setTab} request={request}></RulesTab>,
     <RequestTab />,
   ];
+
+  if (!queueContext.data || !queueContext.requests) return <></>;
 
   function auxClosePanel(ev: any) {
     if (ev.target.className != "requestpanel open") return;

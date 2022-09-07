@@ -9,9 +9,9 @@ import SpreadViewer from "../../global/SpreadViewer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMessage } from "@fortawesome/free-solid-svg-icons";
 import { RequestPanelContext } from "../../../providers/RequestPanelContext";
-import { lastManagedRequestContext } from "../../../providers/LastManagedRequestContext";
-import { addToUpdateQueue } from "../../../helpers/RequestUpdateQueue";
 import { QueueContext } from "../../../providers/QueueContext";
+import { RequestWsContext } from "../../../providers/RequestWsQueueContext";
+import BeatmapsetBanner from "../../panels/BeatmapsetBanner";
 
 export default () => {
   const { user, updateUser } = useContext(AuthContext);
@@ -20,9 +20,6 @@ export default () => {
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { open, setOpen } = useContext(RequestPanelContext);
-  const { lastManagedRequest, setLastManagedRequest } = useContext(
-    lastManagedRequestContext
-  );
 
   const queueContext = useContext(QueueContext);
 
@@ -60,8 +57,6 @@ export default () => {
             persist: false,
             action,
           });
-
-          addToUpdateQueue(res.data._id);
         } else {
           enqueueSnackbar(res.message, {
             variant: "error",
@@ -80,24 +75,7 @@ export default () => {
 
   return (
     <div className={loading ? "requesttab loading" : "requesttab"}>
-      <div
-        className="banner"
-        style={{
-          backgroundImage: `url(${request.beatmap.covers["cover@2x"]})`,
-        }}
-      >
-        <div className="overlay">
-          <div className="metadata">
-            <p className="title">{request.beatmap.title}</p>
-            <p className="artist">{request.beatmap.artist}</p>
-          </div>
-          <SpreadViewer
-            beatmaps={request.beatmap.beatmaps.sort(
-              (a, b) => a.difficulty_rating - b.difficulty_rating
-            )}
-          ></SpreadViewer>
-        </div>
-      </div>
+      <BeatmapsetBanner request={request} />
       <p className="commenttitle">
         <FontAwesomeIcon icon={faMessage} /> Comment
       </p>
