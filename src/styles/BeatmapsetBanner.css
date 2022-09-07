@@ -44,7 +44,18 @@
   width: 100%;
 }
 
+.beatmapsetbanner .overlay .metadata a {
+  display: block;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.beatmapsetbanner .overlay .metadata a:hover {
+  text-decoration: underline !important;
+}
+
 .beatmapsetbanner .overlay .metadata .title {
+  color: white;
   font-size: 30px;
   font-weight: 500;
 }

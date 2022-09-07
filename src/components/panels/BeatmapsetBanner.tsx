@@ -43,8 +43,20 @@ export default ({
           <></>
         )}
         <div className="metadata">
-          <p className="title">{request.beatmap.title}</p>
-          <p className="artist">{request.beatmap.artist}</p>
+          <a
+            className="title"
+            target="_blank"
+            href={`https://osu.ppy.sh/s/${request.beatmapset_id}`}
+          >
+            {request.beatmap.title}
+          </a>
+          <a
+            className="artist"
+            target="_blank"
+            href={`https://osu.ppy.sh/s/${request.beatmapset_id}`}
+          >
+            {request.beatmap.artist}
+          </a>
         </div>
         {status ? (
           <></>
