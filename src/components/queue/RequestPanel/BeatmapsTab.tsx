@@ -23,7 +23,6 @@ export default ({
   const [loading, setLoading] = useState(false);
   const { request, setRequest } = useContext(RequestContext);
   const [selected, setSelected] = useState(request.beatmap.id);
-  const [beatmapFetch, setBeatmapFetch] = useState<any>("0");
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const queueContext = useContext(QueueContext);
 
@@ -39,6 +38,8 @@ export default ({
     </>
   );
 
+  let beatmapFetch = "0";
+
   function fetchBeatmap() {
     const url = new URL(beatmapFetch);
 
@@ -51,14 +52,11 @@ export default ({
     const id = GetBeatmapsetID(url.pathname);
 
     setLoading(true);
-    fetch(
-      `/api/beatmaps/${id}?graveyard=${queueContext.data.allow.graveyard}&wip=${queueContext.data.allow.wip}`,
-      {
-        headers: {
-          authorization: login.account_token,
-        },
-      }
-    )
+    fetch(`/api/beatmaps/${id}`, {
+      headers: {
+        authorization: login.account_token,
+      },
+    })
       .then((r) => r.json())
       .then((d) => {
         setLoading(false);
@@ -83,7 +81,7 @@ export default ({
         type="text"
         placeholder="Paste beatmapset url here"
         onInput={(ev: any) => {
-          setBeatmapFetch(ev.target.value);
+          beatmapFetch = ev.target.value;
         }}
       />
       <button className="search" onClick={fetchBeatmap}>

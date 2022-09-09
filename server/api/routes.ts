@@ -7,7 +7,6 @@ import ListGDRequests from "./listing/ListGDRequests";
 import ListQueues from "./listing/ListQueues";
 import { QueuesRouter } from "./queues/routes";
 import AuthenticateUser from "./users/AuthenticateUser";
-import GetBeatmapInfo from "./users/GetBeatmapInfo";
 import { UserRouter } from "./users/routes";
 import { RequestsRouter } from "./requests/routes";
 import { NotificationsRouter } from "./notifications/routes";
@@ -15,6 +14,7 @@ import { ListingRouter } from "./listing/routes";
 const api = Router();
 import { WebSocketServer } from "ws";
 import { GDRouter } from "./gd/routes";
+import { BeatmapsRouter } from "./beatmaps/routes";
 const wsSrv = new WebSocketServer({
   port: 3001,
 });
@@ -33,6 +33,7 @@ api.use("/requests/", RequestsRouter);
 api.use("/notifications/", NotificationsRouter);
 api.use("/listing", ListingRouter);
 api.use("/gd", GDRouter);
+api.use("/beatmaps", BeatmapsRouter);
 
 // TODO: Create a category for this
 api.get("/validate/", AuthenticateUser);

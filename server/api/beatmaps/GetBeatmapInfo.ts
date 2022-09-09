@@ -4,7 +4,7 @@ import osuApi from "../../helpers/osuApi";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
-  const requestedBeatmap = req.params["beatmap"];
+  const requestedBeatmap = req.params["id"];
 
   if (!authorization)
     return res.status(403).send({
