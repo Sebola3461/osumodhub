@@ -163,7 +163,7 @@ export default () => {
   const bn_options = [
     { label: "Accept", value: "accepted", decoration: "accept" },
     { label: "Reject", value: "rejected", decoration: "reject" },
-    { label: "Nominated", value: "nominateed", decoration: "nominate" },
+    { label: "Nominated", value: "nominated", decoration: "nominate" },
     { label: "Ranked", value: "ranked", decoration: "rank" },
     { label: "Waiting another BN", value: "waiting", decoration: "wait" },
     { label: "Need recheck", value: "rechecking", decoration: "recheck" },

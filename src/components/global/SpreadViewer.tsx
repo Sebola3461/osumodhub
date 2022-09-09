@@ -5,12 +5,13 @@ import ManiaIcon from "../icons/ManiaIcon";
 import OsuIcon from "../icons/OsuIcon";
 import TaikoIcon from "../icons/TaikoIcon";
 import "./../../styles/SpreadViewer.css";
+import { IStaticBeatmapDifficulty } from "../../types/queue";
 
 export default ({
   beatmaps,
   style,
 }: {
-  beatmaps: any[];
+  beatmaps: IStaticBeatmapDifficulty[];
   style?: React.CSSProperties;
 }) => {
   const modes = {
@@ -40,9 +41,23 @@ export default ({
     ])
     .interpolate(d3.interpolateRgb.gamma(2.2));
 
+  // ? ======================= Group by gamemodes ======
+  const spread: IStaticBeatmapDifficulty[] = [];
+
+  const staticModes: string[] = ["osu", "taiko", "fruits", "mania"];
+  for (let i = 0; i < 4; i++) {
+    beatmaps
+      .filter((b) => b.mode == staticModes[i])
+      .sort((a, b) => a.difficulty_rating - b.difficulty_rating)
+      .forEach((diffs) => {
+        spread.push(diffs);
+      });
+  }
+  // ? ==================================================
+
   return (
     <div className="spreadviewer" style={style || {}}>
-      {beatmaps.map((b, i) => {
+      {spread.map((b, i) => {
         const Icon = icons[modes[b.mode]];
 
         return (

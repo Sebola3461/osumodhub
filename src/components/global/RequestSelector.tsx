@@ -370,7 +370,7 @@ export default ({
       }}
       className="finish-hover"
     >
-      Finish
+      Moddded
     </MenuItem>,
     <MenuItem
       data={{
@@ -799,7 +799,10 @@ export default ({
   return (
     <>
       <SelectedRequestContextProvider>
-        <ContextMenuTrigger id={`request-${_request._id}`}>
+        <ContextMenuTrigger
+          id={`request-${_request._id}`}
+          key={GenerateComponentKey(20)}
+        >
           <div
             className={
               loading
@@ -813,6 +816,7 @@ export default ({
             onClick={(ev: any) => {
               manageRequest(_request, ev);
             }}
+            key={GenerateComponentKey(20)}
           >
             <div
               className={

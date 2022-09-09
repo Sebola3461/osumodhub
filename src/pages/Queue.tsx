@@ -47,6 +47,7 @@ import RequestSelector from "../components/global/RequestSelector";
 import { QueueContext } from "../providers/QueueContext";
 import UserPanel from "../components/global/UserPanel";
 import { RequestWsContext } from "../providers/RequestWsQueueContext";
+import QueueStatistics from "../components/queue/QueueStatistics";
 
 interface IQueueFilters {
   type: "progress" | "archived";
@@ -380,6 +381,7 @@ export default () => {
               }}
             ></SearchSelect>
           </nav>
+          <QueueStatistics />
           <div className="queuecontent">
             <div className="requestlisting">{getRequestsListing()}</div>
           </div>
