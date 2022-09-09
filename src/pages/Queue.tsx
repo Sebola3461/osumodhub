@@ -381,7 +381,7 @@ export default () => {
               }}
             ></SearchSelect>
           </nav>
-          <QueueStatistics />
+          {/* <QueueStatistics /> */}
           <div className="queuecontent">
             <div className="requestlisting">{getRequestsListing()}</div>
           </div>
