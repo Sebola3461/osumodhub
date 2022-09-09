@@ -370,7 +370,7 @@ export default ({
       }}
       className="finish-hover"
     >
-      Moddded
+      Modded
     </MenuItem>,
     <MenuItem
       data={{
