@@ -34,7 +34,7 @@ export interface IQueue {
     default: false;
   };
   tags: any[];
-  type: "modder" | "BN" | "NAT";
+  type: "modder" | "BN" | "NAT" | "group";
   country: {
     acronym: string;
     name: string;

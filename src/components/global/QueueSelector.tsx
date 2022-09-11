@@ -74,13 +74,16 @@ export default ({ queue }: { queue: IQueue }) => {
                 marginTop: "10px",
               }}
             >
-              {queue.isGroup ? (
+              {queue.type == "group" ? (
                 <></>
               ) : (
                 <div
                   className="flag"
                   style={{
-                    backgroundImage: `url(${queue.country.flag.toLowerCase()})`,
+                    backgroundImage: `url(${
+                      queue.country.flag.toLowerCase() ||
+                      "https://raw.githubusercontent.com/ppy/osu-web/master/public/images/flags/fallback.png"
+                    })`,
                   }}
                 ></div>
               )}
