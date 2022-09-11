@@ -55,7 +55,7 @@ export default ({ queue }: { queue: IQueue }) => {
             <div
               className="avatar"
               style={{
-                backgroundImage: `url(https://a.ppy.sh/${queue._id})`,
+                backgroundImage: `url(${queue.icon})`,
               }}
             ></div>
             <Tag

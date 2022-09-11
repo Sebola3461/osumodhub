@@ -154,14 +154,19 @@ export default () => {
 
     setQueue(JSON.parse(JSON.stringify(_queue)));
 
-    fetch(`/api/queues/update`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        authorization: login.account_token,
-      },
-      body: JSON.stringify(_queue),
-    })
+    fetch(
+      _queue.isGroup
+        ? `/api/queues/update/group/${_queue._id}`
+        : `/api/queues/update`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: login.account_token,
+        },
+        body: JSON.stringify(_queue),
+      }
+    )
       .then((r) => r.json())
       .then((d) => {
         enqueueSnackbar(d.message, {
@@ -182,14 +187,19 @@ export default () => {
 
     setQueue(JSON.parse(JSON.stringify(_queue)));
 
-    fetch(`/api/queues/update`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        authorization: login.account_token,
-      },
-      body: JSON.stringify(_queue),
-    })
+    fetch(
+      _queue.isGroup
+        ? `/api/queues/update/group/${_queue._id}`
+        : `/api/queues/update`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: login.account_token,
+        },
+        body: JSON.stringify(_queue),
+      }
+    )
       .then((r) => r.json())
       .then((d) => {
         enqueueSnackbar(d.message, {
@@ -200,22 +210,25 @@ export default () => {
   }
 
   function setQueueModes(mode: number, add: boolean) {
-    console.log(mode, add);
-
     if (!add && _queue.modes.includes(mode)) {
       const index = _queue.modes.findIndex((m: number) => m == mode);
       _queue.modes.splice(index, 1);
 
       setQueue(_queue);
 
-      fetch(`/api/queues/update`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          authorization: login.account_token,
-        },
-        body: JSON.stringify(_queue),
-      })
+      fetch(
+        _queue.isGroup
+          ? `/api/queues/update/group/${_queue._id}`
+          : `/api/queues/update`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            authorization: login.account_token,
+          },
+          body: JSON.stringify(_queue),
+        }
+      )
         .then((r) => r.json())
         .then((d) => {
           enqueueSnackbar(d.message, {
@@ -232,14 +245,19 @@ export default () => {
 
       setQueue(_queue);
 
-      fetch(`/api/queues/update`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          authorization: login.account_token,
-        },
-        body: JSON.stringify(_queue),
-      })
+      fetch(
+        _queue.isGroup
+          ? `/api/queues/update/group/${_queue._id}`
+          : `/api/queues/update`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            authorization: login.account_token,
+          },
+          body: JSON.stringify(_queue),
+        }
+      )
         .then((r) => r.json())
         .then((d) => {
           enqueueSnackbar(d.message, {
@@ -288,7 +306,7 @@ export default () => {
   }
 
   function testWebhook() {
-    fetch(`/api/queues/webhook`, {
+    fetch(`/api/queues/${_queue._id}/webhook/`, {
       method: "POST",
       headers: {
         authorization: login.account_token,
@@ -330,7 +348,7 @@ export default () => {
 
   function removeWebhook() {
     if (confirm("Are you sure?")) {
-      fetch(`/api/queues/webhook`, {
+      fetch(`/api/queues/${_queue._id}/webhook/`, {
         method: "DELETE",
         headers: {
           authorization: login.account_token,
@@ -617,6 +635,7 @@ export default () => {
                   <div>
                     osu!:{" "}
                     <Checkbox
+                      key={GenerateComponentKey(10)}
                       defaultChecked={getQueueModes(0)}
                       onInput={(ev) => {
                         const target: any = ev.target;
@@ -627,6 +646,7 @@ export default () => {
                   <div>
                     osu!taiko:{" "}
                     <Checkbox
+                      key={GenerateComponentKey(10)}
                       defaultChecked={getQueueModes(1)}
                       onInput={(ev) => {
                         const target: any = ev.target;
@@ -638,6 +658,7 @@ export default () => {
                   <div>
                     osu!catch:{" "}
                     <Checkbox
+                      key={GenerateComponentKey(10)}
                       defaultChecked={getQueueModes(2)}
                       onInput={(ev) => {
                         const target: any = ev.target;
@@ -649,6 +670,7 @@ export default () => {
                   <div>
                     osu!mania:{" "}
                     <Checkbox
+                      key={GenerateComponentKey(10)}
                       defaultChecked={getQueueModes(3)}
                       onInput={(ev) => {
                         const target: any = ev.target;

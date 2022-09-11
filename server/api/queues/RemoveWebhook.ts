@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
-import notifyFollowers from "../helpers/notifyFollowers";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
+  const queueId = req.params.queue;
 
   if (!authorization)
     return res.status(403).send({
@@ -11,20 +11,20 @@ export default async (req: Request, res: Response) => {
       message: "Missing authorization",
     });
 
-  const queue_owner = await users.findOne({ account_token: authorization });
-
-  if (queue_owner == null)
-    return res.status(404).send({
-      status: 404,
-      message: "User not found!",
-    });
-
-  const queue = await queues.findById(queue_owner._id);
+  const queue = await queues.findById(queueId);
 
   if (queue == null)
     return res.status(404).send({
       status: 404,
       message: "Queue not found!",
+    });
+
+  const queue_owner = await users.findOne(queue.owner);
+
+  if (queue_owner == null)
+    return res.status(404).send({
+      status: 404,
+      message: "User not found!",
     });
 
   if (authorization != queue_owner.account_token)

@@ -1,6 +1,7 @@
 import { APIApplicationCommandPermissionsConstant } from "discord.js";
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
+import NotifyQueueAdminAdd from "../../notifications/NotifyQueueAdminAdd";
 import notifyFollowers from "../helpers/notifyFollowers";
 import SendQueueUpdateWebhook from "../webhooks/SendQueueUpdateWebhook";
 
@@ -195,6 +196,7 @@ export default async (req: Request, res: Response) => {
   }
 
   // ? Modify admins out of the loop to prevent dup
+  const currentAdmins = groupData.admins;
   if (
     req.body.admins &&
     typeof req.body.admins == "object" &&
@@ -211,6 +213,9 @@ export default async (req: Request, res: Response) => {
           if (user && user._id != groupData.owner) {
             clearAdmins.push(admin);
             groupData.admins = clearAdmins;
+
+            if (!currentAdmins.includes(admin))
+              NotifyQueueAdminAdd(groupData, user, manager.username);
           }
         }
       }

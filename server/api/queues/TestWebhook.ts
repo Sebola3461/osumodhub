@@ -5,6 +5,7 @@ import { queues, users } from "../../../database";
 export default async (req: Request, res: Response) => {
   try {
     const authorization = req.headers.authorization;
+    const queueId = req.params.queue;
 
     if (!authorization)
       return res.status(403).send({
@@ -12,22 +13,23 @@ export default async (req: Request, res: Response) => {
         message: "Missing authorization",
       });
 
-    const author = await users.findOne({ account_token: authorization });
-    const queue = await queues.findById(author._id);
+    const queue = await queues.findById(queueId);
 
-    if (author == null)
+    if (queue == null)
+      return res.status(404).send({
+        status: 404,
+        message: "Queue not found!",
+      });
+
+    const queue_owner = await users.findOne(queue.owner);
+
+    if (queue_owner == null)
       return res.status(404).send({
         status: 404,
         message: "User not found!",
       });
 
-    if (queue == null)
-      return res.status(404).send({
-        status: 404,
-        message: "You don't have a queue!",
-      });
-
-    if (authorization != author.account_token)
+    if (authorization != queue_owner.account_token)
       return res.status(400).send({
         status: 401,
         message: "Unauthorized",

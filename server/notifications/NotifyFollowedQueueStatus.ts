@@ -12,6 +12,8 @@ export default async (queue: IQueue, request: any) => {
   const id = crypto.randomBytes(30).toString("hex");
 
   function getName() {
+    if (queue.type == "group") return queue.name;
+
     if (
       queue.name.toLowerCase().endsWith("s") ||
       queue.name.toLowerCase().endsWith("x")
