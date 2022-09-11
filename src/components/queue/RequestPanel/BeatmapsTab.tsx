@@ -8,6 +8,7 @@ import BeatmapSelector from "../../global/BeatmapSelector";
 import "./../../../styles/BeatmapsTab.css";
 import { useSnackbar } from "notistack";
 import { QueueContext } from "../../../providers/QueueContext";
+import isQueueManager from "../../../helpers/isQueueManager";
 
 export default ({
   setUserBeatmaps,
@@ -95,18 +96,19 @@ export default ({
     setTab(1);
   }
 
+  function getCrossRequestInput() {
+    if (
+      !queueContext.data.allow.cross &&
+      !isQueueManager(queueContext.data, login)
+    )
+      return <></>;
+
+    return search;
+  }
+
   return (
     <div className={loading ? "beatmapstab loading" : "beatmapstab"}>
-      {!queueContext.data.allow.cross ? (
-        login._id != queueContext.data.owner ||
-        queueContext.data.admins.includes(login._id) ? (
-          <></>
-        ) : (
-          search
-        )
-      ) : (
-        search
-      )}
+      {getCrossRequestInput()}
       <div className="beatmaps">
         {userBeatmaps.map((b, i) => (
           <BeatmapSelector
