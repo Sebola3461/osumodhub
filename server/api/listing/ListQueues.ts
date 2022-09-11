@@ -73,6 +73,9 @@ export default async (req: Request, res: Response) => {
       if (type == "modder") {
         response = response.filter((r) => ["modder"].includes(r.type));
       }
+      if (type == "group") {
+        response = response.filter((r) => ["group"].includes(r.type));
+      }
     }
   }
 
