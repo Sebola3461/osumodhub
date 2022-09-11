@@ -50,6 +50,7 @@ import { RequestWsContext } from "../providers/RequestWsQueueContext";
 import QueueStatistics from "../components/queue/QueueStatistics";
 import GDRequestPanel from "../components/queue/GDRequestPanel";
 import QueueGroupsSideMenu from "../components/global/QueueGroupsSideMenu";
+import CreateNewGroupPanel from "../components/global/CreateNewGroupPanel";
 
 interface IQueueFilters {
   type: "progress" | "archived";
@@ -238,6 +239,7 @@ export default () => {
         {/* <GDRequestPanel /> */}
         <UserPanel />
         <QueueGroupsSideMenu />
+        <CreateNewGroupPanel />
         <div className="queuelayout">
           <div className="headerleft" key={GenerateComponentKey(100)}>
             <div className="meta">
