@@ -40,7 +40,7 @@ export const notifications = mongoose.model("Notifications", Notification);
 //     .forEach(async (q, i) => {
 //       console.log(`X ${i + 1}/${doc.filter((q) => q.type != "group").length}`);
 
-//       q.icon = `https://a.ppy.sh/${q._id}`;
+//       q.owner = q._id;
 //       await queues.findByIdAndUpdate(q._id, q);
 
 //       console.log(`== ${i + 1}/${doc.filter((q) => q.type != "group").length}`);

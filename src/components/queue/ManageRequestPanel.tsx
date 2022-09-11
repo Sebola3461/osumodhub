@@ -314,7 +314,7 @@ export default () => {
         <BeatmapsetBanner request={request} status={request.status} />
         <div
           className={
-            isQueueManager(queueContext.data, login) ? "tab invisible" : "tab"
+            !isQueueManager(queueContext.data, login) ? "tab invisible" : "tab"
           }
         >
           <div

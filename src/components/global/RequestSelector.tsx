@@ -670,6 +670,9 @@ export default ({
       );
     }
 
+    console.log(queueContext.data);
+    console.log(isQueueManager(queueContext.data, login));
+
     if (isQueueManager(queueContext.data, login)) {
       if (login.isBn) {
         return (
