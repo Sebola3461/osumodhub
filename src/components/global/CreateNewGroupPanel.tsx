@@ -118,7 +118,7 @@ export default () => {
             <input
               type="icon"
               onBlur={(ev: any) => {
-                updateData("name", ev.target.value);
+                updateData("icon", ev.target.value);
               }}
             />
           </div>
