@@ -27,8 +27,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
       ? await queues.findOne({ name: queue_id })
       : await queues.findById(queue_id);
 
-    const typeColors: { [key: string]: string } = {
+    const typeColors = {
       modder: "#2196f3",
+      group: "#c52d61",
       BN: "#a347eb",
       NAT: "#eb8c47",
     };
