@@ -233,7 +233,7 @@ function GDFeed() {
       <PageBanner src="/static/images/homebanner.png"></PageBanner>
       <QueuePanel></QueuePanel>
       <MyRequestsPanel></MyRequestsPanel>
-      <SideMenu
+      {/* <SideMenu
         _open={sideMenuContext.open}
         options={[
           { label: "My queue", callback: goToUserQueue },
@@ -259,7 +259,7 @@ function GDFeed() {
           },
         ]}
         title={`Hello, ${login.username}!`}
-      ></SideMenu>
+      ></SideMenu> */}
       <NotificationSideMenu></NotificationSideMenu>
       <HeaderPanel
         style={{
