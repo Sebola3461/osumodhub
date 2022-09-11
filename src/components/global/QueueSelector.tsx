@@ -13,30 +13,9 @@ import {
   ContextMenuTrigger,
 } from "./../../libs/react-contextmenu/es6/";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
+import { IQueue } from "../../types/queue";
 
 type QueueModes = 0 | 1 | 2 | 3;
-
-interface IQueue {
-  _id: number;
-  banner: string;
-  name: string;
-  icon: string;
-  open: boolean;
-  modes: QueueModes[];
-  description: string;
-  type: string;
-  verified: boolean;
-  country: {
-    acronym: string;
-    name: string;
-    flag: string;
-  };
-  allow: {
-    graveyard: boolean;
-    wip: boolean;
-  };
-  genres: string[];
-}
 
 export default ({ queue }: { queue: IQueue }) => {
   const icons = [
@@ -95,12 +74,16 @@ export default ({ queue }: { queue: IQueue }) => {
                 marginTop: "10px",
               }}
             >
-              <div
-                className="flag"
-                style={{
-                  backgroundImage: `url(${queue.country.flag.toLowerCase()})`,
-                }}
-              ></div>
+              {queue.isGroup ? (
+                <></>
+              ) : (
+                <div
+                  className="flag"
+                  style={{
+                    backgroundImage: `url(${queue.country.flag.toLowerCase()})`,
+                  }}
+                ></div>
+              )}
               {queue.modes.map((m, i) => {
                 return (
                   <div className="modeicon" key={i}>
