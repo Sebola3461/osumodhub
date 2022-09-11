@@ -33,12 +33,12 @@ export default async (req: Request, res: Response) => {
   });
 
   if (!follower)
-    return res.status(404).send({
+    return res.status(403).send({
       status: 403,
       message: "You are not following this user!",
     });
 
-  await followers.deleteOne({ _id: follower._id });
+  await followers.deleteMany({ _user: user._id, _queue: queue._id });
 
   return res.status(200).send({
     status: 200,

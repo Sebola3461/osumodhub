@@ -34,16 +34,15 @@ export const gdusers = mongoose.model("GDUsers", GDUsers);
 export const followers = mongoose.model("Followers", Follower);
 export const notifications = mongoose.model("Notifications", Notification);
 
-// requests.find().then((doc) => {
-//   doc.forEach(async (q, i) => {
-//     console.log(`X ${i + 1}/${doc.length}`);
+// queues.find().then((doc) => {
+//   doc
+//     .filter((q) => q.type != "group")
+//     .forEach(async (q, i) => {
+//       console.log(`X ${i + 1}/${doc.filter((q) => q.type != "group").length}`);
 
-//     const que = await queues.findById(q._queue);
-//     q._managed_by = q._queue;
-//     q._manager_username = que.name;
+//       q.icon = `https://a.ppy.sh/${q._id}`;
+//       await queues.findByIdAndUpdate(q._id, q);
 
-//     await requests.findByIdAndUpdate(q._id, q);
-
-//     console.log(`== ${i + 1}/${doc.length}`);
-//   });
+//       console.log(`== ${i + 1}/${doc.filter((q) => q.type != "group").length}`);
+//     });
 // });

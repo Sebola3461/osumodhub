@@ -118,20 +118,66 @@ export default () => {
       });
   }
 
-  function refreshFollowers() {
+  function refreshFollowers(change?: boolean) {
     console.log("Updating followers data");
 
-    // ? We need to provide account token to check if the user is following the queue
-    fetch(`/api/queues/${QueueID}/follow`, {
-      headers: {
-        authorization: login.account_token,
-      },
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        queue.setFollowers(data.data.size);
-        queue.setFollowing(data.data.mutual);
-      });
+    if (!queue.followers && change == undefined) {
+      // ? We need to provide account token to check if the user is following the queue
+      fetch(`/api/queues/${QueueID}/follow`, {
+        headers: {
+          authorization: login.account_token,
+        },
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          queue.setFollowers(data.data.size);
+          queue.setFollowing(data.data.mutual);
+        });
+    }
+
+    if (queue.following && change == true) {
+      queue.setFollowing(false);
+
+      // ? We need to provide account token to check if the user is following the queue
+      fetch(`/api/queues/${QueueID}/follow`, {
+        method: "delete",
+        headers: {
+          authorization: login.account_token,
+        },
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.status != 200) {
+            enqueueSnackbar(data.message);
+            return queue.setFollowing(queue.following);
+          }
+          queue.setFollowers(queue.followers - 1);
+
+          enqueueSnackbar(data.message);
+        });
+    }
+
+    if (!queue.following && change == true) {
+      queue.setFollowing(true);
+
+      // ? We need to provide account token to check if the user is following the queue
+      fetch(`/api/queues/${QueueID}/follow`, {
+        method: "post",
+        headers: {
+          authorization: login.account_token,
+        },
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.status != 200) {
+            enqueueSnackbar(data.message);
+            return queue.setFollowing(queue.following);
+          }
+          queue.setFollowers(queue.followers + 1);
+
+          enqueueSnackbar(data.message);
+        });
+    }
   }
 
   function setFilters(event: React.SyntheticEvent<InputEvent>, filter: any) {
@@ -179,7 +225,7 @@ export default () => {
               <div
                 className="icon round1"
                 style={{
-                  backgroundImage: `url(https://a.ppy.sh/${queue.data._id})`,
+                  backgroundImage: `url(${queue.data.icon})`,
                   border: `5px solid var(--${
                     queue.data.open ? "green" : "red"
                   })`,
@@ -213,7 +259,7 @@ export default () => {
                   <Tag
                     content={queue.data.type}
                     style={{
-                      // backgroundColor: typeColors[queue.data.type],
+                      backgroundColor: QueueColors[queue.data.type],
                       color: "white",
                       marginTop: "5px",
                     }}
@@ -340,7 +386,7 @@ export default () => {
                     }
                     onClick={() => {
                       if (login._id == -1) return;
-                      refreshFollowers();
+                      refreshFollowers(true);
                     }}
                   >
                     {queue.followers}

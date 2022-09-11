@@ -279,6 +279,10 @@ export default () => {
     </div>,
   ];
 
+  const isManager =
+    login._id == queueContext.data.owner ||
+    queueContext.data.admins.includes(login._id);
+
   return (
     <div
       className={
@@ -295,10 +299,7 @@ export default () => {
     >
       <div className="container">
         <div className="paneltitle">
-          {login._id == queueContext.data.owner ||
-          queueContext.data.admins.includes(login._id)
-            ? "Manage Request"
-            : "Request Details"}
+          {isManager ? "Manage Request" : "Request Details"}
           <FontAwesomeIcon
             icon={faTimes}
             color="#fff"
@@ -312,14 +313,7 @@ export default () => {
           />
         </div>
         <BeatmapsetBanner request={request} status={request.status} />
-        <div
-          className={
-            queueContext.data.owner != login._id &&
-            !queueContext.data.admins.includes(login._id)
-              ? "tab invisible"
-              : "tab"
-          }
-        >
+        <div className={isManager ? "tab invisible" : "tab"}>
           <div
             className={tab == 0 ? "option selected" : "option"}
             onClick={() => {

@@ -27,7 +27,7 @@ router.post("/new/group", CreateNewQueueGroup);
 router.post("/new", CreateNewQueue);
 router.post("/sync", SyncQueue);
 router.post("/schedule", StartTimeClose);
-router.post("/webhook", TestWebhook);
+router.post("/:queue/webhook", TestWebhook);
 router.post("/:queue/requests", rewriteUsernameToId, CreateRequest);
 router.post("/:queue/follow", rewriteUsernameToId, FollowQueue);
 router.post("/update/group/:id", UpdateGroup);
@@ -43,7 +43,7 @@ router.get("/:queue/requests", rewriteUsernameToId, GetQueueRequests);
 // ? =============== DELETE REQUESTS
 router.delete("/:queue/follow", rewriteUsernameToId, RemoveFollower);
 router.delete("/:queue", DeleteQueue);
-router.delete("/webhook", RemoveWebhook);
+router.delete("/:queue/webhook", RemoveWebhook);
 
 // ? ========================================= UTILS
 async function rewriteUsernameToId(
