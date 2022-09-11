@@ -10,6 +10,12 @@ export default async (req: Request, res: Response) => {
 
   if (authorization != user.account_token) return sendPartial();
 
+  if (!user)
+    return res.status(404).send({
+      status: 404,
+      message: "User not found!",
+    });
+
   function sendPartial() {
     return res.status(200).send({
       status: 200,

@@ -6,6 +6,12 @@ export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
   const queue = await queues.findById(id);
 
+  if (!queue)
+    return res.status(404).send({
+      status: 404,
+      message: "Queue not found!",
+    });
+
   if (!authorization) removeSensitiveData();
 
   const manager = await users.findOne({ owner: queue.owner });

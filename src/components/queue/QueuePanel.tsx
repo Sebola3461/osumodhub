@@ -56,7 +56,11 @@ export default () => {
       return;
     });
 
-    fetch(`/api/queues/${login._id}`)
+    fetch(`/api/queues/${login._id}`, {
+      headers: {
+        authorization: login.account_token,
+      },
+    })
       .then((r) => r.json())
       .then((d) => {
         setQueue(d.data);
