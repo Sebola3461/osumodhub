@@ -14,6 +14,7 @@ import Tag from "../global/Tag";
 import QueueColors from "../../constants/QueueColors";
 import Select from "react-select";
 import { queue } from "sharp";
+import isQueueManager from "../../helpers/isQueueManager";
 
 export default () => {
   const { user, updateUser } = useContext(AuthContext);
@@ -279,10 +280,6 @@ export default () => {
     </div>,
   ];
 
-  const isManager =
-    login._id == queueContext.data.owner ||
-    queueContext.data.admins.includes(login._id);
-
   return (
     <div
       className={
@@ -299,7 +296,9 @@ export default () => {
     >
       <div className="container">
         <div className="paneltitle">
-          {isManager ? "Manage Request" : "Request Details"}
+          {isQueueManager(queueContext.data, login)
+            ? "Manage Request"
+            : "Request Details"}
           <FontAwesomeIcon
             icon={faTimes}
             color="#fff"
@@ -313,7 +312,11 @@ export default () => {
           />
         </div>
         <BeatmapsetBanner request={request} status={request.status} />
-        <div className={isManager ? "tab invisible" : "tab"}>
+        <div
+          className={
+            isQueueManager(queueContext.data, login) ? "tab invisible" : "tab"
+          }
+        >
           <div
             className={tab == 0 ? "option selected" : "option"}
             onClick={() => {

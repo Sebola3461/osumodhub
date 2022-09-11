@@ -43,6 +43,7 @@ import { ConfirmDialogContext } from "../../providers/ConfirmDialogContext";
 import { addToUpdateQueue } from "../../helpers/RequestUpdateQueue";
 import { IQueueRequest } from "../../types/queue";
 import { QueueContext } from "../../providers/QueueContext";
+import isQueueManager from "../../helpers/isQueueManager";
 
 export default ({
   request,
@@ -669,33 +670,27 @@ export default ({
       );
     }
 
-    if (
-      !login.isBn &&
-      (login._id == queueContext.data.owner ||
-        queueContext.data.admins.includes(login._id))
-    )
-      return (
-        <ContextMenu id={`request-${_request._id}`}>
-          {modder_options.map((o) => {
-            return o;
-          })}
-          {extraMenu}
-        </ContextMenu>
-      );
-
-    if (
-      login.isBn &&
-      (login._id == queueContext.data.owner ||
-        queueContext.data.admins.includes(login._id))
-    )
-      return (
-        <ContextMenu id={`request-${_request._id}`}>
-          {modder_options.map((o) => {
-            return o;
-          })}
-          {extraMenu}
-        </ContextMenu>
-      );
+    if (isQueueManager(queueContext.data, login)) {
+      if (login.isBn) {
+        return (
+          <ContextMenu id={`request-${_request._id}`}>
+            {modder_options.map((o) => {
+              return o;
+            })}
+            {extraMenu}
+          </ContextMenu>
+        );
+      } else {
+        return (
+          <ContextMenu id={`request-${_request._id}`}>
+            {modder_options.map((o) => {
+              return o;
+            })}
+            {extraMenu}
+          </ContextMenu>
+        );
+      }
+    }
 
     if (login._id == _request._owner)
       return (
