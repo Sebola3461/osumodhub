@@ -23,7 +23,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
   async function sendQueueEmbed() {
     const queue_id = req.path.split("/").pop();
-    const queue = isNaN(Number(queue_id))
+    let queue = isNaN(Number(queue_id))
       ? await queues.findOne({ name: queue_id })
       : await queues.findById(queue_id);
 
@@ -33,6 +33,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
       BN: "#a347eb",
       NAT: "#eb8c47",
     };
+
+    if (queue == null) queue = await queues.findById(queue_id);
 
     if (queue == null)
       return res.status(404).send(`<html lang="en">
@@ -44,9 +46,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
       <meta property="og:url" content="https://osumodhub.xyz/">
       <meta property="og:description" content="osu!modhub provides mapping & modding tools for osu!">
       <meta property="og:type" content="profile">
-      <meta content="${
-        typeColors[queue.type]
-      }" data-react-helmet="true" name="theme-color" />
+       data-react-helmet="true" name="theme-color" />
       <meta name="twitter:card" content="summary_large_image">
       <title>osu!modhub | Queue not found!</title>
     </head>
