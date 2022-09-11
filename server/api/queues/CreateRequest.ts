@@ -21,11 +21,18 @@ export default async (req: Request, res: Response) => {
 
     const author = await users.findOne({ account_token: authorization });
     const queue = await queues.findById(requestedQueue);
+    const queueOwner = await users.findById(queue.owner);
 
     if (queue == null)
       return res.status(404).send({
         status: 404,
         message: "Queue not found!",
+      });
+
+    if (queueOwner == null)
+      return res.status(404).send({
+        status: 404,
+        message: "Queue owner not found!",
       });
 
     if (author == null)
@@ -45,7 +52,8 @@ export default async (req: Request, res: Response) => {
 
     if (
       !queue.open &&
-      (author._id != queue._id || !queue.admins.includes(author._id))
+      author._id != queue.owner &&
+      !queue.admins.includes(author._id)
     )
       return res.status(403).send({
         status: 403,
@@ -68,13 +76,13 @@ export default async (req: Request, res: Response) => {
 
     if (
       !(
-        requestedBeatmapset.data.user_id == author._id ||
+        requestedBeatmapset.data.user_id == author._id &&
         !queue.admins.includes(author._id)
       ) &&
       !queue.allow.cross
     ) {
       // ? Bypass queue owner
-      if (author._id != queue._id && !queue.admins.includes(author._id))
+      if (author._id != queue.owner && !queue.admins.includes(author._id))
         return res.status(403).send({
           status: 403,
           message: "This queue does not allow cross requests!",
@@ -157,7 +165,14 @@ export default async (req: Request, res: Response) => {
     await request.save();
 
     await checkQueueAutoclose(queue);
-    NotifyNewRequest(queue, author);
+
+    NotifyNewRequest(queue, queueOwner, author);
+    queue.admins.forEach(async (admin_id) => {
+      const user = await users.findById(admin_id);
+      if (user) {
+        NotifyNewRequest(queue, user, user);
+      }
+    });
 
     res.status(200).send({
       status: 200,
