@@ -17,7 +17,7 @@ import SearchSelect from "../components/global/SearchSelect";
 import QueueSelector from "../components/global/QueueSelector";
 import { useNavigate } from "react-router-dom";
 import SideMenu from "../components/global/SideMenu";
-import { SideMenuContext } from "../providers/UserSideMenu";
+import { UserSideMenuContext } from "../providers/UserSideMenu";
 import { AuthContext } from "../providers/AuthContext";
 import QueuePanel from "../components/queue/QueuePanel";
 import { QueuePanelContext } from "../providers/QueuePanelContext";
@@ -55,7 +55,7 @@ function GDFeed() {
   });
   const { filters, updateFilters } = useContext<any>(HomeFilterContext);
   const [loading, setLoading] = useState(false);
-  const sideMenuContext = useContext(SideMenuContext);
+  const sideMenuContext = useContext(UserSideMenuContext);
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
   const queuePanelContext = useContext(QueuePanelContext);
@@ -70,7 +70,7 @@ function GDFeed() {
     const categories = Object.keys(gds);
 
     for (const category of categories) {
-      fetch(`/api/listing/gd/${category}`)
+      fetch(`/api/gd/listing?category=${category}`)
         .then((r) => r.json())
         .then((q) => {
           if (q.status != 200) return;

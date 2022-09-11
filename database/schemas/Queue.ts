@@ -4,6 +4,12 @@ export default new Schema({
   _id: {
     type: String,
   },
+  owner: {
+    type: String,
+  },
+  isGroup: {
+    type: Boolean,
+  },
   banner: {
     type: String,
     default: "/src/static/images/genericbg.jpg",
@@ -25,6 +31,10 @@ export default new Schema({
   description: {
     type: String,
     default: "Hi! Welcome to my queue",
+  },
+  admins: {
+    type: Array,
+    default: [],
   },
 
   /**

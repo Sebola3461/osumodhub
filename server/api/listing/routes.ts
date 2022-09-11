@@ -1,5 +1,5 @@
 import { Router } from "express";
-import ListGDRequests from "./ListGDRequests";
+import ListGDRequests from "../gd/ListGDRequests";
 import ListQueues from "./ListQueues";
 
 const router = Router();

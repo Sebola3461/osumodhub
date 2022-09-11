@@ -13,6 +13,7 @@ import BeatmapsetBanner from "../panels/BeatmapsetBanner";
 import Tag from "../global/Tag";
 import QueueColors from "../../constants/QueueColors";
 import Select from "react-select";
+import { queue } from "sharp";
 
 export default () => {
   const { user, updateUser } = useContext(AuthContext);
@@ -203,26 +204,38 @@ export default () => {
             {request.comment || "No comment provided..."}
           </div>
         </div>
-        <div className="modderreply comment">
-          <div className="metadata">
-            <div
-              className="userpfp"
-              style={{
-                backgroundImage: `url(https://a.ppy.sh/${request._queue})`,
-              }}
-            ></div>
-            <p className="username">
-              {queueContext.data.name}
-              <Tag
-                content={queueContext.data.type}
-                type={queueContext.data.type}
-              />
-            </p>
+        {!request._managed_by ? (
+          <></>
+        ) : (
+          <div className="modderreply comment">
+            <div className="metadata">
+              <div
+                className="userpfp"
+                style={{
+                  backgroundImage: `url(https://a.ppy.sh/${request._managed_by})`,
+                }}
+              ></div>
+              <p className="username">
+                {request._manager_username}
+                <Tag
+                  content={
+                    queueContext.data.isGroup
+                      ? "contributor"
+                      : queueContext.data.type
+                  }
+                  type={
+                    queueContext.data.isGroup
+                      ? "modder"
+                      : queueContext.data.type
+                  }
+                />
+              </p>
+            </div>
+            <div className="content">
+              {request.reply || "No feedback provided..."}
+            </div>
           </div>
-          <div className="content">
-            {request.reply || "No feedback provided..."}
-          </div>
-        </div>
+        )}
       </div>
     </div>,
     <div className="actionslayout customscroll">
@@ -241,7 +254,7 @@ export default () => {
         ></textarea>
       </div>
       <div className="buttons">
-        {["BN", "NAT"].includes(queueContext.data.type)
+        {login.isBn
           ? bn_options.map((o) => (
               <div
                 className={`option ${o.decoration}-hover`}
@@ -282,7 +295,8 @@ export default () => {
     >
       <div className="container">
         <div className="paneltitle">
-          {login._id == queueContext.data._id
+          {login._id == queueContext.data.owner ||
+          queueContext.data.admins.includes(login._id)
             ? "Manage Request"
             : "Request Details"}
           <FontAwesomeIcon
@@ -298,7 +312,14 @@ export default () => {
           />
         </div>
         <BeatmapsetBanner request={request} status={request.status} />
-        <div className={request._queue != login._id ? "tab invisible" : "tab"}>
+        <div
+          className={
+            queueContext.data.owner != login._id &&
+            !queueContext.data.admins.includes(login._id)
+              ? "tab invisible"
+              : "tab"
+          }
+        >
           <div
             className={tab == 0 ? "option selected" : "option"}
             onClick={() => {

@@ -6,7 +6,7 @@ import "./styles/index.css";
 import Home from "./pages/Home";
 import Queue from "./pages/Queue";
 import AuthProvider from "./providers/AuthContext";
-import { SideMenuProvider } from "./providers/UserSideMenu";
+import { UserSideMenuProvider } from "./providers/UserSideMenu";
 import { RequestContextProvider } from "./providers/RequestContext";
 import { RequestPanelProvider } from "./providers/RequestPanelContext";
 import { QueuePanelProvider } from "./providers/QueuePanelContext";
@@ -27,6 +27,8 @@ import { ManageGDPanelProvider } from "./providers/ManageGDPanelContext";
 import { ConfirmDialogProvider } from "./providers/ConfirmDialogContext";
 import { RequestWsProvider } from "./providers/RequestWsQueueContext";
 import { QueueProvider } from "./providers/QueueContext";
+import { QueueGroupsSideMenuProvider } from "./providers/QueueGroupsSideMenu";
+import { CreateGroupPanelProvider } from "./providers/CreateGroupContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -40,66 +42,79 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     >
       <AuthProvider>
         <QueueProvider>
-          <SideMenuProvider>
-            <ConfirmDialogProvider>
-              <RequestWsProvider>
-                <RequestContextProvider>
-                  <RequestPanelProvider>
-                    <QueuePanelProvider>
-                      <ManageRequestPanelProvider>
-                        <MyRequestsPanelProvider>
-                          <BeatmapPreviewProvider>
-                            <NotificationSideMenuProvider>
-                              <HomeFilterContextProvider>
-                                <PostGDPanelProvider>
-                                  <GDPanelProvider>
-                                    <ManageGDPanelProvider>
-                                      <BrowserRouter>
-                                        <Routes>
-                                          <Route
-                                            path="/"
-                                            element={<RedirectHome />}
-                                          >
-                                            <Route
-                                              index
-                                              element={<RedirectHome />}
-                                            />
-                                          </Route>
-                                          <Route
-                                            path="/modding"
-                                            element={<Home />}
-                                          >
-                                            <Route index element={<Home />} />
-                                          </Route>
-                                          <Route
-                                            path="/gd"
-                                            element={<GDFeed />}
-                                          >
-                                            <Route index element={<GDFeed />} />
-                                            cmd
-                                          </Route>
-                                          <Route
-                                            path="/queue/:user"
-                                            element={<Queue />}
-                                          >
-                                            <Route index element={<Queue />} />
-                                          </Route>
-                                        </Routes>
-                                      </BrowserRouter>
-                                    </ManageGDPanelProvider>
-                                  </GDPanelProvider>
-                                </PostGDPanelProvider>
-                              </HomeFilterContextProvider>
-                            </NotificationSideMenuProvider>
-                          </BeatmapPreviewProvider>
-                        </MyRequestsPanelProvider>
-                      </ManageRequestPanelProvider>
-                    </QueuePanelProvider>
-                  </RequestPanelProvider>
-                </RequestContextProvider>
-              </RequestWsProvider>
-            </ConfirmDialogProvider>
-          </SideMenuProvider>
+          <QueueGroupsSideMenuProvider>
+            <CreateGroupPanelProvider>
+              <UserSideMenuProvider>
+                <ConfirmDialogProvider>
+                  <RequestWsProvider>
+                    <RequestContextProvider>
+                      <RequestPanelProvider>
+                        <QueuePanelProvider>
+                          <ManageRequestPanelProvider>
+                            <MyRequestsPanelProvider>
+                              <BeatmapPreviewProvider>
+                                <NotificationSideMenuProvider>
+                                  <HomeFilterContextProvider>
+                                    <PostGDPanelProvider>
+                                      <GDPanelProvider>
+                                        <ManageGDPanelProvider>
+                                          <BrowserRouter>
+                                            <Routes>
+                                              <Route
+                                                path="/"
+                                                element={<RedirectHome />}
+                                              >
+                                                <Route
+                                                  index
+                                                  element={<RedirectHome />}
+                                                />
+                                              </Route>
+                                              <Route
+                                                path="/modding"
+                                                element={<Home />}
+                                              >
+                                                <Route
+                                                  index
+                                                  element={<Home />}
+                                                />
+                                              </Route>
+                                              <Route
+                                                path="/gd"
+                                                element={<GDFeed />}
+                                              >
+                                                <Route
+                                                  index
+                                                  element={<GDFeed />}
+                                                />
+                                                cmd
+                                              </Route>
+                                              <Route
+                                                path="/queue/:user"
+                                                element={<Queue />}
+                                              >
+                                                <Route
+                                                  index
+                                                  element={<Queue />}
+                                                />
+                                              </Route>
+                                            </Routes>
+                                          </BrowserRouter>
+                                        </ManageGDPanelProvider>
+                                      </GDPanelProvider>
+                                    </PostGDPanelProvider>
+                                  </HomeFilterContextProvider>
+                                </NotificationSideMenuProvider>
+                              </BeatmapPreviewProvider>
+                            </MyRequestsPanelProvider>
+                          </ManageRequestPanelProvider>
+                        </QueuePanelProvider>
+                      </RequestPanelProvider>
+                    </RequestContextProvider>
+                  </RequestWsProvider>
+                </ConfirmDialogProvider>
+              </UserSideMenuProvider>
+            </CreateGroupPanelProvider>
+          </QueueGroupsSideMenuProvider>
         </QueueProvider>
       </AuthProvider>
     </SnackbarProvider>

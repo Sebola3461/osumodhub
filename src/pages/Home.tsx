@@ -16,7 +16,7 @@ import SearchSelect from "../components/global/SearchSelect";
 import QueueSelector from "../components/global/QueueSelector";
 import { useNavigate } from "react-router-dom";
 import SideMenu from "../components/global/SideMenu";
-import { SideMenuContext } from "../providers/UserSideMenu";
+import { UserSideMenuContext } from "../providers/UserSideMenu";
 import { AuthContext } from "../providers/AuthContext";
 import QueuePanel from "../components/queue/QueuePanel";
 import { QueuePanelContext } from "../providers/QueuePanelContext";
@@ -30,12 +30,14 @@ import NoRequests from "../components/global/NoRequests";
 import { HomeFilterContext } from "../providers/HomeFiltersContext";
 import ConfirmDialog from "../components/global/ConfirmDialog";
 import UserPanel from "../components/global/UserPanel";
+import QueueGroupsSideMenu from "../components/global/QueueGroupsSideMenu";
+import CreateNewGroupPanel from "../components/global/CreateNewGroupPanel";
 
 function App() {
   const [queues, setQueues] = useState<any>(["loading"]);
   const { filters, updateFilters } = useContext<any>(HomeFilterContext);
   const [loading, setLoading] = useState(false);
-  const sideMenuContext = useContext(SideMenuContext);
+  const sideMenuContext = useContext(UserSideMenuContext);
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
   const queuePanelContext = useContext(QueuePanelContext);
@@ -143,7 +145,9 @@ function App() {
       <QueuePanel></QueuePanel>
       <MyRequestsPanel></MyRequestsPanel>
       <UserPanel />
+      <QueueGroupsSideMenu />
       <NotificationSideMenu></NotificationSideMenu>
+      <CreateNewGroupPanel />
       <HeaderPanel
         style={{
           display: "flex",
@@ -176,6 +180,7 @@ function App() {
                 <option value="any">Any</option>
                 <option value="nominator">Nominators</option>
                 <option value="modder">Modders</option>
+                <option value="group">Groups</option>
               </>
             }
             onSelect={(ev: any) => {

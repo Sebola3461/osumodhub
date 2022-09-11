@@ -1,12 +1,16 @@
 import { Router } from "express";
+import ListGDRequests from "./ListGDRequests";
 import ClaimGDRequest from "./ClaimGDRequest";
 import CreateGDRequest from "./CreateGDRequest";
 import GetGDRequest from "./GetGDRequest";
 import GetGDRequestClaims from "./GetGDRequestClaims";
+import GetUserGDPosts from "./GetUserGDPosts";
 
 const router = Router();
 
 // ? =============== GET REQUESTS
+router.get("/listing", ListGDRequests);
+router.get("/posts", GetUserGDPosts);
 router.get("/:id", GetGDRequest);
 router.get("/:id/claim", GetGDRequestClaims);
 

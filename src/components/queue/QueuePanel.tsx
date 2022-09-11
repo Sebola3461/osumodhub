@@ -12,16 +12,19 @@ import MDEditor from "@uiw/react-md-editor";
 import moment from "moment";
 import Markdown from "markdown-to-jsx";
 import { queue } from "sharp";
+import { useNavigate } from "react-router-dom";
 
 export default () => {
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
   const { open, setOpen } = useContext(QueuePanelContext);
+  const [personalQueue, setPersonalQueue] = useState<any>();
   const [_queue, setQueue] = useState<any>();
   const [queueRules, setQueueRules] = useState(
     _queue ? _queue.description : { description: "" }.description
   );
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const [groups, setGroups] = useState([]);
 
   const action = (key) => (
     <>
@@ -34,6 +37,12 @@ export default () => {
       </button>
     </>
   );
+
+  const navigate = useNavigate();
+
+  const goTo = (route: string) => {
+    navigate(route, { replace: false }), [navigate];
+  };
 
   useEffect(() => {
     if (login._id == -1) return;
@@ -52,6 +61,23 @@ export default () => {
       .then((d) => {
         setQueue(d.data);
         setQueueRules(d.data.description);
+        setPersonalQueue(d.data);
+
+        fetch(`/api/users/groups`, {
+          headers: {
+            authorization: login.account_token,
+          },
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            d.data.name = "Personal queue";
+            let _groups = [d.data];
+
+            data.data.forEach((group) => {
+              _groups.push(group);
+            });
+            setGroups(_groups);
+          });
       });
   }, []);
 
@@ -59,14 +85,26 @@ export default () => {
     _queue[key] = value;
     setQueue(_queue);
 
-    fetch(`/api/queues/update`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        authorization: login.account_token,
-      },
-      body: JSON.stringify(_queue),
-    })
+    if (_queue.isGroup == true) {
+      const i = groups.findIndex((g) => g._id == _queue._id);
+      groups[i] = _queue;
+    } else {
+      setPersonalQueue(_queue);
+    }
+
+    fetch(
+      _queue.isGroup
+        ? `/api/queues/update/group/${_queue._id}`
+        : `/api/queues/update`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: login.account_token,
+        },
+        body: JSON.stringify(_queue),
+      }
+    )
       .then((r) => r.json())
       .then((d) => {
         enqueueSnackbar(d.message, {
@@ -265,6 +303,31 @@ export default () => {
       });
   }
 
+  function deleteQueue() {
+    if (confirm("Are you sure?")) {
+      fetch(`/api/queues/${_queue._id}`, {
+        method: "DELETE",
+        headers: {
+          authorization: login.account_token,
+        },
+      })
+        .then((r) => r.json())
+        .then((d) => {
+          enqueueSnackbar(d.message, {
+            variant: d.status == 200 ? "success" : "error",
+            action: action,
+          });
+
+          if (d.status == 200) {
+            let _groups = groups.filter((g) => g._id != _queue._id);
+            setGroups(_groups);
+
+            setQueue(personalQueue);
+          }
+        });
+    }
+  }
+
   function removeWebhook() {
     if (confirm("Are you sure?")) {
       fetch(`/api/queues/webhook`, {
@@ -300,7 +363,6 @@ export default () => {
         auxClosePanel(ev);
       }}
       onKeyDown={escClosePanel}
-      key={"queuepanel"}
     >
       <div className="container">
         <div className="paneltitle">
@@ -322,6 +384,80 @@ export default () => {
             <></>
           ) : (
             <>
+              <div className="selectqueue">
+                <p>Select queue:</p>
+                <select
+                  className="groups"
+                  key={GenerateComponentKey(10)}
+                  defaultValue={_queue._id}
+                  onInput={(ev: any) => {
+                    const groupIndex = groups.findIndex(
+                      (g) => g._id == ev.target.value
+                    );
+
+                    if (groupIndex != -1) {
+                      setQueue(groups[groupIndex]);
+                      setQueueRules(groups[groupIndex].description);
+                    } else {
+                      setQueue(personalQueue);
+                      setQueueRules(personalQueue.description);
+                    }
+                  }}
+                >
+                  {groups.map((g) => (
+                    <option value={g._id} key={GenerateComponentKey(10)}>
+                      {g.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="separator"></div>
+              {!_queue.isGroup ? (
+                <></>
+              ) : (
+                <>
+                  <div className="option">
+                    <p>Group name:</p>
+                    <input
+                      type="text"
+                      defaultValue={_queue.name}
+                      style={{
+                        marginLeft: "5px",
+                      }}
+                      onBlur={(ev: any) => {
+                        updateQueueOption("name", ev.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="option">
+                    <p>Icon URL:</p>
+                    <input
+                      type="text"
+                      defaultValue={_queue.icon}
+                      style={{
+                        marginLeft: "5px",
+                      }}
+                      onBlur={(ev: any) => {
+                        updateQueueOption("icon", ev.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="option">
+                    <p>Banner URL:</p>
+                    <input
+                      type="text"
+                      defaultValue={_queue.banner}
+                      style={{
+                        marginLeft: "5px",
+                      }}
+                      onBlur={(ev: any) => {
+                        updateQueueOption("banner", ev.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="separator"></div>
+                </>
+              )}
               <div className="option">
                 <p>Open:</p>
                 <Switch
@@ -402,65 +538,74 @@ export default () => {
                 />
               </div>
               <div className="separator"></div>
-              <div className="option">
-                <p>Enable time-close:</p>
-                <Switch
-                  defaultChecked={_queue.autoclose.enable}
-                  onInput={(ev: any) => {
-                    updateQueueOption("timeclose", {
-                      enable: ev.target.checked,
-                      size: _queue.timeclose.size,
-                    });
-                  }}
-                />
-              </div>
-              <div className="option">
-                <p>Close after (days):</p>
-                <input
-                  type="number"
-                  defaultValue={_queue.timeclose.size}
-                  min={1}
-                  max={31}
-                  style={{
-                    marginLeft: "5px",
-                  }}
-                  key={GenerateComponentKey(10)}
-                  onInput={(ev: any) => {
-                    _queue.timeclose.size = Number(ev.target.value);
+              {_queue.isGroup ? (
+                <></>
+              ) : (
+                <>
+                  <div className="option">
+                    <p>Enable time-close:</p>
+                    <Switch
+                      defaultChecked={_queue.autoclose.enable}
+                      onInput={(ev: any) => {
+                        updateQueueOption("timeclose", {
+                          enable: ev.target.checked,
+                          size: _queue.timeclose.size,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className="option">
+                    <p>Close after (days):</p>
+                    <input
+                      type="number"
+                      defaultValue={_queue.timeclose.size}
+                      min={1}
+                      max={31}
+                      style={{
+                        marginLeft: "5px",
+                      }}
+                      key={GenerateComponentKey(10)}
+                      onInput={(ev: any) => {
+                        _queue.timeclose.size = Number(ev.target.value);
 
-                    updateQueueOption("autoclose", {
-                      enable: _queue.timeclose.enable,
-                      size: Number(ev.target.value),
-                    });
-                  }}
-                />
-              </div>
-              <div className="row timerrow" key={_queue.timeclose.scheduled}>
-                <button className="custombutton" onClick={scheduleQueue}>
-                  Start timer
-                </button>
-                {moment(_queue.timeclose.scheduled)
-                  .add(_queue.timeclose.size, "days")
-                  .toDate()
-                  .valueOf() >= new Date().valueOf() ? (
-                  <p>
-                    Your queue will close{" "}
+                        updateQueueOption("autoclose", {
+                          enable: _queue.timeclose.enable,
+                          size: Number(ev.target.value),
+                        });
+                      }}
+                    />
+                  </div>
+                  <div
+                    className="row timerrow"
+                    key={_queue.timeclose.scheduled}
+                  >
+                    <button className="custombutton" onClick={scheduleQueue}>
+                      Start timer
+                    </button>
                     {moment(_queue.timeclose.scheduled)
                       .add(_queue.timeclose.size, "days")
-                      .calendar()}{" "}
-                    UTC
-                  </p>
-                ) : (
-                  <></>
-                )}
-              </div>
-              <div className="separator"></div>
+                      .toDate()
+                      .valueOf() >= new Date().valueOf() ? (
+                      <p>
+                        Your queue will close{" "}
+                        {moment(_queue.timeclose.scheduled)
+                          .add(_queue.timeclose.size, "days")
+                          .calendar()}{" "}
+                        UTC
+                      </p>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                  <div className="separator"></div>
+                </>
+              )}
               <div className="option  wide">
                 <p>Preferences:</p>
                 <TagsInput
+                  key={GenerateComponentKey(10)}
                   value={_queue.genres}
                   onInput={(tags: string[]) => {
-                    console.log(tags);
                     updateQueueOption("genres", tags);
                   }}
                 ></TagsInput>
@@ -583,14 +728,40 @@ export default () => {
                   </div>
                 </div>
               </div>
+              {_queue.isGroup ? (
+                <></>
+              ) : (
+                <>
+                  <div className="separator"></div>
+                  <div className="option">
+                    <p>Import from another website:</p>
+                    <button onClick={importFromOsumod} className="import">
+                      Import from osumod
+                    </button>
+                  </div>
+                </>
+              )}
               <div className="separator"></div>
-              <div className="option">
-                <p>Import from another website:</p>
-                <button onClick={importFromOsumod} className="import">
-                  Import from osumod
-                </button>
-              </div>
-              <div className="separator"></div>
+              {!_queue.isGroup ? (
+                <></>
+              ) : (
+                <>
+                  <div className="option  wide">
+                    <p>Admins (By osu! Id):</p>
+                    <TagsInput
+                      value={_queue.admins}
+                      onInput={(tags: string[]) => {
+                        updateQueueOption("admins", tags);
+                      }}
+                    ></TagsInput>
+                    <button onClick={deleteQueue} className="import">
+                      Delete Queue
+                    </button>
+                  </div>
+                  <div className="separator"></div>
+                </>
+              )}
+
               <div className="option wide">
                 <p>Rules:</p>
                 <div className="wrapper">

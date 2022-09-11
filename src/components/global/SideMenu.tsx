@@ -1,24 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, Context } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import StartAuthentication from "../../helpers/StartAuthentication";
 import { AuthContext } from "../../providers/AuthContext";
-import { SideMenuContext } from "../../providers/UserSideMenu";
+import { UserSideMenuContext } from "../../providers/UserSideMenu";
 import "./../../styles/SideMenu.css";
 
 export default ({
   title,
-  _open,
+  context,
   options,
+  customComponents,
 }: {
   title: string;
-  _open: boolean;
+  context: Context<any>;
   options: { label: string; callback: Function }[];
+  customComponents?: any[];
 }) => {
-  const { open, setOpen } = useContext(SideMenuContext);
-
-  useEffect(() => {
-    setOpen(_open);
-  }, [open]);
+  const { open, setOpen } = useContext(context);
 
   function closePanel() {
     setOpen(!open);
@@ -68,6 +66,7 @@ export default ({
               </div>
             );
           })}
+          {customComponents ? customComponents.map((c, i) => c) : <></>}
         </div>
       </div>
     </div>

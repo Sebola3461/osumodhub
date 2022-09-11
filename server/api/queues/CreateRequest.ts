@@ -34,13 +34,19 @@ export default async (req: Request, res: Response) => {
         message: "User not found!",
       });
 
-    if (authorization != author.account_token)
+    if (
+      authorization != author.account_token &&
+      !queue.admins.includes(author._id)
+    )
       return res.status(400).send({
         status: 401,
         message: "Unauthorized",
       });
 
-    if (!queue.open && author._id != queue._id)
+    if (
+      !queue.open &&
+      (author._id != queue._id || !queue.admins.includes(author._id))
+    )
       return res.status(403).send({
         status: 403,
         message: "This queue is closed!",
@@ -60,9 +66,15 @@ export default async (req: Request, res: Response) => {
         message: "Invalid beatmap",
       });
 
-    if (requestedBeatmapset.data.user_id != author._id && !queue.allow.cross) {
+    if (
+      !(
+        requestedBeatmapset.data.user_id == author._id ||
+        !queue.admins.includes(author._id)
+      ) &&
+      !queue.allow.cross
+    ) {
       // ? Bypass queue owner
-      if (author._id != queue._id)
+      if (author._id != queue._id && !queue.admins.includes(author._id))
         return res.status(403).send({
           status: 403,
           message: "This queue does not allow cross requests!",
@@ -143,9 +155,6 @@ export default async (req: Request, res: Response) => {
     });
 
     await request.save();
-
-    queue.statistics[0] = queue.statistics[0] + 1;
-    await queues.findByIdAndUpdate(queue._id, queue);
 
     await checkQueueAutoclose(queue);
     NotifyNewRequest(queue, author);

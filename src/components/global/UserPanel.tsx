@@ -5,14 +5,16 @@ import DestroySession from "../../helpers/DestroySession";
 import { AuthContext } from "../../providers/AuthContext";
 import { MyRequestPanelContext } from "../../providers/MyRequestsPanelContext";
 import { QueueContext } from "../../providers/QueueContext";
+import { QueueGroupsSideMenuContext } from "../../providers/QueueGroupsSideMenu";
 import { QueuePanelContext } from "../../providers/QueuePanelContext";
-import { SideMenuContext } from "../../providers/UserSideMenu";
+import { UserSideMenuContext } from "../../providers/UserSideMenu";
 import SideMenu from "./SideMenu";
 
 export default () => {
   const { user, updateUser } = useContext(AuthContext);
   const [login, setLogin] = useState(JSON.parse(user));
-  const sideMenuContext = useContext(SideMenuContext);
+  const sideMenuContext = useContext(UserSideMenuContext);
+  const groupsMenuContext = useContext(QueueGroupsSideMenuContext);
   const queuePanelContext = useContext(QueuePanelContext);
   const requestsPanelContext = useContext(MyRequestPanelContext);
 
@@ -71,9 +73,11 @@ export default () => {
     refreshQueue();
   }
 
+  console.log(sideMenuContext.open);
+
   return (
     <SideMenu
-      _open={sideMenuContext.open}
+      context={UserSideMenuContext}
       options={[
         { label: "My queue", callback: goToUserQueue },
         {
@@ -88,6 +92,12 @@ export default () => {
           label: "My Requests",
           callback: () => {
             requestsPanelContext.setOpen(true);
+          },
+        },
+        {
+          label: "My groups",
+          callback: () => {
+            groupsMenuContext.setOpen(true);
           },
         },
         {

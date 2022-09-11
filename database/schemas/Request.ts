@@ -16,6 +16,14 @@ export default new Schema({
     type: String,
     immutable: true,
   },
+  _managed_by: {
+    type: String,
+    default: "",
+  },
+  _manager_username: {
+    type: String,
+    default: "",
+  },
   comment: {
     type: String,
     default: "",

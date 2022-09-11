@@ -6,12 +6,12 @@ import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import StartAuthentication from "../../helpers/StartAuthentication";
 import { AuthContext } from "../../providers/AuthContext";
 import { NotificationSideMenuContext } from "../../providers/NotificationSideMenu";
-import { SideMenuContext } from "../../providers/UserSideMenu";
+import { UserSideMenuContext } from "../../providers/UserSideMenu";
 import "./../../styles/AppBar.css";
 
 export default () => {
   const { user, updateUser } = useContext(AuthContext);
-  const sideMenuContext = useContext(SideMenuContext);
+  const sideMenuContext = useContext(UserSideMenuContext);
   const [login, setLogin] = useState(JSON.parse(user));
   const notificationSideMenuContext = useContext(NotificationSideMenuContext);
 

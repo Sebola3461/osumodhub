@@ -14,7 +14,7 @@ import RequestPanel from "../components/queue/RequestPanel";
 import { RequestPanelContext } from "../providers/RequestPanelContext";
 import SideMenu from "../components/global/SideMenu";
 import { useNavigate } from "react-router-dom";
-import { SideMenuContext } from "../providers/UserSideMenu";
+import { UserSideMenuContext } from "../providers/UserSideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleCheck,
@@ -48,6 +48,8 @@ import { QueueContext } from "../providers/QueueContext";
 import UserPanel from "../components/global/UserPanel";
 import { RequestWsContext } from "../providers/RequestWsQueueContext";
 import QueueStatistics from "../components/queue/QueueStatistics";
+import GDRequestPanel from "../components/queue/GDRequestPanel";
+import QueueGroupsSideMenu from "../components/global/QueueGroupsSideMenu";
 
 interface IQueueFilters {
   type: "progress" | "archived";
@@ -186,7 +188,9 @@ export default () => {
                 <p
                   className="queuename"
                   onClick={() => {
-                    window.open(`https://osu.ppy.sh/u/${queue.data._id}`);
+                    queue.data.isGroup
+                      ? void {}
+                      : window.open(`https://osu.ppy.sh/u/${queue.data._id}`);
                   }}
                 >
                   {queue.data.name}
@@ -231,14 +235,16 @@ export default () => {
         <MyRequestsPanel />
         <ManageRequestPanel />
         <NotificationSideMenu />
+        {/* <GDRequestPanel /> */}
         <UserPanel />
+        <QueueGroupsSideMenu />
         <div className="queuelayout">
           <div className="headerleft" key={GenerateComponentKey(100)}>
             <div className="meta">
               <div
                 className="icon round1"
                 style={{
-                  backgroundImage: `url(https://a.ppy.sh/${queue.data._id})`,
+                  backgroundImage: `url(${queue.data.icon})`,
                   border: `5px solid var(--${
                     queue.data.open ? "green" : "red"
                   })`,
@@ -267,7 +273,9 @@ export default () => {
                 <p
                   className="queuename"
                   onClick={() => {
-                    window.open(`https://osu.ppy.sh/u/${queue.data._id}`);
+                    queue.data.isGroup
+                      ? void {}
+                      : window.open(`${queue.data.icon}`);
                   }}
                 >
                   {queue.data.name}
@@ -306,7 +314,14 @@ export default () => {
                     }}
                     onClick={() => {
                       if (login._id == -1) return;
-                      if (!queue.data.open && login._id != queue.data._id)
+                      if (
+                        !queue.data.open &&
+                        (queue.data.admins.includes(login._id) ||
+                          queue.data.owner == login._id)
+                      )
+                        return setOpen(true);
+
+                      if (!queue.data.open && login._id != queue.data.owner)
                         return;
 
                       setOpen(true);

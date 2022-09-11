@@ -86,6 +86,28 @@
   margin-bottom: 5%;
 }
 
+.queuepanel .container .options .selectqueue {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.queuepanel .container .options .selectqueue p {
+  margin-right: 10px;
+}
+
+.queuepanel .container .options .selectqueue select {
+  padding: 5px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .queuepanel .container .options .option {
   width: 100%;
   margin-top: 10px;

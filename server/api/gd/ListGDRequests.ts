@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { gds, queues, requests, users } from "../../../database";
-import osuApi from "../../helpers/osuApi";
-import crypto from "crypto";
 
 export default async (req: Request, res: Response) => {
   const listing = await gds.find();
-  const type = req.params.category;
+  let type = req.query.category;
+
+  if (!type) type = "all"; // ? Fallback to all if no category provided
+  type = type.toString(); // ? Stringify if another data type is provided
 
   if (type == "new") {
     listing.sort(
@@ -29,6 +30,10 @@ export default async (req: Request, res: Response) => {
 
     const response = listing.filter((d) => {
       let pass = false;
+
+      if (!type) type = "all"; // ? Fallback to all if no category provided
+
+      type = type.toString(); // ? moyai
 
       for (const genre of d.genres) {
         if (genre.toLowerCase().trim().includes(type.toLowerCase()))

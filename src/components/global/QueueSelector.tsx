@@ -48,6 +48,7 @@ export default ({ queue }: { queue: IQueue }) => {
 
   const typeColors: { [key: string]: string } = {
     modder: "#2196f3",
+    group: "#c52d61",
     BN: "#a347eb",
     NAT: "#eb8c47",
   };

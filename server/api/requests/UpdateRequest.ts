@@ -23,15 +23,15 @@ export default async (req: Request, res: Response) => {
       message: "Request not found!",
     });
 
-  const queue_owner = await users.findById(request._queue);
+  const manager = await users.findOne({ account_token: authorization });
 
-  if (queue_owner == null)
+  if (manager == null)
     return res.status(404).send({
       status: 404,
       message: "User not found!",
     });
 
-  const queue = await queues.findById(queue_owner._id);
+  const queue = await queues.findById(request._queue);
 
   if (queue == null)
     return res.status(404).send({
@@ -39,7 +39,17 @@ export default async (req: Request, res: Response) => {
       message: "Queue not found!",
     });
 
-  if (authorization != queue_owner.account_token)
+  if (manager._id != queue.owner && !queue.isGroup)
+    return res.status(401).send({
+      status: 401,
+      message: "Unauthorized",
+    });
+
+  if (
+    queue.isGroup &&
+    queue.owner != manager._id &&
+    !queue.admins.includes(manager._id)
+  )
     return res.status(401).send({
       status: 401,
       message: "Unauthorized",
@@ -78,7 +88,7 @@ export default async (req: Request, res: Response) => {
       message: "Invalid status provided",
     });
 
-  if (requestedStatus.bn && !["BN", "NAT"].includes(queue.type))
+  if (requestedStatus.bn && !manager.isBn)
     return res.status(400).send({
       status: 400,
       message: "You can't use this status!",
@@ -124,6 +134,8 @@ export default async (req: Request, res: Response) => {
     {
       reply: reply,
       status: status.toLowerCase(),
+      _managed_by: manager._id,
+      _manager_username: manager.username,
     }
   );
 

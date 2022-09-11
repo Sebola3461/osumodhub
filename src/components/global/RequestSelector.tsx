@@ -670,8 +670,9 @@ export default ({
     }
 
     if (
-      queueContext.data.type == "modder" &&
-      login._id == queueContext.data._id
+      !login.isBn &&
+      (login._id == queueContext.data.owner ||
+        queueContext.data.admins.includes(login._id))
     )
       return (
         <ContextMenu id={`request-${_request._id}`}>
@@ -683,8 +684,9 @@ export default ({
       );
 
     if (
-      ["BN", "NAT"].includes(queueContext.data.type) &&
-      login._id == queueContext.data._id
+      login.isBn &&
+      (login._id == queueContext.data.owner ||
+        queueContext.data.admins.includes(login._id))
     )
       return (
         <ContextMenu id={`request-${_request._id}`}>

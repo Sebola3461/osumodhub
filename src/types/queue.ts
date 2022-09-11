@@ -1,11 +1,14 @@
 export interface IQueue {
   _id: string;
+  owner: string;
   banner: string;
   name: string;
   open: boolean;
   icon: string;
   modes: number[];
   description: string;
+  admins: string[];
+  isGroup: boolean;
   /**
    * pending
    * accepted
@@ -76,6 +79,8 @@ export interface IQueueRequest {
   cross: boolean;
   isWs?: boolean; // ? true if the request is handled by websocket
   isWsNew?: boolean; // ? true if the request is handled by websocket (but only new requests)
+  _managed_by: string;
+  _manager_username: string;
   __v: 0;
 }
 

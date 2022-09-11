@@ -5,19 +5,19 @@ export type SideMenuContextType = {
   setOpen: (open: boolean) => void;
 };
 
-export const SideMenuContext = createContext<SideMenuContextType>({
+export const UserSideMenuContext = createContext<SideMenuContextType>({
   open: false,
   setOpen: (theme) => console.warn("Invalid side menu action"),
 });
 
-export const SideMenuProvider = ({ children }: any) => {
+export const UserSideMenuProvider = ({ children }: any) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <SideMenuContext.Provider value={{ open, setOpen }}>
+    <UserSideMenuContext.Provider value={{ open, setOpen }}>
       {children}
-    </SideMenuContext.Provider>
+    </UserSideMenuContext.Provider>
   );
 };
 
-export const useTheme = () => useContext(SideMenuContext);
+export const useTheme = () => useContext(UserSideMenuContext);

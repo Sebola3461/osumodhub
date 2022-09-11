@@ -98,7 +98,8 @@ export default ({
   return (
     <div className={loading ? "beatmapstab loading" : "beatmapstab"}>
       {!queueContext.data.allow.cross ? (
-        login._id != queueContext.data._id ? (
+        login._id != queueContext.data.owner ||
+        queueContext.data.admins.includes(login._id) ? (
           <></>
         ) : (
           search

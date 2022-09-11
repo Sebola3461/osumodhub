@@ -1,7 +1,8 @@
 import { Router } from "express";
 import GetUserRequests from "../queues/GetUserRequests";
+import GetUser from "./GetUser";
 import GetUserBeatmaps from "./GetUserBeatmaps";
-import GetUserGDPosts from "./GetUserGDPosts";
+import GetUserQueueGroups from "./GetUserQueueGroups";
 import SyncClient from "./SyncClient";
 
 const router = Router();
@@ -10,8 +11,9 @@ const router = Router();
 router.post("/sync", SyncClient);
 
 // ? =============== GET REQUESTS
+router.get("/groups", GetUserQueueGroups);
+router.get("/:user", GetUser);
 router.get("/:user/beatmaps", GetUserBeatmaps);
 router.get("/:user/requests/", GetUserRequests);
-router.get("/:user/posts/", GetUserGDPosts);
 
 export const UserRouter = router;

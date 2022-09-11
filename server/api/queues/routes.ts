@@ -16,16 +16,21 @@ import AuthenticateQueue from "../../middlewares/AuthenticateQueue";
 import TestWebhook from "./TestWebhook";
 import RemoveWebhook from "./RemoveWebhook";
 import { queues } from "../../../database";
+import CreateNewQueueGroup from "./CreateNewQueueGroup";
+import DeleteQueue from "./DeleteQueue";
+import UpdateGroup from "./UpdateGroup";
 
 const router = Router();
 
 // ? =============== POST REQUESTS
+router.post("/new/group", CreateNewQueueGroup);
 router.post("/new", CreateNewQueue);
 router.post("/sync", SyncQueue);
 router.post("/schedule", StartTimeClose);
 router.post("/webhook", TestWebhook);
 router.post("/:queue/requests", rewriteUsernameToId, CreateRequest);
 router.post("/:queue/follow", rewriteUsernameToId, FollowQueue);
+router.post("/update/group/:id", UpdateGroup);
 router.post("/update", UpdateQueue);
 router.post("/import/osumod", AuthenticateQueue, OsumodImport);
 
@@ -37,6 +42,7 @@ router.get("/:queue/requests", rewriteUsernameToId, GetQueueRequests);
 
 // ? =============== DELETE REQUESTS
 router.delete("/:queue/follow", rewriteUsernameToId, RemoveFollower);
+router.delete("/:queue", DeleteQueue);
 router.delete("/webhook", RemoveWebhook);
 
 // ? ========================================= UTILS
@@ -50,7 +56,9 @@ async function rewriteUsernameToId(
   if (isNaN(Number(target))) return rewrite();
 
   async function rewrite() {
-    const targetQueue = await queues.findOne({ name: target });
+    let targetQueue = await queues.findOne({ name: target });
+
+    if (!targetQueue) targetQueue = await queues.findOne({ _id: target });
 
     if (!targetQueue)
       return res.status(404).send({

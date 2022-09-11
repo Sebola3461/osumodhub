@@ -3,7 +3,7 @@ import ClaimGDRequest from "./gd/ClaimGDRequest";
 import CreateGDRequest from "./gd/CreateGDRequest";
 import GetGDRequest from "./gd/GetGDRequest";
 import GetGDRequestClaims from "./gd/GetGDRequestClaims";
-import ListGDRequests from "./listing/ListGDRequests";
+import ListGDRequests from "./gd/ListGDRequests";
 import ListQueues from "./listing/ListQueues";
 import { QueuesRouter } from "./queues/routes";
 import AuthenticateUser from "./users/AuthenticateUser";
@@ -32,8 +32,8 @@ api.use("/queues/", QueuesRouter);
 api.use("/requests/", RequestsRouter);
 api.use("/notifications/", NotificationsRouter);
 api.use("/listing", ListingRouter);
-api.use("/gd", GDRouter);
-api.use("/beatmaps", BeatmapsRouter);
+api.use("/gd/", GDRouter);
+api.use("/beatmaps/", BeatmapsRouter);
 
 // TODO: Create a category for this
 api.get("/validate/", AuthenticateUser);

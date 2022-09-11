@@ -1,0 +1,132 @@
+.createnewgrouppanel {
+  width: 100%;
+  height: calc(100% - 71px);
+  top: 71px;
+  position: fixed;
+  left: 0;
+  background-color: #000000e0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  transition: filter 120ms linear, backdrop-filter 120ms linear,
+    opacity 120ms linear;
+  backdrop-filter: blur(0px);
+  pointer-events: none;
+}
+
+.createnewgrouppanel.open {
+  opacity: 1;
+  pointer-events: all;
+  backdrop-filter: blur(30px);
+}
+
+.createnewgrouppanel.closed {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.createnewgrouppanel.closed .container {
+  margin-right: -25px;
+}
+
+.createnewgrouppanel .container {
+  width: 90%;
+  max-width: 1000px;
+  height: 520px;
+  background-color: var(--background1);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: margin-right linear 80ms;
+}
+
+.createnewgrouppanel .container .paneltitle {
+  width: calc(100% - 40px);
+  height: 20px;
+  padding: 20px;
+  color: white;
+  border-bottom: 1px solid var(--background3);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container .paneltitle svg {
+  cursor: pointer;
+}
+
+.container .tab {
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: var(--background4);
+  padding: 12px 2.5%;
+}
+
+.createnewgrouppanel .container .options {
+  width: 95%;
+  height: 84%;
+  padding: 0px 2.5%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: flex-start;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.createnewgrouppanel .container button {
+  padding: 10px 60px;
+  margin-top: auto;
+  margin-bottom: 20px;
+  margin-left: auto;
+}
+
+.createnewgrouppanel .container .option {
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: flex-start;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.createnewgrouppanel .container .option p {
+  margin-bottom: 5px;
+}
+
+.createnewgrouppanel .container .option input {
+  padding: 10px 10px;
+  width: calc(100% - 20px);
+}
+
+.createnewgrouppanel .container .option .tags-input-container {
+  max-width: unset !important;
+}
+
+.createnewgrouppanel .container .option .tags-input-container input {
+  padding: 3px !important;
+  width: 100px;
+}
+
+@media screen and (max-width: 600px) {
+  .createnewgrouppanel .container {
+    width: 100% !important;
+    max-width: 100%;
+    height: 100% !important;
+    border-radius: 0 !important;
+  }
+}
