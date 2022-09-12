@@ -1,7 +1,13 @@
 import { EmbedBuilder, WebhookClient } from "discord.js";
+import { IQueueRequestManager } from "../../../src/types/queue";
 import { consoleLog, consoleCheck } from "../../helpers/logger";
 
-export default async (queue: any, request: any, reply: string) => {
+export default async (
+  queue: any,
+  request: any,
+  reply: string,
+  managerObject: IQueueRequestManager | undefined
+) => {
   try {
     consoleLog(
       "SendRequestUpdateWebhook",
@@ -41,7 +47,11 @@ export default async (queue: any, request: any, reply: string) => {
         request.beatmap.title
       }**](https://osumodhub.xyz/queue/${queue._id}?r=${request._id}) by ${
         request._owner_name
-      } **${texts[request.status]}**`,
+      } **${texts[request.status]}** by ${
+        managerObject && queue.isGroup
+          ? `**[${managerObject.username}](https://osu.ppy.sh/users/${managerObject.userId})**`
+          : ""
+      }`,
       thumbnail: {
         url: `https://b.ppy.sh/thumb/${request.beatmapset_id}l.jpg`,
       },

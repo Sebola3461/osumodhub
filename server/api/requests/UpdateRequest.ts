@@ -186,11 +186,15 @@ export default async (req: Request, res: Response) => {
 
   await requests.findByIdAndUpdate(_request, request);
 
+  function getTargeredStatus() {
+    return request?._managers.find((m) => m.userId == manager._id);
+  }
+
   EmitNewRequestUpdate(request);
   if (queue.webhook) {
     if (queue.webhook.notify.includes("request:update"))
       if (status.toLowerCase() != "archived")
-        SendRequestUpdateWebhook(queue, request, reply);
+        SendRequestUpdateWebhook(queue, request, reply, getTargeredStatus());
   }
 
   res.status(200).send({
