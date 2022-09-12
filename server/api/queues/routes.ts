@@ -19,6 +19,7 @@ import { queues } from "../../../database";
 import CreateNewQueueGroup from "./CreateNewQueueGroup";
 import DeleteQueue from "./DeleteQueue";
 import UpdateGroup from "./UpdateGroup";
+import GetGroupMembers from "./GetGroupMembers";
 
 const router = Router();
 
@@ -36,6 +37,7 @@ router.post("/import/osumod", AuthenticateQueue, OsumodImport);
 
 // ? =============== GET REQUESTS
 router.get("/:queue/follow", rewriteUsernameToId, GetFollowers);
+router.get("/:queue/members", rewriteUsernameToId, GetGroupMembers);
 router.get("/listing", ListQueues);
 router.get("/:queue", rewriteUsernameToId, GetQueue);
 router.get("/:queue/requests", rewriteUsernameToId, GetQueueRequests);

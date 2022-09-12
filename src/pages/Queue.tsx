@@ -51,6 +51,7 @@ import QueueStatistics from "../components/queue/QueueStatistics";
 import GDRequestPanel from "../components/queue/GDRequestPanel";
 import QueueGroupsSideMenu from "../components/global/QueueGroupsSideMenu";
 import CreateNewGroupPanel from "../components/global/CreateNewGroupPanel";
+import GroupMembers from "../components/queue/GroupMembers";
 
 interface IQueueFilters {
   type: "progress" | "archived";
@@ -445,6 +446,7 @@ export default () => {
             ></SearchSelect>
           </nav>
           {/* <QueueStatistics /> */}
+          {queue.data.isGroup ? <GroupMembers /> : <></>}
           <div className="queuecontent">
             <div className="requestlisting">{getRequestsListing()}</div>
           </div>
