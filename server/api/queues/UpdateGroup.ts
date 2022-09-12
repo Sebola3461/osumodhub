@@ -1,6 +1,7 @@
 import { APIApplicationCommandPermissionsConstant } from "discord.js";
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
+import isQueueManager from "../../helpers/isQueueManager";
 import NotifyQueueAdminAdd from "../../notifications/NotifyQueueAdminAdd";
 import notifyFollowers from "../helpers/notifyFollowers";
 import SendQueueUpdateWebhook from "../webhooks/SendQueueUpdateWebhook";
@@ -37,16 +38,10 @@ export default async (req: Request, res: Response) => {
       message: "This queue isn't a group!",
     });
 
-  if (manager._id != groupData.owner && !groupData.admins.includes(manager._id))
+  if (!isQueueManager(groupData, manager, authorization))
     return res.status(403).send({
       status: 403,
       message: "Missing permissions",
-    });
-
-  if (authorization != manager.account_token)
-    return res.status(401).send({
-      status: 401,
-      message: "Unauthorized",
     });
 
   const editable = [

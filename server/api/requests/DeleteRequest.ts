@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
+import isQueueManager from "../../helpers/isQueueManager";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
@@ -41,11 +42,7 @@ export default async (req: Request, res: Response) => {
       message: "Unauthorized",
     });
 
-  if (
-    queue.isGroup &&
-    queue.owner != manager._id &&
-    !queue.admins.includes(manager._id)
-  )
+  if (queue.isGroup && !isQueueManager(queue, manager, authorization))
     return res.status(401).send({
       status: 401,
       message: "Unauthorized",

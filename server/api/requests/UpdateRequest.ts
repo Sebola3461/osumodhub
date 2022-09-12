@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
 import { IQueueRequest } from "../../../src/types/queue";
+import isQueueManager from "../../helpers/isQueueManager";
 import osuApi from "../../helpers/osuApi";
 import NotifyRequestUpdate from "../../notifications/NotifyRequestUpdate";
 import SendRequestUpdateWebhook from "../webhooks/SendRequestUpdateWebhook";
@@ -46,11 +47,7 @@ export default async (req: Request, res: Response) => {
       message: "Unauthorized",
     });
 
-  if (
-    queue.isGroup &&
-    queue.owner != manager._id &&
-    !queue.admins.includes(manager._id)
-  )
+  if (queue.isGroup && !isQueueManager(queue, manager, authorization))
     return res.status(401).send({
       status: 401,
       message: "Unauthorized",

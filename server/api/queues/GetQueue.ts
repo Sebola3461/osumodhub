@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { queues, users } from "../../../database";
+import isQueueManager from "../../helpers/isQueueManager";
 
 export default async (req: Request, res: Response) => {
   const id = req.params["queue"];
@@ -20,11 +21,7 @@ export default async (req: Request, res: Response) => {
 
   if (manager._id != queue.owner && !queue.isGroup) removeSensitiveData();
 
-  if (
-    queue.isGroup &&
-    queue.owner != manager._id &&
-    !queue.admins.includes(manager._id)
-  )
+  if (queue.isGroup && !isQueueManager(queue, manager, authorization || ""))
     removeSensitiveData();
 
   function removeSensitiveData() {

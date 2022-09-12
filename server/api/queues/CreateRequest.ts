@@ -7,6 +7,7 @@ import checkRequestQueueModes from "../helpers/checkRequestQueueModes";
 import NotifyNewRequest from "../../notifications/NotifyNewRequest";
 import SendNewRequestWebhook from "../webhooks/SendNewRequestWebhook";
 import EmitNewRequest from "../websocket/EmitNewRequest";
+import isQueueManager from "../../helpers/isQueueManager";
 
 export default async (req: Request, res: Response) => {
   try {
@@ -41,20 +42,13 @@ export default async (req: Request, res: Response) => {
         message: "User not found!",
       });
 
-    if (
-      authorization != author.account_token &&
-      !queue.admins.includes(author._id)
-    )
+    if (!isQueueManager(queue, author, authorization))
       return res.status(400).send({
         status: 401,
         message: "Unauthorized",
       });
 
-    if (
-      !queue.open &&
-      author._id != queue.owner &&
-      !queue.admins.includes(author._id)
-    )
+    if (!queue.open && !isQueueManager(queue, author, authorization))
       return res.status(403).send({
         status: 403,
         message: "This queue is closed!",
@@ -74,15 +68,9 @@ export default async (req: Request, res: Response) => {
         message: "Invalid beatmap",
       });
 
-    if (
-      !(
-        requestedBeatmapset.data.user_id == author._id &&
-        !queue.admins.includes(author._id)
-      ) &&
-      !queue.allow.cross
-    ) {
+    if (!queue.allow.cross && author._id != requestedBeatmapset.data.user_id) {
       // ? Bypass queue owner
-      if (author._id != queue.owner && !queue.admins.includes(author._id))
+      if (!isQueueManager(queue, author, authorization))
         return res.status(403).send({
           status: 403,
           message: "This queue does not allow cross requests!",
