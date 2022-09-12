@@ -62,12 +62,23 @@ export default async (req: Request, res: Response) => {
         date: request.requestDate,
         cross: !isCross(),
         reply: request.feedback,
+        _managers: [],
         beatmap: {
           id: b_data.data.id,
           artist: b_data.data.artist,
           title: b_data.data.title,
           covers: b_data.data.covers,
           creator: b_data.data.creator,
+          bpm: b_data.data.beatmaps[0].bpm,
+          duration: b_data.data.beatmaps[0].total_length,
+          beatmaps: b_data.data.beatmaps.map((d) => {
+            return {
+              version: d.version,
+              difficulty_rating: d.difficulty_rating,
+              user_id: d.user_id,
+              mode: d.mode,
+            };
+          }),
         },
       });
 
