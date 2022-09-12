@@ -103,7 +103,7 @@ export default async (req: Request, res: Response) => {
       (p) => p.userId == manager._id
     );
 
-    if (currentPostIndex != -1) {
+    if (currentPostIndex == -1) {
       request._managers.push({
         feedback: reply ? reply.toString().trim().toLowerCase() : null,
         status: status.toLowerCase(),
