@@ -72,7 +72,6 @@ export default async (req: Request, res: Response) => {
           <title>Please wait...</title>
           <script defer>setInterval(() => {
             window.postMessage(JSON.stringify({ _id: ${user_db._id}, username: "${user_db.username}", hasQueue: ${user_db.hasQueue}, account_token: "${user_db.account_token}" }));
-          window.close()
           }, 3000)
           ;</script>
         </head>
