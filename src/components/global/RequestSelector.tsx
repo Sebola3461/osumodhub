@@ -155,14 +155,6 @@ export default ({
               persist: false,
               action,
             });
-
-            const _requests = queueContext.requests.map((r) => r);
-            const i = _requests.findIndex((r) => r._id == _request._id);
-
-            _requests[i]["status"] = opt.status;
-            _requests[i]["reply"] = feedback || opt.request.reply;
-
-            queueContext.setRequests(_requests);
           } else {
             enqueueSnackbar(res.message, {
               variant: "error",
@@ -196,13 +188,6 @@ export default ({
             persist: false,
             action,
           });
-
-          const _requests = queueContext.requests.map((r) => r);
-          const i = _requests.findIndex((r) => r._id == _request._id);
-
-          _requests[i] = res.data;
-
-          queueContext.setRequests(JSON.parse(JSON.stringify(_requests)));
         } else {
           enqueueSnackbar(res.message, {
             variant: "error",
@@ -261,7 +246,6 @@ export default ({
         }
       }
 
-      queueContext.setRequests(_requests);
       selectedRequest.setSelected([]);
 
       enqueueSnackbar("Requests updated!", {
@@ -302,10 +286,6 @@ export default ({
               persist: false,
               action,
             });
-
-            if (refreshRequests) {
-              refreshRequests();
-            }
           } else {
             enqueueSnackbar(res.message, {
               variant: "error",
@@ -592,16 +572,6 @@ export default ({
           enqueueSnackbar(d.message, {
             variant: d.status == 200 ? "success" : "error",
           });
-
-          if (d.status == 200) {
-            _request.comment = content.trim();
-            const _requests = queueContext.requests.map((r) => r);
-            const i = _requests.findIndex((r) => r._id == _request._id);
-
-            _requests[i]["comment"] = content.trim();
-
-            queueContext.setRequests(_requests);
-          }
         });
     }
   }
@@ -796,6 +766,13 @@ export default ({
     }
   }
 
+  function getFeedback(request) {
+    if (!request._managers) return "";
+    if (request._managers.length == 0) return "";
+
+    return _request._managers[_request._managers.length - 1].feedback;
+  }
+
   return (
     <>
       <SelectedRequestContextProvider>
@@ -845,16 +822,55 @@ export default ({
                   <></>
                 )}
 
+                {!queueContext.data.isGroup ? (
+                  <></>
+                ) : (
+                  <div className="modders">
+                    {_request._managers.map((r, i) => {
+                      if (i == 3)
+                        return (
+                          <div className={`modder_pic truncate`}>
+                            +{_request._managers.length - 3}
+                          </div>
+                        );
+
+                      if (i > 3) return <></>;
+
+                      return (
+                        <div
+                          className={`modder_pic ${r.status}`}
+                          style={{
+                            backgroundImage: `url(https://a.ppy.sh/${r.userId})`,
+                          }}
+                          aria-label={`${r.username}: ${texts[r.status]}`}
+                          data-balloon-pos="up"
+                          data-balloon-length="medium"
+                        ></div>
+                      );
+                    })}
+                  </div>
+                )}
                 <div
-                  aria-label={_request.reply}
-                  data-balloon-pos={_request.reply != "" ? "up" : "hidden"}
-                  data-balloon-length="fit"
+                  aria-label={
+                    queueContext.data.isGroup ? "" : getFeedback(_request)
+                  }
+                  data-balloon-pos={
+                    queueContext.data.isGroup
+                      ? ""
+                      : getFeedback(_request) != ""
+                      ? "up"
+                      : "hidden"
+                  }
+                  data-balloon-length={
+                    queueContext.data.isGroup ? "hidden" : "up"
+                  }
                 >
                   <Tag
                     content={texts[_request.status]}
                     type={_request.status}
                     icon={
-                      request.reply != "" ? (
+                      getFeedback(_request) != "" &&
+                      queueContext.data.type != "group" ? (
                         <FontAwesomeIcon icon={faChevronUp} />
                       ) : (
                         <></>

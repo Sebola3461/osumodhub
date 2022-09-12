@@ -102,18 +102,6 @@ export default () => {
           variant: d.status == 200 ? "success" : "error",
           action,
         });
-
-        if (d.status == 200) {
-          request.status = status;
-          setRequest(request);
-
-          const index = queueContext.requests.findIndex(
-            (r) => r._id == request._id
-          );
-          queueContext.requests[index]["status"] = status;
-          queueContext.requests[index]["reply"] = request.reply;
-          queueContext.setRequests(queueContext.requests);
-        }
       });
 
     function deleteRequest() {
@@ -183,6 +171,18 @@ export default () => {
     setOpen(false);
   }
 
+  const texts: { [key: string]: string } = {
+    pending: "Pending",
+    rechecking: "Need Recheck",
+    waiting: "Waiting another BN",
+    finished: "Modded",
+    nominated: "Nominated",
+    ranked: "Ranked",
+    rejected: "Rejected",
+    accepted: "Accepted",
+    archived: "Archived",
+  };
+
   if (!request) return <></>;
 
   const tabs = [
@@ -205,38 +205,39 @@ export default () => {
             {request.comment || "No comment provided..."}
           </div>
         </div>
-        {!request._managed_by ? (
-          <></>
-        ) : (
-          <div className="modderreply comment">
-            <div className="metadata">
-              <div
-                className="userpfp"
-                style={{
-                  backgroundImage: `url(https://a.ppy.sh/${request._managed_by})`,
-                }}
-              ></div>
-              <p className="username">
-                {request._manager_username}
-                <Tag
-                  content={
-                    queueContext.data.isGroup
-                      ? "contributor"
-                      : queueContext.data.type
-                  }
-                  type={
-                    queueContext.data.isGroup
-                      ? "modder"
-                      : queueContext.data.type
-                  }
-                />
-              </p>
+        {request._managers.map((manager) => {
+          return (
+            <div className="modderreply comment">
+              <div className="metadata">
+                <div
+                  className="userpfp"
+                  style={{
+                    backgroundImage: `url(https://a.ppy.sh/${manager.userId})`,
+                  }}
+                ></div>
+                <p className="username">
+                  {manager.username}
+                  <Tag
+                    content={
+                      queueContext.data.isGroup
+                        ? "Manager"
+                        : queueContext.data.type
+                    }
+                    type={
+                      queueContext.data.isGroup
+                        ? "modder"
+                        : queueContext.data.type
+                    }
+                  />
+                  <Tag content={texts[manager.status]} type={manager.status} />
+                </p>
+              </div>
+              <div className="content">
+                {manager.feedback || "No feedback provided..."}
+              </div>
             </div>
-            <div className="content">
-              {request.reply || "No feedback provided..."}
-            </div>
-          </div>
-        )}
+          );
+        })}
       </div>
     </div>,
     <div className="actionslayout customscroll">

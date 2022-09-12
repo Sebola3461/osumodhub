@@ -272,38 +272,47 @@
 
 .pending {
   background-color: rgb(255 124 0) !important;
+  border-color: rgb(255 124 0) !important;
 }
 
 .accepted {
   background-color: #25ca6a !important;
+  border-color: #25ca6a !important;
 }
 
 .finished {
   background-color: #259bca !important;
+  border-color: #259bca !important;
 }
 
 .nominated {
   background-color: #259bca !important;
+  border-color: #259bca !important;
 }
 
 .ranked {
   background-color: #259bca !important;
+  border-color: #259bca !important;
 }
 
 .rejected {
   background-color: #d4152f !important;
+  border-color: #d4152f !important;
 }
 
 .rechecking {
   background-color: #cf3274 !important;
+  border-color: #cf3274 !important;
 }
 
 .archived {
   background-color: #5f5f5f !important;
+  border-color: #5f5f5f !important;
 }
 
 .waiting {
   background-color: #f44336 !important;
+  border-color: #f44336 !important;
 }
 
 .pending-hover:hover {

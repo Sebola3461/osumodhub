@@ -65,6 +65,13 @@ export interface IQueue {
   };
 }
 
+export interface IQueueRequestManager {
+  status: string;
+  feedback: string;
+  username: string;
+  userId: string;
+}
+
 export interface IQueueRequest {
   _id: string;
   _queue: string;
@@ -81,6 +88,7 @@ export interface IQueueRequest {
   isWsNew?: boolean; // ? true if the request is handled by websocket (but only new requests)
   _managed_by: string;
   _manager_username: string;
+  _managers: IQueueRequestManager[];
   __v: 0;
 }
 

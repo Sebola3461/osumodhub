@@ -16,6 +16,10 @@ export default new Schema({
     type: String,
     immutable: true,
   },
+  _managers: {
+    type: Array,
+    default: [],
+  },
   _managed_by: {
     type: String,
     default: "",

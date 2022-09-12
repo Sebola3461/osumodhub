@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
+import { IQueueRequest } from "../../../src/types/queue";
 import osuApi from "../../helpers/osuApi";
 import NotifyRequestUpdate from "../../notifications/NotifyRequestUpdate";
 import SendRequestUpdateWebhook from "../webhooks/SendRequestUpdateWebhook";
@@ -15,7 +16,7 @@ export default async (req: Request, res: Response) => {
       message: "Missing authorization",
     });
 
-  const request = await requests.findById(_request);
+  const request: IQueueRequest | null = await requests.findById(_request);
 
   if (request == null)
     return res.status(404).send({
@@ -94,9 +95,54 @@ export default async (req: Request, res: Response) => {
       message: "You can't use this status!",
     });
 
-  request.status = status.toLowerCase();
+  const requestBeatmap = await osuApi.fetch.beatmapset(
+    request.beatmapset_id.toString()
+  );
 
-  const requestBeatmap = await osuApi.fetch.beatmapset(request.beatmapset_id);
+  function updateStatus() {
+    if (!request) return;
+
+    const currentPostIndex = request._managers.findIndex(
+      (p) => p.userId == manager._id
+    );
+
+    if (currentPostIndex != -1) {
+      request._managers.push({
+        feedback: reply ? reply.toString().trim().toLowerCase() : null,
+        status: status.toLowerCase(),
+        userId: manager._id,
+        username: manager.username,
+      });
+    } else {
+      request._managers[currentPostIndex] = {
+        feedback: reply ? reply.toString().trim().toLowerCase() : null,
+        status: status.toLowerCase(),
+        userId: manager._id,
+        username: manager.username,
+      };
+    }
+  }
+
+  function getMostStatus() {
+    const pool: any = {};
+
+    for (const manager of request?._managers || []) {
+      if (!pool[manager.status]) pool[manager.status] = 0;
+
+      pool[manager.status]++;
+    }
+
+    const poolArray: any[] = [];
+
+    Object.keys(pool).forEach((key) => {
+      poolArray.push({ status: key, size: pool[key] });
+    });
+
+    poolArray.sort((a, b) => b.size - a.size);
+
+    console.log(poolArray);
+    return poolArray[0];
+  }
 
   if (
     !requestBeatmap.data ||
@@ -129,18 +175,22 @@ export default async (req: Request, res: Response) => {
         SendRequestUpdateWebhook(queue, request, reply);
   }
 
-  await requests.updateOne(
-    { _id: _request },
-    {
-      reply: reply,
-      status: status.toLowerCase(),
-      _managed_by: manager._id,
-      _manager_username: manager.username,
-    }
-  );
+  if (queue.isGroup) {
+    updateStatus();
+    request.status = getMostStatus().status;
+  } else {
+    request.status = status.toLowerCase();
+    request._managers = [
+      {
+        feedback: reply ? reply.toString().trim().toLowerCase() : null,
+        status: status.toLowerCase(),
+        userId: manager._id,
+        username: manager.username,
+      },
+    ];
+  }
 
-  request.reply = reply;
-  request.status = status.toLowerCase();
+  await requests.findByIdAndUpdate(_request, request);
 
   EmitNewRequestUpdate(request);
 

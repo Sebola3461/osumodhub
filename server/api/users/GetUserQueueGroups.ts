@@ -20,7 +20,7 @@ export default async (req: Request, res: Response) => {
     });
 
   const userGroups = await queues.find({ admins: user._id });
-  const owner = await queues.find({ owner: user._id });
+  const owner = await queues.find({ owner: user._id, isGroup: true });
 
   const response = (owner ? owner : []).concat(userGroups ? userGroups : []);
 

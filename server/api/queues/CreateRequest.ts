@@ -143,6 +143,7 @@ export default async (req: Request, res: Response) => {
       beatmapset_id: requestedBeatmapset.data.id,
       date: new Date(),
       cross: requestedBeatmapset.data.user_id != author._id,
+      _managers: [],
       beatmap: {
         id: requestedBeatmapset.data.id,
         artist: requestedBeatmapset.data.artist,
