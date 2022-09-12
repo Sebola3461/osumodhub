@@ -56,6 +56,7 @@ export default async (req: Request, res: Response) => {
     icon: `https://a.ppy.sh/${user.data.id}`,
     type: type,
     modes: [modesInt.findIndex((m) => m == user.data.playmode)],
+    owner: author._id,
     country: {
       acronym: user.data.country.code,
       name: user.data.country.name,

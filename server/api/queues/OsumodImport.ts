@@ -62,7 +62,16 @@ export default async (req: Request, res: Response) => {
         date: request.requestDate,
         cross: !isCross(),
         reply: request.feedback,
-        _managers: [],
+        _managers: request.feedback
+          ? [
+              {
+                feedback: request.feedback,
+                status: request.status.toLowerCase(),
+                userId: queueOwner._id,
+                username: queueOwner.username,
+              },
+            ]
+          : [],
         beatmap: {
           id: b_data.data.id,
           artist: b_data.data.artist,

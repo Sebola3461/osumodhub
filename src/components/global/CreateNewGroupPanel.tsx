@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { request } from "express";
 import TagsInput from "./TagsInput";
 import { useNavigate } from "react-router-dom";
+import AdminInput from "./AdminInput";
 
 export default () => {
   const { user, updateUser } = useContext(AuthContext);
@@ -116,7 +117,7 @@ export default () => {
           <div className="option">
             <p>Icon URL:</p>
             <input
-              type="icon"
+              type="text"
               onBlur={(ev: any) => {
                 updateData("icon", ev.target.value);
               }}
@@ -133,11 +134,7 @@ export default () => {
           </div>
           <div className="option wide">
             <p>Admins (osu! User Id):</p>
-            <TagsInput
-              onInput={(tags) => {
-                updateData("admins", tags);
-              }}
-            ></TagsInput>
+            <AdminInput />
           </div>
           <button
             onClick={() => {

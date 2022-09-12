@@ -34,22 +34,15 @@ export const gdusers = mongoose.model("GDUsers", GDUsers);
 export const followers = mongoose.model("Followers", Follower);
 export const notifications = mongoose.model("Notifications", Notification);
 
-// requests.find().then((doc) => {
-//   doc.forEach(async (q, i) => {
-//     console.log(`X ${i + 1}/${doc.length}`);
+// queues.find().then((doc) => {
+//   doc
+//     .filter((q) => !q.owner)
+//     .forEach(async (q, i) => {
+//       console.log(`X ${i + 1}/${doc.filter((q) => !q.owner).length}`);
 
-//     q._managers = !q._managed_by
-//       ? []
-//       : [
-//           {
-//             status: q.status,
-//             feedback: q.reply,
-//             username: q._manager_username,
-//             userId: q._managed_by,
-//           },
-//         ];
-//     await requests.findByIdAndUpdate(q._id, q);
+//       q.owner = q._id;
+//       await queues.findByIdAndUpdate(q._id, q);
 
-//     console.log(`== ${i + 1}/${doc.length}`);
-//   });
+//       console.log(`== ${i + 1}/${doc.filter((q) => !q.owner).length}`);
+//     });
 // });

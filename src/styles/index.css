@@ -39,8 +39,17 @@ button {
   overflow-x: clip;
 }
 
+input {
+  transition: 120ms linear background-color;
+}
+
 input:focus {
-  outline: none;
+  outline: 1px solid var(--ocean);
+  background-color: var(--background4);
+}
+
+textarea:focus {
+  outline: 1px solid var(--ocean);
 }
 
 body {
