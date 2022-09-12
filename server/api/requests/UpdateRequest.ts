@@ -140,7 +140,7 @@ export default async (req: Request, res: Response) => {
 
     poolArray.sort((a, b) => b.size - a.size);
 
-    console.log(poolArray);
+    if (poolArray.length == 0) return status.toLowerCase();
     return poolArray[0];
   }
 
