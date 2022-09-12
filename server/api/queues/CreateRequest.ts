@@ -42,12 +42,6 @@ export default async (req: Request, res: Response) => {
         message: "User not found!",
       });
 
-    if (!isQueueManager(queue, author, authorization))
-      return res.status(400).send({
-        status: 401,
-        message: "Unauthorized",
-      });
-
     if (!queue.open && !isQueueManager(queue, author, authorization))
       return res.status(403).send({
         status: 403,
