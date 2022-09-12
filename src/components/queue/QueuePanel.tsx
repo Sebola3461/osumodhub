@@ -140,7 +140,7 @@ export default () => {
     return _queue.modes.find((m: number) => m == mode) != undefined;
   }
 
-  function setQueueWebhookTag(tag: string, add: boolean) {
+  function setQueueWebhookTag(tag: string, add: boolean, _queue) {
     if (add) {
       if (!_queue.webhook || !_queue.webhook.notify.includes(tag))
         _queue.webhook.notify.push(tag);
@@ -181,7 +181,7 @@ export default () => {
       });
   }
 
-  function updateWebhookURL(url: string) {
+  function updateWebhookURL(url: string, _queue) {
     if (!_queue.webhook)
       _queue.webhook = {
         notify: [""],
@@ -214,7 +214,7 @@ export default () => {
       });
   }
 
-  function setQueueModes(mode: number, add: boolean) {
+  function setQueueModes(mode: number, add: boolean, _queue) {
     if (!add && _queue.modes.includes(mode)) {
       const index = _queue.modes.findIndex((m: number) => m == mode);
       _queue.modes.splice(index, 1);
@@ -644,7 +644,7 @@ export default () => {
                       defaultChecked={getQueueModes(0)}
                       onInput={(ev) => {
                         const target: any = ev.target;
-                        setQueueModes(0, target.checked);
+                        setQueueModes(0, target.checked, _queue);
                       }}
                     ></Checkbox>
                   </div>
@@ -656,7 +656,7 @@ export default () => {
                       onInput={(ev) => {
                         const target: any = ev.target;
 
-                        setQueueModes(1, target.checked);
+                        setQueueModes(1, target.checked, _queue);
                       }}
                     ></Checkbox>
                   </div>
@@ -668,7 +668,7 @@ export default () => {
                       onInput={(ev) => {
                         const target: any = ev.target;
 
-                        setQueueModes(2, target.checked);
+                        setQueueModes(2, target.checked, _queue);
                       }}
                     ></Checkbox>
                   </div>
@@ -680,7 +680,7 @@ export default () => {
                       onInput={(ev) => {
                         const target: any = ev.target;
 
-                        setQueueModes(3, target.checked);
+                        setQueueModes(3, target.checked, _queue);
                       }}
                     ></Checkbox>
                   </div>
@@ -695,8 +695,9 @@ export default () => {
                   style={{
                     marginLeft: "5px",
                   }}
+                  key={GenerateComponentKey(10)}
                   onInput={(ev: any) => {
-                    updateWebhookURL(ev.target.value);
+                    updateWebhookURL(ev.target.value, _queue);
                   }}
                 />
                 <button onClick={testWebhook} className="import">
@@ -719,7 +720,11 @@ export default () => {
                       }
                       onInput={(ev) => {
                         const target: any = ev.target;
-                        setQueueWebhookTag("request:update", target.checked);
+                        setQueueWebhookTag(
+                          "request:update",
+                          target.checked,
+                          _queue
+                        );
                       }}
                     ></Checkbox>
                   </div>
@@ -734,7 +739,11 @@ export default () => {
                       onInput={(ev) => {
                         const target: any = ev.target;
 
-                        setQueueWebhookTag("request:new", target.checked);
+                        setQueueWebhookTag(
+                          "request:new",
+                          target.checked,
+                          _queue
+                        );
                       }}
                     ></Checkbox>
                   </div>
@@ -749,7 +758,11 @@ export default () => {
                       onInput={(ev) => {
                         const target: any = ev.target;
 
-                        setQueueWebhookTag("queue:state", target.checked);
+                        setQueueWebhookTag(
+                          "queue:state",
+                          target.checked,
+                          _queue
+                        );
                       }}
                     ></Checkbox>
                   </div>

@@ -1,6 +1,7 @@
 import { EmbedBuilder, WebhookClient } from "discord.js";
 import { Request, Response } from "express";
 import { queues, users } from "../../../database";
+import isQueueManager from "../../helpers/isQueueManager";
 
 export default async (req: Request, res: Response) => {
   try {
@@ -21,19 +22,27 @@ export default async (req: Request, res: Response) => {
         message: "Queue not found!",
       });
 
-    const queue_owner = await users.findOne(queue.owner);
+    const manager = await users.findOne({ account_token: authorization });
 
-    if (queue_owner == null)
+    if (manager == null)
       return res.status(404).send({
         status: 404,
         message: "User not found!",
       });
 
-    if (authorization != queue_owner.account_token)
+    if (!queue.isGroup && manager._id != queue.owner)
       return res.status(400).send({
         status: 401,
         message: "Unauthorized",
       });
+
+    if (queue.isGroup && !isQueueManager(queue, manager, authorization))
+      return res.status(400).send({
+        status: 401,
+        message: "Unauthorized",
+      });
+
+    console.log(queue.webhook);
 
     const webhookClient = new WebhookClient({
       url: queue.webhook.url,
@@ -61,7 +70,7 @@ export default async (req: Request, res: Response) => {
 
     res.status(500).send({
       status: 500,
-      message: "Something is wrong with your webhook.",
+      message: `Something is wrong with your webhook: ${e.code}`,
     });
   }
 };

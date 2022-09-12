@@ -43,9 +43,14 @@ export default () => {
         });
     }
   }, []);
-  // ? ========================================
 
-  if (!queueContext.data || !queueContext.requests) return <></>;
+  const navigate = useNavigate();
+
+  const goTo = (route: string, replace?: boolean) => {
+    navigate(route, { replace: replace ? true : false }), [navigate];
+  };
+
+  // ? ========================================
 
   const action = (key) => (
     <>
@@ -58,12 +63,6 @@ export default () => {
       </button>
     </>
   );
-
-  const navigate = useNavigate();
-
-  const goTo = (route: string, replace?: boolean) => {
-    navigate(route, { replace: replace ? true : false }), [navigate];
-  };
 
   function auxClosePanel(ev: any) {
     if (ev.target.className != "managerequestpanel open") return;
@@ -196,6 +195,7 @@ export default () => {
     archived: "Archived",
   };
 
+  if (!queueContext.data || !queueContext.requests) return <></>;
   if (!request) return <></>;
 
   const tabs = [

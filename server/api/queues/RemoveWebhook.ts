@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
+import isQueueManager from "../../helpers/isQueueManager";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
@@ -19,15 +20,21 @@ export default async (req: Request, res: Response) => {
       message: "Queue not found!",
     });
 
-  const queue_owner = await users.findById(queue.owner);
+  const manager = await users.findOne({ account_token: authorization });
 
-  if (queue_owner == null)
+  if (manager == null)
     return res.status(404).send({
       status: 404,
       message: "User not found!",
     });
 
-  if (authorization != queue_owner.account_token)
+  if (!queue.isGroup && manager._id != queue.owner)
+    return res.status(400).send({
+      status: 401,
+      message: "Unauthorized",
+    });
+
+  if (queue.isGroup && !isQueueManager(queue, manager, authorization))
     return res.status(400).send({
       status: 401,
       message: "Unauthorized",
