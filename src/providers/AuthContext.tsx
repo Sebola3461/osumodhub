@@ -24,7 +24,12 @@ function getStoredUser() {
         hasQueue: false,
       });
   } catch (e: any) {
-    user = user;
+    user = JSON.stringify({
+      _id: -1,
+      authenticated: false,
+      username: "Guest",
+      hasQueue: false,
+    });
   }
 
   return user;
