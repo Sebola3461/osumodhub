@@ -169,12 +169,6 @@ export default async (req: Request, res: Response) => {
 
   NotifyRequestUpdate(queue, request, status.toLowerCase());
 
-  if (queue.webhook) {
-    if (queue.webhook.notify.includes("request:update"))
-      if (status.toLowerCase() != "archived")
-        SendRequestUpdateWebhook(queue, request, reply);
-  }
-
   if (queue.isGroup) {
     updateStatus();
     request.status = getMostStatus().status;
@@ -193,6 +187,11 @@ export default async (req: Request, res: Response) => {
   await requests.findByIdAndUpdate(_request, request);
 
   EmitNewRequestUpdate(request);
+  if (queue.webhook) {
+    if (queue.webhook.notify.includes("request:update"))
+      if (status.toLowerCase() != "archived")
+        SendRequestUpdateWebhook(queue, request, reply);
+  }
 
   res.status(200).send({
     status: 200,
