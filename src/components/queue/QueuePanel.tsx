@@ -13,6 +13,7 @@ import moment from "moment";
 import Markdown from "markdown-to-jsx";
 import { queue } from "sharp";
 import { useNavigate } from "react-router-dom";
+import AdminInput from "../global/AdminInput";
 
 export default () => {
   const { user, updateUser } = useContext(AuthContext);
@@ -773,13 +774,16 @@ export default () => {
               ) : (
                 <>
                   <div className="option  wide">
-                    <p>Admins (By osu! Id):</p>
-                    <TagsInput
-                      value={_queue.admins}
-                      onInput={(tags: string[]) => {
-                        updateQueueOption("admins", tags);
+                    <p>Admins:</p>
+                    <AdminInput
+                      defaultValue={_queue.admins}
+                      onInput={(admins) => {
+                        updateQueueOption(
+                          "admins",
+                          admins.map((admin) => admin._id)
+                        );
                       }}
-                    ></TagsInput>
+                    ></AdminInput>
                     <button onClick={deleteQueue} className="import">
                       Delete Queue
                     </button>

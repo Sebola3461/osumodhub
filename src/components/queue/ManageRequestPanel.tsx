@@ -15,6 +15,7 @@ import QueueColors from "../../constants/QueueColors";
 import Select from "react-select";
 import { queue } from "sharp";
 import isQueueManager from "../../helpers/isQueueManager";
+import { useNavigate } from "react-router-dom";
 
 export default () => {
   const { user, updateUser } = useContext(AuthContext);
@@ -57,6 +58,12 @@ export default () => {
       </button>
     </>
   );
+
+  const navigate = useNavigate();
+
+  const goTo = (route: string, replace?: boolean) => {
+    navigate(route, { replace: replace ? true : false }), [navigate];
+  };
 
   function auxClosePanel(ev: any) {
     if (ev.target.className != "managerequestpanel open") return;
@@ -165,11 +172,17 @@ export default () => {
     const _targetRequest = new URLSearchParams(location.search).get("r");
 
     if (_targetRequest) {
-      history.pushState(null, "", window.location.pathname);
+      goTo(`/queue/${queueContext.data._id}`, true);
     }
 
     setOpen(false);
   }
+
+  useEffect(() => {
+    if (open) {
+      goTo(`/queue/${queueContext.data._id}?r=${request._id}`, true);
+    }
+  }, [open]);
 
   const texts: { [key: string]: string } = {
     pending: "Pending",

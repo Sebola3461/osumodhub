@@ -76,6 +76,7 @@ export default () => {
           });
 
         goTo(`/queue/${d.data._id}`);
+        setOpen(false);
       });
   }
 
@@ -89,7 +90,7 @@ export default () => {
       }}
       onKeyDown={escClosePanel}
     >
-      <div className="container">
+      <div className="container customscroll">
         <div className="paneltitle">
           Create Group
           <FontAwesomeIcon
@@ -133,8 +134,15 @@ export default () => {
             />
           </div>
           <div className="option wide">
-            <p>Admins (osu! User Id):</p>
-            <AdminInput />
+            <p>Admins:</p>
+            <AdminInput
+              onInput={(admins) => {
+                updateData(
+                  "admins",
+                  admins.map((a) => a._id)
+                );
+              }}
+            />
           </div>
           <button
             onClick={() => {

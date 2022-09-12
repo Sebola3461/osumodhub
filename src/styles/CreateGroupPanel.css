@@ -84,6 +84,7 @@
   align-content: flex-start;
   justify-content: flex-start;
   align-items: flex-start;
+  overflow-y: auto;
 }
 
 .createnewgrouppanel .container button {
@@ -111,15 +112,6 @@
 .createnewgrouppanel .container .option input {
   padding: 10px 10px;
   width: calc(100% - 20px);
-}
-
-.createnewgrouppanel .container .option .tags-input-container {
-  max-width: unset !important;
-}
-
-.createnewgrouppanel .container .option .tags-input-container input {
-  padding: 3px !important;
-  width: 100px;
 }
 
 @media screen and (max-width: 600px) {

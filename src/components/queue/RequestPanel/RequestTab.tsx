@@ -74,7 +74,11 @@ export default () => {
   }
 
   return (
-    <div className={loading ? "requesttab loading" : "requesttab"}>
+    <div
+      className={
+        loading ? "requesttab customscroll loading" : "requesttab customscroll"
+      }
+    >
       <BeatmapsetBanner request={request} />
       <p className="commenttitle">
         <FontAwesomeIcon icon={faMessage} /> Comment

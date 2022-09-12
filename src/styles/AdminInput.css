@@ -1,0 +1,97 @@
+.admininput {
+  padding: 10px;
+  width: calc(100% - 20px);
+  background-color: var(--background2);
+  border-radius: 5px;
+  position: relative;
+}
+
+.admininput input {
+  width: calc(100% - 20px);
+  border: 0px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.admininput .admins {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.admininput .admins .admin {
+  padding: 5px;
+  background-color: var(--background4);
+  border-radius: 5px;
+  margin: 3px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+  align-content: center;
+}
+
+.admininput .admins .admin div {
+  margin-left: 5px;
+  font-size: 12px;
+  color: var(--background6);
+  cursor: pointer;
+}
+
+.admininput .results {
+  position: absolute;
+  width: calc(100% - 20px);
+  left: 0;
+  margin-top: 7px;
+  background-color: var(--background2);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  z-index: 1;
+  border: 1px solid var(--background4);
+  border-top: none;
+  box-shadow: 0 2px 3px 0px #4242425e;
+}
+
+.admininput .results .user {
+  width: calc(100% - 6px);
+
+  border-radius: 5px;
+  padding: 3px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: 120ms linear background-color;
+}
+
+.admininput .results .user:hover {
+  background-color: var(--background1);
+}
+
+.admininput .results .user p {
+  margin-bottom: 0px;
+  margin-left: 10px;
+}
+
+.admininput .results .user .pfp {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  background-position: center;
+  background-size: cover;
+}

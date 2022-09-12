@@ -141,6 +141,11 @@
   color: white;
 }
 
+.queuepanel .container .options .option .admininput {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
 .queuepanel .container .options .option .row {
   width: 100%;
   display: flex;
