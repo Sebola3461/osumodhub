@@ -20,4 +20,10 @@ export default () => {
     _window.close();
     location.reload();
   });
+
+  setInterval(() => {
+    if (_window.closed) {
+      location.reload();
+    }
+  }, 1000);
 };
