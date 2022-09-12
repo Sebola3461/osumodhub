@@ -6,15 +6,15 @@ export default async (req: Request, res: Response) => {
   const user = await users.findById(id);
   const authorization = req.headers.authorization;
 
-  if (!authorization) return sendPartial();
-
-  if (authorization != user.account_token) return sendPartial();
-
   if (!user)
     return res.status(404).send({
       status: 404,
       message: "User not found!",
     });
+
+  if (!authorization) return sendPartial();
+
+  if (authorization != user.account_token) return sendPartial();
 
   function sendPartial() {
     return res.status(200).send({
