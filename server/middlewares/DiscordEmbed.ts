@@ -58,8 +58,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta property="og:title" content="osu!modhub | ${
-            queue.name
-          }'s queue">
+            !queue.isGroup ? `${getName(queue)} queue` : queue.name
+          }">
           <meta property="og:site_name" content="osu!modhub">
           <meta property="og:url" content="https://osumodhub.xyz/queue/${
             queue._id
