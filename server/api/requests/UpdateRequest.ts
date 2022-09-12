@@ -121,9 +121,12 @@ export default async (req: Request, res: Response) => {
   }
 
   function getMostStatus() {
+    if (!request) return status.toLowerCase();
+    if (!request._managers) return status.toLowerCase();
+
     const pool: any = {};
 
-    for (const manager of request?._managers || []) {
+    for (const manager of request._managers) {
       if (!pool[manager.status]) pool[manager.status] = 0;
 
       pool[manager.status]++;
