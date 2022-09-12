@@ -19,7 +19,7 @@ export default async (req: Request, res: Response) => {
       message: "Queue not found!",
     });
 
-  const queue_owner = await users.findOne(queue.owner);
+  const queue_owner = await users.findById(queue.owner);
 
   if (queue_owner == null)
     return res.status(404).send({
