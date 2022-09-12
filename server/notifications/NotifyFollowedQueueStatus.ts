@@ -2,6 +2,7 @@ import { notifications } from "../../database";
 import { IQueue } from "../../src/types/queue";
 import crypto from "crypto";
 import { consoleLog, consoleCheck } from "../helpers/logger";
+import { getName } from "../helpers/general/getName";
 
 export default async (queue: IQueue, request: any) => {
   consoleLog(
@@ -11,23 +12,11 @@ export default async (queue: IQueue, request: any) => {
 
   const id = crypto.randomBytes(30).toString("hex");
 
-  function getName() {
-    if (queue.type == "group") return queue.name;
-
-    if (
-      queue.name.toLowerCase().endsWith("s") ||
-      queue.name.toLowerCase().endsWith("x")
-    )
-      return queue.name.concat("'");
-
-    return queue.name.concat("'s");
-  }
-
   const notification = new notifications({
     _id: id,
     _user: request._user,
     _user_name: "$$system",
-    content: `${getName()} queue is open!`,
+    content: `${getName(queue)} queue is open!`,
     type: "queue:openfollow",
     created_at: new Date(),
     extra: {

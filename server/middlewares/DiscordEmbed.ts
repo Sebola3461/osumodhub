@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { getName } from "../helpers/general/getName";
 import { queues } from "./../../database";
 
 function Nonce(length: number) {
@@ -66,13 +67,14 @@ export default async (req: Request, res: Response, next: NextFunction) => {
           <meta content="${
             typeColors[queue.type]
           }" data-react-helmet="true" name="theme-color" />
-          <meta content="https://osumodhub.xyz/api/queues/${
-            queue._id
-          }/og?nonce=${Nonce(40)}" property="og:image" />
-          <meta name="twitter:card" content="summary_large_image">
+          <meta content="${queue.icon}?nonce=${Nonce(
+      40
+    )}" property="og:image" />
           <meta property="og:description" content="osu!modhub provides mapping & modding tools for osu!">
           <meta property="og:type" content="profile">
-          <title>osu!modhub | ${queue.name}'s queue</title>
+          <title>osu!modhub | ${
+            !queue.isGroup ? `${getName(queue)} queue` : queue.name
+          }</title>
         </head>
       </html>`);
   }
