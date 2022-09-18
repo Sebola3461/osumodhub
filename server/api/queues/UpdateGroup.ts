@@ -205,7 +205,7 @@ export default async (req: Request, res: Response) => {
         if (typeof admin == "string") {
           const user = await users.findById(admin);
 
-          if (user && user._id != groupData.owner) {
+          if (user && user._id.toString() != groupData.owner) {
             clearAdmins.push(admin);
             groupData.admins = clearAdmins;
 
