@@ -533,7 +533,10 @@ export default ({
   ];
 
   function manageRequest(request: any, ev: any) {
+    console.log(ev);
     if (ev.target.className == "action" || _static) return;
+    if (ev.target.nodeName == "A") return;
+
     if (["title", "artist"].includes(ev.target.className)) return;
 
     if (ev.ctrlKey) return selectedRequest.selectRequest(request._id);
@@ -745,14 +748,6 @@ export default ({
   // };
 
   function previewBeatmap() {
-    if (beatmapPreviewContext.targetRequest != _request._id) {
-      beatmapPreviewContext.setPosition(0);
-      beatmapPreviewContext.setPause(true);
-      beatmapPreviewContext.setTargetRequest(_request._id);
-      beatmapPreviewContext.setPause(false);
-      return;
-    }
-
     if (beatmapPreviewContext.paused) {
       beatmapPreviewContext.setTargetRequest(_request._id);
 
@@ -776,10 +771,7 @@ export default ({
   return (
     <>
       <SelectedRequestContextProvider>
-        <ContextMenuTrigger
-          id={`request-${_request._id}`}
-          key={GenerateComponentKey(20)}
-        >
+        <ContextMenuTrigger id={`request-${_request._id}`}>
           <div
             className={
               loading
@@ -793,7 +785,6 @@ export default ({
             onClick={(ev: any) => {
               manageRequest(_request, ev);
             }}
-            key={GenerateComponentKey(20)}
           >
             <div
               className={
@@ -807,6 +798,7 @@ export default ({
               style={{
                 backgroundImage: `url(${_request.beatmap.covers["cover@2x"]})`,
               }}
+              key={GenerateComponentKey(20)}
             >
               <div className="row">
                 {_request.cross ? (
@@ -964,7 +956,10 @@ export default ({
             </p>
             <p className="mapper">
               mapped by
-              <a href={`https://osu.ppy.sh/u/${_request.beatmap.user_id}`}>
+              <a
+                href={`https://osu.ppy.sh/u/${_request._owner}`}
+                target="_blank"
+              >
                 {_request.beatmap.creator}
               </a>
             </p>

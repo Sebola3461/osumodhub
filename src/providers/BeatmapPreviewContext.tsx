@@ -1,8 +1,15 @@
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  MutableRefObject,
+  useRef,
+} from "react";
 
 export type BeatmapPreviewContextType = {
   paused: boolean;
   targetRequest: string;
+  audio: MutableRefObject<HTMLAudioElement>;
   volume: number;
   position: number;
   setPosition: (_v: any) => void;
@@ -16,6 +23,7 @@ export const BeatmapPreviewContext = createContext<BeatmapPreviewContextType>({
   targetRequest: "",
   volume: 0.05,
   position: 0,
+  audio: null,
   setPosition: (_v) => console.warn("Invalid action"),
   setVolume: (_v) => console.warn("Invalid action"),
   setPause: (_v) => console.warn("Invalid action"),
@@ -27,6 +35,7 @@ export const BeatmapPreviewProvider = ({ children }: any) => {
   const [volume, setVolume] = useState(0.05);
   const [position, setPosition] = useState(0);
   const [targetRequest, setTargetRequest] = useState("");
+  const audio = useRef(new Audio());
 
   return (
     <BeatmapPreviewContext.Provider
@@ -35,6 +44,7 @@ export const BeatmapPreviewProvider = ({ children }: any) => {
         volume,
         targetRequest,
         position,
+        audio,
         setPosition,
         setTargetRequest,
         setVolume,
