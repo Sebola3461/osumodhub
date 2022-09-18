@@ -184,9 +184,11 @@ export default async (req: Request, res: Response) => {
     ];
   }
 
-  await requests.findByIdAndUpdate(_request, request);
+  const updatedRequest = await requests.findByIdAndUpdate(_request, request);
 
-  function getTargeredStatus() {
+  async function getTargeredStatus() {
+    const request = await requests.findById(_request);
+
     return request?._managers.find((m) => m.userId == manager._id);
   }
 
@@ -194,7 +196,12 @@ export default async (req: Request, res: Response) => {
   if (queue.webhook) {
     if (queue.webhook.notify.includes("request:update"))
       if (status.toLowerCase() != "archived")
-        SendRequestUpdateWebhook(queue, request, reply, getTargeredStatus());
+        SendRequestUpdateWebhook(
+          queue,
+          request,
+          reply,
+          await getTargeredStatus()
+        );
   }
 
   res.status(200).send({

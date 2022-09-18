@@ -47,9 +47,9 @@ export default async (
         request.beatmap.title
       }**](https://osumodhub.xyz/queue/${queue._id}?r=${request._id}) by ${
         request._owner_name
-      } **${texts[request.status]}** by ${
+      } **${texts[request.status]}** ${
         managerObject && queue.isGroup
-          ? `**[${managerObject.username}](https://osu.ppy.sh/users/${managerObject.userId})**`
+          ? `by **[${managerObject.username}](https://osu.ppy.sh/users/${managerObject.userId})**`
           : ""
       }`,
       thumbnail: {
