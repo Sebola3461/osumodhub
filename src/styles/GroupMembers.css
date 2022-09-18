@@ -14,8 +14,8 @@
 }
 
 .groupmembers .usercontainer {
-  width: 180px;
-  min-width: 180px;
+  width: 175px;
+  min-width: 175px;
   height: 250px;
   border-radius: 0.5rem;
   background-color: var(--background2);
