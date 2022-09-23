@@ -28,6 +28,13 @@ export default async (req: Request, res: Response) => {
     queue.webhook = null;
   }
 
+  if (!queue.webhook) {
+    queue.webhook = {
+      url: "",
+      notify: []
+    }
+  }
+
   return res.status(200).send({
     status: 200,
     data: queue,
