@@ -36,13 +36,16 @@ export const notifications = mongoose.model("Notifications", Notification);
 
 // queues.find().then((doc) => {
 //   doc
-//     .filter((q) => !q.owner)
+//     .filter((q) => !q.webhook.url)
 //     .forEach(async (q, i) => {
-//       console.log(`X ${i + 1}/${doc.filter((q) => !q.owner).length}`);
+//       console.log(`X ${i + 1}/${doc.filter((q) => !q.webhook.url).length}`);
 
-//       q.owner = q._id;
+//       q.webhook = {
+//         url: "",
+//         notify: [],
+//       };
 //       await queues.findByIdAndUpdate(q._id, q);
 
-//       console.log(`== ${i + 1}/${doc.filter((q) => !q.owner).length}`);
+//       console.log(`== ${i + 1}/${doc.filter((q) => !q.webhook.url).length}`);
 //     });
 // });
