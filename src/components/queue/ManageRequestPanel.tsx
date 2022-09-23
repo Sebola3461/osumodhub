@@ -13,7 +13,6 @@ import BeatmapsetBanner from "../panels/BeatmapsetBanner";
 import Tag from "../global/Tag";
 import QueueColors from "../../constants/QueueColors";
 import Select from "react-select";
-import { queue } from "sharp";
 import isQueueManager from "../../helpers/isQueueManager";
 import { useNavigate } from "react-router-dom";
 
