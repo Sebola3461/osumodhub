@@ -29,7 +29,7 @@ export default async (queue: any) => {
           thumbnail: {
             url: `https://a.ppy.sh/${queue._id}`,
           },
-          url: `https://osumodhub.xyz/queues/${queue._id}`,
+          url: `https://osumodhub.xyz/queue/${queue._id}`,
           timestamp: new Date(),
         }).setColor(queue.open ? "#25ca6a" : "#d4152f"),
       ],
