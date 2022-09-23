@@ -13,7 +13,10 @@ export class QueueSettingsManager {
   async updateStatus(status: any) {
     if (typeof status != "boolean") status = this.queue.open;
 
-    if (this.queue.open != status) SendQueueUpdateWebhook(this.queue);
+    if (this.queue.open != status) {
+      if (this.queue.webhook.notify.includes("queue:update"))
+        SendQueueUpdateWebhook(this.queue);
+    }
 
     this.queue.open = status;
 
