@@ -1,6 +1,7 @@
 import { WebhookClient } from "discord.js";
 import { queues } from "../../../database";
 import { IQueue } from "../../../src/types/queue";
+import SendQueueUpdateWebhook from "../webhooks/SendQueueUpdateWebhook";
 
 export class QueueSettingsManager {
   private queue: IQueue;
@@ -11,6 +12,8 @@ export class QueueSettingsManager {
 
   async updateStatus(status: any) {
     if (typeof status != "boolean") status = this.queue.open;
+
+    if (this.queue.open != status) SendQueueUpdateWebhook(this.queue);
 
     this.queue.open = status;
 
