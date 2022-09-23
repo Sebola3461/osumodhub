@@ -32,7 +32,7 @@ router.post("/:queue/webhook", TestWebhook);
 router.post("/:queue/requests", rewriteUsernameToId, CreateRequest);
 router.post("/:queue/follow", rewriteUsernameToId, FollowQueue);
 router.post("/update/group/:id", UpdateGroup);
-router.post("/update", UpdateQueue);
+router.post("/:id/update", UpdateQueue);
 router.post("/import/osumod", AuthenticateQueue, OsumodImport);
 
 // ? =============== GET REQUESTS

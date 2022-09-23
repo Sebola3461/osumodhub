@@ -53,8 +53,9 @@ export interface IQueue {
   };
   timeclose: {
     enable: boolean;
-    scheduled: "";
+    scheduled: Date | string;
     size: number;
+    validated: boolean;
   };
   twitter: string;
   discord: string;
@@ -63,6 +64,10 @@ export interface IQueue {
     enable: boolean;
     size: number;
   };
+  webhook: {
+    url: string,
+    notify: string[]
+  }
 }
 
 export interface IQueueRequestManager {

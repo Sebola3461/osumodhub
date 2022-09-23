@@ -15,7 +15,8 @@ export default () => {
   );
 
   _window.addEventListener("message", (ev) => {
-    localStorage["user_login"] = JSON.stringify(ev.data);
+    console.log(ev.data);
+    localStorage.setItem("user_login", JSON.stringify(ev.data));
 
     _window.close();
     location.reload();

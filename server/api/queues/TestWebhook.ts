@@ -42,8 +42,6 @@ export default async (req: Request, res: Response) => {
         message: "Unauthorized",
       });
 
-    console.log(queue.webhook);
-
     const webhookClient = new WebhookClient({
       url: queue.webhook.url,
     });
