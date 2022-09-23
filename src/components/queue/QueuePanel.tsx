@@ -139,7 +139,7 @@ export default () => {
   }
 
   function auxClosePanel(ev: any) {
-    if (ev.target.className != "queuepanel open") return;
+    if (ev.target.className != "queuepanel open customscroll") return;
 
     setOpen(!open);
 
@@ -147,7 +147,8 @@ export default () => {
   }
 
   function escClosePanel(ev: any) {
-    if (ev.target.className != "queuepanel open") return;
+    if (ev.target.className != "queuepanel openqueuepanel open customscroll")
+      return;
     if (ev.key != "escape") return;
 
     setOpen(!open);
@@ -851,7 +852,7 @@ export default () => {
       <div className="container customscroll">
         <div className="paneltitle">
           <p>Queue Settings</p>
-          <FontAwesomeIcon icon={faTimes} onClick={close} />
+          <FontAwesomeIcon icon={faTimes} onClick={() => setOpen(false)} />
         </div>
         <div className="layout customscroll">
           <div
