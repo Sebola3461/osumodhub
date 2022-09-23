@@ -846,11 +846,12 @@ export default () => {
         open ? "queuepanel open customscroll" : "queuepanel customscroll"
       }
       {...handlers}
+      onClick={auxClosePanel}
     >
       <div className="container customscroll">
         <div className="paneltitle">
           <p>Queue Settings</p>
-          <FontAwesomeIcon icon={faTimes} />
+          <FontAwesomeIcon icon={faTimes} onClick={close} />
         </div>
         <div className="layout customscroll">
           <div
