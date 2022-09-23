@@ -1,127 +1,149 @@
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
-import notifyFollowers from "../helpers/notifyFollowers";
+import isQueueManager from "../../helpers/isQueueManager";
 import { QueueSettingsManager } from "../helpers/QueueSettingsManager";
-import SendQueueUpdateWebhook from "../webhooks/SendQueueUpdateWebhook";
 
 export default async (req: Request, res: Response) => {
-try {
-  const authorization = req.headers.authorization;
-  const id = req.params.id;
+  try {
+    const authorization = req.headers.authorization;
+    const id = req.params.id;
 
-  if (!authorization)
-    return res.status(403).send({
-      status: 403,
-      message: "Missing authorization",
+    if (!authorization)
+      return res.status(403).send({
+        status: 403,
+        message: "Missing authorization",
+      });
+
+    const user = await users.findOne({ account_token: authorization });
+
+    if (user == null)
+      return res.status(404).send({
+        status: 404,
+        message: "User not found!",
+      });
+
+    const queue = await queues.findById(id);
+
+    if (queue == null)
+      return res.status(404).send({
+        status: 404,
+        message: "Queue not found!",
+      });
+
+    if (user._id != queue.owner && !queue.isGroup)
+      return res.status(401).send({
+        status: 401,
+        message: "Unauthorized",
+      });
+
+    if (queue.isGroup && !isQueueManager(queue, user, authorization))
+      return res.status(401).send({
+        status: 401,
+        message: "Unauthorized",
+      });
+
+    const rawTarget = req.query.target;
+
+    const editable = [
+      "description",
+      "open",
+      "modes",
+      "allow",
+      "webhook",
+      "genres",
+      "timeclose",
+      "autoclose",
+      "metadata",
+    ];
+
+    if (!rawTarget || rawTarget.toString().toLowerCase().trim() == "")
+      return res.status(400).send({
+        status: 400,
+        message: "Invalid target provided",
+      });
+
+    const target = rawTarget.toString().toLowerCase().trim();
+
+    if (!editable.includes(target))
+      return res.status(400).send({
+        status: 400,
+        message: "Invalid target provided",
+      });
+
+    if (!req.body || !Object.keys(req.body).includes("value"))
+      return res.status(400).send({
+        status: 400,
+        message: "Invalid form body!",
+      });
+
+    const manager = new QueueSettingsManager(queue);
+
+    let result;
+    switch (target) {
+      case "open": {
+        result = await manager.updateStatus(req.body.value);
+
+        break;
+      }
+      case "description": {
+        result = await manager.updateDescription(req.body.value);
+
+        break;
+      }
+      case "modes": {
+        result = await manager.updateModes(req.body.value);
+
+        break;
+      }
+      case "genres": {
+        result = await manager.updateGenres(req.body.value);
+
+        break;
+      }
+      case "timeclose": {
+        result = await manager.updateTimeClose(req.body.value);
+
+        break;
+      }
+      case "autoclose": {
+        result = await manager.updateAutoClose(req.body.value);
+
+        break;
+      }
+      case "allow": {
+        result = await manager.updateFilters(req.body.value);
+
+        break;
+      }
+      case "metadata": {
+        result = await manager.updateMetadata(req.body.value, user);
+
+        break;
+      }
+      case "webhook": {
+        result = await manager.updateWebhook(req.body.value);
+
+        break;
+      }
+      case "admins": {
+        result = await manager.updateAdmins(req.body.value, user);
+
+        break;
+      }
+    }
+
+    return res.status(result.error ? 400 : 200).send({
+      status: result.error ? 400 : 200,
+      message: result.message,
     });
-
-  const queue = await queues.findById(id);
-
-  if (queue == null)
-    return res.status(404).send({
-      status: 404,
-      message: "Queue not found!",
+  } catch (e) {
+    console.error(e);
+    return res.status(500).send({
+      status: 500,
+      message:
+        "Can't save settings: Internal server error (Contact Sebola#3461)",
     });
-
-    const queue_owner = await users.findById(queue.owner);
-
-  if (authorization != queue_owner.account_token)
-    return res.status(401).send({
-      status: 401,
-      message: "Unauthorized",
-    });
-
-  const rawTarget = req.query.target;
-
-  const editable = ["description", "open", "modes", "allow", "webhook", "genres", "timeclose", "autoclose", "metadata"];
-
-  if (!rawTarget || rawTarget.toString().toLowerCase().trim() == "") return res.status(400).send({
-    status: 400,
-    message: "Invalid target provided",
-  });
-
-  const target = rawTarget.toString().toLowerCase().trim()
-
-  if (!editable.includes(target)) return res.status(400).send({
-    status: 400,
-    message: "Invalid target provided",
-  });
-
-  if (!req.body || !Object.keys(req.body).includes("value")) return res.status(400).send({
-    status: 400,
-    message: "Invalid form body!"
-  })
-
-  const manager = new QueueSettingsManager(queue);
-
-  let result;
-  switch(target) {
-    case "open": {
-      result = await manager.updateStatus(req.body.value);
-
-      break;
-    }
-    case "description": {
-      result = await manager.updateDescription(req.body.value);
-
-      break;
-    }
-    case "modes": {
-      result = await manager.updateModes(req.body.value);
-
-      break;
-    }
-    case "genres": {
-      result = await manager.updateGenres(req.body.value);
-
-      break;
-    }
-    case "timeclose": {
-      result = await manager.updateTimeClose(req.body.value);
-
-      break;
-    }
-    case "autoclose": {
-      result = await manager.updateAutoClose(req.body.value);
-
-      break;
-    }
-    case "allow": {
-      result = await manager.updateFilters(req.body.value);
-
-      break;
-    }
-    case "metadata": {
-      result = await manager.updateMetadata(req.body.value, queue_owner);
-
-      break;
-    }
-    case "webhook": {
-      result = await manager.updateWebhook(req.body.value);
-
-      break;
-    }
-    case "admins": {
-      result = await manager.updateAdmins(req.body.value, queue_owner);
-
-      break;
-    }
   }
-
-  return res.status(result.error ? 400 : 200).send({
-    status: result.error ? 400 : 200,
-    message: result.message
-  })
-
-} catch(e) {
-  console.error(e);
-  return res.status(500).send({
-    status: 500,
-    message: "Can't save settings: Internal server error (Contact Sebola#3461)"
-  })
-}
-
-
 
   // const _queue = Object.keys(req.body);
 
