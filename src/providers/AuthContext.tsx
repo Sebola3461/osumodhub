@@ -9,24 +9,23 @@ const defaultUser = JSON.stringify({
 });
 
 function getStoredUser(): ILoginUser {
-  let user: any = defaultUser;
+  let user = JSON.parse(defaultUser);
 
   try {
     user = JSON.parse(localStorage["user_login"]);
 
-    if (!user) user = defaultUser;
+    if (!user) return JSON.parse(defaultUser);
 
     if (typeof JSON.parse(localStorage["user_login"]) == "string")
-      user = defaultUser;
+      return JSON.parse(defaultUser);
 
-    return JSON.parse(user);
+    return user;
   } catch (e: any) {
+    console.error(e);
     localStorage.removeItem("user_login");
 
-    user = defaultUser;
+    return JSON.parse(defaultUser);
   }
-
-  return JSON.parse(user);
 }
 
 interface IUserContextType {

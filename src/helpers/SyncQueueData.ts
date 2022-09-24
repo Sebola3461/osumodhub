@@ -1,5 +1,5 @@
 export default (user: any) => {
-  if (user._id == -1) return;
+  if (user._id == "-1") return;
 
   if (user.hasQueue) {
     syncQueue();
@@ -39,7 +39,7 @@ export default (user: any) => {
         loginData.hasQueue = data.data.hasQueue;
         loginData.isBn = data.data.isBn;
 
-        localStorage["user_login"] = JSON.stringify(loginData);
+        //localStorage["user_login"] = JSON.stringify(loginData);
       });
   }
 };
