@@ -34,8 +34,7 @@ export default (user: any) => {
         if (data.status != 200 && data.status != 404)
           return window.alert(`${data.message}`);
 
-        // ? For some reason, JSON.parse returns a string??
-        let loginData = JSON.parse(localStorage.getItem("user_login"));
+        let loginData = JSON.parse(localStorage["user_login"]);
 
         loginData.hasQueue = data.data.hasQueue;
         loginData.isBn = data.data.isBn;

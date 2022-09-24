@@ -14,16 +14,6 @@ export default () => {
     height=${height}, top=${top}, left=${left}`
   );
 
-  _window.addEventListener("message", (ev) => {
-    ev.data.hasQueue = Boolean(ev.data.hasQueue);
-    ev.data.authenticated = true;
-
-    localStorage.setItem("user_login", JSON.stringify(ev.data));
-
-    _window.close();
-    location.reload();
-  });
-
   let reloading = false;
   setInterval(() => {
     if (_window.closed && !reloading) {

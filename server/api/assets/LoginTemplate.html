@@ -21,9 +21,7 @@
 
       localStorage.user_login = JSON.stringify(data);
 
-      window.postMessage(data);
-
-      setTimeout(() => {
+      setInterval(() => {
         localStorage.user_login = JSON.stringify(data);
         window.close();
       }, 500);

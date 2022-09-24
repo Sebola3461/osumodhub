@@ -21,7 +21,7 @@ function getStoredUser(): ILoginUser {
 
     return JSON.parse(user);
   } catch (e: any) {
-    localStorage["user_login"] = undefined;
+    localStorage.removeItem("user_login");
 
     user = defaultUser;
   }
