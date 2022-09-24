@@ -2,10 +2,14 @@ import "./../../styles/ProgressBar.css";
 
 export default ({
   percent,
-  displayPercent,
+  min,
+  max,
+  onInput,
 }: {
   percent: number;
-  displayPercent?: boolean;
+  onInput: (...any) => any;
+  min: number;
+  max: number;
 }) => {
   return (
     <div className="progressbar">
@@ -17,7 +21,6 @@ export default ({
           }}
         ></div>
       </div>
-      {displayPercent ? <p>{percent}%</p> : <></>}
     </div>
   );
 };

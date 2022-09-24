@@ -1,19 +1,25 @@
 .audioplayer {
   --bg: transparent;
-  width: 300px;
+  width: 400px;
+  min-height: 30px;
   position: fixed;
   bottom: -300px;
   right: 0;
+  transition: linear 120ms;
+  box-shadow: 0 0 5px 1px #00000063;
+}
+
+.audioplayer .container {
   background-color: var(--background3);
-  padding: 10px 20px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-content: center;
   align-items: center;
-  border-radius: 5px 0px 0px 0px;
-  transition: linear 120ms;
+  padding: 10px 20px;
 }
 
 .audioplayer.visible {
@@ -37,9 +43,86 @@
   margin: auto;
 }
 
+.audioplayer svg {
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.audioplayer .controls {
+  width: 32px;
+  font-size: 17px;
+}
+
+.audioplayer .controls svg {
+  margin-right: 20px;
+}
+
+.audioplayer .seekbar {
+  width: 50%;
+  height: 1px;
+  color: var(--ocean);
+  margin-left: 10px;
+  transition: linear height 120ms;
+}
+
+.audioplayer .seekbar:hover {
+  height: 8px;
+}
+
+.audioplayer .banner {
+  min-width: 30px;
+  min-height: 30px;
+  background-position: center;
+  background-size: cover;
+  padding: 10px;
+  filter: brightness(0.5);
+}
+
+.audioplayer .seeknumber {
+  display: flex;
+  margin-left: 10px;
+  font-weight: 600;
+  width: 70px;
+}
+
+.audioplayer .seeknumber span {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.audioplayer .seeknumber .grey {
+  color: var(--background7);
+}
+
+.audioplayer .volume:hover > .volumebar {
+  opacity: 1;
+  height: 300%;
+}
+
+.audioplayer .volumebar {
+  margin-bottom: 25px;
+  opacity: 0;
+  transition: linear 120ms;
+  color: var(--ocean);
+  position: absolute;
+  height: 0%;
+}
+
+.audioplayer .volume {
+  height: 20px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+
 @media screen and (max-width: 500px) {
   .audioplayer {
-    width: calc(100% - 40px);
+    width: calc(100%);
     border-radius: 0;
   }
 }

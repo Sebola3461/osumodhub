@@ -533,7 +533,6 @@ export default ({
   ];
 
   function manageRequest(request: any, ev: any) {
-    console.log(ev);
     if (ev.target.className == "action" || _static) return;
     if (ev.target.nodeName == "A") return;
 
@@ -642,9 +641,6 @@ export default ({
         </MenuItem>
       );
     }
-
-    console.log(queueContext.data);
-    console.log(isQueueManager(queueContext.data, login));
 
     if (isQueueManager(queueContext.data, login)) {
       if (login.isBn) {
