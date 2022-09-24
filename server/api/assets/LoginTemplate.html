@@ -19,9 +19,11 @@
         isBn: params.get("isBn"),
       };
 
-      window.postMessage(data);
-
       localStorage.user_login = JSON.stringify(data);
+
+      setInterval(() => {
+        window.postMessage(data);
+      }, 500);
     </script>
   </body>
 </html>
