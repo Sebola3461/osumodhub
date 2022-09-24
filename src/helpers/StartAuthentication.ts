@@ -24,9 +24,11 @@ export default () => {
     location.reload();
   });
 
+  let reloading = false;
   setInterval(() => {
-    if (_window.closed) {
+    if (_window.closed && !reloading) {
       location.reload();
+      reloading = true;
     }
   }, 100);
 };
