@@ -17,7 +17,7 @@ export default (user: any) => {
     })
       .then((r) => r.json())
       .then((data) => {
-        if (data.status != 200)
+        if (data.status != 200 && data.status != 404)
           return window.alert(`We can't sync your queue!\n${data.message}`);
       });
   }
@@ -31,15 +31,14 @@ export default (user: any) => {
     })
       .then((r) => r.json())
       .then((data) => {
-        if (data.status != 200) return window.alert(`${data.message}`);
+        if (data.status != 200 && data.status != 404)
+          return window.alert(`${data.message}`);
 
         // ? For some reason, JSON.parse returns a string??
         let loginData = JSON.parse(localStorage.getItem("user_login"));
 
-        Object.assign(loginData, {
-          isBn: data.data.isBn,
-          hasQueue: data.data.hasQueue,
-        });
+        loginData.hasQueue = data.data.hasQueue;
+        loginData.isBn = data.data.isBn;
 
         localStorage["user_login"] = JSON.stringify(loginData);
       });

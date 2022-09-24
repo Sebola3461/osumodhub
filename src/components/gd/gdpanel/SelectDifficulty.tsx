@@ -22,8 +22,7 @@ export default ({
   setTab,
 }: ISelectDifficultyAtt) => {
   const context = useContext(GDPanelContext);
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
 
   const icons = [OsuIcon, TaikoIcon, CatchIcon, ManiaIcon];
 

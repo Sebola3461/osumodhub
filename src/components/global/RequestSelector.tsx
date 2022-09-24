@@ -58,8 +58,8 @@ export default ({
   setRequests?: any;
 }) => {
   const icons = [OsuIcon, TaikoIcon, CatchIcon, ManiaIcon];
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const manageRequestPanelContext = useContext(ManageRequestPanelContext);

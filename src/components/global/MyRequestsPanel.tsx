@@ -10,8 +10,8 @@ import SearchSelect from "./SearchSelect";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 
 export default () => {
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const [loading, setLoading] = useState(false);
   const { open, setOpen } = useContext(MyRequestPanelContext);
   const [requests, setRequests] = useState<any[]>([]);
@@ -47,7 +47,7 @@ export default () => {
   }
 
   useEffect(() => {
-    if (login._id == -1 && !open) return;
+    if (login._id == "-1" && !open) return;
 
     setLoading(true);
     document.addEventListener("keydown", (ev) => {

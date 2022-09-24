@@ -16,8 +16,8 @@ import RulesTab from "./RequestPanel/RulesTab";
 export default () => {
   const [userBeatmaps, setUserBeatmaps] = useState<Beatmapset[]>([]);
   const [tab, setTab] = useState(0);
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const { request, setRequest } = useContext(RequestContext);
   const { open, setOpen, rulesRead, setRulesRead } =
     useContext(RequestPanelContext);
@@ -26,7 +26,7 @@ export default () => {
   const queueContext = useContext(QueueContext);
 
   useEffect(() => {
-    if (login._id == -1) return;
+    if (login._id == "-1") return;
 
     if (!queueContext.data) return;
 

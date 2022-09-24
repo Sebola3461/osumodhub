@@ -7,7 +7,7 @@ export default () => {
   const top = window.innerHeight / 2 - height / 2;
 
   const _window = window.open(
-    "https://osu.ppy.sh/oauth/authorize?response_type=code&redirect_uri=https://osumodhub.xyz/api/validate&client_id=15113&scope=identify",
+    "https://osu.ppy.sh/oauth/authorize?response_type=code&redirect_uri=http://localhost:3000/api/validate&client_id=15092&scope=identify",
     "",
     `toolbar=no, location=no, directories=no, status=no, menubar=no, 
     scrollbars=no, resizable=no, copyhistory=no, width=${width}, 
@@ -15,7 +15,9 @@ export default () => {
   );
 
   _window.addEventListener("message", (ev) => {
-    console.log(ev.data);
+    ev.data.hasQueue = Boolean(ev.data.hasQueue);
+    ev.data.authenticated = true;
+
     localStorage.setItem("user_login", JSON.stringify(ev.data));
 
     _window.close();

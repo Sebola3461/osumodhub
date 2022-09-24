@@ -24,8 +24,8 @@ export default () => {
   );
   const [notifications, setNotifications] = useState([]);
   const [loadingNotifications, setLoadingNotifications] = useState([]);
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [isListening, setListening] = useState(false);
 
@@ -49,7 +49,7 @@ export default () => {
   );
 
   useEffect(() => {
-    if (login._id == -1) return;
+    if (login._id == "-1") return;
   }, []);
 
   let startListening = () => {};

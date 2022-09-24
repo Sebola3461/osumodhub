@@ -24,6 +24,7 @@ if (process.env.NODE_ENV == "production") {
     "/assets",
     express.static(path.resolve(__dirname.concat("/../dist/assets/")))
   );
+
   app.use(
     "/static",
     express.static(path.resolve(__dirname.concat("/../src/static/")))

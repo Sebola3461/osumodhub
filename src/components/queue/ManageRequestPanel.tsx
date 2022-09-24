@@ -17,8 +17,8 @@ import isQueueManager from "../../helpers/isQueueManager";
 import { useNavigate } from "react-router-dom";
 
 export default () => {
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const [loading, setLoading] = useState(false);
   const { open, request, setOpen, setRequest } = useContext(
     ManageRequestPanelContext

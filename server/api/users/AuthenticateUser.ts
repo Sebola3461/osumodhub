@@ -63,24 +63,14 @@ export default async (req: Request, res: Response) => {
       req
     );
 
-    return res.status(200).send(
-      `<html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>Please wait...</title>
-          <script defer>setInterval(() => {
-            window.postMessage(JSON.stringify({ _id: ${user_db._id}, username: "${user_db.username}", hasQueue: ${user_db.hasQueue}, account_token: "${user_db.account_token}" }));
+    const params = new URLSearchParams();
 
-            localStorage.user_login = JSON.stringify(JSON.stringify({ _id: ${user_db._id}, username: "${user_db.username}", hasQueue: ${user_db.hasQueue}, account_token: "${user_db.account_token}" }))
-          }, 3000)
-          ;</script>
-        </head>
-        <body>
-        </body>
-      </html>`
-    );
+    params.set("id", user_db._id);
+    params.set("username", user_db.username);
+    params.set("hasQueue", user_db.hasQueue);
+    params.set("account_token", user_db.account_token);
+
+    return res.redirect(`/api/identify?${params.toString()}`);
   } catch (e: any) {
     console.error(e);
 

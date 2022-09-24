@@ -1,52 +1,50 @@
-import React, { createContext, useState, FC } from "react";
+import React, { createContext, useState, FC, useEffect } from "react";
+import { ILoginUser } from "../types/user";
 
-const contextDefaultValues: any = {
-  user: getStoredUser(),
-  addTodo: () => {},
-};
+const defaultUser = JSON.stringify({
+  _id: "-1",
+  authenticated: false,
+  username: "Guest",
+  hasQueue: false,
+});
 
-function getStoredUser() {
-  let user: any = JSON.stringify({
-    _id: -1,
-    authenticated: false,
-    username: "Guest",
-    hasQueue: false,
-  });
+function getStoredUser(): ILoginUser {
+  let user: any = defaultUser;
 
   try {
     user = JSON.parse(localStorage["user_login"]);
 
-    if (!user)
-      user = JSON.stringify({
-        _id: -1,
-        authenticated: false,
-        username: "Guest",
-        hasQueue: false,
-      });
+    if (!user) user = defaultUser;
+
+    return user;
   } catch (e: any) {
-    user = JSON.stringify({
-      _id: -1,
-      authenticated: false,
-      username: "Guest",
-      hasQueue: false,
-    });
+    localStorage["user_login"] = undefined;
+
+    user = JSON.parse(defaultUser);
   }
 
-  return user;
+  return JSON.parse(user);
 }
 
-export const AuthContext = createContext<any>(contextDefaultValues);
+interface IUserContextType {
+  login: ILoginUser;
+  setLogin: (u) => any;
+}
+
+export const AuthContext = createContext<IUserContextType>({
+  login: JSON.parse(defaultUser),
+  setLogin: (u: any) => void {},
+});
 
 const AuthProvider = ({ children }: any) => {
-  const [user, setUser] = useState<any>(contextDefaultValues.user);
-
-  const updateUser = (user: any) => setUser(user);
+  const [oldLogin, setOldLogin] = useState<any>(null);
+  const [login, setLogin] = useState<ILoginUser>(getStoredUser());
 
   return (
     <AuthContext.Provider
       value={{
-        user,
-        updateUser,
+        login,
+        setLogin,
       }}
     >
       {children}

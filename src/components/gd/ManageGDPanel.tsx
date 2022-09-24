@@ -12,8 +12,8 @@ import SelectPostTab from "./managegdpanel/SelectPostTab";
 
 export default () => {
   const context = useContext(ManageGDPanelContext);
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const [tab, setTab] = useState(0);
   const [selectedPost, setSelectedPost] = useState("");
   const [selectedDifficulty, setSelectedDifficulty] = useState("");

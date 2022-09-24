@@ -12,8 +12,8 @@ import "./../../styles/QueueGroupSideMenu.css";
 import { CreateGroupPanelContext } from "../../providers/CreateGroupContext";
 
 export default () => {
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const context = useContext(QueueGroupsSideMenuContext);
   const panel = useContext(CreateGroupPanelContext);
   const [groups, setGroups] = useState<any[] | undefined>();

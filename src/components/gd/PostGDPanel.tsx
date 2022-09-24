@@ -15,8 +15,8 @@ export default () => {
   const [beatmaps, setBeatmaps] = useState([]);
   const [offset, setOffset] = useState(0);
   const [selectedBeatmap, setSelectedBeatmap] = useState(0);
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const [selectedDifficulty, setSelectedDifficulty] = useState(0);
   const [diffs, setDiffs] = useState([]);
   const [post, setPost] = useState({

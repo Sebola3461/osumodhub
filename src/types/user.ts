@@ -2,6 +2,14 @@ import type { Timestamp } from "./timestamp";
 import { GameMode } from "./game_mode";
 import { Beatmapset } from "./beatmap";
 
+export interface ILoginUser {
+  _id: string;
+  username: string;
+  hasQueue: boolean;
+  account_token: string;
+  authenticated: boolean | null;
+}
+
 export interface UserCompactCover {
   custom_url: null | unknown;
   url: string;

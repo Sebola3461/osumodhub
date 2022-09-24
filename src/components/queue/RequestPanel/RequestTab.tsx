@@ -14,9 +14,9 @@ import { RequestWsContext } from "../../../providers/RequestWsQueueContext";
 import BeatmapsetBanner from "../../panels/BeatmapsetBanner";
 
 export default () => {
-  const { user, updateUser } = useContext(AuthContext);
+  const { login, setLogin } = useContext(AuthContext);
   const { request, setRequest } = useContext(RequestContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { open, setOpen } = useContext(RequestPanelContext);

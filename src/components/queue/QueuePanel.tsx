@@ -26,8 +26,8 @@ import AdminInput from "../global/AdminInput";
 import { useSwipeable } from "react-swipeable";
 
 export default () => {
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const { open, setOpen } = useContext(QueuePanelContext);
   const [personalQueue, setPersonalQueue] = useState<any>();
   const [_queue, setQueue] = useState<any>();
@@ -62,7 +62,7 @@ export default () => {
   };
 
   useEffect(() => {
-    if (login._id == -1) return;
+    if (login._id == "-1") return;
 
     document.addEventListener("keydown", (ev) => {
       if (!ev.target) return;

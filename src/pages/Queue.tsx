@@ -71,8 +71,7 @@ export default () => {
     status: "any",
   });
 
-  const { user } = useContext(AuthContext);
-  const [login] = useState(JSON.parse(user));
+  const { login } = useContext(AuthContext);
   const { setOpen } = useContext(RequestPanelContext);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [followButtonIcon, setFollowButtonIcon] = useState(faUser);
@@ -347,14 +346,14 @@ export default () => {
                     className="custombuttom"
                     style={{
                       backgroundColor: `var(--${
-                        login._id == -1
+                        login._id == "-1"
                           ? "red"
                           : queue.data.open
                           ? "green"
                           : "red"
                       })`,
                       color: `${
-                        login._id == -1
+                        login._id == "-1"
                           ? "white"
                           : queue.data.open
                           ? "black"
@@ -362,7 +361,7 @@ export default () => {
                       }`,
                     }}
                     onClick={() => {
-                      if (login._id == -1) return;
+                      if (login._id == "-1") return;
                       if (
                         !queue.data.open &&
                         (queue.data.admins.includes(login._id) ||
@@ -386,7 +385,7 @@ export default () => {
                         : "custombuttom"
                     }
                     onClick={() => {
-                      if (login._id == -1) return;
+                      if (login._id == "-1") return;
                       refreshFollowers(true);
                     }}
                   >

@@ -56,8 +56,8 @@ function GDFeed() {
   const { filters, updateFilters } = useContext<any>(HomeFilterContext);
   const [loading, setLoading] = useState(false);
   const sideMenuContext = useContext(UserSideMenuContext);
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const queuePanelContext = useContext(QueuePanelContext);
   const requestsPanelContext = useContext(MyRequestPanelContext);
   const postPanel = useContext(PostGDPanelContext);

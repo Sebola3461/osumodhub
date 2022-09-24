@@ -7,8 +7,8 @@ import NoRequests from "../global/NoRequests";
 import "./../../styles/GDRequestPanel.css";
 
 export default () => {
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const [gds, setGds] = useState<any[] | undefined>();
 
   function getListing() {

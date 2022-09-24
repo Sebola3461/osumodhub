@@ -49,8 +49,8 @@ export default ({
   type?: "manage" | "owner";
 }) => {
   const icons = [OsuIcon, TaikoIcon, CatchIcon, ManiaIcon];
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [_request, setRequest] = useState<any>(

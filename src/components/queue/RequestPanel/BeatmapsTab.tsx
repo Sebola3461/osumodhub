@@ -19,8 +19,8 @@ export default ({
   setUserBeatmaps: any;
   setTab: any;
 }) => {
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const [loading, setLoading] = useState(false);
   const { request, setRequest } = useContext(RequestContext);
   const [selected, setSelected] = useState(request.beatmap.id);

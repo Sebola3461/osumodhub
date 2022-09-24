@@ -15,6 +15,8 @@ const api = Router();
 import { WebSocketServer } from "ws";
 import { GDRouter } from "./gd/routes";
 import { BeatmapsRouter } from "./beatmaps/routes";
+import path from "path";
+
 const wsSrv = new WebSocketServer({
   port: 3001,
 });
@@ -37,6 +39,9 @@ api.use("/beatmaps/", BeatmapsRouter);
 
 // TODO: Create a category for this
 api.get("/validate/", AuthenticateUser);
+api.get("/identify", (req, res) => {
+  res.sendFile(path.resolve("./server/api/assets/LoginTemplate.html"));
+});
 
 export const ApiRoutes = api;
 export const websocketServer = wsSrv.clients;

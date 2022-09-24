@@ -11,8 +11,8 @@ import { UserSideMenuContext } from "../../providers/UserSideMenu";
 import SideMenu from "./SideMenu";
 
 export default () => {
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const sideMenuContext = useContext(UserSideMenuContext);
   const groupsMenuContext = useContext(QueueGroupsSideMenuContext);
   const queuePanelContext = useContext(QueuePanelContext);
@@ -73,7 +73,26 @@ export default () => {
     refreshQueue();
   }
 
-  console.log(sideMenuContext.open);
+  function createQueue() {
+    fetch("/api/queues/new", {
+      method: "post",
+      headers: {
+        authorization: login.account_token,
+      },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.status == 200) {
+          const loginData = JSON.parse(localStorage["user_login"]);
+          loginData.hasQueue = true;
+          localStorage["user_login"] = JSON.stringify(loginData);
+
+          setLogin(loginData);
+
+          window.location.pathname = `/queue/${login._id}`;
+        }
+      });
+  }
 
   return (
     <SideMenu
@@ -83,9 +102,7 @@ export default () => {
         {
           label: login.hasQueue ? "Queue settings" : "Create a queue",
           callback: () => {
-            login.hasQueue
-              ? queuePanelContext.setOpen(true)
-              : CreateNewQueue(login);
+            login.hasQueue ? queuePanelContext.setOpen(true) : createQueue();
           },
         },
         {

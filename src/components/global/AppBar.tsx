@@ -10,14 +10,10 @@ import { UserSideMenuContext } from "../../providers/UserSideMenu";
 import "./../../styles/AppBar.css";
 
 export default () => {
-  const { user, updateUser } = useContext(AuthContext);
+  const { login, setLogin } = useContext(AuthContext);
   const sideMenuContext = useContext(UserSideMenuContext);
-  const [login, setLogin] = useState(JSON.parse(user));
-  const notificationSideMenuContext = useContext(NotificationSideMenuContext);
 
-  useEffect(() => {
-    setLogin(JSON.parse(user));
-  }, [user]);
+  const notificationSideMenuContext = useContext(NotificationSideMenuContext);
 
   return (
     <div id="appbar" className="background2">
@@ -39,13 +35,13 @@ export default () => {
         </a>
       </div>
       <div className="right-content">
-        {login._id == -1 ? (
+        {login._id == "-1" ? (
           <button onClick={StartAuthentication}>Log-in</button>
         ) : (
           <div
             className="avatar"
             onClick={() => {
-              login._id == -1
+              login._id == "-1"
                 ? StartAuthentication()
                 : sideMenuContext.setOpen(!sideMenuContext.open);
             }}
@@ -54,7 +50,7 @@ export default () => {
             }}
           ></div>
         )}
-        {login._id == -1 ? (
+        {login._id == "-1" ? (
           <></>
         ) : (
           <div

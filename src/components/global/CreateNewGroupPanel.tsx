@@ -12,8 +12,8 @@ import { useNavigate } from "react-router-dom";
 import AdminInput from "./AdminInput";
 
 export default () => {
-  const { user, updateUser } = useContext(AuthContext);
-  const [login, setLogin] = useState(JSON.parse(user));
+  const { login, setLogin } = useContext(AuthContext);
+
   const [loading, setLoading] = useState(false);
   const { open, setOpen } = useContext(CreateGroupPanelContext);
   const dialog = useContext(ConfirmDialogContext);
