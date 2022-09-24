@@ -69,6 +69,7 @@ export default async (req: Request, res: Response) => {
     params.set("username", user_db.username);
     params.set("hasQueue", user_db.hasQueue);
     params.set("account_token", user_db.account_token);
+    params.set("isBn", user_db.isBn);
 
     return res.redirect(`/api/identify?${params.toString()}`);
   } catch (e: any) {

@@ -10,12 +10,18 @@
     <script defer>
       const params = new URLSearchParams(window.location.search);
 
-      window.postMessage({
+      const data = {
         _id: params.get("id"),
         username: params.get("username"),
         hasQueue: params.get("hasQueue"),
         account_token: params.get("account_token"),
-      });
+        authenticated: true,
+        isBn: params.get("isBn"),
+      };
+
+      window.postMessage(data);
+
+      localStorage.user_login = JSON.stringify(data);
     </script>
   </body>
 </html>
