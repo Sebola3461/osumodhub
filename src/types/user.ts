@@ -6,6 +6,7 @@ export interface ILoginUser {
   _id: string;
   username: string;
   hasQueue: boolean;
+  isBn: boolean;
   account_token: string;
   authenticated: boolean | null;
 }
