@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { QueueContext } from "../../providers/QueueContext";
+import ProgressBar from "../global/ProgressBar";
 
 import "./../../styles/QueueStatistics.css";
 
@@ -14,22 +15,17 @@ export default () => {
 
   return (
     <div className="queuestatistics">
+      <p className="statisticstitle">
+        Statistics
+        <span></span>
+      </p>
       <div className="_category">
-        <p className="label">Modding progress:</p>
-        <div className="slider">
-          <div
-            className="slidercontent"
-            style={{
-              width: `${
-                (processedRequests.length / queue.requests.length) * 100
-              }%`,
-            }}
-          ></div>
-        </div>
-        <span>{`${(
-          (processedRequests.length / queue.requests.length) *
-          100
-        ).toFixed(0)}%`}</span>
+        <p className="label">Modding progress</p>
+        <ProgressBar percent={50} />
+      </div>
+      <div className="_category">
+        <p className="label">Acceptance Rate</p>
+        <ProgressBar percent={50} />
       </div>
     </div>
   );

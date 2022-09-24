@@ -324,7 +324,7 @@ export default () => {
                   onClick={() => {
                     queue.data.isGroup
                       ? void {}
-                      : window.open(`${queue.data.icon}`);
+                      : window.open(`https://osu.ppy.sh/u/${queue.data._id}`);
                   }}
                 >
                   {queue.data.name}
@@ -406,7 +406,7 @@ export default () => {
               </div>
               {/* <div className="queue-preferences">
                 <div className="wrapper">
-                  {queueData.genres.map((g, i) => {
+                  {queue.data.genres.map((g, i) => {
                     return <div className="genre">{g}</div>;
                   })}
                 </div>
