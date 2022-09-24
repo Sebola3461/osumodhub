@@ -15,6 +15,7 @@ function getStoredUser(): ILoginUser {
     user = JSON.parse(localStorage["user_login"]);
 
     if (!user) user = defaultUser;
+    if (typeof user == "string") user = defaultUser;
 
     return user;
   } catch (e: any) {
