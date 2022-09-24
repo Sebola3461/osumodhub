@@ -6,6 +6,7 @@ const defaultUser = JSON.stringify({
   authenticated: false,
   username: "Guest",
   hasQueue: false,
+  color: "#2196f3",
 });
 
 function getStoredUser(): ILoginUser {
@@ -18,6 +19,8 @@ function getStoredUser(): ILoginUser {
 
     if (typeof JSON.parse(localStorage["user_login"]) == "string")
       return JSON.parse(defaultUser);
+
+    if (!user.color) user.color = "#2196f3";
 
     return user;
   } catch (e: any) {
@@ -39,7 +42,6 @@ export const AuthContext = createContext<IUserContextType>({
 });
 
 const AuthProvider = ({ children }: any) => {
-  const [oldLogin, setOldLogin] = useState<any>(null);
   const [login, setLogin] = useState<ILoginUser>(getStoredUser());
 
   return (

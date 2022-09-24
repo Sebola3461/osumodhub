@@ -34,18 +34,13 @@ export const gdusers = mongoose.model("GDUsers", GDUsers);
 export const followers = mongoose.model("Followers", Follower);
 export const notifications = mongoose.model("Notifications", Notification);
 
-// queues.find().then((doc) => {
-//   doc
-//     .filter((q) => !q.webhook.url)
-//     .forEach(async (q, i) => {
-//       console.log(`X ${i + 1}/${doc.filter((q) => !q.webhook.url).length}`);
+// users.find().then((doc) => {
+//   doc.forEach(async (q, i) => {
+//     console.log(`X ${i + 1}/${doc.length}`);
 
-//       q.webhook = {
-//         url: "",
-//         notify: [],
-//       };
-//       await queues.findByIdAndUpdate(q._id, q);
+//     q.color = "#2196f3";
+//     await users.findByIdAndUpdate(q._id, q);
 
-//       console.log(`== ${i + 1}/${doc.filter((q) => !q.webhook.url).length}`);
-//     });
+//     console.log(`== ${i + 1}/${doc.length}`);
+//   });
 // });

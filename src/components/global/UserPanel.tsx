@@ -100,7 +100,7 @@ export default () => {
       options={[
         { label: "My queue", callback: goToUserQueue },
         {
-          label: login.hasQueue ? "Queue settings" : "Create a queue",
+          label: login.hasQueue ? "Settings" : "Create a queue",
           callback: () => {
             login.hasQueue ? queuePanelContext.setOpen(true) : createQueue();
           },

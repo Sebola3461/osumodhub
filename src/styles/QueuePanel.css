@@ -115,7 +115,7 @@
 }
 
 .queuepanel .container .layout .categories .category.selected {
-  border-left: 5px solid var(--ocean);
+  border-left: 5px solid var(--accent);
   width: calc(90% - 15px);
   background-color: var(--background3);
   color: white;
@@ -162,8 +162,16 @@
   min-height: 1px;
   display: block;
   margin-top: 5px;
-  background-color: var(--ocean);
+  background-color: var(--accent);
   border-radius: 1000px;
+}
+
+.queuepanel input[type="color"] {
+  border: none;
+  border-radius: 5px;
+  background-color: var(--background3);
+  cursor: pointer;
+  margin-right: 10px;
 }
 
 .queuepanel .container .layout .content .option-container .section {
@@ -300,7 +308,7 @@
 }
 
 .queuepanel .myqueues select:focus {
-  outline: 1px solid var(--ocean);
+  outline: 1px solid var(--accent);
 }
 
 .queuepanel .myqueues .icon {

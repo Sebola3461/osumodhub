@@ -110,7 +110,7 @@
   padding: 10px 20px;
   margin-top: auto;
   margin-left: auto;
-  background-color: var(--ocean);
+  background-color: var(--accent);
 }
 
 @media screen and (max-width: 600px) {

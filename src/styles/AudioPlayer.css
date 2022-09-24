@@ -60,7 +60,7 @@
 .audioplayer .seekbar {
   width: 50%;
   height: 1px;
-  color: var(--ocean);
+  color: var(--accent);
   margin-left: 10px;
   transition: linear height 120ms;
 }
@@ -103,7 +103,7 @@
   margin-bottom: 25px;
   opacity: 0;
   transition: linear 120ms;
-  color: var(--ocean);
+  color: var(--accent);
   position: absolute;
   height: 0%;
 }

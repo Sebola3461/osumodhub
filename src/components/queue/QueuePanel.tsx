@@ -42,6 +42,7 @@ export default () => {
     onSwipedLeft: (eventData) => setCategoriesOpen(false),
     onSwipedRight: (eventData) => setCategoriesOpen(true),
   });
+  const [color, setColor] = useState(login.color);
 
   const action = (key) => (
     <>
@@ -135,6 +136,33 @@ export default () => {
           variant: d.status == 200 ? "success" : "error",
           action: action,
         });
+      });
+  }
+
+  function saveUserUpdates(target: string, value: any) {
+    fetch(`/api/users/update?target=${target}`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: login.account_token,
+      },
+      body: JSON.stringify({
+        value,
+      }),
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        enqueueSnackbar(d.message, {
+          variant: d.status == 200 ? "success" : "error",
+          action: action,
+        });
+
+        if (d.status == 200) {
+          login[target] = value;
+          setLogin(login);
+
+          localStorage.user_login = JSON.stringify(login);
+        }
       });
   }
 
@@ -288,33 +316,6 @@ export default () => {
     }
   }
 
-  function removeWebhook() {
-    if (confirm("Are you sure?")) {
-      fetch(`/api/queues/${_queue._id}/webhook/`, {
-        method: "DELETE",
-        headers: {
-          authorization: login.account_token,
-        },
-      })
-        .then((r) => r.json())
-        .then((d) => {
-          enqueueSnackbar(d.message, {
-            variant: d.status == 200 ? "success" : "error",
-            action: action,
-          });
-
-          if (d.status == 200) {
-            _queue.webhook = {
-              url: "",
-              notify: [""],
-            };
-
-            setQueue(JSON.parse(JSON.stringify(_queue)));
-          }
-        });
-    }
-  }
-
   // useEffect(() => {
   //   console.log("eae");
   //   if (_queue && queueRules != _queue.description) {
@@ -354,6 +355,16 @@ export default () => {
     >
       <FontAwesomeIcon icon={faPuzzlePiece} />
       <p>Modules</p>
+    </div>,
+    <div
+      className={tab == 4 ? "category selected" : "category"}
+      onClick={() => {
+        setTab(4);
+        setCategoriesOpen(false);
+      }}
+    >
+      <FontAwesomeIcon icon={faUser} />
+      <p>User Settings</p>
     </div>,
   ];
 
@@ -835,6 +846,39 @@ export default () => {
           >
             <FontAwesomeIcon icon={faDownload} />
             Import from osumod
+          </button>
+        </div>
+      </div>
+    </>,
+    <>
+      <div className="option-container">
+        <p className="title">
+          Accent Color
+          <span></span>
+        </p>
+        <div className="section horizontal">
+          <input
+            type="color"
+            defaultValue={color}
+            onInput={(ev: any) => {
+              setColor(ev.target.value);
+            }}
+          ></input>
+          <p className="label" key={GenerateComponentKey(10)}>
+            Selected color: <span style={{
+              color: color
+            }}>{color}</span> (Need reload to apply)
+          </p>
+        </div>
+        <div className="action-buttons-row">
+          <button
+            className="save-button"
+            onClick={() => {
+              saveUserUpdates("color", color);
+            }}
+          >
+            <FontAwesomeIcon icon={faCheck} />
+            Save
           </button>
         </div>
       </div>

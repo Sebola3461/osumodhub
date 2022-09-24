@@ -192,7 +192,7 @@
   pointer-events: all;
   height: 30px;
   margin-top: 10px;
-  background-color: var(--ocean);
+  background-color: var(--accent);
 }
 
 .sidemenu .notifications .notification.loading {

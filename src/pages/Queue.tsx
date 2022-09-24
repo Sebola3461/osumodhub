@@ -217,6 +217,9 @@ export default () => {
 
   return (
     <>
+      <style
+        key={GenerateComponentKey(20)}
+      >{`:root { --accent: ${login.color}; }`}</style>
       <SelectedRequestContextProvider>
         <AppBar></AppBar>
         <div className="queue">

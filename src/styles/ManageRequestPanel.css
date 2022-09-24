@@ -171,7 +171,7 @@
 }
 
 .managerequestpanel .container .actionslayout textarea:focus {
-  outline: 1px solid var(--ocean);
+  outline: 1px solid var(--accent);
 }
 
 .managerequestpanel .container .contentlayout .discussion_layout {

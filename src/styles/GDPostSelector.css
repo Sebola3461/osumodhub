@@ -15,7 +15,7 @@
 }
 
 .gdpostselector.selected {
-  outline: 2px solid var(--ocean);
+  outline: 2px solid var(--accent);
 }
 
 .gdpostselector:hover > .metadata {
@@ -29,7 +29,7 @@
   height: 20px;
   border-radius: 1000px;
   font-weight: 500;
-  background-color: var(--ocean) !important;
+  background-color: var(--accent) !important;
   padding: 5px 10px;
 }
 

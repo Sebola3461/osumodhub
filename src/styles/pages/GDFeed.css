@@ -45,7 +45,7 @@
 .actionsrow .requestbutton {
   padding: 10px 40px;
   font-weight: 500;
-  background-color: var(--ocean);
+  background-color: var(--accent);
   border: none;
   border-radius: 5px;
 }

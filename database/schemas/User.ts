@@ -19,6 +19,10 @@ export default new Schema({
     type: String,
     default: "/static/assets/images/genericbg.jpg",
   },
+  color: {
+    type: String,
+    default: "#2196f3",
+  },
   country: {
     type: Object,
     default: {

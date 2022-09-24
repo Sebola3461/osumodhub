@@ -5,11 +5,13 @@ import GetUserBeatmaps from "./GetUserBeatmaps";
 import GetUserQueueGroups from "./GetUserQueueGroups";
 import GetValidAdmins from "./GetValidAdmins";
 import SyncClient from "./SyncClient";
+import UpdateUser from "./UpdateUser";
 
 const router = Router();
 
 // ? =============== POST REQUESTS
 router.post("/sync", SyncClient);
+router.post("/update", UpdateUser);
 
 // ? =============== GET REQUESTS
 router.get("/groups/admins", GetValidAdmins);

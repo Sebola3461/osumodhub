@@ -46,15 +46,15 @@
   width: 100%;
   height: 100%;
   border-radius: 0.5rem;
-  background-color: #2196f33b;
-  outline: 4px solid var(--ocean);
+  background-color: var(--accent);
+  outline: 4px solid var(--accent);
   pointer-events: none;
   opacity: 0;
   transition: opacity 120ms linear;
 }
 
 .requestselector .selected-overlay.visible {
-  opacity: 1;
+  opacity: 0.2;
 }
 
 .requestselector .selected-overlay .icon {
@@ -221,7 +221,7 @@
 
 .requestselector .banner .tag {
   color: white;
-  background-color: var(--ocean);
+  background-color: var(--accent);
   margin-top: 10px;
   margin-right: 10px;
   margin-left: auto;
@@ -347,12 +347,12 @@
 @keyframes fade-out {
   0% {
     box-shadow: 0 0 8px #1e76bc61;
-    border: 1px solid var(--ocean);
+    border: 1px solid var(--accent);
   }
 
   90% {
     box-shadow: 0 0 8px #1e76bc61;
-    border: 1px solid var(--ocean);
+    border: 1px solid var(--accent);
   }
 
   100% {

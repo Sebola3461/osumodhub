@@ -9,6 +9,7 @@ export interface ILoginUser {
   isBn: boolean;
   account_token: string;
   authenticated: boolean | null;
+  color: string;
 }
 
 export interface UserCompactCover {

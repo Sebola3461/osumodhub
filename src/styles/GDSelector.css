@@ -63,7 +63,7 @@
 }
 
 .gdselector .host span {
-  color: var(--ocean);
+  color: var(--accent);
   font-weight: 600;
 }
 
@@ -121,7 +121,7 @@
 }
 
 .gdselector .difficulties .difficulty .metadata .mapper span {
-  color: var(--ocean);
+  color: var(--accent);
   font-weight: 600;
 }
 

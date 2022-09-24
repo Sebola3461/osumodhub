@@ -246,7 +246,7 @@
 }
 
 .claimrequest.selected {
-  outline: 2px solid var(--ocean);
+  outline: 2px solid var(--accent);
 }
 
 .claimrequest .avatar {

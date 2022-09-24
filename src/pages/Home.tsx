@@ -32,6 +32,7 @@ import ConfirmDialog from "../components/global/ConfirmDialog";
 import UserPanel from "../components/global/UserPanel";
 import QueueGroupsSideMenu from "../components/global/QueueGroupsSideMenu";
 import CreateNewGroupPanel from "../components/global/CreateNewGroupPanel";
+import { GenerateComponentKey } from "../helpers/GenerateComponentKey";
 
 function App() {
   const [queues, setQueues] = useState<any>(["loading"]);
@@ -137,8 +138,13 @@ function App() {
     </div>
   );
 
+  function getColor() {
+    return `:root { --accent: ${login.color}; }`;
+  }
+
   return (
     <>
+      <style key={GenerateComponentKey(20)}>{getColor()}</style>
       <AppBar></AppBar>
       <PageBanner src="/static/images/homebanner.png"></PageBanner>
       <ConfirmDialog></ConfirmDialog>

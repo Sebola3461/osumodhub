@@ -13,7 +13,7 @@
 }
 
 .beatmapselector.selected {
-  outline: 3px solid var(--ocean);
+  outline: 3px solid var(--accent);
 }
 
 .beatmapselector:hover {

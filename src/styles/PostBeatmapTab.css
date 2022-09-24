@@ -118,7 +118,7 @@
 
 .difficultyselector.selected {
   background-color: #4c4c4c;
-  outline: 2px solid var(--ocean);
+  outline: 2px solid var(--accent);
 }
 
 .difficultyselector:hover {
@@ -186,7 +186,7 @@
   align-content: center;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--ocean);
+  background-color: var(--accent);
   border: none;
   border-radius: 5px;
 }

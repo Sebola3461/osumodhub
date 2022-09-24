@@ -44,12 +44,12 @@ input {
 }
 
 input:focus {
-  outline: 1px solid var(--ocean);
+  outline: 1px solid var(--accent);
   background-color: var(--background4);
 }
 
 textarea:focus {
-  outline: 1px solid var(--ocean);
+  outline: 1px solid var(--accent);
 }
 
 body {
@@ -227,11 +227,11 @@ div.separator {
 }
 
 a {
-  color: var(--ocean);
+  color: var(--accent);
 }
 
 a:visited {
-  color: var(--ocean);
+  color: var(--accent);
 }
 
 a.queue {
@@ -340,4 +340,20 @@ footer a {
   width: 10px;
   border-radius: 5px;
   background-color: var(--background3);
+}
+
+.MuiSwitch-switchBase.Mui-checked {
+  color: var(--accent) !important;
+}
+
+.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
+  background-color: var(--accent) !important;
+}
+
+.MuiSlider-root {
+  color: var(--accent) !important;
+}
+
+.MuiCheckbox-root {
+  color: var(--accent) !important;
 }
