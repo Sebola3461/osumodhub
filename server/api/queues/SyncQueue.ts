@@ -44,7 +44,18 @@ export default async (req: Request, res: Response) => {
 
   const type = getHighestUsergroup(user.data);
 
-  queue.banner = user.data.cover.url;
+  try {
+    const url = new URL(queue.banner);
+
+    if (
+      url.hostname == "assets.ppy.sh" &&
+      url.pathname.includes("/user-profile-covers/")
+    ) {
+      queue.banner = user.data.cover.url;
+    }
+  } catch (e) {
+    queue.banner = user.data.cover.url;
+  }
   queue.name = user.data.username;
   queue.type = type;
 
