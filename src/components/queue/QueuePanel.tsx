@@ -117,6 +117,12 @@ export default () => {
   }
 
   function saveUpdates(target: string) {
+    function getMetadataForUpdate() {
+      if (_queue.isGroup)
+        return { name: _queue.name, icon: _queue.icon, banner: _queue.banner };
+
+      return { banner: _queue.banner };
+    }
     fetch(`/api/queues/${_queue._id}/update?target=${target}`, {
       method: "POST",
       headers: {
@@ -124,10 +130,7 @@ export default () => {
         authorization: login.account_token,
       },
       body: JSON.stringify({
-        value:
-          target == "metadata"
-            ? { name: _queue.name, icon: _queue.icon, banner: _queue.banner }
-            : _queue[target],
+        value: target == "metadata" ? getMetadataForUpdate() : _queue[target],
       }),
     })
       .then((r) => r.json())
@@ -413,17 +416,15 @@ export default () => {
           </button>
         </div>
       </div>
-      <div
-        className={
-          !_queue.isGroup ? "option-container invisible" : "option-container"
-        }
-        key={GenerateComponentKey(10)}
-      >
+      <div className={"option-container"} key={GenerateComponentKey(10)}>
         <p className="title">
-          Group Info.
+          Personalization
           <span></span>
         </p>
-        <div className="section" key={GenerateComponentKey(10)}>
+        <div
+          className={!_queue.isGroup ? "section invisible" : "section"}
+          key={GenerateComponentKey(10)}
+        >
           <p className="label">Name</p>
           <input
             defaultValue={_queue.name}
@@ -435,7 +436,10 @@ export default () => {
             }}
           />
         </div>
-        <div className="section" key={GenerateComponentKey(10)}>
+        <div
+          className={!_queue.isGroup ? "section invisible" : "section"}
+          key={GenerateComponentKey(10)}
+        >
           <p className="label">Icon URL</p>
           <input
             defaultValue={_queue.icon}
@@ -865,9 +869,15 @@ export default () => {
             }}
           ></input>
           <p className="label" key={GenerateComponentKey(10)}>
-            Selected color: <span style={{
-              color: color
-            }}>{color}</span> (Need reload to apply)
+            Selected color:{" "}
+            <span
+              style={{
+                color: color,
+              }}
+            >
+              {color}
+            </span>{" "}
+            (Need reload to apply)
           </p>
         </div>
         <div className="action-buttons-row">

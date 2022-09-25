@@ -357,3 +357,7 @@ footer a {
 .MuiCheckbox-root {
   color: var(--accent) !important;
 }
+
+.invisible {
+  display: none !important;
+}

@@ -119,12 +119,6 @@ export class QueueSettingsManager {
   }
 
   async updateMetadata(metadata: any, user: any) {
-    if (!this.queue.isGroup)
-      return {
-        error: true,
-        message: "This queue isn't a group!",
-      };
-
     if (user._id != this.queue.owner)
       return {
         error: true,
@@ -139,6 +133,18 @@ export class QueueSettingsManager {
 
     const validImageKeys = ["icon", "banner"];
     const keys = Object.keys(metadata);
+
+    if (!this.queue.isGroup && keys.includes("icon"))
+      return {
+        error: true,
+        message: "You can't change your personal queue icon!",
+      };
+
+    if (!this.queue.isGroup && keys.includes("name"))
+      return {
+        error: true,
+        message: "You can't change your personal queue name!",
+      };
 
     for (const key of keys) {
       if (validImageKeys.includes(key)) {
