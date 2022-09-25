@@ -70,6 +70,7 @@ export default async (req: Request, res: Response) => {
     data: {
       hasQueue: params.hasQueue,
       isBn: author.isBn,
+      color: author.color,
     },
   });
 };

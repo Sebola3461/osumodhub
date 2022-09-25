@@ -1,0 +1,8 @@
+.help-circle {
+  cursor: pointer;
+  transition: color linear 120ms;
+}
+
+.help-circle:hover {
+  color: white;
+}

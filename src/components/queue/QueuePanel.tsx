@@ -24,6 +24,7 @@ import Markdown from "markdown-to-jsx";
 import { useNavigate } from "react-router-dom";
 import AdminInput from "../global/AdminInput";
 import { useSwipeable } from "react-swipeable";
+import HelpCircle from "../global/HelpCircle";
 
 export default () => {
   const { login, setLogin } = useContext(AuthContext);
@@ -425,7 +426,13 @@ export default () => {
           className={!_queue.isGroup ? "section invisible" : "section"}
           key={GenerateComponentKey(10)}
         >
-          <p className="label">Name</p>
+          <p className="label">
+            Name{" "}
+            <HelpCircle
+              title="Group Name"
+              content="It will replace the current name of your group. It will change the url too (If you use the name for access it.)"
+            />
+          </p>
           <input
             defaultValue={_queue.name}
             className="biginput"
@@ -440,7 +447,13 @@ export default () => {
           className={!_queue.isGroup ? "section invisible" : "section"}
           key={GenerateComponentKey(10)}
         >
-          <p className="label">Icon URL</p>
+          <p className="label">
+            Icon URL{" "}
+            <HelpCircle
+              title="Icon URL"
+              content="It will replace the current icon/avatar of your group. You can use any image format."
+            />
+          </p>
           <input
             defaultValue={_queue.icon}
             className="biginput"
@@ -452,7 +465,13 @@ export default () => {
           />
         </div>
         <div className="section" key={GenerateComponentKey(10)}>
-          <p className="label">Banner URL</p>
+          <p className="label">
+            Banner URL{" "}
+            <HelpCircle
+              title="Banner URL"
+              content="It will replace the current banner of your queue/group. You can use any image format."
+            />
+          </p>
           <input
             defaultValue={_queue.banner}
             className="biginput"
@@ -480,7 +499,14 @@ export default () => {
           Rules
           <span></span>
         </p>
-        <div className="section horizontal">
+        <div className="section">
+          <p className="label">
+            Formatation{" "}
+            <HelpCircle
+              title="Rules"
+              content="It's the text that appears before an user request in your queue. You can use Markdown formatation or plain text."
+            />
+          </p>
           <MDEditor
             className="rulespreview"
             value={queueRules || ""}
@@ -514,7 +540,14 @@ export default () => {
           Preferences
           <span></span>
         </p>
-        <div className="section horizontal" key={GenerateComponentKey(10)}>
+        <div className="section" key={GenerateComponentKey(10)}>
+          <p className="label">
+            Formatation{" "}
+            <HelpCircle
+              title="Preferences"
+              content="It will be used for index your queue in the search system. Press enter to add a tag."
+            />
+          </p>
           <TagsInput
             value={_queue.genres}
             onInput={(tags) => {
@@ -648,6 +681,13 @@ export default () => {
           <span></span>
         </p>
         <div className="section ">
+          <p className="label">
+            What admins can do{" "}
+            <HelpCircle
+              title="Group Administrator"
+              content="Group administrators can manage queue settings (exept name, banner, icon or admins) and manage requests."
+            />
+          </p>
           <AdminInput defaultValue={_queue.admins} />
         </div>
         <div className="action-buttons-row">
@@ -688,7 +728,13 @@ export default () => {
               updateQueueOption("autoclose", _queue.autoclose);
             }}
           />
-          <p className="label">Enable</p>
+          <p className="label">
+            Enable{" "}
+            <HelpCircle
+              title="Auto-Close"
+              content="This module will close your queue if the number of pending requests is reached."
+            />
+          </p>
         </div>
         <div className="section">
           <p className="label">Max pending requests</p>
@@ -731,7 +777,13 @@ export default () => {
               updateQueueOption("timeclose", _queue.timeclose);
             }}
           />
-          <p className="label">Enable</p>
+          <p className="label">
+            Enable{" "}
+            <HelpCircle
+              title="Time-Close"
+              content="This module will close your queue after X days. (You need to save before start the timer)"
+            />
+          </p>
         </div>
         <div className="section">
           <p className="label">Close after (days)</p>
@@ -781,7 +833,13 @@ export default () => {
               setQueueWebhookTag("request:update", ev.target.checked);
             }}
           />
-          <p className="label">Notify request updates</p>
+          <p className="label">
+            Notify request updates{" "}
+            <HelpCircle
+              title="Request Update Scope"
+              content="It will send a webhook after a request status is changed"
+            />
+          </p>
         </div>
         <div className="section horizontal">
           <Checkbox
@@ -790,7 +848,13 @@ export default () => {
               setQueueWebhookTag("request:new", ev.target.checked);
             }}
           />
-          <p className="label">Notify new requests</p>
+          <p className="label">
+            Notify new requests{" "}
+            <HelpCircle
+              title="New Request Scope"
+              content="It will send a webhook after a new request status is created on this queue"
+            />
+          </p>
         </div>
         <div className="section horizontal">
           <Checkbox
@@ -799,10 +863,22 @@ export default () => {
               setQueueWebhookTag("queue:update", ev.target.checked);
             }}
           />
-          <p className="label">Notify queue update</p>
+          <p className="label">
+            Notify queue update{" "}
+            <HelpCircle
+              title="Queue Update Scope"
+              content="It will send a webhook after you open or close your queue"
+            />
+          </p>
         </div>
         <div className="section">
-          <p className="label">Webhook URL</p>
+          <p className="label">
+            Webhook URL{" "}
+            <HelpCircle
+              title="Webhook URL"
+              content="Only discord webhooks are accepted! To get a webhook URL, go to the channel that you want > Integrations > Webhooks > New Webhook > Copy Webhook URL"
+            />
+          </p>
           <input
             defaultValue={_queue.webhook.url}
             className="biginput"
@@ -877,7 +953,11 @@ export default () => {
             >
               {color}
             </span>{" "}
-            (Need reload to apply)
+            (Need reload to apply){" "}
+            <HelpCircle
+              title="Accent Color"
+              content="The selected color will be used for highlight elements (Including the OK button below)"
+            />
           </p>
         </div>
         <div className="action-buttons-row">
