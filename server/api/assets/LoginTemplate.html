@@ -13,10 +13,10 @@
       const data = {
         _id: params.get("id"),
         username: params.get("username"),
-        hasQueue: params.get("hasQueue"),
+        hasQueue: Boolean(params.get("hasQueue")),
         account_token: params.get("account_token"),
         authenticated: true,
-        isBn: params.get("isBn"),
+        isBn: Boolean(params.get("isBn")),
       };
 
       localStorage.user_login = JSON.stringify(data);

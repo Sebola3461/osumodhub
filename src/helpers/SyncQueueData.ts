@@ -36,8 +36,8 @@ export default (user: any) => {
 
         let loginData = JSON.parse(localStorage["user_login"]);
 
-        loginData.hasQueue = data.data.hasQueue;
-        loginData.isBn = data.data.isBn;
+        loginData.hasQueue = Boolean(data.data.hasQueue);
+        loginData.isBn = Boolean(data.data.isBn);
 
         localStorage["user_login"] = JSON.stringify(loginData);
       });
