@@ -204,9 +204,6 @@ export default () => {
     );
 
     return queue.requests.map((request, index) => {
-      if (request.isGd)
-        return <GDSelector request={request} onClick={console.log} />;
-
       return (
         <RequestSelector
           queue={queue.data}
