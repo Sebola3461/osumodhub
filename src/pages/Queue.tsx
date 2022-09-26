@@ -52,6 +52,7 @@ import GDRequestPanel from "../components/queue/GDRequestPanel";
 import QueueGroupsSideMenu from "../components/global/QueueGroupsSideMenu";
 import CreateNewGroupPanel from "../components/global/CreateNewGroupPanel";
 import GroupMembers from "../components/queue/GroupMembers";
+import GDSelector from "../components/gd/GDSelector";
 
 interface IQueueFilters {
   type: "progress" | "archived";
@@ -104,6 +105,8 @@ export default () => {
 
     refreshRequests();
     refreshFollowers();
+
+    SyncQueueData(login);
   }, []);
 
   function refreshRequests() {
@@ -201,6 +204,9 @@ export default () => {
     );
 
     return queue.requests.map((request, index) => {
+      if (request.isGd)
+        return <GDSelector request={request} onClick={console.log} />;
+
       return (
         <RequestSelector
           queue={queue.data}
