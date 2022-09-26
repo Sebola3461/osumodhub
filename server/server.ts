@@ -19,6 +19,10 @@ TimeClose();
 
 app.set("trust proxy", true);
 
+app.all("/ads.txt", (req, res) => {
+  res.sendFile(path.resolve("./ads.txt"));
+});
+
 if (process.env.NODE_ENV == "production") {
   app.use(
     "/assets",
