@@ -203,7 +203,43 @@ export default () => {
       (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
     );
 
+    const Ad = () => (
+      <>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4942085522020898"
+          crossOrigin="anonymous"
+        ></script>
+        <ins
+          className="adsbygoogle"
+          style={{
+            display: "block",
+            textAlign: "center",
+          }}
+          data-ad-layout="in-article"
+          data-ad-format="fluid"
+          data-ad-client="ca-pub-4942085522020898"
+          data-ad-slot="1067536755"
+        ></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </>
+    );
+
+    const allowAdsOn = [0, 5, 15, 25, 35, 45, 55, 65, 75, 85, 95, 105];
     return queue.requests.map((request, index) => {
+      if (allowAdsOn.includes(index))
+        return (
+          <>
+            <Ad />
+            <RequestSelector
+              queue={queue.data}
+              request={request}
+              refreshRequests={refreshRequests}
+              setRequests={queue.setData}
+              key={GenerateComponentKey(10)}
+            />
+          </>
+        );
       return (
         <RequestSelector
           queue={queue.data}

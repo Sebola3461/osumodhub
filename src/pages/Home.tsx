@@ -176,6 +176,7 @@ function App() {
           Search
         </p>
         <BigSearch onInput={updateSearch} _default={filters.query}></BigSearch>
+
         <div className="row selectrow">
           <SearchSelect
             label="Type"
@@ -241,6 +242,22 @@ function App() {
           ></SearchSelect>
         </div>
       </HeaderPanel>
+      <script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4942085522020898"
+        crossOrigin="anonymous"
+      ></script>
+      <ins
+        className="adsbygoogle"
+        style={{
+          display: "block",
+        }}
+        data-ad-format="fluid"
+        data-ad-layout-key="-fb+5w+4e-db+86"
+        data-ad-client="ca-pub-4942085522020898"
+        data-ad-slot="9372568030"
+      ></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       <div
         className="queuelisting"
         id="queuelisting"
