@@ -252,10 +252,10 @@ function App() {
         style={{
           display: "block",
         }}
-        data-ad-format="fluid"
-        data-ad-layout-key="-fb+5w+4e-db+86"
         data-ad-client="ca-pub-4942085522020898"
-        data-ad-slot="9372568030"
+        data-ad-slot="5867355729"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
       ></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       <div
