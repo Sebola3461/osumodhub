@@ -213,9 +213,6 @@ div.row.center {
   border-radius: 0.5rem;
 }
 
-.react-contextmenu.react-contextmenu--visible
-  .react-contextmenu-item:last-child {
-  border-bottom: none;
 } */
 
 div.separator {
