@@ -245,13 +245,9 @@ function App() {
       </HeaderPanel>
       <AdComponent
         googleAdId="ca-pub-4942085522020898"
-        slot="9707362536"
+        slot="2240522780"
         classNames="adsbygoogle homead"
-        style={{
-          width: "728px",
-          height: "90px",
-        }}
-        timeout={1000}
+        timeout={10}
       />
       <div
         className="queuelisting"
