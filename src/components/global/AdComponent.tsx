@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, CSSProperties } from "react";
 
 interface props {
   classNames: string;
@@ -7,6 +7,7 @@ interface props {
   googleAdId: string;
   format?: string;
   layout?: string;
+  style?: CSSProperties;
 }
 
 declare let window: any;
@@ -30,13 +31,16 @@ export default class AdComponent extends Component {
   }
 
   override render() {
-    const { classNames, slot, googleAdId, format, layout } = this.props;
+    const { classNames, slot, googleAdId, format, layout, style } = this.props;
 
     return (
       <div className={classNames}>
+        <p className="adtitle">
+          Sponsored links <span></span>
+        </p>
         <ins
           className="adsbygoogle"
-          style={{ display: "block", textAlign: "center" }}
+          style={style || { display: "block", textAlign: "center" }}
           data-ad-client={googleAdId}
           data-ad-slot={slot}
           data-ad-format={format || "auto"}
