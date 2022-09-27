@@ -248,6 +248,10 @@ function App() {
         slot="2240522780"
         classNames="adsbygoogle homead"
         timeout={10}
+        style={{
+          width: "100%",
+          maxWidth: "1000px",
+        }}
       />
       <div
         className="queuelisting"
