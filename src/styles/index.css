@@ -361,3 +361,41 @@ footer a {
 .invisible {
   display: none !important;
 }
+
+.homead {
+  width: 100%;
+  display: flex;
+  margin-top: 30px;
+  background-color: var(--background2);
+  /* height: 120px; */
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0px;
+}
+
+.adsbygoogle .adtitle {
+  font-weight: 500;
+  font-size: 18px;
+  margin-bottom: 30px;
+  width: 90%;
+  max-width: 1000px;
+}
+
+.adsbygoogle .adtitle span {
+  width: 40px;
+  height: 1px;
+  min-height: 1px;
+  display: block;
+  margin-top: 5px;
+  background-color: var(--accent);
+  border-radius: 1000px;
+}
+
+.adsbygoogle .queue {
+  width: 260px;
+  min-width: 270px;
+  min-height: 340px;
+}

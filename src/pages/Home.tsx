@@ -245,8 +245,12 @@ function App() {
       </HeaderPanel>
       <AdComponent
         googleAdId="ca-pub-4942085522020898"
-        slot="9157779764"
+        slot="9707362536"
         classNames="adsbygoogle homead"
+        style={{
+          width: "728px",
+          height: "90px",
+        }}
         timeout={1000}
       />
       <div

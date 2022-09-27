@@ -7,17 +7,6 @@
   font-size: 25px;
 }
 
-.homead {
-  margin-top: 30px;
-  height: 120px;
-}
-
-.adsbygoogle .queue {
-  width: 260px;
-  min-width: 270px;
-  min-height: 340px;
-}
-
 .selectrow {
   width: calc(97% - 10px);
   overflow-x: auto;
