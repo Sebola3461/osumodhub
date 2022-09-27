@@ -206,14 +206,14 @@ export default () => {
 
     const Ad = () => (
       <>
-        <AdComponent
+        {/* <AdComponent
           googleAdId="ca-pub-4942085522020898"
           slot="1067536755"
           classNames="adsbygoogle queue"
           timeout={1000}
           format="fluid"
           layout={"in-article"}
-        />
+        /> */}
       </>
     );
 

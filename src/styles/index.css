@@ -363,17 +363,20 @@ footer a {
 }
 
 .homead {
-  width: 100%;
+  width: 90%;
+  max-width: 1000px;
   display: flex;
   margin-top: 30px;
   background-color: var(--background2);
-  /* height: 120px; */
   flex-direction: column;
   flex-wrap: nowrap;
   align-content: center;
   justify-content: center;
   align-items: center;
   padding: 20px 0px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 1rem;
 }
 
 .adsbygoogle .adtitle {
