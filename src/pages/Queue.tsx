@@ -53,6 +53,7 @@ import QueueGroupsSideMenu from "../components/global/QueueGroupsSideMenu";
 import CreateNewGroupPanel from "../components/global/CreateNewGroupPanel";
 import GroupMembers from "../components/queue/GroupMembers";
 import GDSelector from "../components/gd/GDSelector";
+import AdComponent from "../components/global/AdComponent";
 
 interface IQueueFilters {
   type: "progress" | "archived";
@@ -205,23 +206,14 @@ export default () => {
 
     const Ad = () => (
       <>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4942085522020898"
-          crossOrigin="anonymous"
-        ></script>
-        <ins
-          className="adsbygoogle"
-          style={{
-            display: "block",
-            textAlign: "center",
-          }}
-          data-ad-layout="in-article"
-          data-ad-format="fluid"
-          data-ad-client="ca-pub-4942085522020898"
-          data-ad-slot="1067536755"
-        ></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        <AdComponent
+          googleAdId="ca-pub-4942085522020898"
+          slot="1067536755"
+          classNames="adsbygoogle queue"
+          timeout={1000}
+          format="fluid"
+          layout={"in-article"}
+        />
       </>
     );
 

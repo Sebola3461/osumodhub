@@ -33,6 +33,7 @@ import UserPanel from "../components/global/UserPanel";
 import QueueGroupsSideMenu from "../components/global/QueueGroupsSideMenu";
 import CreateNewGroupPanel from "../components/global/CreateNewGroupPanel";
 import { GenerateComponentKey } from "../helpers/GenerateComponentKey";
+import AdComponent from "../components/global/AdComponent";
 
 function App() {
   const [queues, setQueues] = useState<any>(["loading"]);
@@ -242,22 +243,12 @@ function App() {
           ></SearchSelect>
         </div>
       </HeaderPanel>
-      <script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4942085522020898"
-        crossOrigin="anonymous"
-      ></script>
-      <ins
-        className="adsbygoogle"
-        style={{
-          display: "block",
-        }}
-        data-ad-client="ca-pub-4942085522020898"
-        data-ad-slot="5867355729"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      ></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <AdComponent
+        googleAdId="ca-pub-4942085522020898"
+        slot="5867355729"
+        classNames="adsbygoogle homead"
+        timeout={1000}
+      />
       <div
         className="queuelisting"
         id="queuelisting"
