@@ -370,10 +370,12 @@ footer a {
   align-content: center;
   justify-content: center;
   align-items: center;
-  padding: 20px 0px;
+  padding: 20px 0;
+  padding-bottom: 0;
   margin-left: auto;
   margin-right: auto;
   border-radius: 1rem;
+  overflow: hidden;
 }
 
 .adsbygoogle .adtitle {
