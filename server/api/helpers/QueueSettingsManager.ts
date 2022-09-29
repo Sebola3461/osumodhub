@@ -21,9 +21,9 @@ export class QueueSettingsManager {
 
         SendQueueUpdateWebhook(this.queue);
         if (this.queue.open == true) notifyFollowers(this.queue);
-
-        EmitQueueUpdate(this.queue);
       }
+
+      EmitQueueUpdate(this.queue);
     }
 
     this.queue.open = status;

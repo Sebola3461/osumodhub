@@ -65,9 +65,9 @@ export interface IQueue {
     size: number;
   };
   webhook: {
-    url: string,
-    notify: string[]
-  }
+    url: string;
+    notify: string[];
+  };
 }
 
 export interface IQueueRequestManager {
@@ -75,6 +75,18 @@ export interface IQueueRequestManager {
   feedback: string;
   username: string;
   userId: string;
+}
+
+export interface IQueueGDRequestDifficulty {
+  id: string;
+  name: string;
+  starRating: number;
+  claimed: boolean;
+  mode: number;
+  user: {
+    name: string | null;
+    id: string | null;
+  };
 }
 
 export interface IQueueRequest {
@@ -94,6 +106,8 @@ export interface IQueueRequest {
   _managed_by: string;
   _manager_username: string;
   _managers: IQueueRequestManager[];
+  isGd: boolean | undefined;
+  difficulties: IQueueGDRequestDifficulty[];
   __v: 0;
 }
 

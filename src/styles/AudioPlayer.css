@@ -7,6 +7,7 @@
   right: 0;
   transition: linear 120ms;
   box-shadow: 0 0 5px 1px #00000063;
+  z-index: 99999999999999999999999;
 }
 
 .audioplayer .container {

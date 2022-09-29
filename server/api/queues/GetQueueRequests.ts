@@ -1,11 +1,16 @@
 import { Request, Response } from "express";
 import osuApi from "./../../helpers/osuApi";
-import { requests } from "../../../database";
+import { gds, requests } from "../../../database";
 import { consoleError } from "../../helpers/logger";
 
 export default async (req: Request, res: Response) => {
   const queue = req.params["queue"];
   let r = await requests.find({ _queue: queue });
+  let gd = (await gds.find()).filter((r) => r.rawQueues.includes(queue));
+
+  console.log(gd);
+
+  r = r.concat(gd);
 
   const type = req.query.type || "progress";
   const status = req.query.status || "any";
@@ -28,7 +33,7 @@ export default async (req: Request, res: Response) => {
     "finished",
   ];
 
-  if (validQueueStatus.includes(String(status))) {
+  if (validQueueStatus.includes(String(status)) && status != "any") {
     r = r.filter((r) => r.status == status);
   }
 

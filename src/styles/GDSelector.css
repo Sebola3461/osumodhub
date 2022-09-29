@@ -1,7 +1,4 @@
 .gdselector {
-  width: 325px;
-  min-width: 280px;
-  height: 390px;
   background-color: var(--background2);
   border-radius: 5px;
   margin: 10px;
@@ -12,16 +9,21 @@
   justify-content: flex-start;
   align-items: center;
   cursor: pointer;
+  width: 260px;
+  min-width: 270px;
+  min-height: 340px;
 }
 
 .gdselector .bigbanner {
   width: 100%;
-  height: 110px;
+  height: 90px;
   border-radius: 5px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+  background-size: 160%;
   background-position: center;
-  background-size: cover;
+  background-repeat: no-repeat;
+  transition: background-size linear 140ms;
   position: relative;
 }
 
@@ -35,15 +37,46 @@
   transition: linear 120ms background;
 }
 
-.gdselector:hover > .bigbanner::after {
-  background: #00000023;
+.gdselector:hover > .bigbanner {
+  background-size: 180%;
+}
+
+.gdselector .attributes {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin-top: 11px;
+  color: var(--background7);
+  font-size: 13px;
+}
+
+.gdselector .attributes div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.gdselector .attributes div svg {
+  margin-right: 5px;
 }
 
 .gdselector .title {
-  font-size: 25px;
-  font-weight: 600;
-  margin-top: 10px;
-  width: 90%;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  width: fit-content;
+  max-width: 90%;
+  margin-right: auto;
+  margin-left: 5%;
+  margin-top: 5px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -51,9 +84,16 @@
 }
 
 .gdselector .artist {
-  font-size: 20px;
-  width: 90%;
-  color: rgb(170, 169, 169);
+  color: #d5d5d5;
+  font-size: 13px;
+  width: fit-content;
+  max-width: 90%;
+  margin-right: auto;
+  margin-left: 5%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 
 .gdselector .host {
@@ -84,8 +124,8 @@
 .gdselector .difficulties .difficulty {
   width: calc(90% - 20px);
   padding: 5px 10px;
-  height: 50px;
-  min-height: 50px;
+  height: 35px;
+  min-height: 35px;
   background-color: var(--background4);
   margin-top: 5px;
   border-radius: 5px;

@@ -1,55 +1,20 @@
+import { faMusic, faClock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as d3 from "d3";
+import TimeString from "../../helpers/TimeString";
+import { IQueueRequest } from "../../types/queue";
 import CatchIcon from "../icons/CatchIcon";
 import ManiaIcon from "../icons/ManiaIcon";
 import OsuIcon from "../icons/OsuIcon";
 import TaikoIcon from "../icons/TaikoIcon";
 import "./../../styles/GDSelector.css";
 
-export interface IGDRequest {
-  _id: string;
-  _owner: string;
-  _owner_name: string;
-  comment: string;
-  beatmapset_id: number;
-  difficulties: {
-    id: string;
-    min_sr: number;
-    max_sr: number;
-    mode: number;
-    name: string;
-    user: number | null;
-    username: string | null;
-    updated_at: Date;
-  }[];
-  beatmap: {
-    id: number;
-    artist: string;
-    title: string;
-    covers: {
-      cover: string;
-      "cover@2x": string;
-      card: string;
-      "card@2x": string;
-      list: string;
-      "list@2x": string;
-      slimcover: string;
-      "slimcover@2x": string;
-    };
-    creator: string;
-  };
-  genres: string[];
-  tags: string[];
-  modes: number[];
-  date: Date;
-  pending: boolean;
-}
-
 export default ({
   request,
   onClick,
 }: {
   onClick?: any;
-  request: IGDRequest;
+  request: IQueueRequest;
 }) => {
   const icons = [OsuIcon, TaikoIcon, CatchIcon, ManiaIcon];
 
@@ -85,6 +50,20 @@ export default ({
           backgroundImage: `url(${request.beatmap.covers["cover@2x"]})`,
         }}
       ></div>
+      <div className="attributes">
+        <div>
+          <FontAwesomeIcon icon={faMusic} />
+          <p>{request.beatmap.bpm}bpm</p>
+        </div>
+        <div>
+          <FontAwesomeIcon icon={faClock} />
+          <p>
+            {TimeString(
+              request.beatmap.beatmaps ? request.beatmap.duration : 0
+            )}
+          </p>
+        </div>
+      </div>
       <p className="title">{request.beatmap.title}</p>
       <p className="artist">{request.beatmap.artist}</p>
       <p className="host">
@@ -95,15 +74,21 @@ export default ({
           const Icon = icons[d.mode];
 
           return (
-            <div className={d.user ? "difficulty claimed" : "difficulty"}>
+            <div className={d.claimed ? "difficulty claimed" : "difficulty"}>
               <Icon
                 width="30px"
                 height="30px"
-                color={difficultyColourSpectrum(d.max_sr)}
+                color={difficultyColourSpectrum(d.starRating)}
               />
               <div className="metadata">
                 <p className="name">{d.name}</p>
-                {!d.user ? <></> : <p className="mapper">claimed </p>}
+                {!d.claimed ? (
+                  <></>
+                ) : (
+                  <p className="mapper">
+                    claimed by <span>{d.user.name}</span>
+                  </p>
+                )}
               </div>
             </div>
           );

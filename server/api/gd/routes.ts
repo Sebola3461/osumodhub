@@ -1,7 +1,7 @@
 import { Router } from "express";
 import ListGDRequests from "./ListGDRequests";
 import ClaimGDRequest from "./ClaimGDRequest";
-import CreateGDRequest from "./CreateGDRequest";
+import CreateGDRequest from "../queues/CreateGDRequest";
 import GetGDRequest from "./GetGDRequest";
 import GetGDRequestClaims from "./GetGDRequestClaims";
 import GetUserGDPosts from "./GetUserGDPosts";

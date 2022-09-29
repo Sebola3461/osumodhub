@@ -22,9 +22,13 @@ export default new Schema({
   beatmap: {
     type: Object,
   },
-  status: {
-    type: String,
-    default: "pending",
+  queues: {
+    type: Array,
+    default: [],
+  },
+  rawQueues: {
+    type: Array,
+    default: [],
   },
   difficulties: {
     type: Array,
@@ -34,28 +38,18 @@ export default new Schema({
     type: Array,
     default: [],
   },
-  tags: {
-    type: Array,
-    default: [],
-  },
   modes: {
-    type: Array,
-    default: [],
-  },
-  queue: {
     type: Array,
     default: [],
   },
   date: {
     type: Date,
   },
-  mfm: {
-    type: Boolean,
-  },
   cross: {
     type: Boolean,
   },
-  pending: {
+  isGd: {
     type: Boolean,
+    default: true,
   },
 });

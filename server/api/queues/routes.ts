@@ -19,6 +19,7 @@ import CreateNewQueueGroup from "./CreateNewQueueGroup";
 import DeleteQueue from "./DeleteQueue";
 import UpdateGroup from "./UpdateGroup";
 import GetGroupMembers from "./GetGroupMembers";
+import CreateGDRequest from "./CreateGDRequest";
 
 const router = Router();
 
@@ -29,6 +30,7 @@ router.post("/sync", SyncQueue);
 router.post("/schedule", StartTimeClose);
 router.post("/:queue/webhook", TestWebhook);
 router.post("/:queue/requests", rewriteUsernameToId, CreateRequest);
+router.post("/:queue/gd", rewriteUsernameToId, CreateGDRequest);
 router.post("/:queue/follow", rewriteUsernameToId, FollowQueue);
 router.post("/update/group/:id", UpdateGroup);
 router.post("/:id/update", UpdateQueue);
