@@ -2,6 +2,7 @@ import { WebhookClient } from "discord.js";
 import { queues } from "../../../database";
 import { IQueue } from "../../../src/types/queue";
 import SendQueueUpdateWebhook from "../webhooks/SendQueueUpdateWebhook";
+import EmitQueueUpdate from "../websocket/EmitQueueUpdate";
 import notifyFollowers from "./notifyFollowers";
 
 export class QueueSettingsManager {
@@ -21,7 +22,7 @@ export class QueueSettingsManager {
         SendQueueUpdateWebhook(this.queue);
         if (this.queue.open == true) notifyFollowers(this.queue);
 
-        SendQueueUpdateWebhook(this.queue);
+        EmitQueueUpdate(this.queue);
       }
     }
 
