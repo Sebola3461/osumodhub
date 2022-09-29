@@ -91,13 +91,13 @@ export const RequestWsProvider = ({ children }: any) => {
         dialog.setAction(() => {});
         dialog.setDisplayCancel(false);
         dialog.setOpen(true);
-
-        queueContext.setData(queue);
       } catch (e) {
         console.error(e);
       }
     }
-    setup();
+
+    if (queueContext.data.open != queue.open) setup();
+    queueContext.setData(queue);
   }
 
   function updateRequest(request: IQueueRequest) {

@@ -22,8 +22,6 @@ export class QueueSettingsManager {
         SendQueueUpdateWebhook(this.queue);
         if (this.queue.open == true) notifyFollowers(this.queue);
       }
-
-      EmitQueueUpdate(this.queue);
     }
 
     this.queue.open = status;
@@ -390,6 +388,8 @@ export class QueueSettingsManager {
 
   async save() {
     const result = await queues.findByIdAndUpdate(this.queue._id, this.queue);
+
+    EmitQueueUpdate(this.queue);
 
     return result;
   }
