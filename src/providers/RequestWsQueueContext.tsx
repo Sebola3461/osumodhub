@@ -1,10 +1,11 @@
 import { createContext, useContext, useState } from "react";
-import { IQueueRequest } from "../types/queue";
+import { IQueue, IQueueRequest } from "../types/queue";
+import { ConfirmDialogContext } from "./ConfirmDialogContext";
 import { QueueContext } from "./QueueContext";
 
 export interface RequestWsData {
   type: string;
-  data: IQueueRequest;
+  data: any;
 }
 
 export type RequestWsContextType = {
@@ -22,6 +23,7 @@ export const RequestWsContext = createContext<RequestWsContextType>({
 export const RequestWsProvider = ({ children }: any) => {
   const [queue, setQueue] = useState<string[]>([]);
   const queueContext = useContext(QueueContext);
+  const dialog = useContext(ConfirmDialogContext);
 
   function addToQueue(request: IQueueRequest) {
     console.log("Recived new WS message, adding to queue");
@@ -52,6 +54,8 @@ export const RequestWsProvider = ({ children }: any) => {
       return addNewRequestToQueue(request.data);
 
     if (request.type == "request:update") updateRequest(request.data);
+
+    if (request.type == "queue:update") updateQueueData(request.data);
   }
 
   function addNewRequestToQueue(request: IQueueRequest) {
@@ -60,6 +64,28 @@ export const RequestWsProvider = ({ children }: any) => {
 
     queueContext.requests.unshift(request);
     queueContext.setRequests(JSON.parse(JSON.stringify(queueContext.requests)));
+  }
+
+  function updateQueueData(queue: IQueue) {
+    if (queue._id != queueContext.data._id) return;
+    console.log("Updating queue data..");
+
+    function setup() {
+      dialog.setConfirm();
+      dialog.setData({
+        title: "We have some updates!",
+        text: queue.open
+          ? `The queue owner has open this queue! Today is your lucky day, you can request beatmaps here now!`
+          : `The queue owner has closed this queue! You can't request a beatmap here right now. But you can check requests normally`,
+      });
+      dialog.setAction(() => {});
+      dialog.setDisplayCancel(false);
+      dialog.setOpen(true);
+
+      setQueue(queue);
+    }
+
+    setup();
   }
 
   function updateRequest(request: IQueueRequest) {
