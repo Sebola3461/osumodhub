@@ -46,10 +46,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <CreateGroupPanelProvider>
               <UserSideMenuProvider>
                 <ConfirmDialogProvider>
-                  <RequestWsProvider>
-                    <RequestContextProvider>
-                      <RequestPanelProvider>
-                        <QueuePanelProvider>
+                  <QueuePanelProvider>
+                    <RequestWsProvider>
+                      <RequestContextProvider>
+                        <RequestPanelProvider>
                           <ManageRequestPanelProvider>
                             <MyRequestsPanelProvider>
                               <BeatmapPreviewProvider>
@@ -107,10 +107,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                               </BeatmapPreviewProvider>
                             </MyRequestsPanelProvider>
                           </ManageRequestPanelProvider>
-                        </QueuePanelProvider>
-                      </RequestPanelProvider>
-                    </RequestContextProvider>
-                  </RequestWsProvider>
+                        </RequestPanelProvider>
+                      </RequestContextProvider>
+                    </RequestWsProvider>
+                  </QueuePanelProvider>
                 </ConfirmDialogProvider>
               </UserSideMenuProvider>
             </CreateGroupPanelProvider>

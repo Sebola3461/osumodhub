@@ -1,7 +1,9 @@
 import { createContext, useContext, useState } from "react";
 import { IQueue, IQueueRequest } from "../types/queue";
+import { AuthContext } from "./AuthContext";
 import { ConfirmDialogContext } from "./ConfirmDialogContext";
 import { QueueContext } from "./QueueContext";
+import { QueuePanelContext } from "./QueuePanelContext";
 
 export interface RequestWsData {
   type: string;
@@ -23,6 +25,8 @@ export const RequestWsContext = createContext<RequestWsContextType>({
 export const RequestWsProvider = ({ children }: any) => {
   const [queue, setQueue] = useState<string[]>([]);
   const queueContext = useContext(QueueContext);
+  const { login } = useContext(AuthContext);
+  const queuePanel = useContext(QueuePanelContext);
   const dialog = useContext(ConfirmDialogContext);
 
   function addToQueue(request: IQueueRequest) {
@@ -48,14 +52,15 @@ export const RequestWsProvider = ({ children }: any) => {
         "Skipping recived WS message cuz the aux queue has this id!"
       );
 
-    if (request.data._queue != queueContext.data._id) return;
-
     if (request.type == "request:new")
       return addNewRequestToQueue(request.data);
 
     if (request.type == "request:update") updateRequest(request.data);
 
-    if (request.type == "queue:update") updateQueueData(request.data);
+    if (request.type == "queue:update") {
+      console.log(request);
+      updateQueueData(request.data);
+    }
   }
 
   function addNewRequestToQueue(request: IQueueRequest) {
@@ -67,24 +72,31 @@ export const RequestWsProvider = ({ children }: any) => {
   }
 
   function updateQueueData(queue: IQueue) {
-    if (queue._id != queueContext.data._id) return;
+    if (!queueContext.data || queue._id != queueContext.data._id) return;
+
     console.log("Updating queue data..");
 
     function setup() {
-      dialog.setConfirm();
-      dialog.setData({
-        title: "We have some updates!",
-        text: queue.open
-          ? `The queue owner has open this queue! Today is your lucky day, you can request beatmaps here now!`
-          : `The queue owner has closed this queue! You can't request a beatmap here right now. But you can check requests normally`,
-      });
-      dialog.setAction(() => {});
-      dialog.setDisplayCancel(false);
-      dialog.setOpen(true);
+      try {
+        if (login._id == queueContext.data.owner && queuePanel.open) return;
+        if (queue.admins.includes(login._id) && queuePanel.open) return;
 
-      setQueue(queue);
+        dialog.setConfirm();
+        dialog.setData({
+          title: "We have some updates!",
+          text: queue.open
+            ? `The queue owner has open this queue! Today is your lucky day, you can request beatmaps here now!`
+            : `The queue owner has closed this queue! You can't request a beatmap here right now. But you can check requests normally`,
+        });
+        dialog.setAction(() => {});
+        dialog.setDisplayCancel(false);
+        dialog.setOpen(true);
+
+        queueContext.setData(queue);
+      } catch (e) {
+        console.error(e);
+      }
     }
-
     setup();
   }
 
