@@ -521,7 +521,7 @@ export default () => {
             </span>{" "}
             (Need reload to apply){" "}
             <HelpCircle
-              title="Accent Color"
+              title="Theme Color"
               content="The selected color will be used for highlight elements and navbar for everyone that access this queue (Including the OK button below)"
             />
           </p>
