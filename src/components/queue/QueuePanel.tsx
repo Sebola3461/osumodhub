@@ -44,6 +44,7 @@ export default () => {
     onSwipedRight: (eventData) => setCategoriesOpen(true),
   });
   const [color, setColor] = useState(login.color);
+  const [queueColor, setQueueColor] = useState("#2196f3");
 
   const action = (key) => (
     <>
@@ -84,6 +85,7 @@ export default () => {
       .then((d) => {
         setQueue(d.data);
         setQueueRules(d.data.description);
+        setQueueColor(d.data.color);
         setPersonalQueue(d.data);
 
         fetch(`/api/users/groups`, {
@@ -124,6 +126,7 @@ export default () => {
 
       return { banner: _queue.banner };
     }
+
     fetch(`/api/queues/${_queue._id}/update?target=${target}`, {
       method: "POST",
       headers: {
@@ -487,6 +490,48 @@ export default () => {
             className="save-button"
             onClick={() => {
               saveUpdates("metadata");
+            }}
+          >
+            <FontAwesomeIcon icon={faCheck} />
+            Save
+          </button>
+        </div>
+      </div>
+      <div className="option-container">
+        <p className="title">
+          Theme color
+          <span></span>
+        </p>
+        <div className="section horizontal">
+          <input
+            type="color"
+            defaultValue={queueColor}
+            onInput={(ev: any) => {
+              setQueueColor(ev.target.value);
+            }}
+          ></input>
+          <p className="label" key={GenerateComponentKey(10)}>
+            Selected color:{" "}
+            <span
+              style={{
+                color: queueColor,
+              }}
+            >
+              {queueColor}
+            </span>{" "}
+            (Need reload to apply){" "}
+            <HelpCircle
+              title="Accent Color"
+              content="The selected color will be used for highlight elements and navbar for everyone that access this queue (Including the OK button below)"
+            />
+          </p>
+        </div>
+        <div className="action-buttons-row">
+          <button
+            className="save-button"
+            onClick={() => {
+              _queue.color = queueColor;
+              saveUpdates("color");
             }}
           >
             <FontAwesomeIcon icon={faCheck} />
