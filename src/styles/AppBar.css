@@ -2,7 +2,7 @@
   width: 95%;
   height: 70px;
   padding: 0% 2.5%;
-  border-bottom: 1px solid var(--background3);
+  background-color: var(--ocean-green);
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -11,6 +11,13 @@
   position: sticky;
   top: 0;
   z-index: 9999;
+  transition: 240ms linear;
+}
+
+#appbar.translucid {
+  background-color: #21bc8dc5;
+  backdrop-filter: blur(10px);
+  height: 70px;
 }
 
 #appbar div.logo {
@@ -40,11 +47,11 @@
 }
 
 #appbar .links-row .page-anchor {
-  color: var(--background7) !important;
+  color: white !important;
 }
 
 #appbar .links-row .page-anchor:visited {
-  color: var(--background7) !important;
+  color: white !important;
 }
 
 #appbar .right-content {
@@ -74,20 +81,11 @@
 }
 
 #appbar .right-content .notification-button {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
+  font-size: 23px;
+  width: 23px;
+  height: 23px;
+  margin-right: 10px;
   cursor: pointer;
-  margin-left: 10px;
-  font-size: 20px;
-  padding: 5px 18px;
-  border-radius: 5px;
-  background-color: var(--background3);
 }
 
 #appbar .bellpending.visible {
@@ -103,14 +101,90 @@
   align-items: center;
 }
 
-#appbar .notification-button p {
-  margin-left: 6px;
-  font-weight: 600;
+.links-row.mobile {
+  display: none;
 }
 
-@media screen and (max-width: 450px) {
-  #appbar .links-row {
-    max-width: 160px;
-    overflow-x: auto;
+.links-row.mobile.open {
+  display: flex;
+}
+
+@media screen and (min-width: 501px) {
+  #appbar .mobile {
+    display: none;
+  }
+
+  .links-row.mobile {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 501px) {
+  #appbar .desktop {
+    display: none;
+  }
+
+  #appbar .notification-button.mobile {
+    font-size: 23px;
+    width: 23px;
+    height: 23px;
+    margin-right: 0px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  #appbar .chevron.mobile {
+    font-size: 20px;
+    width: 23px;
+    height: 23px;
+    margin-right: 0px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  .links-row.mobile {
+    width: 95%;
+    height: 25px;
+    padding: 3px 2.5%;
+    background-color: #1d9d77;
+    color: #a9fae1 !important;
+    display: flex;
+    position: sticky;
+    top: 70px;
+    z-index: 9999;
+    transition: 240ms linear;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .links-row.mobile a {
+    color: #a9fae1 !important;
+    margin-right: 10px;
+  }
+
+  .links-row.mobile a:visited {
+    color: #a9fae1 !important;
+  }
+
+  .links-row.mobile {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: 240ms linear;
+  }
+
+  .links-row.mobile.open {
+    display: flex;
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .links-row.mobile.open[data-translucid="true"] {
+    pointer-events: all;
+    background-color: #1d9d77c5;
+    backdrop-filter: blur(10px);
   }
 }

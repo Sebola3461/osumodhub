@@ -17,8 +17,7 @@ export default (user: any) => {
     })
       .then((r) => r.json())
       .then((data) => {
-        if (data.status != 200 && data.status != 404)
-          return window.alert(`We can't sync your queue!\n${data.message}`);
+        if (data.status != 200 && data.status != 404) return; // window.alert(`We can't sync your queue!\n${data.message}`);
       });
   }
 
@@ -31,8 +30,7 @@ export default (user: any) => {
     })
       .then((r) => r.json())
       .then((data) => {
-        if (data.status != 200 && data.status != 404)
-          return window.alert(`${data.message}`);
+        if (data.status != 200 && data.status != 404) return; // window.alert(`${data.message}`);
 
         let loginData = JSON.parse(localStorage["user_login"]);
 
