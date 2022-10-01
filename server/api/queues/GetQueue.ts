@@ -5,7 +5,7 @@ import isQueueManager from "../../helpers/isQueueManager";
 export default async (req: Request, res: Response) => {
   const id = req.params["queue"];
   const authorization = req.headers.authorization;
-  const queue = await queues.findById(id);
+  let queue = await queues.findById(id);
 
   if (!queue)
     return res.status(404).send({
@@ -31,8 +31,8 @@ export default async (req: Request, res: Response) => {
   if (!queue.webhook) {
     queue.webhook = {
       url: "",
-      notify: []
-    }
+      notify: [],
+    };
   }
 
   return res.status(200).send({

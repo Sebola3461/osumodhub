@@ -237,6 +237,28 @@ export class QueueSettingsManager {
     };
   }
 
+  async updateColor(color: string) {
+    if (
+      !/^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(color) &&
+      !/^rgb\s*(\s*[012]?[0-9]{1,2}\s*,\s*[012]?[0-9]{1,2}\s*,\s*[012]?[0-9]{1,2}\s*)$/i.test(
+        color
+      )
+    )
+      return {
+        error: true,
+        message:
+          "Invalid color provided! Only RGB and HEX colors are accepted.",
+      };
+
+    color = color.trim().toLowerCase();
+
+    this.queue.color = color;
+
+    await this.save();
+
+    return { error: false, message: "Saved!" };
+  }
+
   async updateAutoClose(autoclose: any) {
     if (typeof autoclose != "object")
       return {

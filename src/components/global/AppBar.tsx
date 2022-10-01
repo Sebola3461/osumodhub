@@ -8,9 +8,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
+import { hexToRGB } from "../../helpers/hexToRGB";
 import StartAuthentication from "../../helpers/StartAuthentication";
 import { AuthContext } from "../../providers/AuthContext";
 import { NotificationSideMenuContext } from "../../providers/NotificationSideMenu";
+import { QueueContext } from "../../providers/QueueContext";
 import { UserSideMenuContext } from "../../providers/UserSideMenu";
 import "./../../styles/AppBar.css";
 
@@ -35,6 +37,7 @@ export default () => {
   };
 
   const notificationSideMenuContext = useContext(NotificationSideMenuContext);
+  const queue = useContext(QueueContext);
 
   function toggleMobileRow() {
     setOpen(!open);

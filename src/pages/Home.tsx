@@ -34,6 +34,7 @@ import QueueGroupsSideMenu from "../components/global/QueueGroupsSideMenu";
 import CreateNewGroupPanel from "../components/global/CreateNewGroupPanel";
 import { GenerateComponentKey } from "../helpers/GenerateComponentKey";
 import AdComponent from "../components/global/AdComponent";
+import { hexToRGB } from "../helpers/hexToRGB";
 
 function App() {
   const [queues, setQueues] = useState<any>(["loading"]);
@@ -143,9 +144,37 @@ function App() {
     return `:root { --accent: ${login.color}; }`;
   }
 
+  function getDarkColor(color: number[]) {
+    const c: number[] = [];
+
+    color.forEach((cl) => {
+      c.push(cl - 20);
+    });
+
+    return c;
+  }
+
+  function getLightWhite(color: number[]) {
+    const c: number[] = [];
+
+    color.forEach((cl) => {
+      c.push(cl + 200);
+    });
+
+    return c;
+  }
+
   return (
     <>
       <style key={GenerateComponentKey(20)}>{getColor()}</style>
+      <style>{`:root {
+        --base: ${hexToRGB(login.color).join(",")};
+        --rgb: ${hexToRGB(login.color).join(",")};
+        --base-dark: ${getDarkColor(hexToRGB(login.color)).join(",")};
+        --rgb-dark: ${getDarkColor(hexToRGB(login.color)).join(",")};
+        --base-light: ${getLightWhite(hexToRGB(login.color)).join(",")};
+        --rgb-darklight: ${getLightWhite(hexToRGB(login.color)).join(",")};
+      }`}</style>
       <AppBar></AppBar>
       <PageBanner src="/static/images/homebanner.png"></PageBanner>
       <ConfirmDialog></ConfirmDialog>

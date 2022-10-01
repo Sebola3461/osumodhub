@@ -2,7 +2,7 @@
   width: 95%;
   height: 70px;
   padding: 0% 2.5%;
-  background-color: var(--ocean-green);
+  background-color: rgb(var(--base));
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -15,7 +15,7 @@
 }
 
 #appbar.translucid {
-  background-color: #21bc8dc5;
+  background-color: rgba(var(--base), 0.7);
   backdrop-filter: blur(10px);
   height: 70px;
 }
@@ -146,7 +146,7 @@
     width: 95%;
     height: 25px;
     padding: 3px 2.5%;
-    background-color: #1d9d77;
+    background-color: rgba(var(--base-dark));
     color: #a9fae1 !important;
     display: flex;
     position: sticky;
@@ -161,12 +161,12 @@
   }
 
   .links-row.mobile a {
-    color: #a9fae1 !important;
+    color: rgb(var(--base-light)) !important;
     margin-right: 10px;
   }
 
   .links-row.mobile a:visited {
-    color: #a9fae1 !important;
+    color: rgb(var(--base-light)) !important;
   }
 
   .links-row.mobile {
@@ -184,7 +184,7 @@
 
   .links-row.mobile.open[data-translucid="true"] {
     pointer-events: all;
-    background-color: #1d9d77c5;
+    background-color: rgba(var(--base-dark), 0.7);
     backdrop-filter: blur(10px);
   }
 }

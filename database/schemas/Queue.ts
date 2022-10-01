@@ -78,6 +78,7 @@ export default new Schema({
       acronym: "--",
       name: "Unknown",
       flag: "",
+      flag_url: "",
     },
   },
   allow: {
@@ -123,6 +124,10 @@ export default new Schema({
   osu: {
     type: String,
     default: "",
+  },
+  color: {
+    type: String,
+    default: "#21bc8e",
   },
   webhook: {
     type: Object,

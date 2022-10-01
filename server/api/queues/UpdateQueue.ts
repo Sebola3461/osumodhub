@@ -54,6 +54,7 @@ export default async (req: Request, res: Response) => {
       "timeclose",
       "autoclose",
       "metadata",
+      "color",
     ];
 
     if (!rawTarget || rawTarget.toString().toLowerCase().trim() == "")
@@ -127,6 +128,11 @@ export default async (req: Request, res: Response) => {
       }
       case "admins": {
         result = await manager.updateAdmins(req.body.value, user);
+
+        break;
+      }
+      case "color": {
+        result = await manager.updateColor(req.body.value);
 
         break;
       }

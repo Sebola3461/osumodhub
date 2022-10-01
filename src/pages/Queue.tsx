@@ -54,6 +54,7 @@ import CreateNewGroupPanel from "../components/global/CreateNewGroupPanel";
 import GroupMembers from "../components/queue/GroupMembers";
 import GDSelector from "../components/gd/GDSelector";
 import AdComponent from "../components/global/AdComponent";
+import { hexToRGB } from "../helpers/hexToRGB";
 
 interface IQueueFilters {
   type: "progress" | "archived";
@@ -246,11 +247,43 @@ export default () => {
 
   if (!queue.data) return <LoadingPage text="Loading queue..." />;
 
+  function getDarkColor(color: number[]) {
+    const c: number[] = [];
+
+    color.forEach((cl) => {
+      c.push(cl - 20);
+    });
+
+    return c;
+  }
+
+  function getLightWhite(color: number[]) {
+    const c: number[] = [];
+
+    color.forEach((cl) => {
+      c.push(cl + 200);
+    });
+
+    return c;
+  }
+
+  console.log(queue.data);
+
   return (
     <>
       <style
         key={GenerateComponentKey(20)}
-      >{`:root { --accent: ${login.color}; }`}</style>
+      >{`:root { --accent: ${queue.data.color}; }`}</style>
+      <style key={GenerateComponentKey(20)}>
+        {`:root {
+        --base: ${hexToRGB(queue.data.color).join(",")};
+        --rgb: ${hexToRGB(queue.data.color).join(",")};
+        --base-dark: ${getDarkColor(hexToRGB(queue.data.color)).join(",")};
+        --rgb-dark: ${getDarkColor(hexToRGB(queue.data.color)).join(",")};
+        --base-light: ${getLightWhite(hexToRGB(queue.data.color)).join(",")};
+        --rgb-darklight: ${getLightWhite(hexToRGB(queue.data.color)).join(",")};
+      }`}
+      </style>
       <SelectedRequestContextProvider>
         <AppBar></AppBar>
         <div className="queue">

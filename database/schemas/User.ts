@@ -21,7 +21,7 @@ export default new Schema({
   },
   color: {
     type: String,
-    default: "#2196f3",
+    default: "#21bc8e",
   },
   country: {
     type: Object,
