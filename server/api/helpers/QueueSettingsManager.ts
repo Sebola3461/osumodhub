@@ -97,7 +97,6 @@ export class QueueSettingsManager {
 
     admins.splice(51, 99999);
 
-    // ? Prevent numbers that aren't 0,1,2 or 3
     const sanitizedAdmins: string[] = [];
     for (let admin of admins) {
       if (!isNaN(Number(admin))) {
@@ -111,7 +110,7 @@ export class QueueSettingsManager {
         message: "Max admins size is 50!",
       };
 
-    this.queue.admins = sanitizedAdmins;
+    this.queue.admins = sanitizedAdmins.filter((a) => a != this.queue.owner);
 
     await this.save();
 

@@ -733,7 +733,15 @@ export default () => {
               content="Group administrators can manage queue settings (exept name, banner, icon or admins) and manage requests."
             />
           </p>
-          <AdminInput defaultValue={_queue.admins} />
+          <AdminInput
+            defaultValue={_queue.admins}
+            onInput={(admins) => {
+              updateQueueOption(
+                "admins",
+                admins.map((a) => a._id)
+              );
+            }}
+          />
         </div>
         <div className="action-buttons-row">
           <button
