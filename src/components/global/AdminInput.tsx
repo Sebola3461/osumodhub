@@ -14,6 +14,7 @@ export default ({
   const [allUsers, setAllUsers] = useState([]);
   const [result, setResult] = useState([]);
   const [admins, setAdmins] = useState([]);
+  const [displayResults, setDisplayResults] = useState(false);
 
   useEffect(() => {
     fetch("/api/users/groups/admins")
@@ -62,6 +63,7 @@ export default ({
     admins.push(a);
     setAdmins(JSON.parse(JSON.stringify(admins)));
 
+    setDisplayResults(false);
     onInput(admins);
   }
 
@@ -94,8 +96,19 @@ export default ({
           </div>
         ))}
       </div>
-      <input type="string" onChange={filter} placeholder="type an username" />
-      <div className={result.length > 0 ? "results" : ""}>
+      <input
+        type="string"
+        onChange={filter}
+        placeholder="type an username"
+        onFocus={() => {
+          setDisplayResults(true);
+        }}
+      />
+      <div
+        className={
+          result.length > 0 ? `results ${displayResults ? "visible" : ""}` : ""
+        }
+      >
         {result.map((u, i) => (
           <div
             className="user"

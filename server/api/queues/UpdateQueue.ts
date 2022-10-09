@@ -55,6 +55,7 @@ export default async (req: Request, res: Response) => {
       "autoclose",
       "metadata",
       "color",
+      "admins",
     ];
 
     if (!rawTarget || rawTarget.toString().toLowerCase().trim() == "")

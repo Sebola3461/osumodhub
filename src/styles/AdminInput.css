@@ -51,7 +51,7 @@
   margin-top: 7px;
   background-color: var(--background2);
   padding: 10px;
-  display: flex;
+  display: none;
   flex-direction: column;
   flex-wrap: nowrap;
   align-content: center;
@@ -61,6 +61,10 @@
   border: 1px solid var(--background4);
   border-top: none;
   box-shadow: 0 2px 3px 0px #4242425e;
+}
+
+.admininput .results.visible {
+  display: flex;
 }
 
 .admininput .results .user {
