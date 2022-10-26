@@ -5,9 +5,7 @@
   "scripts": {
     "dev": "vite",
     "preview": "cross-env NODE_ENV=production yarn start",
-    "build": "tsc && yarn build:server && yarn build:database && vite build",
-    "build:server": "tsc server/*.ts",
-    "build:database": "tsc database/*.ts",
+    "build": "tsc && vite build",
     "start": "node dist/server/server.js"
   },
   "dependencies": {
