@@ -39,7 +39,7 @@ if (process.env.NODE_ENV == "production") {
   app.use("/api/", ApiRoutes);
   app.use("*", ClientRoutes);
 
-  const server = app.listen(process.env.PORT || 3000, () => {
+  const server = app.listen(process.env.PORT || 3030, () => {
     consoleCheck("Server", "Server running!");
   });
 } else {
