@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "vite",
     "preview": "cross-env NODE_ENV=production yarn start",
-    "build": "tsc && vite build",
-    "start": "ts-node server/server.ts"
+    "build": "tsc && yarn build:server && yarn build:database && vite build",
+    "build:server": "tsc server/*.ts",
+    "build:database": "tsc database/*.ts",
+    "start": "node dist/server/server.js"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
@@ -50,6 +52,7 @@
     "react-swipeable": "^7.0.0",
     "react-tagsinput": "^3.19.0",
     "react-touch-events": "^3.0.0",
+    "sass": "^1.55.0",
     "socket.io": "^4.5.1",
     "ts-node": "^10.8.1",
     "typescript": "^4.7.3",
