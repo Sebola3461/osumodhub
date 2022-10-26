@@ -26,12 +26,12 @@ app.all("/ads.txt", (req, res) => {
 if (process.env.NODE_ENV == "production") {
   app.use(
     "/assets",
-    express.static(path.resolve(__dirname.concat("/../dist/assets/")))
+    express.static(path.resolve(__dirname.concat("/../assets/")))
   );
 
   app.use(
     "/static",
-    express.static(path.resolve(__dirname.concat("/../src/static/")))
+    express.static(path.resolve(__dirname.concat("/../static/")))
   );
 
   app.use(json());
