@@ -9,7 +9,7 @@ client.get("/gd", sendHTML);
 client.get("/queue/:queue", sendHTML);
 
 function sendHTML(req: Request, res: Response) {
-  res.status(200).sendFile(path.resolve(__dirname.concat("/../index.html")));
+  res.status(200).sendFile(path.resolve(__dirname.concat("/../../index.html")));
 }
 
 export const ClientRoutes = client;
