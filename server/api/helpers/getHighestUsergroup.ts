@@ -42,6 +42,12 @@ export default function parseUsergroup(mapper: User) {
       name: "Project Loved",
       icon: "https://media.discordapp.net/attachments/941102492857557023/948649173576740915/lvd.png",
     },
+    BSC: {
+      index: 9,
+      name: "Beatmap Spotlight Curator",
+      icon: "https://media.discordapp.net/attachments/959908232736952420/1037829623142174811/bsc.png",
+      colour: "#76AEBC",
+    },
     BOT: {
       index: 8,
       name: "BOT",
