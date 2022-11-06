@@ -80,6 +80,11 @@ export default () => {
                 }}
               >
                 <>
+                  {notificationSideMenuContext.size == 0 ? null : (
+                    <div className="label-notification">
+                      {notificationSideMenuContext.size}
+                    </div>
+                  )}
                   <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
                 </>
               </div>
@@ -103,6 +108,11 @@ export default () => {
                 }}
               >
                 <>
+                  {notificationSideMenuContext.size == 0 ? null : (
+                    <div className="label-notification">
+                      {notificationSideMenuContext.size}
+                    </div>
+                  )}
                   <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
                 </>
               </div>

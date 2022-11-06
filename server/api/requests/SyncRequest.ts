@@ -78,6 +78,12 @@ export default async (req: Request, res: Response) => {
   });
 
   await requests.findByIdAndUpdate(request._id, request);
+  await queues.updateOne(
+    { _id: queue._id },
+    {
+      lastSeen: new Date(),
+    }
+  );
 
   res.status(200).send({
     status: 200,

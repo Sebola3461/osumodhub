@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { queues, users } from "../../../database";
+import { notifications, queues, users } from "../../../database";
 import osuApi from "../../helpers/osuApi";
+import NotifyQueueInactive from "../../notifications/NotifyQueueInactive";
 import getHighestUsergroup from "../helpers/getHighestUsergroup";
 
 export default async (req: Request, res: Response) => {
@@ -63,6 +64,28 @@ export default async (req: Request, res: Response) => {
     author.isBn = true;
     await users.findByIdAndUpdate(user.data.id, user);
   }
+
+  const userQueues = await queues.find({ owner: author._id });
+
+  function isInactive(queue: any) {
+    if (
+      queue.lastSeen != null &&
+      new Date().getDay() - new Date(queue.lastSeen).getDay() >= 30
+    )
+      return true;
+
+    return false;
+  }
+
+  const userNotifications = await notifications.find({ user: author._id });
+
+  userQueues.forEach((q) => {
+    if (isInactive(q)) {
+      if (!userNotifications.find((n) => n.extra && n.extra.queue == q._id)) {
+        NotifyQueueInactive(q);
+      }
+    }
+  });
 
   res.status(200).send({
     status: 200,

@@ -129,6 +129,10 @@ export default new Schema({
     type: String,
     default: "#21bc8e",
   },
+  lastSeen: {
+    type: Date,
+    default: null,
+  },
   webhook: {
     type: Object,
     default: {

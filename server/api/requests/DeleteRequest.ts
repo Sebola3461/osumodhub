@@ -49,6 +49,12 @@ export default async (req: Request, res: Response) => {
     });
 
   await requests.deleteOne({ _id: _request });
+  await queues.updateOne(
+    { _id: queue._id },
+    {
+      lastSeen: new Date(),
+    }
+  );
 
   res.status(200).send({
     status: 200,

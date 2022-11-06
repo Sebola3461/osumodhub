@@ -35,29 +35,21 @@ export const followers = mongoose.model("Followers", Follower);
 export const notifications = mongoose.model("Notifications", Notification);
 
 // queues.find().then((doc) => {
-//   doc = doc.filter((q) => q.color == "#2196f3");
-
 //   doc.forEach(async (q, i) => {
-//     console.log(`X ${i + 1}/${doc.length}`);
+//     const queueRequests = await requests.find({ _queue: q._id });
 
-//     q.color = "#21bc8e";
+//     if (queueRequests.length > 0) {
+//       queueRequests.sort(
+//         (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
+//       );
 
-//     await queues.findByIdAndUpdate(q._id, q);
+//       const last = queueRequests[0];
 
-//     console.log(`== ${i + 1}/${doc.length}`);
-//   });
-// });
+//       q.lastSeen = last.date;
 
-// users.find().then((doc) => {
-//   doc = doc.filter((q) => q.color == "#2196f3");
+//       await queues.findByIdAndUpdate(q._id, q);
 
-//   doc.forEach(async (q, i) => {
-//     console.log(`X ${i + 1}/${doc.length}`);
-
-//     q.color = "#21bc8e";
-
-//     await users.findByIdAndUpdate(q._id, q);
-
-//     console.log(`== ${i + 1}/${doc.length}`);
+//       console.log(`== ${i + 1}/${doc.length}`);
+//     }
 //   });
 // });

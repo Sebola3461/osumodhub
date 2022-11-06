@@ -35,8 +35,22 @@ export default async (req: Request, res: Response) => {
     };
   }
 
+  function isInactive() {
+    if (
+      queue.lastSeen != null &&
+      new Date().getDay() - new Date(queue.lastSeen).getDay() >= 30
+    )
+      return true;
+
+    return false;
+  }
+
+  const _queue = JSON.parse(JSON.stringify(queue));
+
+  _queue.inactive = isInactive();
+
   return res.status(200).send({
     status: 200,
-    data: queue,
+    data: _queue,
   });
 };

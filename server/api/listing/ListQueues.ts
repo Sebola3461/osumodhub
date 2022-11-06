@@ -12,6 +12,12 @@ export default async (req: Request, res: Response) => {
   let response: any[] = [];
 
   allQueues.forEach((q) => {
+    if (
+      q.lastSeen != null &&
+      new Date().getDay() - new Date(q.lastSeen).getDay() >= 30
+    )
+      return;
+
     response.push({
       _id: q._id,
       name: q.name,

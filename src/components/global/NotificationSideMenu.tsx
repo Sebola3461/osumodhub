@@ -1,5 +1,6 @@
 import {
   faEdit,
+  faExclamationTriangle,
   faFileArrowUp,
   faFilePen,
   faTrash,
@@ -34,6 +35,9 @@ export default () => {
     "queue:request": <FontAwesomeIcon icon={faFileArrowUp}></FontAwesomeIcon>,
     "request:update": <FontAwesomeIcon icon={faFilePen}></FontAwesomeIcon>,
     "queue:openfollow": <FontAwesomeIcon icon={faUser}></FontAwesomeIcon>,
+    "queue:alert": (
+      <FontAwesomeIcon icon={faExclamationTriangle}></FontAwesomeIcon>
+    ),
   };
 
   const action = (key) => (
@@ -118,6 +122,8 @@ export default () => {
             break;
           }
         }
+
+        setSize(notifications.length - 1);
       });
   }
 
@@ -142,12 +148,6 @@ export default () => {
 
     setNotifications(notifications);
     setSize(notifications.length);
-
-    if (notifications.length > 0) {
-      setPending(true);
-    } else {
-      setPending(false);
-    }
   }
 
   function clearNotifications() {

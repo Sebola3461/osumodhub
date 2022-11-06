@@ -323,6 +323,26 @@ export default () => {
     }
   }
 
+  function handleQueueRecover() {
+    fetch(`/api/queues/${_queue._id}/checkmark`, {
+      method: "post",
+      headers: {
+        authorization: login.account_token,
+      },
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        enqueueSnackbar(d.message, {
+          variant: d.status == 200 ? "success" : "error",
+          action: action,
+        });
+
+        if (d.status == 200) {
+          _queue.inactive = false;
+        }
+      });
+  }
+
   // useEffect(() => {
   //   console.log("eae");
   //   if (_queue && queueRules != _queue.description) {
@@ -665,6 +685,19 @@ export default () => {
           </button>
         </div>
       </div>
+      {_queue.inactive ? (
+        <div className="option-container" key={GenerateComponentKey(10)}>
+          <p className="title">
+            Unarchive queue
+            <span></span>
+          </p>
+          <div className="section horizontal">
+            <button className="recover-button" onClick={handleQueueRecover}>
+              Recover queue
+            </button>
+          </div>
+        </div>
+      ) : null}
     </>,
 
     <>
