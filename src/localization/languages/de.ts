@@ -114,7 +114,7 @@ export default {
       ranked: "Ranked",
       rejected: "Abgelehnt",
       accepted: "Akzeptiert",
-      archived: "Archiviert",
+      archived: "Archivieren",
       delete: "Löschen",
       commentEdit: "Kommentar editieren",
       copyURL: "URL kopieren",
