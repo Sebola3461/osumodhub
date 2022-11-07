@@ -82,6 +82,7 @@ export default {
       invalid: "To nie jest poprawny adres beatmapy osu!",
     },
     rules: {
+      agreeWithRules: "Musisz przeczytać zasady zanim wyślesz zlecenie!",
       confirm: "Zapoznałem się z zasadami",
     },
     request: {

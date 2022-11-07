@@ -1,1 +1,1 @@
-export default ["ptBR", "enUS", "pl", "id"];
+export default ["ptBR", "enUS", "pl", "id", "de"];

@@ -131,7 +131,11 @@ export default () => {
             onClick={() => {
               if (!rulesRead)
                 return enqueueSnackbar(
-                  "You must read the rules before request!",
+                  getLocalization(login.language, [
+                    "requestPanel",
+                    "tabs",
+                    "agreeWithRules",
+                  ]),
                   {
                     variant: "error",
                   }

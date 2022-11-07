@@ -62,6 +62,7 @@ export default {
       invalid: "Ini bukan link beatmap osu!!",
     },
     rules: {
+      agreeWithRules: "You must read the rules before request!",
       confirm: "Saya sudah membaca peraturannya",
     },
     request: {

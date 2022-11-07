@@ -19,6 +19,11 @@ export function LanguageSelector() {
       flag: "us",
     },
     {
+      title: "Deutsch",
+      value: "de",
+      flag: "de",
+    },
+    {
       title: "Bahasa Indonesia",
       value: "id",
       flag: "id",
@@ -90,7 +95,7 @@ export function LanguageSelector() {
           <FontAwesomeIcon icon={faChevronCircleUp} />
         </div>
       </div>
-      <div className="list">
+      <div className="list customscroll">
         {list.map((l) => (
           <div
             className="language-option"

@@ -2,12 +2,14 @@ import enUS from "./languages/enUS";
 import ptBR from "./languages/ptBR";
 import id from "./languages/id";
 import pl from "./languages/pl";
+import de from "./languages/de";
 
 export const Languages = {
   enUS,
   ptBR,
   pl,
   id,
+  de,
 };
 
 export function getLocalization(language: string, query: string[]) {

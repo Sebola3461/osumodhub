@@ -82,6 +82,7 @@ export default {
       invalid: "Aquele link não é de um beatmap de osu!",
     },
     rules: {
+      agreeWithRules: "Você precisa aceitar as regras antes!",
       confirm: "Eu li as regras",
     },
     request: {

@@ -62,6 +62,7 @@ export default {
       invalid: "This isn't an osu! beatmap url!",
     },
     rules: {
+      agreeWithRules: "You must read the rules before request!",
       confirm: "I read the rules",
     },
     request: {
