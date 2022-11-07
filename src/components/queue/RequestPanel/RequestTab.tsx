@@ -12,6 +12,7 @@ import { RequestPanelContext } from "../../../providers/RequestPanelContext";
 import { QueueContext } from "../../../providers/QueueContext";
 import { RequestWsContext } from "../../../providers/RequestWsQueueContext";
 import BeatmapsetBanner from "../../panels/BeatmapsetBanner";
+import { getLocalization } from "../../../localization/localizationManager";
 
 export default () => {
   const { login, setLogin } = useContext(AuthContext);
@@ -81,7 +82,12 @@ export default () => {
     >
       <BeatmapsetBanner request={request} />
       <p className="commenttitle">
-        <FontAwesomeIcon icon={faMessage} /> Comment
+        <FontAwesomeIcon icon={faMessage} />{" "}
+        {getLocalization(login.language, [
+          "requestPanel",
+          "request",
+          "commentTitle",
+        ])}
       </p>
       <textarea
         className="comment"
@@ -94,7 +100,11 @@ export default () => {
           requestBeatmap();
         }}
       >
-        Request
+        {getLocalization(login.language, [
+          "requestPanel",
+          "request",
+          "confirm",
+        ])}
       </button>
       {/* <RequestSelector
         request={request}

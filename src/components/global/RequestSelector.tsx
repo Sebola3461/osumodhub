@@ -44,6 +44,8 @@ import { addToUpdateQueue } from "../../helpers/RequestUpdateQueue";
 import { IQueueRequest } from "../../types/queue";
 import { QueueContext } from "../../providers/QueueContext";
 import isQueueManager from "../../helpers/isQueueManager";
+import { getLocalization } from "../../localization/localizationManager";
+import Markdown from "markdown-to-jsx";
 
 export default ({
   request,
@@ -239,7 +241,7 @@ export default ({
             const _requests = queueContext.requests.map((r) => r);
             const i = _requests.findIndex((r) => r._id == id);
 
-            _requests[i]["status"] = _status;
+            _requests[i]["actionStatus"] = _status;
 
             addToUpdateQueue(id);
           }
@@ -321,7 +323,11 @@ export default ({
       }}
       className="accept-hover"
     >
-      Accept
+      {getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "accepted",
+      ])}
     </MenuItem>,
     <MenuItem
       data={{
@@ -336,7 +342,11 @@ export default ({
       }}
       className="reject-hover"
     >
-      Reject
+      {getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "rejected",
+      ])}
     </MenuItem>,
     <MenuItem
       data={{
@@ -351,7 +361,11 @@ export default ({
       }}
       className="finish-hover"
     >
-      Modded
+      {getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "finished",
+      ])}
     </MenuItem>,
     <MenuItem
       data={{
@@ -366,7 +380,7 @@ export default ({
       }}
       className="archive-hover"
     >
-      Archive
+      {getLocalization(login.language, ["requests", "actionStatus", "archive"])}
     </MenuItem>,
     <MenuItem
       data={{
@@ -381,7 +395,7 @@ export default ({
       }}
       className="delete-hover"
     >
-      Delete
+      {getLocalization(login.language, ["requests", "actionStatus", "delete"])}
     </MenuItem>,
     <MenuItem
       data={{
@@ -393,7 +407,11 @@ export default ({
       }}
       className="wait-hover"
     >
-      Sync
+      {getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "syncOption",
+      ])}
     </MenuItem>,
   ];
 
@@ -411,7 +429,7 @@ export default ({
       }}
       className="accept-hover"
     >
-      Accept
+      {getLocalization(login.language, ["requests", "actionStatus", "accept"])}
     </MenuItem>,
     <MenuItem
       data={{
@@ -426,7 +444,7 @@ export default ({
       }}
       className="reject-hover"
     >
-      Reject
+      {getLocalization(login.language, ["requests", "actionStatus", "reject"])}
     </MenuItem>,
     <MenuItem
       data={{
@@ -441,7 +459,11 @@ export default ({
       }}
       className="nominate-hover"
     >
-      Nominated
+      {getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "nominated",
+      ])}
     </MenuItem>,
     <MenuItem
       data={{
@@ -456,7 +478,7 @@ export default ({
       }}
       className="ranked-hover"
     >
-      Ranked
+      {getLocalization(login.language, ["requests", "actionStatus", "ranked"])}
     </MenuItem>,
     <MenuItem
       data={{
@@ -471,7 +493,7 @@ export default ({
       }}
       className="wait-hover"
     >
-      Waiting another BN
+      {getLocalization(login.language, ["requests", "actionStatus", "waiting"])}
     </MenuItem>,
     <MenuItem
       data={{
@@ -486,7 +508,11 @@ export default ({
       }}
       className="recheck-hover"
     >
-      Need Recheck
+      {getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "rechecking",
+      ])}
     </MenuItem>,
     <MenuItem
       data={{
@@ -501,7 +527,11 @@ export default ({
       }}
       className="archive-hover"
     >
-      Archive
+      {getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "archived",
+      ])}
     </MenuItem>,
     <MenuItem
       data={{
@@ -516,7 +546,7 @@ export default ({
       }}
       className="delete-hover"
     >
-      Delete
+      {getLocalization(login.language, ["requests", "actionStatus", "delete"])}
     </MenuItem>,
     <MenuItem
       data={{
@@ -528,7 +558,11 @@ export default ({
       }}
       className="wait-hover"
     >
-      Sync
+      {getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "syncOption",
+      ])}
     </MenuItem>,
   ];
 
@@ -597,7 +631,11 @@ export default ({
               });
           }}
         >
-          Copy URL
+          {getLocalization(login.language, [
+            "requests",
+            "actionStatus",
+            "copyURL",
+          ])}
         </MenuItem>
         <MenuItem
           className="finish-hover"
@@ -605,7 +643,11 @@ export default ({
             openExternal(`https://osu.ppy.sh/s/${_request.beatmapset_id}`);
           }}
         >
-          Beatmap page
+          {getLocalization(login.language, [
+            "requests",
+            "actionStatus",
+            "beatmapPage",
+          ])}
         </MenuItem>
         <MenuItem
           className="finish-hover"
@@ -615,7 +657,11 @@ export default ({
             );
           }}
         >
-          Beatmap discussion
+          {getLocalization(login.language, [
+            "requests",
+            "actionStatus",
+            "beatmapDiscussion",
+          ])}
         </MenuItem>
         <MenuItem
           className="finish-hover"
@@ -631,13 +677,21 @@ export default ({
     if (login._id == _request._owner) {
       bn_options.push(
         <MenuItem className="wait-hover" onClick={editRequestComment}>
-          Edit comment
+          {getLocalization(login.language, [
+            "requests",
+            "actionStatus",
+            "commentEdit",
+          ])}
         </MenuItem>
       );
 
       modder_options.push(
         <MenuItem className="wait-hover" onClick={editRequestComment}>
-          Edit comment
+          {getLocalization(login.language, [
+            "requests",
+            "actionStatus",
+            "commentEdit",
+          ])}
         </MenuItem>
       );
     }
@@ -668,7 +722,11 @@ export default ({
       return (
         <ContextMenu id={`request-${_request._id}`}>
           <MenuItem className="wait-hover" onClick={editRequestComment}>
-            Edit comment
+            {getLocalization(login.language, [
+              "requests",
+              "actionStatus",
+              "commentEdit",
+            ])}
           </MenuItem>
           {extraMenu}
         </ContextMenu>
@@ -690,7 +748,11 @@ export default ({
               });
           }}
         >
-          Copy URL
+          {getLocalization(login.language, [
+            "requests",
+            "actionStatus",
+            "copyURL",
+          ])}
         </MenuItem>
       </ContextMenu>
     );
@@ -854,7 +916,11 @@ export default ({
                   }
                 >
                   <Tag
-                    content={texts[_request.status]}
+                    content={getLocalization(login.language, [
+                      "requests",
+                      "status",
+                      `${_request.status}`,
+                    ])}
                     type={_request.status}
                     icon={
                       getFeedback(_request) != "" &&
@@ -951,20 +1017,34 @@ export default ({
               {_request.beatmap.artist}
             </p>
             <p className="mapper">
-              mapped by
-              <a
-                href={`https://osu.ppy.sh/u/${_request._owner}`}
-                target="_blank"
-              >
-                {_request.beatmap.creator}
-              </a>
+              <Markdown>
+                {getLocalization(login.language, [
+                  "requests",
+                  "mapperTitle",
+                ]).replace(
+                  /\$mapper/,
+                  `<a
+                    href="https://osu.ppy.sh/u/${_request._owner}"
+                    target="_blank"
+                  >
+                    ${_request.beatmap.creator}
+                  </a>`
+                )}
+              </Markdown>
             </p>
             <div className="commentlabel">
               <FontAwesomeIcon icon={faMessage} />
-              Mapper's comment
+              {getLocalization(login.language, [
+                "requests",
+                "mapperCommentTitle",
+              ])}
             </div>
             <div className="comment">
-              {_request.comment || "No comment provided..."}
+              {_request.comment ||
+                getLocalization(login.language, [
+                  "requests",
+                  "noMapperComment",
+                ])}
             </div>
           </div>
         </ContextMenuTrigger>

@@ -10,6 +10,7 @@ export interface ILoginUser {
   account_token: string;
   authenticated: boolean | null;
   color: string;
+  language: string;
 }
 
 export interface UserCompactCover {

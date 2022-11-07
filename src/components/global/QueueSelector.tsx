@@ -14,6 +14,9 @@ import {
 } from "./../../libs/react-contextmenu/es6/";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import { IQueue } from "../../types/queue";
+import { getLocalization } from "../../localization/localizationManager";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthContext";
 
 type QueueModes = 0 | 1 | 2 | 3;
 
@@ -37,6 +40,8 @@ export default ({ queue }: { queue: IQueue }) => {
   const goTo = (route: string) => {
     navigate(route, { replace: false }), [navigate];
   };
+
+  const { login } = useContext(AuthContext);
 
   return (
     <>
@@ -95,7 +100,19 @@ export default ({ queue }: { queue: IQueue }) => {
                 );
               })}
               <Tag
-                content={queue.open ? "open" : "closed"}
+                content={
+                  queue.open
+                    ? getLocalization(login.language, [
+                        "queues",
+                        "status",
+                        "open",
+                      ])
+                    : getLocalization(login.language, [
+                        "queues",
+                        "status",
+                        "closed",
+                      ])
+                }
                 style={{
                   backgroundColor: queue.open ? "var(--green)" : "var(--red)",
                   color: "white",

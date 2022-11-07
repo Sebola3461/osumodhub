@@ -15,7 +15,7 @@
 
 .searchselect p {
   display: block;
-  width: 80px;
+  min-width: fit-content;
   height: fit-content;
   line-height: 0;
   margin-bottom: 0;

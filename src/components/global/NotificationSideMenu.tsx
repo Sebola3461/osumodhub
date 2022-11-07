@@ -18,6 +18,7 @@ import "./../../styles/SideMenu.css";
 // import "./../../styles/NotificationSideMenu.css";
 import { useSnackbar } from "notistack";
 import NoRequests from "./NoRequests";
+import { getLocalization } from "../../localization/localizationManager";
 
 export default () => {
   const { open, setOpen, pending, setPending, size, setSize } = useContext(
@@ -187,7 +188,9 @@ export default () => {
   };
 
   const noNotifications = (
-    <div className="nonotifications">Nothing here...</div>
+    <div className="nonotifications">
+      {getLocalization(login.language, ["notificationsSideMenu", "clearInbox"])}
+    </div>
   );
 
   return (
@@ -200,11 +203,21 @@ export default () => {
     >
       <div className="container">
         <div className="title">
-          <p>Notifications</p>
+          <p>
+            {getLocalization(login.language, [
+              "notificationsSideMenu",
+              "title",
+            ])}
+          </p>
         </div>
         <div onClick={clearNotifications} className="clearnotifications">
           <FontAwesomeIcon icon={faTrash} />
-          <p>Clear all notifications</p>
+          <p>
+            {getLocalization(login.language, [
+              "notificationsSideMenu",
+              "clearNotifications",
+            ])}
+          </p>
         </div>
         <div className="notifications">
           {notifications.length == 0
@@ -237,7 +250,10 @@ export default () => {
                         deleteNotification(notification);
                       }}
                     >
-                      Mark as read
+                      {getLocalization(login.language, [
+                        "notificationsSideMenu",
+                        "markAsRead",
+                      ])}
                     </div>
                   </div>
                 );

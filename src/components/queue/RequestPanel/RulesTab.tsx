@@ -1,11 +1,14 @@
 import Markdown from "markdown-to-jsx";
 import { useContext } from "react";
+import { getLocalization } from "../../../localization/localizationManager";
+import { AuthContext } from "../../../providers/AuthContext";
 import { QueueContext } from "../../../providers/QueueContext";
 import { RequestPanelContext } from "../../../providers/RequestPanelContext";
 
 export default ({ setTab, request }: { setTab: any; request: any }) => {
   const { open, setOpen, rulesRead, setRulesRead } =
     useContext(RequestPanelContext);
+  const { login } = useContext(AuthContext);
 
   const queueContext = useContext(QueueContext);
 
@@ -27,7 +30,7 @@ export default ({ setTab, request }: { setTab: any; request: any }) => {
           setTab(2);
         }}
       >
-        I read the rules
+        {getLocalization(login.language, ["requestPanel", "rules", "confirm"])}
       </button>
     </div>
   );

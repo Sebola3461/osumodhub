@@ -1,4 +1,6 @@
-import React, { Component, CSSProperties } from "react";
+import React, { Component, Context, CSSProperties } from "react";
+import { getLocalization } from "../../localization/localizationManager";
+import { AuthContext, IUserContextType } from "../../providers/AuthContext";
 
 interface props {
   classNames: string;
@@ -15,6 +17,8 @@ declare let window: any;
 export default class AdComponent extends Component {
   googleInit: any = null;
   override props: props;
+  static override contextType = AuthContext;
+  override context!: React.ContextType<typeof AuthContext>;
 
   override componentDidMount() {
     const { timeout } = this.props;
@@ -36,7 +40,8 @@ export default class AdComponent extends Component {
     return (
       <div className={classNames}>
         <p className="adtitle">
-          Sponsored links <span></span>
+          {getLocalization(this.context.login.language, ["ads", "title"])}{" "}
+          <span></span>
         </p>
         <ins
           className="adsbygoogle"

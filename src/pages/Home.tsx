@@ -35,6 +35,8 @@ import CreateNewGroupPanel from "../components/global/CreateNewGroupPanel";
 import { GenerateComponentKey } from "../helpers/GenerateComponentKey";
 import AdComponent from "../components/global/AdComponent";
 import { hexToRGB } from "../helpers/hexToRGB";
+import { getLocalization } from "../localization/localizationManager";
+import Markdown from "markdown-to-jsx";
 
 function App() {
   const [queues, setQueues] = useState<any>(["loading"]);
@@ -203,21 +205,62 @@ function App() {
               marginRight: "10px",
             }}
           />
-          Search
+          {getLocalization(login.language, ["home", "search", "title"])}
         </p>
         <BigSearch onInput={updateSearch} _default={filters.query}></BigSearch>
-
         <div className="row selectrow">
           <SearchSelect
-            label="Type"
+            label={getLocalization(login.language, [
+              "home",
+              "search",
+              "categories",
+              "labels",
+              "type",
+            ])}
             icon={<FontAwesomeIcon icon={faUser} />}
             _default={filters.type}
             options={
               <>
-                <option value="any">Any</option>
-                <option value="nominator">Nominators</option>
-                <option value="modder">Modders</option>
-                <option value="group">Groups</option>
+                <option value="any">
+                  {getLocalization(login.language, [
+                    "home",
+                    "search",
+                    "categories",
+                    "selects",
+                    "type",
+                    "any",
+                  ])}
+                </option>
+                <option value="nominator">
+                  {getLocalization(login.language, [
+                    "home",
+                    "search",
+                    "categories",
+                    "selects",
+                    "type",
+                    "nominators",
+                  ])}
+                </option>
+                <option value="modder">
+                  {getLocalization(login.language, [
+                    "home",
+                    "search",
+                    "categories",
+                    "selects",
+                    "type",
+                    "modders",
+                  ])}
+                </option>
+                <option value="group">
+                  {getLocalization(login.language, [
+                    "home",
+                    "search",
+                    "categories",
+                    "selects",
+                    "type",
+                    "groups",
+                  ])}
+                </option>
               </>
             }
             onSelect={(ev: any) => {
@@ -225,14 +268,47 @@ function App() {
             }}
           ></SearchSelect>
           <SearchSelect
-            label="Status"
+            label={getLocalization(login.language, [
+              "home",
+              "search",
+              "categories",
+              "labels",
+              "status",
+            ])}
             icon={<FontAwesomeIcon icon={faListCheck} />}
             _default={filters.open}
             options={
               <>
-                <option value="any">Any</option>
-                <option value="true">Open</option>
-                <option value="false">Closed</option>
+                <option value="any">
+                  {getLocalization(login.language, [
+                    "home",
+                    "search",
+                    "categories",
+                    "selects",
+                    "status",
+                    "any",
+                  ])}
+                </option>
+                <option value="true">
+                  {getLocalization(login.language, [
+                    "home",
+                    "search",
+                    "categories",
+                    "selects",
+                    "status",
+                    "open",
+                  ])}
+                </option>
+                <option value="false">
+                  {getLocalization(login.language, [
+                    "home",
+                    "search",
+                    "categories",
+                    "selects",
+                    "status",
+                    "closed",
+                  ])}
+                </option>
               </>
             }
             onSelect={(ev: any) => {
@@ -240,12 +316,27 @@ function App() {
             }}
           ></SearchSelect>
           <SearchSelect
-            label="Mode"
+            label={getLocalization(login.language, [
+              "home",
+              "search",
+              "categories",
+              "labels",
+              "mode",
+            ])}
             icon={<FontAwesomeIcon icon={faGamepad} />}
             _default={filters.mode}
             options={
               <>
-                <option value="any">Any</option>
+                <option value="any">
+                  {getLocalization(login.language, [
+                    "home",
+                    "search",
+                    "categories",
+                    "selects",
+                    "mode",
+                    "any",
+                  ])}
+                </option>
                 <option value="0">osu!</option>
                 <option value="1">osu!taiko</option>
                 <option value="2">osu!catch</option>
@@ -257,13 +348,37 @@ function App() {
             }}
           ></SearchSelect>
           <SearchSelect
-            label="Sort by"
+            label={getLocalization(login.language, [
+              "home",
+              "search",
+              "categories",
+              "labels",
+              "sort",
+            ])}
             icon={<FontAwesomeIcon icon={faFilter} />}
             _default={filters.sort}
             options={
               <>
-                <option value="ab">Name (A-Z)</option>
-                <option value="ba">Name (Z-A)</option>
+                <option value="ab">
+                  {getLocalization(login.language, [
+                    "home",
+                    "search",
+                    "categories",
+                    "selects",
+                    "sort",
+                    "nameTop",
+                  ])}
+                </option>
+                <option value="ba">
+                  {getLocalization(login.language, [
+                    "home",
+                    "search",
+                    "categories",
+                    "selects",
+                    "sort",
+                    "nameBottom",
+                  ])}
+                </option>
               </>
             }
             onSelect={(ev: any) => {
@@ -299,9 +414,17 @@ function App() {
           })
         )}
       </div>
-      <footer>
-        Made with <span>❤</span> by{" "}
-        <a href="https://osu.ppy.sh/users/15821708">Sebola</a>
+      <footer
+        style={{
+          marginTop: "50px",
+        }}
+      >
+        <Markdown>
+          {getLocalization(login.language, ["footer", "text"]).replace(
+            "Sebola",
+            `<a href="https://osu.ppy.sh/users/15821708">Sebola</a>`
+          )}
+        </Markdown>
       </footer>
     </>
   );

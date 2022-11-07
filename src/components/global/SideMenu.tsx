@@ -66,8 +66,8 @@ export default ({
               </div>
             );
           })}
-          {customComponents ? customComponents.map((c, i) => c) : <></>}
         </div>
+        {customComponents ? customComponents.map((c, i) => c) : <></>}
       </div>
     </div>
   );

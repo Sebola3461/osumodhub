@@ -94,6 +94,8 @@ export default async (req: Request, res: Response) => {
       hasQueue: params.hasQueue,
       isBn: author.isBn,
       color: author.color,
+      language: author.language,
+      username: author.username,
     },
   });
 };

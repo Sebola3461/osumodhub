@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { GenerateComponentKey } from "../../helpers/GenerateComponentKey";
 import { hexToRGB } from "../../helpers/hexToRGB";
 import StartAuthentication from "../../helpers/StartAuthentication";
+import { getLocalization } from "../../localization/localizationManager";
 import { AuthContext } from "../../providers/AuthContext";
 import { NotificationSideMenuContext } from "../../providers/NotificationSideMenu";
 import { QueueContext } from "../../providers/QueueContext";
@@ -51,7 +52,7 @@ export default () => {
         </Link>
         <div className="links-row desktop">
           <Link to="/modding" className="anchor1 page-anchor">
-            Queues
+            {getLocalization(login.language, ["navbar", "queues"])}
           </Link>
           <a
             href="https://discord.gg/fpE4YmtRqz"

@@ -2,12 +2,14 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CreateNewQueue from "../../helpers/CreateNewQueue";
 import DestroySession from "../../helpers/DestroySession";
+import { getLocalization } from "../../localization/localizationManager";
 import { AuthContext } from "../../providers/AuthContext";
 import { MyRequestPanelContext } from "../../providers/MyRequestsPanelContext";
 import { QueueContext } from "../../providers/QueueContext";
 import { QueueGroupsSideMenuContext } from "../../providers/QueueGroupsSideMenu";
 import { QueuePanelContext } from "../../providers/QueuePanelContext";
 import { UserSideMenuContext } from "../../providers/UserSideMenu";
+import { LanguageSelector } from "./LanguageSelector";
 import SideMenu from "./SideMenu";
 
 export default () => {
@@ -97,34 +99,67 @@ export default () => {
   return (
     <SideMenu
       context={UserSideMenuContext}
+      customComponents={[<LanguageSelector />]}
       options={[
-        { label: "My queue", callback: goToUserQueue },
         {
-          label: login.hasQueue ? "Settings" : "Create a queue",
-          callback: () => {
-            login.hasQueue ? queuePanelContext.setOpen(true) : createQueue();
-          },
+          label: getLocalization(login.language, [
+            "userSideMenu",
+            "options",
+            "personalQueue",
+          ]),
+          callback: goToUserQueue,
         },
         {
-          label: "My Requests",
+          label: getLocalization(login.language, [
+            "userSideMenu",
+            "options",
+            "requests",
+          ]),
           callback: () => {
             requestsPanelContext.setOpen(true);
           },
         },
         {
-          label: "My groups",
+          label: getLocalization(login.language, [
+            "userSideMenu",
+            "options",
+            "groups",
+          ]),
           callback: () => {
             groupsMenuContext.setOpen(true);
           },
         },
         {
-          label: "Log-out",
+          label: login.hasQueue
+            ? getLocalization(login.language, [
+                "userSideMenu",
+                "options",
+                "settings",
+              ])
+            : getLocalization(login.language, [
+                "userSideMenu",
+                "options",
+                "createQueue",
+              ]),
+          callback: () => {
+            login.hasQueue ? queuePanelContext.setOpen(true) : createQueue();
+          },
+        },
+        {
+          label: getLocalization(login.language, [
+            "userSideMenu",
+            "options",
+            "logout",
+          ]),
           callback: () => {
             DestroySession();
           },
         },
       ]}
-      title={`Hello, ${login.username}!`}
+      title={getLocalization(login.language, ["userSideMenu", "title"]).replace(
+        /\$username/,
+        login.username
+      )}
     ></SideMenu>
   );
 };

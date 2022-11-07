@@ -23,6 +23,10 @@ export default new Schema({
     type: String,
     default: "#21bc8e",
   },
+  language: {
+    type: String,
+    default: "enUS",
+  },
   country: {
     type: Object,
     default: {

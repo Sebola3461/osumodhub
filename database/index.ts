@@ -34,6 +34,14 @@ export const gdusers = mongoose.model("GDUsers", GDUsers);
 export const followers = mongoose.model("Followers", Follower);
 export const notifications = mongoose.model("Notifications", Notification);
 
+users.find().then((u) => {
+  u.forEach((user) => {
+    users.findByIdAndUpdate(user._id, {
+      language: "enUS",
+    });
+  });
+});
+
 // queues.find().then((doc) => {
 //   doc.forEach(async (q, i) => {
 //     const queueRequests = await requests.find({ _queue: q._id });

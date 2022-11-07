@@ -20,10 +20,12 @@ import DeleteQueue from "./DeleteQueue";
 import UpdateGroup from "./UpdateGroup";
 import GetGroupMembers from "./GetGroupMembers";
 import CreateGDRequest from "./CreateGDRequest";
+import CheckmarkQueue from "./CheckmarkQueue";
 
 const router = Router();
 
 // ? =============== POST REQUESTS
+router.post("/checkmark", CheckmarkQueue);
 router.post("/new/group", CreateNewQueueGroup);
 router.post("/new", CreateNewQueue);
 router.post("/sync", SyncQueue);

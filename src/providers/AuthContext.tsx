@@ -7,6 +7,7 @@ const defaultUser = JSON.stringify({
   username: "Guest",
   hasQueue: false,
   color: "#2196f3",
+  language: "enUS",
 });
 
 function getStoredUser(): ILoginUser {
@@ -21,6 +22,7 @@ function getStoredUser(): ILoginUser {
       return JSON.parse(defaultUser);
 
     if (!user.color) user.color = "#2196f3";
+    if (!user.language) user.language = "enUS";
 
     return user;
   } catch (e: any) {
@@ -31,7 +33,7 @@ function getStoredUser(): ILoginUser {
   }
 }
 
-interface IUserContextType {
+export interface IUserContextType {
   login: ILoginUser;
   setLogin: (u) => any;
 }
@@ -42,7 +44,12 @@ export const AuthContext = createContext<IUserContextType>({
 });
 
 const AuthProvider = ({ children }: any) => {
-  const [login, setLogin] = useState<ILoginUser>(getStoredUser());
+  const [login, _setLogin] = useState<ILoginUser>(getStoredUser());
+
+  function setLogin(data: any) {
+    _setLogin(data);
+    localStorage["user_login"] = JSON.stringify(data);
+  }
 
   return (
     <AuthContext.Provider

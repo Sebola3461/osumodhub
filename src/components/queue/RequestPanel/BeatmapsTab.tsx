@@ -9,6 +9,7 @@ import "./../../../styles/BeatmapsTab.css";
 import { useSnackbar } from "notistack";
 import { QueueContext } from "../../../providers/QueueContext";
 import isQueueManager from "../../../helpers/isQueueManager";
+import { getLocalization } from "../../../localization/localizationManager";
 
 export default ({
   setUserBeatmaps,
@@ -80,13 +81,17 @@ export default ({
     <div className="beatmapinput">
       <input
         type="text"
-        placeholder="Paste beatmapset url here"
+        placeholder={getLocalization(login.language, [
+          "requestPanel",
+          "input",
+          "placeholder",
+        ])}
         onInput={(ev: any) => {
           beatmapFetch = ev.target.value;
         }}
       />
       <button className="search" onClick={fetchBeatmap}>
-        Fetch
+        {getLocalization(login.language, ["requestPanel", "input", "button"])}
       </button>
     </div>
   );

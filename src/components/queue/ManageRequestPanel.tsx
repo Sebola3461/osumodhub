@@ -15,6 +15,7 @@ import QueueColors from "../../constants/QueueColors";
 import Select from "react-select";
 import isQueueManager from "../../helpers/isQueueManager";
 import { useNavigate } from "react-router-dom";
+import { getLocalization } from "../../localization/localizationManager";
 
 export default () => {
   const { login, setLogin } = useContext(AuthContext);
@@ -148,22 +149,118 @@ export default () => {
   }
 
   const modder_options = [
-    { label: "Accept", value: "accepted", decoration: "accept" },
-    { label: "Reject", value: "rejected", decoration: "reject" },
-    { label: "Modded", value: "finished", decoration: "finish" },
-    { label: "Archive", value: "archived", decoration: "archive" },
-    { label: "Delete", value: "delete", decoration: "accepted" },
+    {
+      label: getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "accepted",
+      ]),
+      value: "accepted",
+      decoration: "accept",
+    },
+    {
+      label: getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "rejected",
+      ]),
+      value: "rejected",
+      decoration: "reject",
+    },
+    {
+      label: getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "finished",
+      ]),
+      value: "finished",
+      decoration: "finish",
+    },
+    {
+      label: getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "archived",
+      ]),
+      value: "archived",
+      decoration: "archive",
+    },
+    {
+      label: getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "delete",
+      ]),
+      value: "delete",
+      decoration: "delete",
+    },
   ];
 
   const bn_options = [
-    { label: "Accept", value: "accepted", decoration: "accept" },
-    { label: "Reject", value: "rejected", decoration: "reject" },
-    { label: "Nominated", value: "nominated", decoration: "nominate" },
-    { label: "Ranked", value: "ranked", decoration: "rank" },
+    {
+      label: getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "accepted",
+      ]),
+      value: "accepted",
+      decoration: "accept",
+    },
+    {
+      label: getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "rejected",
+      ]),
+      value: "rejected",
+      decoration: "reject",
+    },
+    {
+      label: getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "nominated",
+      ]),
+      value: "nominated",
+      decoration: "nominate",
+    },
+    {
+      label: getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "ranked",
+      ]),
+      value: "ranked",
+      decoration: "rank",
+    },
     { label: "Waiting another BN", value: "waiting", decoration: "wait" },
-    { label: "Need recheck", value: "rechecking", decoration: "recheck" },
-    { label: "Archive", value: "archived", decoration: "archive" },
-    { label: "Delete", value: "delete", decoration: "delete" },
+    {
+      label: getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "rechecking",
+      ]),
+      value: "rechecking",
+      decoration: "recheck",
+    },
+    {
+      label: getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "archived",
+      ]),
+      value: "archived",
+      decoration: "archive",
+    },
+    {
+      label: getLocalization(login.language, [
+        "requests",
+        "actionStatus",
+        "delete",
+      ]),
+      value: "delete",
+      decoration: "delete",
+    },
   ];
 
   function close() {
@@ -181,18 +278,6 @@ export default () => {
       goTo(`/queue/${queueContext.data._id}?r=${request._id}`, true);
     }
   }, [open]);
-
-  const texts: { [key: string]: string } = {
-    pending: "Pending",
-    rechecking: "Need Recheck",
-    waiting: "Waiting another BN",
-    finished: "Modded",
-    nominated: "Nominated",
-    ranked: "Ranked",
-    rejected: "Rejected",
-    accepted: "Accepted",
-    archived: "Archived",
-  };
 
   if (!queueContext.data || !queueContext.requests) return <></>;
   if (!request) return <></>;
@@ -214,7 +299,12 @@ export default () => {
             </p>
           </div>
           <div className="content">
-            {request.comment || "No comment provided..."}
+            {request.comment ||
+              getLocalization(login.language, [
+                "requests",
+                "status",
+                "noMapperComment",
+              ])}
           </div>
         </div>
         {request._managers.map((manager) => {
@@ -241,11 +331,23 @@ export default () => {
                         : queueContext.data.type
                     }
                   />
-                  <Tag content={texts[manager.status]} type={manager.status} />
+                  <Tag
+                    content={getLocalization(login.language, [
+                      "requests",
+                      "status",
+                      `${manager.status}`,
+                    ])}
+                    type={manager.status}
+                  />
                 </p>
               </div>
               <div className="content">
-                {manager.feedback || "No feedback provided..."}
+                {manager.feedback ||
+                  getLocalization(login.language, [
+                    "requests",
+                    "status",
+                    "noFeedback",
+                  ])}
               </div>
             </div>
           );
@@ -256,12 +358,20 @@ export default () => {
       <div className="replycontainer">
         <p>
           <FontAwesomeIcon icon={faMessage} />
-          Feedback
+          {getLocalization(login.language, [
+            "manageRequestPanel",
+            "manageTab",
+            "feedbackTitle",
+          ])}
         </p>
         <textarea
           className="request-reply"
           defaultValue={request.reply}
-          placeholder="optional..."
+          placeholder={getLocalization(login.language, [
+            "manageRequestPanel",
+            "manageTab",
+            "placeholder",
+          ])}
           onInput={(ev: any) => {
             updateRequestReply(ev.target.value);
           }}
@@ -324,7 +434,14 @@ export default () => {
             }}
           />
         </div>
-        <BeatmapsetBanner request={request} status={request.status} />
+        <BeatmapsetBanner
+          request={request}
+          status={getLocalization(login.language, [
+            "requests",
+            "status",
+            `${request.status}`,
+          ])}
+        />
         <div
           className={
             isQueueManager(queueContext.data, login) ? "tab" : "tab invisible"
@@ -336,7 +453,11 @@ export default () => {
               setTab(0);
             }}
           >
-            Discussion
+            {getLocalization(login.language, [
+              "manageRequestPanel",
+              "tabs",
+              "discussion",
+            ])}
           </div>
           <div
             className={tab == 1 ? "option selected" : "option"}
@@ -344,7 +465,11 @@ export default () => {
               setTab(1);
             }}
           >
-            Manage
+            {getLocalization(login.language, [
+              "manageRequestPanel",
+              "tabs",
+              "manage",
+            ])}
           </div>
         </div>
         {tabs[tab]}

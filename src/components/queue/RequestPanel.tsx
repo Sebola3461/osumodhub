@@ -2,6 +2,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
+import { getLocalization } from "../../localization/localizationManager";
 import { AuthContext } from "../../providers/AuthContext";
 import { QueueContext } from "../../providers/QueueContext";
 import { RequestContext } from "../../providers/RequestContext";
@@ -91,7 +92,7 @@ export default () => {
     >
       <div className="container">
         <div className="paneltitle">
-          Request beatmap
+          {getLocalization(login.language, ["requestPanel", "title"])}
           <FontAwesomeIcon
             icon={faTimes}
             color="#fff"
@@ -111,7 +112,11 @@ export default () => {
               setTab(0);
             }}
           >
-            Beatmaps
+            {getLocalization(login.language, [
+              "requestPanel",
+              "tabs",
+              "beatmaps",
+            ])}
           </div>
           <div
             className={tab == 1 ? "option selected" : "option"}
@@ -119,7 +124,7 @@ export default () => {
               setTab(1);
             }}
           >
-            Rules
+            {getLocalization(login.language, ["requestPanel", "tabs", "rules"])}
           </div>
           <div
             className={tab == 2 ? "option selected" : "option"}
@@ -136,7 +141,11 @@ export default () => {
               setTab(2);
             }}
           >
-            Request
+            {getLocalization(login.language, [
+              "requestPanel",
+              "tabs",
+              "request",
+            ])}
           </div>
         </div>
         {tabs[tab]}

@@ -55,6 +55,7 @@ import GroupMembers from "../components/queue/GroupMembers";
 import GDSelector from "../components/gd/GDSelector";
 import AdComponent from "../components/global/AdComponent";
 import { hexToRGB } from "../helpers/hexToRGB";
+import { getLocalization } from "../localization/localizationManager";
 
 interface IQueueFilters {
   type: "progress" | "archived";
@@ -349,7 +350,7 @@ export default () => {
         <MyRequestsPanel />
         <ManageRequestPanel />
         <NotificationSideMenu />
-        {/* <GDRequestPanel /> */}
+        <GDRequestPanel />
         <UserPanel />
         <QueueGroupsSideMenu />
         <CreateNewGroupPanel />
@@ -442,7 +443,10 @@ export default () => {
                       setOpen(true);
                     }}
                   >
-                    Request
+                    {getLocalization(login.language, [
+                      "queues",
+                      "requestButton",
+                    ])}
                   </button>
                   <button
                     key={GenerateComponentKey(20)}
@@ -481,17 +485,70 @@ export default () => {
           </div>
           <nav className="queuenav">
             <SearchSelect
-              label="Status"
+              label={getLocalization(login.language, [
+                "queues",
+                "filters",
+                "status",
+                "label",
+              ])}
               options={
                 <>
-                  <option value="any">Any</option>
-                  <option value="pending">Pending</option>
-                  <option value="accepted">Accepted</option>
-                  <option value="rejected">Rejected</option>
-                  <option value="nominated">Nominated</option>
-                  <option value="finished">Finished</option>
-                  <option value="waiting">Waiting Another BN</option>
-                  <option value="rechecking">Need Recheck</option>
+                  <option value="any">
+                    {getLocalization(login.language, [
+                      "requests",
+                      "status",
+                      "any",
+                    ])}
+                  </option>
+                  <option value="pending">
+                    {getLocalization(login.language, [
+                      "requests",
+                      "status",
+                      "pending",
+                    ])}
+                  </option>
+                  <option value="accepted">
+                    {getLocalization(login.language, [
+                      "requests",
+                      "status",
+                      "accepted",
+                    ])}
+                  </option>
+                  <option value="rejected">
+                    {getLocalization(login.language, [
+                      "requests",
+                      "status",
+                      "rejected",
+                    ])}
+                  </option>
+                  <option value="nominated">
+                    {getLocalization(login.language, [
+                      "requests",
+                      "status",
+                      "nominated",
+                    ])}
+                  </option>
+                  <option value="finished">
+                    {getLocalization(login.language, [
+                      "requests",
+                      "status",
+                      "finished",
+                    ])}
+                  </option>
+                  <option value="waiting">
+                    {getLocalization(login.language, [
+                      "requests",
+                      "status",
+                      "waiting",
+                    ])}
+                  </option>
+                  <option value="rechecking">
+                    {getLocalization(login.language, [
+                      "requests",
+                      "status",
+                      "rechecking",
+                    ])}
+                  </option>
                 </>
               }
               onSelect={(ev: React.SyntheticEvent<InputEvent>) => {
@@ -499,11 +556,32 @@ export default () => {
               }}
             ></SearchSelect>
             <SearchSelect
-              label="Type"
+              label={getLocalization(login.language, [
+                "queues",
+                "filters",
+                "type",
+                "label",
+              ])}
               options={
                 <>
-                  <option value="progress">In Progress</option>
-                  <option value="archived">Archived</option>
+                  <option value="progress">
+                    {getLocalization(login.language, [
+                      "queues",
+                      "filters",
+                      "type",
+                      "options",
+                      "inProgress",
+                    ])}
+                  </option>
+                  <option value="archived">
+                    {getLocalization(login.language, [
+                      "queues",
+                      "filters",
+                      "type",
+                      "options",
+                      "archived",
+                    ])}
+                  </option>
                 </>
               }
               onSelect={(ev: React.SyntheticEvent<InputEvent>) => {
@@ -522,8 +600,12 @@ export default () => {
             marginTop: "50px",
           }}
         >
-          Made with <span>❤</span> by{" "}
-          <a href="https://osu.ppy.sh/users/15821708">Sebola</a>
+          <Markdown>
+            {getLocalization(login.language, ["footer", "text"]).replace(
+              "Sebola",
+              `<a href="https://osu.ppy.sh/users/15821708">Sebola</a>`
+            )}
+          </Markdown>
         </footer>
         <AudioPlayer></AudioPlayer>
       </SelectedRequestContextProvider>

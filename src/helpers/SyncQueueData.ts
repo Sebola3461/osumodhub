@@ -36,6 +36,8 @@ export default (user: any) => {
 
         loginData.hasQueue = Boolean(data.data.hasQueue);
         loginData.isBn = Boolean(data.data.isBn);
+        loginData.username = data.data.username;
+        loginData.language = data.data.language;
 
         localStorage["user_login"] = JSON.stringify(loginData);
       });

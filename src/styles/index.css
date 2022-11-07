@@ -306,11 +306,6 @@ input[type="number"] {
   border-radius: 3px;
 }
 
-footer span {
-  margin: 0px 5px;
-  color: var(--red);
-}
-
 footer a {
   margin-left: 5px;
 }
