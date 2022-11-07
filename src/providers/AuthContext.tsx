@@ -7,7 +7,7 @@ const defaultUser = JSON.stringify({
   username: "Guest",
   hasQueue: false,
   color: "#2196f3",
-  language: "de",
+  language: "enUS",
 });
 
 function getStoredUser(): ILoginUser {
