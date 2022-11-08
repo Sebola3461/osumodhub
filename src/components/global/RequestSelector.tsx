@@ -44,7 +44,10 @@ import { addToUpdateQueue } from "../../helpers/RequestUpdateQueue";
 import { IQueueRequest } from "../../types/queue";
 import { QueueContext } from "../../providers/QueueContext";
 import isQueueManager from "../../helpers/isQueueManager";
-import { getLocalization } from "../../localization/localizationManager";
+import {
+  getDictionary,
+  getLocalization,
+} from "../../localization/localizationManager";
 import Markdown from "markdown-to-jsx";
 
 export default ({
@@ -380,7 +383,7 @@ export default ({
       }}
       className="archive-hover"
     >
-      {getLocalization(login.language, ["requests", "actionStatus", "archive"])}
+      {getDictionary(login.language).requests.actionStatus.archived}
     </MenuItem>,
     <MenuItem
       data={{
@@ -527,11 +530,7 @@ export default ({
       }}
       className="archive-hover"
     >
-      {getLocalization(login.language, [
-        "requests",
-        "actionStatus",
-        "archived",
-      ])}
+      {getDictionary(login.language).requests.actionStatus.archived}
     </MenuItem>,
     <MenuItem
       data={{

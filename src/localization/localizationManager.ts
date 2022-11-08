@@ -12,6 +12,14 @@ export const Languages = {
   de,
 };
 
+export function getDictionary(language: string): typeof enUS {
+  const r = Languages[language];
+
+  if (!r) return Languages["enUS"];
+
+  return r;
+}
+
 export function getLocalization(language: string, query: string[]) {
   let selectedLanguage = Languages[language];
 
