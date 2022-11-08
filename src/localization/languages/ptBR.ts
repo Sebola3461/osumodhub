@@ -17,7 +17,7 @@ export default {
         selects: {
           type: {
             any: "Todos",
-            nominators: "Nominadores",
+            nominators: "Nomeadores",
             modders: "Modders",
             groups: "Grupos",
           },
