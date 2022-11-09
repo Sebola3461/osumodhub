@@ -10,6 +10,7 @@ export interface IQueue {
   admins: string[];
   isGroup: boolean;
   color: string;
+  lastSeen: Date;
   /**
    * pending
    * accepted

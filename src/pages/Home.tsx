@@ -42,11 +42,7 @@ function App() {
   const [queues, setQueues] = useState<any>(["loading"]);
   const { filters, updateFilters } = useContext<any>(HomeFilterContext);
   const [loading, setLoading] = useState(false);
-  const sideMenuContext = useContext(UserSideMenuContext);
   const { login, setLogin } = useContext(AuthContext);
-
-  const queuePanelContext = useContext(QueuePanelContext);
-  const requestsPanelContext = useContext(MyRequestPanelContext);
 
   useEffect(() => {
     setLoading(true);
@@ -359,6 +355,16 @@ function App() {
             _default={filters.sort}
             options={
               <>
+                <option value="activity">
+                  {getLocalization(login.language, [
+                    "home",
+                    "search",
+                    "categories",
+                    "selects",
+                    "sort",
+                    "activity",
+                  ])}
+                </option>
                 <option value="ab">
                   {getLocalization(login.language, [
                     "home",

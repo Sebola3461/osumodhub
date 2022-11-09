@@ -1,4 +1,4 @@
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import CatchIcon from "../icons/CatchIcon";
@@ -17,6 +17,8 @@ import { IQueue } from "../../types/queue";
 import { getLocalization } from "../../localization/localizationManager";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthContext";
+import moment from "moment";
+import { RelativeDay } from "../../helpers/RelativeDay";
 
 type QueueModes = 0 | 1 | 2 | 3;
 
@@ -42,6 +44,18 @@ export default ({ queue }: { queue: IQueue }) => {
   };
 
   const { login } = useContext(AuthContext);
+
+  function getLastSeenColor(date: Date) {
+    if (RelativeDay(date, new Date()) <= 7) return "#25ca6a";
+
+    if (
+      RelativeDay(date, new Date()) > 7 &&
+      RelativeDay(date, new Date()) <= 14
+    )
+      return "#ff9822";
+
+    return "#c52d2d";
+  }
 
   return (
     <>
@@ -120,6 +134,18 @@ export default ({ queue }: { queue: IQueue }) => {
                   fontWeight: "500",
                 }}
               ></Tag>
+              <div
+                className="last-seen-container"
+                aria-label={`Last seen ${moment(
+                  new Date(queue.lastSeen)
+                ).fromNow()}`}
+                data-balloon-pos="up"
+              >
+                <FontAwesomeIcon
+                  icon={faCalendar}
+                  color={getLastSeenColor(new Date(queue.lastSeen))}
+                />
+              </div>
             </div>
             <p className="name">
               {queue.name}
@@ -137,6 +163,7 @@ export default ({ queue }: { queue: IQueue }) => {
                 <></>
               )}
             </p>
+
             <div className="tags">
               {queue.genres.map((g, i) => {
                 return <span key={i}>{g}</span>;

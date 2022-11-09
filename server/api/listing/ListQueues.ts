@@ -11,10 +11,20 @@ export default async (req: Request, res: Response) => {
 
   let response: any[] = [];
 
+  function RelativeDay(a: Date, b: Date) {
+    let MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+    //Ignore time and timezone
+    let utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+    let utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+    return Math.floor((utc2 - utc1) / MS_PER_DAY);
+  }
+
   allQueues.forEach((q) => {
     if (
       q.lastSeen != null &&
-      new Date().getDay() - new Date(q.lastSeen).getDay() >= 30
+      RelativeDay(new Date(q.lastSeen), new Date()) >= 30
     )
       return;
 
@@ -29,6 +39,7 @@ export default async (req: Request, res: Response) => {
       country: q.country,
       icon: q.icon,
       verified: q.verified,
+      lastSeen: q.lastSeen,
     });
   });
 
@@ -114,6 +125,14 @@ export default async (req: Request, res: Response) => {
 
           return -1;
         });
+
+        break;
+      }
+      case "activity": {
+        response.sort(
+          (a, b) =>
+            new Date(b.lastSeen).valueOf() - new Date(a.lastSeen).valueOf()
+        );
 
         break;
       }

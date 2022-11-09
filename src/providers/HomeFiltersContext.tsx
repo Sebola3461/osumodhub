@@ -5,7 +5,7 @@ function getStoredFilters() {
     type: "any",
     open: "any",
     mode: "any",
-    sort: "ab",
+    sort: "activity",
     query: "",
   };
 
@@ -17,7 +17,7 @@ function getStoredFilters() {
         type: "any",
         open: "any",
         mode: "any",
-        sort: "ab",
+        sort: "activity",
         query: "",
       };
   } catch (e: any) {

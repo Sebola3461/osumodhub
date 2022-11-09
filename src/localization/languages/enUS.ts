@@ -31,6 +31,7 @@ export default {
           },
           sort: {
             any: "All",
+            activity: "Activity",
             nameTop: "Name (A-Z)",
             nameBottom: "Name (Z-A)",
           },
@@ -149,6 +150,90 @@ export default {
         options: {
           archived: "Archived",
           inProgress: "In Progress",
+        },
+      },
+    },
+  },
+  settingsPanel: {
+    title: "Settings",
+    personalQueue: "Personal Queue",
+    pages: {
+      general: "General",
+      requests: "Requests",
+      modules: "Modules",
+      user: "User Settings",
+      admin: "Admin",
+    },
+    categories: {
+      generic: {
+        open: "Open",
+        closed: "Closed",
+        enable: "Enable",
+        disable: "Disable",
+        save: "Save",
+      },
+      queueStatus: {
+        title: "Queue Status",
+      },
+      personalization: {
+        title: "Personalization",
+        options: {
+          bannerURL: {
+            label: "Banner URL",
+            tip: "It will replace the current banner of your queue/group. You can use any image format.",
+          },
+          groupIcon: {
+            label: "Group Name",
+            tip: "It will replace the current name of your group. It will change the url too (If you use the name for access it.)",
+          },
+          groupName: {
+            label: "Group Icon",
+            tip: "It will replace the current icon of your group. You can use any image format.",
+          },
+        },
+      },
+      themeColor: {
+        title: "Theme Color",
+        options: {
+          color: {
+            label: "Selected color: $color (Need reload to apply)",
+            tip: "The selected color will be used for highlight elements and navbar for everyone that access this queue (Including the OK button below)",
+          },
+        },
+      },
+      rules: {
+        title: "Rules",
+        options: {
+          formatation: {
+            label: "Formatation",
+            tip: "It's the text that appears before an user request in your queue. You can use Markdown formatation or plain text.",
+          },
+        },
+      },
+      preferences: {
+        title: "Preferences",
+        options: {
+          tags: {
+            label: "What is it?",
+            tip: "It will be used for index your queue in the search system. Press enter to add a tag.",
+          },
+        },
+      },
+      gamemodes: {
+        title: "Allowed Gamemodes",
+      },
+      filters: {
+        title: "Filters",
+        options: {
+          graveyard: {
+            label: "Allow Graveyard beatmaps",
+          },
+          wip: {
+            label: "Allow WIP beatmaps",
+          },
+          crossRequest: {
+            label: "Allow users to request beatmaps from other users",
+          },
         },
       },
     },

@@ -31,6 +31,7 @@ export default {
           },
           sort: {
             any: "Wszystko",
+            activity: "Activity",
             nameTop: "Nazwa (A-Z)",
             nameBottom: "Nazwa (Z-A)",
           },

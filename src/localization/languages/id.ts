@@ -31,6 +31,7 @@ export default {
           },
           sort: {
             any: "Semua",
+            activity: "Activity",
             nameTop: "Nama (A-Z)",
             nameBottom: "Nama (Z-A)",
           },
