@@ -22,11 +22,7 @@ export default async (req: Request, res: Response) => {
   }
 
   allQueues.forEach((q) => {
-    if (
-      q.lastSeen != null &&
-      RelativeDay(new Date(q.lastSeen), new Date()) >= 30
-    )
-      return;
+    if (RelativeDay(new Date(q.lastSeen), new Date()) > 30 && !search) return;
 
     response.push({
       _id: q._id,

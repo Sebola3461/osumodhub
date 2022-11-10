@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { notifications, queues, users } from "../../../database";
+import { RelativeDay } from "../../../src/helpers/RelativeDay";
 import osuApi from "../../helpers/osuApi";
 import NotifyQueueInactive from "../../notifications/NotifyQueueInactive";
 import getHighestUsergroup from "../helpers/getHighestUsergroup";
@@ -68,11 +69,7 @@ export default async (req: Request, res: Response) => {
   const userQueues = await queues.find({ owner: author._id });
 
   function isInactive(queue: any) {
-    if (
-      queue.lastSeen != null &&
-      new Date().getDay() - new Date(queue.lastSeen).getDay() >= 30
-    )
-      return true;
+    if (RelativeDay(new Date(queue.lastSeen), new Date()) > 1) return true;
 
     return false;
   }

@@ -9,7 +9,10 @@ import "./../../../styles/BeatmapsTab.css";
 import { useSnackbar } from "notistack";
 import { QueueContext } from "../../../providers/QueueContext";
 import isQueueManager from "../../../helpers/isQueueManager";
-import { getLocalization } from "../../../localization/localizationManager";
+import {
+  getDictionary,
+  getLocalization,
+} from "../../../localization/localizationManager";
 
 export default ({
   setUserBeatmaps,
@@ -46,10 +49,13 @@ export default ({
     const url = new URL(beatmapFetch);
 
     if (url.host != "osu.ppy.sh")
-      return enqueueSnackbar("This isn't an osu! beatmap url!", {
-        variant: "error",
-        action,
-      });
+      return enqueueSnackbar(
+        getDictionary(login.language).requestPanel.input.invalid,
+        {
+          variant: "error",
+          action,
+        }
+      );
 
     const id = GetBeatmapsetID(url.pathname);
 
@@ -81,17 +87,15 @@ export default ({
     <div className="beatmapinput">
       <input
         type="text"
-        placeholder={getLocalization(login.language, [
-          "requestPanel",
-          "input",
-          "placeholder",
-        ])}
+        placeholder={
+          getDictionary(login.language).requestPanel.input.placeholder
+        }
         onInput={(ev: any) => {
           beatmapFetch = ev.target.value;
         }}
       />
       <button className="search" onClick={fetchBeatmap}>
-        {getLocalization(login.language, ["requestPanel", "input", "button"])}
+        {getDictionary(login.language).requestPanel.input.button}
       </button>
     </div>
   );

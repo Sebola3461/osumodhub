@@ -1,13 +1,9 @@
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
-import osuApi from "../../helpers/osuApi";
-import crypto from "crypto";
-import getHighestUsergroup from "../helpers/getHighestUsergroup";
-import axios from "axios";
 
 export default async (req: Request, res: Response) => {
   const authorization = req.headers.authorization;
-  const id = req.params.queue;
+  const id = req.params.id;
 
   if (!authorization)
     return res.status(403).send({
@@ -16,6 +12,12 @@ export default async (req: Request, res: Response) => {
     });
 
   const targetQueue = await queues.findById(id);
+
+  if (!targetQueue)
+    return res.status(404).send({
+      status: 404,
+      message: "Queue not found!",
+    });
 
   const author = await users.findById(targetQueue.owner);
 

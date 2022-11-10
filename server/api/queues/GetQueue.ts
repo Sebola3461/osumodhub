@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { queues, users } from "../../../database";
+import { RelativeDay } from "../../../src/helpers/RelativeDay";
 import isQueueManager from "../../helpers/isQueueManager";
 
 export default async (req: Request, res: Response) => {
@@ -35,19 +36,15 @@ export default async (req: Request, res: Response) => {
     };
   }
 
-  function isInactive() {
-    if (
-      queue.lastSeen != null &&
-      new Date().getDay() - new Date(queue.lastSeen).getDay() >= 30
-    )
-      return true;
+  function isInactive(queue: any) {
+    if (RelativeDay(new Date(queue.lastSeen), new Date()) > 30) return true;
 
     return false;
   }
 
   const _queue = JSON.parse(JSON.stringify(queue));
 
-  _queue.inactive = isInactive();
+  _queue.inactive = isInactive(queue);
 
   return res.status(200).send({
     status: 200,

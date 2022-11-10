@@ -1,6 +1,9 @@
 import Markdown from "markdown-to-jsx";
 import { useContext } from "react";
-import { getLocalization } from "../../../localization/localizationManager";
+import {
+  getDictionary,
+  getLocalization,
+} from "../../../localization/localizationManager";
 import { AuthContext } from "../../../providers/AuthContext";
 import { QueueContext } from "../../../providers/QueueContext";
 import { RequestPanelContext } from "../../../providers/RequestPanelContext";
@@ -30,7 +33,7 @@ export default ({ setTab, request }: { setTab: any; request: any }) => {
           setTab(2);
         }}
       >
-        {getLocalization(login.language, ["requestPanel", "rules", "confirm"])}
+        {getDictionary(login.language).requestPanel.rules.confirm}
       </button>
     </div>
   );

@@ -25,11 +25,12 @@ import CheckmarkQueue from "./CheckmarkQueue";
 const router = Router();
 
 // ? =============== POST REQUESTS
-router.post("/checkmark", CheckmarkQueue);
+
 router.post("/new/group", CreateNewQueueGroup);
 router.post("/new", CreateNewQueue);
 router.post("/sync", SyncQueue);
 router.post("/schedule", StartTimeClose);
+router.post("/:id/checkmark", CheckmarkQueue);
 router.post("/:queue/webhook", TestWebhook);
 router.post("/:queue/requests", rewriteUsernameToId, CreateRequest);
 router.post("/:queue/gd", rewriteUsernameToId, CreateGDRequest);

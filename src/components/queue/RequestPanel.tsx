@@ -2,7 +2,10 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
-import { getLocalization } from "../../localization/localizationManager";
+import {
+  getDictionary,
+  getLocalization,
+} from "../../localization/localizationManager";
 import { AuthContext } from "../../providers/AuthContext";
 import { QueueContext } from "../../providers/QueueContext";
 import { RequestContext } from "../../providers/RequestContext";
@@ -47,7 +50,7 @@ export default () => {
       });
 
     setRulesRead(false);
-  }, [queueContext.data]);
+  }, []);
 
   useEffect(() => {
     setUserBeatmaps(userBeatmaps);
@@ -92,7 +95,7 @@ export default () => {
     >
       <div className="container">
         <div className="paneltitle">
-          {getLocalization(login.language, ["requestPanel", "title"])}
+          {getDictionary(login.language).requestPanel.title}
           <FontAwesomeIcon
             icon={faTimes}
             color="#fff"
@@ -112,11 +115,7 @@ export default () => {
               setTab(0);
             }}
           >
-            {getLocalization(login.language, [
-              "requestPanel",
-              "tabs",
-              "beatmaps",
-            ])}
+            {getDictionary(login.language).requestPanel.tabs.beatmaps}
           </div>
           <div
             className={tab == 1 ? "option selected" : "option"}
@@ -124,18 +123,15 @@ export default () => {
               setTab(1);
             }}
           >
-            {getLocalization(login.language, ["requestPanel", "tabs", "rules"])}
+            {getDictionary(login.language).requestPanel.tabs.rules}
           </div>
           <div
             className={tab == 2 ? "option selected" : "option"}
             onClick={() => {
               if (!rulesRead)
                 return enqueueSnackbar(
-                  getLocalization(login.language, [
-                    "requestPanel",
-                    "tabs",
-                    "agreeWithRules",
-                  ]),
+                  getDictionary(login.language).requestPanel.rules
+                    .agreeWithRules,
                   {
                     variant: "error",
                   }
@@ -145,11 +141,7 @@ export default () => {
               setTab(2);
             }}
           >
-            {getLocalization(login.language, [
-              "requestPanel",
-              "tabs",
-              "request",
-            ])}
+            {getDictionary(login.language).requestPanel.tabs.request}
           </div>
         </div>
         {tabs[tab]}
