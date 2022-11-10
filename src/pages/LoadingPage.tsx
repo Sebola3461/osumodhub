@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import AppBar from "../components/global/AppBar";
+import AudioPlayer from "../components/global/AudioPlayer";
 import LoadingComponent from "../components/global/LoadingComponent";
 import { GenerateComponentKey } from "../helpers/GenerateComponentKey";
 import { hexToRGB } from "../helpers/hexToRGB";

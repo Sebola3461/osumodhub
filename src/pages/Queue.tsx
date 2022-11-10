@@ -607,7 +607,6 @@ export default () => {
             )}
           </Markdown>
         </footer>
-        <AudioPlayer></AudioPlayer>
       </SelectedRequestContextProvider>
     </>
   );

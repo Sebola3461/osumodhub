@@ -72,11 +72,9 @@ export default () => {
   }, [beatmapId]);
 
   useEffect(() => {
-    if (!requests) return;
+    if (!context.map) return;
 
-    const r = requests.find((r) => r._id == context.targetRequest);
-
-    setBeatmapId(r ? r.beatmapset_id : -1);
+    setBeatmapId(context.map.id);
 
     audioPlayer.current.volume = getVolume();
 
@@ -91,20 +89,10 @@ export default () => {
     }
   }, [context]);
 
-  const position: any = {
-    "--bg": `linear-gradient(90deg, #e87110 ${
-      isNaN(context.position) ? 0 : context.position
-    }%, var(--background4) ${isNaN(context.position) ? 0 : context.position}%)`,
-  };
-
-  if (!requests) return <></>;
-
   function getBanner() {
-    const r = requests.find((r) => r._id == context.targetRequest);
+    if (!context.map) return "";
 
-    if (!r) return "";
-
-    return r.beatmap.covers["slimcover@2x"];
+    return context.map.covers["slimcover@2x"];
   }
 
   return (
@@ -120,7 +108,15 @@ export default () => {
           style={{
             backgroundImage: `url(${getBanner()})`,
           }}
-        ></div>
+        >
+          {!context.map ? null : (
+            <>
+              <p className="title">{context.map.title}</p>
+              <p className="artist">{context.map.artist}</p>
+            </>
+          )}
+          <div className="overlay"></div>
+        </div>
         <div className="container">
           <div className="controls" onClick={context.paused ? play : pause}>
             <FontAwesomeIcon icon={context.paused ? faPlay : faPause} />

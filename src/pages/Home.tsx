@@ -37,6 +37,7 @@ import AdComponent from "../components/global/AdComponent";
 import { hexToRGB } from "../helpers/hexToRGB";
 import { getLocalization } from "../localization/localizationManager";
 import Markdown from "markdown-to-jsx";
+import AudioPlayer from "../components/global/AudioPlayer";
 
 function App() {
   const [queues, setQueues] = useState<any>(["loading"]);

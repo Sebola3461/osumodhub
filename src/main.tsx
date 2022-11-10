@@ -29,6 +29,7 @@ import { RequestWsProvider } from "./providers/RequestWsQueueContext";
 import { QueueProvider } from "./providers/QueueContext";
 import { QueueGroupsSideMenuProvider } from "./providers/QueueGroupsSideMenu";
 import { CreateGroupPanelProvider } from "./providers/CreateGroupContext";
+import AudioPlayer from "./components/global/AudioPlayer";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -99,6 +100,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                                               </Route>
                                             </Routes>
                                           </BrowserRouter>
+                                          <AudioPlayer />
                                         </ManageGDPanelProvider>
                                       </GDPanelProvider>
                                     </PostGDPanelProvider>

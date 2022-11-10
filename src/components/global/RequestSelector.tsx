@@ -807,6 +807,7 @@ export default ({
   // };
 
   function previewBeatmap() {
+    beatmapPreviewContext.setMap(_request.beatmap);
     if (beatmapPreviewContext.paused) {
       beatmapPreviewContext.setTargetRequest(_request._id);
 
@@ -827,6 +828,14 @@ export default ({
     return _request._managers[_request._managers.length - 1].feedback;
   }
 
+  function handleStaticClick(ev: any) {
+    if (ev.target.className.includes("action")) return;
+
+    goTo(`/queue/${_request._queue}?r=${_request._id}`);
+
+    myrequests.setOpen(false);
+  }
+
   return (
     <>
       <SelectedRequestContextProvider>
@@ -844,9 +853,7 @@ export default ({
             onClick={(ev: any) => {
               if (!_static) return manageRequest(_request, ev);
 
-              goTo(`/queue/${_request._queue}?r=${_request._id}`);
-
-              myrequests.setOpen(false);
+              handleStaticClick(ev);
             }}
           >
             <div

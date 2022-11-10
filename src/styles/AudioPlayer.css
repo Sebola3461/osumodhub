@@ -23,6 +23,33 @@
   padding: 10px 20px;
 }
 
+.audioplayer .banner .overlay {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  position: absolute;
+  backdrop-filter: brightness(0.5);
+}
+
+.audioplayer .banner p {
+  z-index: 1;
+}
+
+.audioplayer .banner p.title {
+  font-weight: 600;
+  font-size: 17px;
+  text-shadow: 0 0 2px #000000ad;
+}
+
+.audioplayer .banner p.artist {
+  font-weight: 500;
+  font-size: 15px;
+  color: #d9d3d3;
+  text-shadow: 0 0 2px #000000ad;
+}
+
 .audioplayer.visible {
   bottom: 0px;
 }
@@ -76,7 +103,8 @@
   background-position: center;
   background-size: cover;
   padding: 10px;
-  filter: brightness(0.5);
+  position: relative;
+  z-index: 0;
 }
 
 .audioplayer .seeknumber {
