@@ -15,7 +15,10 @@ import QueueColors from "../../constants/QueueColors";
 import Select from "react-select";
 import isQueueManager from "../../helpers/isQueueManager";
 import { useNavigate } from "react-router-dom";
-import { getLocalization } from "../../localization/localizationManager";
+import {
+  getDictionary,
+  getLocalization,
+} from "../../localization/localizationManager";
 
 export default () => {
   const { login, setLogin } = useContext(AuthContext);
@@ -300,11 +303,7 @@ export default () => {
           </div>
           <div className="content">
             {request.comment ||
-              getLocalization(login.language, [
-                "requests",
-                "status",
-                "noMapperComment",
-              ])}
+              getDictionary(login.language).requests.noMapperComment}
           </div>
         </div>
         {request._managers.map((manager) => {
@@ -342,12 +341,7 @@ export default () => {
                 </p>
               </div>
               <div className="content">
-                {manager.feedback ||
-                  getLocalization(login.language, [
-                    "requests",
-                    "status",
-                    "noFeedback",
-                  ])}
+                {getDictionary(login.language).requests.noFeeedback}
               </div>
             </div>
           );

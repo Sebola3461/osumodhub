@@ -49,6 +49,7 @@ import {
   getLocalization,
 } from "../../localization/localizationManager";
 import Markdown from "markdown-to-jsx";
+import { MyRequestPanelContext } from "../../providers/MyRequestsPanelContext";
 
 export default ({
   request,
@@ -70,6 +71,7 @@ export default ({
   const manageRequestPanelContext = useContext(ManageRequestPanelContext);
   const beatmapPreviewContext = useContext(BeatmapPreviewContext);
   const selectedRequest = useContext(SelectedRequestContext);
+  const myrequests = useContext(MyRequestPanelContext);
   const dialog = useContext(ConfirmDialogContext);
   const [_request, setRequest] = useState<any>(
     !request
@@ -840,7 +842,11 @@ export default ({
                   }`
             }
             onClick={(ev: any) => {
-              manageRequest(_request, ev);
+              if (!_static) return manageRequest(_request, ev);
+
+              goTo(`/queue/${_request._queue}?r=${_request._id}`);
+
+              myrequests.setOpen(false);
             }}
           >
             <div
@@ -871,7 +877,7 @@ export default ({
                   <></>
                 )}
 
-                {!queueContext.data.isGroup ? (
+                {queueContext.data && !queueContext.data.isGroup ? (
                   <></>
                 ) : (
                   <div className="modders">
@@ -901,17 +907,21 @@ export default ({
                 )}
                 <div
                   aria-label={
-                    queueContext.data.isGroup ? "" : getFeedback(_request)
+                    queueContext.data && queueContext.data.isGroup
+                      ? ""
+                      : getFeedback(_request)
                   }
                   data-balloon-pos={
-                    queueContext.data.isGroup
+                    queueContext.data && queueContext.data.isGroup
                       ? ""
                       : getFeedback(_request) != ""
                       ? "up"
                       : "hidden"
                   }
                   data-balloon-length={
-                    queueContext.data.isGroup ? "hidden" : "up"
+                    queueContext.data && queueContext.data.isGroup
+                      ? "hidden"
+                      : "up"
                   }
                 >
                   <Tag

@@ -42,6 +42,8 @@ users.find().then((u) => {
   });
 });
 
+// requests.deleteMany({ _owner: "15821708" }).then(console.log);
+
 // queues.find().then((doc) => {
 //   doc.forEach(async (q, i) => {
 //     const queueRequests = await requests.find({ _queue: q._id });

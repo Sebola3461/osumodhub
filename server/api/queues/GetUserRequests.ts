@@ -32,81 +32,11 @@ export default async (req: Request, res: Response) => {
     r = r.filter((r) => r.status == status.toString());
   }
 
-  let requestsWithoutBeatmap = r;
-
-  const beatmapCache: any[] = [];
-  const requestsWithBeatmap: any[] = [];
-
-  for (const req of requestsWithoutBeatmap) {
-    try {
-      let b = beatmapCache.find((b) => b.id == req.beatmapset_id);
-
-      if (!b) {
-        const newBeatmap = await osuApi.fetch.beatmapset(req.beatmapset_id);
-
-        if (newBeatmap.status == 200) {
-          req.beatmap = newBeatmap.data;
-          beatmapCache.push(newBeatmap.data);
-        } else {
-          beatmapCache.push({ id: req.beatmapset_id, status: "Not Found" });
-        }
-      } else {
-        req.beatmap = b;
-      }
-
-      requestsWithBeatmap.push(req);
-    } catch (e: any) {
-      consoleError("GetUserRequests", e);
-    }
-  }
-
   // TODO: Add typing
-  const queueCache: any[] = [];
-  const requestWithQueue: any[] = [];
-
-  for (const req of requestsWithBeatmap) {
-    try {
-      const newReq = {
-        _id: req._id,
-        _queue: req._queue,
-        _owner: req._owner,
-        _owner_name: req._owner_name,
-        comment: req.comment,
-        beatmapset_id: req.beatmapset_id,
-        beatmap: req.beatmap,
-        status: req.status,
-        queue: null,
-      };
-
-      let requestQueue = queueCache.find((q) => q._id == newReq._queue);
-
-      if (!requestQueue) {
-        const newQueue = await queues.findById(req._queue);
-
-        if (newQueue == null) await requests.deleteOne({ _id: req._id });
-
-        newReq.queue = newQueue;
-        queueCache.push(newQueue);
-      } else {
-        newReq.queue = requestQueue;
-      }
-
-      if (newReq.queue) {
-        requestWithQueue.push(newReq);
-      }
-    } catch (e: any) {
-      console.error(e);
-      consoleError("GetUserRequests", "osh caraio");
-    }
-  }
-
-  // TODO: Add typing
-  requestWithQueue.sort(
-    (a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf()
-  );
+  r.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
 
   return res.status(200).send({
     status: 200,
-    data: requestWithQueue,
+    data: r,
   });
 };
