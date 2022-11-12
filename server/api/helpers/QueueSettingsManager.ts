@@ -295,6 +295,43 @@ export class QueueSettingsManager {
     };
   }
 
+  async updateCooldown(cooldown: any) {
+    if (typeof cooldown != "object")
+      return {
+        error: true,
+        message: "Invalid form body!",
+      };
+
+    if (
+      !cooldown.size ||
+      cooldown.size < 1 ||
+      cooldown.size > 30 ||
+      isNaN(Number(cooldown.size))
+    )
+      return {
+        error: true,
+        message: "Cooldown duration needs to be 30 days or less!",
+      };
+
+    if (![true, false].includes(cooldown.enable))
+      return {
+        error: true,
+        message: "Invalid enabled status provided!",
+      };
+
+    this.queue.cooldown = {
+      enable: cooldown.enable,
+      size: cooldown.size,
+    };
+
+    await this.save();
+
+    return {
+      error: false,
+      message: "Saved!",
+    };
+  }
+
   async updateWebhook(webhook: any) {
     if (!this.queue.webhook) {
       this.queue.webhook = {

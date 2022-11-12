@@ -53,6 +53,7 @@ export default async (req: Request, res: Response) => {
       "genres",
       "timeclose",
       "autoclose",
+      "cooldown",
       "metadata",
       "color",
       "admins",
@@ -109,6 +110,11 @@ export default async (req: Request, res: Response) => {
       }
       case "autoclose": {
         result = await manager.updateAutoClose(req.body.value);
+
+        break;
+      }
+      case "cooldown": {
+        result = await manager.updateCooldown(req.body.value);
 
         break;
       }

@@ -8,6 +8,28 @@ import NotifyNewRequest from "../../notifications/NotifyNewRequest";
 import SendNewRequestWebhook from "../webhooks/SendNewRequestWebhook";
 import EmitNewRequest from "../websocket/EmitNewRequest";
 import isQueueManager from "../../helpers/isQueueManager";
+import { IQueue, IQueueRequest } from "../../../src/types/queue";
+import { RelativeDay } from "../../../src/helpers/RelativeDay";
+
+async function getUserCooldown(user: any, queue: IQueue) {
+  const userRequests = await requests
+    .find({ _owner: user._id })
+    .sort({ date: 1 });
+
+  if (userRequests) return -1;
+
+  const lastUserRequest = userRequests[0];
+
+  if (!lastUserRequest) return -1;
+
+  const days = RelativeDay(new Date(lastUserRequest.date), new Date());
+
+  if (!queue.cooldown.enable) return -1;
+  if (queue.owner == user._id) return -1;
+  if (queue.isGroup && queue.admins.includes(user._id)) return -1;
+
+  return days;
+}
 
 export default async (req: Request, res: Response) => {
   try {
@@ -60,6 +82,20 @@ export default async (req: Request, res: Response) => {
       return res.status(requestedBeatmapset.status).send({
         status: requestedBeatmapset.status,
         message: "Invalid beatmap",
+      });
+
+    const userCooldown = await getUserCooldown(author, queue);
+
+    console.log(userCooldown);
+
+    if (userCooldown <= queue.cooldown.size && userCooldown != -1)
+      return res.status(400).send({
+        status: 400,
+        message: `You need to wait ${
+          userCooldown <= 1
+            ? "for a day"
+            : `${queue.cooldown.size - userCooldown} days`
+        } to request a beatmap here again!`,
       });
 
     if (!queue.allow.cross && author._id != requestedBeatmapset.data.user_id) {

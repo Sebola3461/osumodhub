@@ -703,6 +703,54 @@ export default () => {
     <>
       <div className="option-container">
         <p className="title">
+          Request Cooldown
+          <span></span>
+        </p>
+        <div className="section horizontal">
+          <Switch
+            defaultChecked={_queue.cooldown.enable}
+            onChange={(ev: any) => {
+              _queue.cooldown.enable = ev.target.checked;
+              updateQueueOption("cooldown", _queue.cooldown);
+            }}
+          />
+          <p className="label">
+            Enable{" "}
+            <HelpCircle
+              title="Request Cooldown"
+              content="Cooldown (in days) that a user need to wait to request a beatmap again"
+            />
+          </p>
+        </div>
+        <div className="section">
+          <p className="label">Duration</p>
+          <input
+            defaultValue={_queue.cooldown.size}
+            className="biginput"
+            placeholder="In days"
+            type="number"
+            min={1}
+            max={30}
+            onInput={(ev: any) => {
+              _queue.cooldown.size = Number(ev.target.value);
+              updateQueueOption("cooldown", _queue.cooldown);
+            }}
+          />
+        </div>
+        <div className="action-buttons-row">
+          <button
+            className="save-button"
+            onClick={() => {
+              saveUpdates("cooldown");
+            }}
+          >
+            <FontAwesomeIcon icon={faCheck} />
+            Save
+          </button>
+        </div>
+      </div>
+      <div className="option-container">
+        <p className="title">
           Filters
           <span></span>
         </p>
