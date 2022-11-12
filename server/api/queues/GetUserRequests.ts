@@ -33,7 +33,7 @@ export default async (req: Request, res: Response) => {
   }
 
   // TODO: Add typing
-  r.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+  r.sort((a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf());
 
   return res.status(200).send({
     status: 200,
