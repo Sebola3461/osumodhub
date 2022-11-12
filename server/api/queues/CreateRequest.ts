@@ -86,8 +86,6 @@ export default async (req: Request, res: Response) => {
 
     const userCooldown = await getUserCooldown(author, queue);
 
-    console.log(userCooldown);
-
     if (userCooldown <= queue.cooldown.size && userCooldown != -1)
       return res.status(400).send({
         status: 400,
