@@ -33,10 +33,10 @@ export default async (req: Request, res: Response) => {
   }
 
   // TODO: Add typing
-  r.sort((a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf());
-
   return res.status(200).send({
     status: 200,
-    data: r,
+    data: r.sort(
+      (a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf()
+    ),
   });
 };
