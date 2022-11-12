@@ -40,7 +40,7 @@ export default async (queue: IQueue, request: any, status: string) => {
     u.sendMessage(
       `[osu!modhub Notification] Your beatmap [https://osu.ppy.sh/s/${
         request.beatmapset_id
-      } ${request.beatmap.title} - ${request.beatmap.artist}] ${
+      } ${request.beatmap.artist} - ${request.beatmap.title}] ${
         texts[request.status]
       } on [https://osumodhub.xyz/queue/${queue._id} ${
         queue.name
