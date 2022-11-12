@@ -36,7 +36,7 @@ export default async (req: Request, res: Response) => {
   return res.status(200).send({
     status: 200,
     data: r.sort(
-      (a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf()
+      (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
     ),
   });
 };
