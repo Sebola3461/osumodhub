@@ -39,11 +39,6 @@ export default () => {
       .then((q) => {
         if (q.status != 200) return;
 
-        q.data.sort(
-          (a: any, b: any) =>
-            new Date(a.date).valueOf() - new Date(b.date).valueOf()
-        );
-
         setRequests([]);
         setRequests(q.data);
         setLoading(false);
@@ -72,11 +67,6 @@ export default () => {
           return enqueueSnackbar(d.message, {
             variant: "error",
           });
-
-        d.data.sort(
-          (a: any, b: any) =>
-            new Date(a.date).valueOf() - new Date(b.date).valueOf()
-        );
 
         setRequests([]);
         setRequests(d.data);
