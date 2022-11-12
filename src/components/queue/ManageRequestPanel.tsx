@@ -341,7 +341,8 @@ export default () => {
                 </p>
               </div>
               <div className="content">
-                {getDictionary(login.language).requests.noFeeedback}
+                {request.reply ||
+                  getDictionary(login.language).requests.noFeeedback}
               </div>
             </div>
           );

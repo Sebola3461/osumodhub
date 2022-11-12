@@ -14,6 +14,7 @@ import {
   SubMenu,
 } from "./../../libs/react-contextmenu/es6/";
 import {
+  faBell,
   faChevronUp,
   faCircleCheck,
   faClock,
@@ -568,7 +569,7 @@ export default ({
   ];
 
   function manageRequest(request: any, ev: any) {
-    if (ev.target.className == "action" || _static) return;
+    if (ev.target.className.includes("action") || _static) return;
     if (ev.target.nodeName == "A") return;
 
     if (["title", "artist"].includes(ev.target.className)) return;
@@ -836,6 +837,28 @@ export default ({
     myrequests.setOpen(false);
   }
 
+  function handleSubscribe() {
+    fetch(`/api/requests/${_request._id}/subscribe`, {
+      method: _request.subscribed ? "DELETE" : "POST",
+      headers: {
+        authorization: login.account_token,
+      },
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        enqueueSnackbar(d.message, {
+          action,
+          variant: d.status == 200 ? "success" : "error",
+        });
+
+        if (d.status == 200) {
+          _request.subscribed = !_request.subscribed;
+
+          setRequest(_request);
+        }
+      });
+  }
+
   return (
     <>
       <SelectedRequestContextProvider>
@@ -940,6 +963,7 @@ export default ({
                     type={_request.status}
                     icon={
                       getFeedback(_request) != "" &&
+                      queueContext.data &&
                       queueContext.data.type != "group" ? (
                         <FontAwesomeIcon icon={faChevronUp} />
                       ) : (
@@ -949,7 +973,19 @@ export default ({
                   ></Tag>
                 </div>
               </div>
-              <div className="actions">
+              <div className={"actions"}>
+                {login._id == _request._owner ? (
+                  <div
+                    onClick={() => {
+                      handleSubscribe();
+                    }}
+                    className={`action ${
+                      _request.subscribed ? "subscribed" : "unsubscribed"
+                    }`}
+                  >
+                    <FontAwesomeIcon icon={faBell} />
+                  </div>
+                ) : null}
                 <div
                   onClick={() => {
                     openExternal(

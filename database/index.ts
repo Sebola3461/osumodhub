@@ -42,7 +42,14 @@ users.find().then((u) => {
   });
 });
 
-// requests.deleteMany({ _owner: "15821708" }).then(console.log);
+// requests
+//   .updateMany(
+//     {},
+//     {
+//       subscribed: false,
+//     }
+//   )
+//   .then(console.log);
 
 // queues.find().then((doc) => {
 //   doc.forEach(async (q, i) => {

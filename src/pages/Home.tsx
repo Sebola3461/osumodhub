@@ -38,6 +38,7 @@ import { hexToRGB } from "../helpers/hexToRGB";
 import { getLocalization } from "../localization/localizationManager";
 import Markdown from "markdown-to-jsx";
 import AudioPlayer from "../components/global/AudioPlayer";
+import { SnowBackground } from "../components/global/SnowBackground";
 
 function App() {
   const [queues, setQueues] = useState<any>(["loading"]);
@@ -175,7 +176,7 @@ function App() {
         --rgb-darklight: ${getLightWhite(hexToRGB(login.color)).join(",")};
       }`}</style>
       <AppBar></AppBar>
-      <PageBanner src="/static/images/homebanner.png"></PageBanner>
+      <PageBanner src="./../static/images/homebanner.png"></PageBanner>
       <ConfirmDialog></ConfirmDialog>
       <QueuePanel></QueuePanel>
       <MyRequestsPanel></MyRequestsPanel>

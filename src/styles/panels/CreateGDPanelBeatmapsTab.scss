@@ -1,0 +1,38 @@
+.creategdpanel-beatmaps-tab {
+  width: 95%;
+  padding: 0px 2.5%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+
+  .beatmapselector {
+    width: calc(50% - 20px);
+
+    &:hover {
+      width: calc(50% - 20px);
+    }
+  }
+
+  @media screen and (max-width: 620px) {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;
+
+    .beatmapselector {
+      width: calc(90%);
+
+      &:hover {
+        width: calc(90%);
+      }
+    }
+  }
+}

@@ -55,4 +55,7 @@ export default new Schema({
   cross: {
     type: Boolean,
   },
+  subscribed: {
+    type: Boolean,
+  },
 });

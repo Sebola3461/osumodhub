@@ -16,6 +16,7 @@ import {
   getDictionary,
   getLocalization,
 } from "../../../localization/localizationManager";
+import { Checkbox } from "@mui/material";
 
 export default () => {
   const { login, setLogin } = useContext(AuthContext);
@@ -24,6 +25,7 @@ export default () => {
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { open, setOpen } = useContext(RequestPanelContext);
+  const [notify, setNotify] = useState(false);
 
   const queueContext = useContext(QueueContext);
 
@@ -61,6 +63,8 @@ export default () => {
             persist: false,
             action,
           });
+
+          subscribeForNotifications(res.data._id);
         } else {
           enqueueSnackbar(res.message, {
             variant: "error",
@@ -71,10 +75,29 @@ export default () => {
       });
   }
 
+  function subscribeForNotifications(request_id: string | number) {
+    fetch(`/api/requests/${request_id}/subscribe`, {
+      method: "POST",
+      headers: {
+        authorization: login.account_token,
+      },
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.status == 200) {
+          setNotify(false);
+        }
+      });
+  }
+
   function setRequestComment(ev: any) {
     request.comment = ev.target.value.trim();
 
     setRequest(JSON.parse(JSON.stringify(request)));
+  }
+
+  function handleNotifyChange(ev: any) {
+    setNotify(ev.target.checked);
   }
 
   return (
@@ -93,14 +116,21 @@ export default () => {
         defaultValue={request.comment}
         onInput={setRequestComment}
       ></textarea>
-      <button
-        className="green"
-        onClick={() => {
-          requestBeatmap();
-        }}
-      >
-        {getDictionary(login.language).requestPanel.request.confirm}
-      </button>
+      <div className="notify-container">
+        <div className="action">
+          <Checkbox defaultChecked={notify} onChange={handleNotifyChange} />{" "}
+          Notify-me ingame for updates
+        </div>
+        <button
+          className="green"
+          onClick={() => {
+            requestBeatmap();
+          }}
+        >
+          {getDictionary(login.language).requestPanel.request.confirm}
+        </button>
+      </div>
+
       {/* <RequestSelector
         request={request}
         queue={queue}

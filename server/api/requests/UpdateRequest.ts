@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import { queues, requests, users } from "../../../database";
 import { IQueueRequest } from "../../../src/types/queue";
+import { Chat } from "../../bancho/client";
 import isQueueManager from "../../helpers/isQueueManager";
 import osuApi from "../../helpers/osuApi";
+import BanchoNotifyRequestUpdate from "../../notifications/BanchoNotifyRequestUpdate";
 import NotifyRequestUpdate from "../../notifications/NotifyRequestUpdate";
 import SendRequestUpdateWebhook from "../webhooks/SendRequestUpdateWebhook";
 import EmitNewRequestUpdate from "../websocket/EmitNewRequestUpdate";
@@ -202,6 +204,10 @@ export default async (req: Request, res: Response) => {
           reply,
           await getTargeredStatus()
         );
+  }
+
+  if (request.subscribed) {
+    BanchoNotifyRequestUpdate(queue, request, request.status);
   }
 
   await queues.updateOne(

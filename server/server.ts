@@ -6,14 +6,14 @@ import express, {
   Response,
 } from "express";
 import path from "path";
-import ws from "ws";
+
 import "../database";
-import { queues } from "../database";
 import { ApiRoutes } from "./api/routes";
 import { ClientRoutes } from "./client/routes";
 import { consoleCheck } from "./helpers/logger";
 import DiscordEmbed from "./middlewares/DiscordEmbed";
 import TimeClose from "./workers/TimeClose";
+import "./bancho/client";
 const app = express();
 TimeClose();
 
@@ -29,10 +29,7 @@ if (process.env.NODE_ENV == "production") {
     express.static(path.resolve(__dirname.concat("/../assets/")))
   );
 
-  app.use(
-    "/static",
-    express.static(path.resolve(__dirname.concat("/../static/")))
-  );
+  app.use("/static", express.static(path.resolve(__dirname.concat("/../"))));
 
   app.use(json());
   app.get("*", DiscordEmbed);

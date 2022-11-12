@@ -69,7 +69,7 @@ export default async (req: Request, res: Response) => {
   const userQueues = await queues.find({ owner: author._id });
 
   function isInactive(queue: any) {
-    if (RelativeDay(new Date(queue.lastSeen), new Date()) > 1) return true;
+    if (RelativeDay(new Date(queue.lastSeen), new Date()) > 30) return true;
 
     return false;
   }

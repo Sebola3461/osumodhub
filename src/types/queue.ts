@@ -110,6 +110,7 @@ export interface IQueueRequest {
   _managers: IQueueRequestManager[];
   isGd: boolean | undefined;
   difficulties: IQueueGDRequestDifficulty[];
+  subscribed: boolean;
   __v: 0;
 }
 

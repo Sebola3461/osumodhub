@@ -56,6 +56,7 @@ import GDSelector from "../components/gd/GDSelector";
 import AdComponent from "../components/global/AdComponent";
 import { hexToRGB } from "../helpers/hexToRGB";
 import { getLocalization } from "../localization/localizationManager";
+import { CreateGDRequest } from "../components/CreateGDRequest";
 
 interface IQueueFilters {
   type: "progress" | "archived";
@@ -285,6 +286,7 @@ export default () => {
         --rgb-darklight: ${getLightWhite(hexToRGB(queue.data.color)).join(",")};
       }`}
       </style>
+      {/* <CreateGDRequest /> */}
       <SelectedRequestContextProvider>
         <AppBar></AppBar>
         <div className="queue">

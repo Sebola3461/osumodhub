@@ -313,6 +313,14 @@
   margin-right: 3px;
 }
 
+.requestselector .banner .actions .action.subscribed {
+  color: var(--green);
+}
+
+.requestselector .banner .actions .action.unsubscribed {
+  color: var(--red);
+}
+
 .requestselector .comment {
   width: calc(90% - 10px);
   height: 60px;
