@@ -206,7 +206,7 @@ export default async (req: Request, res: Response) => {
         );
   }
 
-  if (request.subscribed) {
+  if (request.subscribed && status.toLowerCase() != "archived") {
     BanchoNotifyRequestUpdate(queue, request, request.status);
   }
 
