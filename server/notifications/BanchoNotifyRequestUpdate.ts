@@ -31,9 +31,11 @@ export default async (queue: IQueue, request: any, status: string) => {
 
     if (!r) return "";
 
-    if (!r.reply.trim()) return "";
+    if (!r.feedback) return "";
 
-    return `Feedback: "${r.reply.trim()}"`;
+    if (!r.feedback.trim()) return "";
+
+    return `Feedback: "${r.feedback.trim()}"`;
   }
 
   Chat.getUserById(Number(request._owner)).then((u) => {
